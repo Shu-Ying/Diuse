@@ -12,13 +12,27 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
     f("Diuse");//此处填武将包英文名
 },precontent:function (Diuse){
     if(Diuse.enable){
+        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.0');
         lib.content_func=[];
+
+        lib.extensionMenu.extension_崩坏3.local_version={
+            "name":"扩展版本："+lib.config.Diuse_local_version,
+            "clear":true,
+            "nopointer":true,
+        };
+        lib.extensionMenu.extension_崩坏3.online_version={
+            "name":"coding数据版本：未点击更新按钮",
+            "clear":true,
+            "nopointer":true,
+        };
+
+
         lib.extensionMenu.extension_崩坏3.Updata={
             "name":"<span style='text-decoration: underline'>检测更新</span>",
             "clear":true,
             "onclick":function(){
                 var url=lib.assetURL+'extension/崩坏3';
-                var online_version,local_version,i=0;
+                var online_version,local_version;
                 var httpRequest = new XMLHttpRequest();
     
                 httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js',true);
@@ -27,24 +41,20 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
                 httpRequest.onreadystatechange=function(){
                     if (httpRequest.readyState==4&&httpRequest.status==200){
                         online_version=httpRequest.responseText;
-                    }
-    
-                    lib.init.js(url,'version',function(){ 
-                        local_version=Diuse_version;
-                        i++
-                        if(online_version!=local_version&&i==1){
+                        lib.extensionMenu.extension_崩坏3.online_version.name='coding数据版本：'+online_version;
+                        if(lib.extensionMenu.extension_崩坏3.online_version!=online_version){
                             if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+local_version)){
                                 game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/崩坏3/extension.js',function(){
-                                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/崩坏3/version.js');
+                                    game.saveConfig('Diuse_local_version',Diuse_version);
                                     alert('下载完成，重启生效');
                                 },function(){
                                     alert('下载失败');
                                 });
                             }
-                        } else if(online_version==local_version){
+                        } else {
                             alert('本地版本为最新版');
                         }
-                    });
+                    }
                 }; 
             },
         };
@@ -4614,9 +4624,9 @@ game.导入character("Diuse","崩坏3",{
 			Boss_Diuse_Tianshu_intro5_info:'共四关，每通过一关，阵亡的角色会复活；随后每个角色摸两张牌和恢复一点体力。每名角色可以选择一个技能获取(阵亡角色除外)，然后游戏轮数清零。  &nbsp; Bate版众测，包含众多BUG，只是测试，不要惊讶。',
         },
     },
-    intro:"V1.7动态版[测试版]<br>所有素材均来自互联网，侵权必删。<br>",
-    author:"Diuse",
+    intro:"所有素材均来自互联网，侵权必删。<br>",
+    author:"",
     diskURL:"",
     forumURL:"",
-    version:"1.7",
-},files:{"character":["Diuse_Xier.jpg","Diuse_Kalian.jpg","Diuse_Buluoniya.jpg","Diuse_Shangxian.jpg","Diuse_Bachongying.jpg","Diuse_Fuhua.jpg","Diuse_Shilv.jpg","Diuse_Yayi.jpg"],"card":[],"skill":[]}}})
+    version:"",
+},files:{"character":[""],"card":[],"skill":[]}}})
