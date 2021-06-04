@@ -12,7 +12,63 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
     f("Diuse");//此处填武将包英文名
 },precontent:function (Diuse){
     if(Diuse.enable){
-    	game.导入character=function(英文名,翻译名,obj,扩展包名){var oobj=get.copy(obj);oobj.name=英文名;oobj.character=obj.character.character;oobj.skill=obj.skill.skill;oobj.translate=Object.assign({},obj.character.translate,obj.skill.translate);game.import('character',function(){if(lib.device||lib.node){for(var i in oobj.character){oobj.character[i][4].push('ext:'+扩展包名+'/'+i+'.jpg');}}else{for(var i in oobj.character){oobj.character[i][4].push('db:extension-'+扩展包名+':'+i+'.jpg');}}return oobj;});lib.config.all.characters.push(英文名);if(!lib.config.characters.contains(英文名)){lib.config.characters.push(英文名);}lib.translate[英文名+'_character_config'] = 翻译名;};
+        lib.content_func=[];
+        lib.extensionMenu.extension_崩坏3.Updata={
+            "name":"<span style='text-decoration: underline'>检测更新</span>",
+            "clear":true,
+            "onclick":function(){
+                var url=lib.assetURL+'extension/崩坏3';
+                var online_version,local_version,i=0;
+                var httpRequest = new XMLHttpRequest();
+    
+                httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js',true);
+                httpRequest.send(null);
+    
+                httpRequest.onreadystatechange=function(){
+                    if (httpRequest.readyState==4&&httpRequest.status==200){
+                        online_version=httpRequest.responseText;
+                    }
+    
+                    lib.init.js(url,'version',function(){ 
+                        local_version=Diuse_version;
+                        i++
+                        if(online_version!=local_version&&i==1){
+                            if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+local_version)){
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/崩坏3/extension.js',function(){
+                                    alert('下载完成，重启生效');
+                                },function(){
+                                    alert('下载失败');
+                                });
+                            }
+                        } else if(online_version==local_version){
+                            alert('本地版本为最新版');
+                        }
+                    });
+                }; 
+            },
+        };
+
+    	game.导入character=function(英文名,翻译名,obj,扩展包名){
+            var oobj=get.copy(obj);oobj.name=英文名;
+            oobj.character=obj.character.character;
+            oobj.skill=obj.skill.skill;oobj.translate=Object.assign({},obj.character.translate,obj.skill.translate);
+            game.import('character',function(){
+                if(lib.device||lib.node){
+                    for(var i in oobj.character){
+                        oobj.character[i][4].push('ext:'+扩展包名+'/'+i+'.jpg');
+                    }
+                }else{
+                    for(var i in oobj.character){
+                        oobj.character[i][4].push('db:extension-'+扩展包名+':'+i+'.jpg');
+                    }
+                }return oobj;
+            });
+            lib.config.all.characters.push(英文名);
+            if(!lib.config.characters.contains(英文名)){
+                lib.config.characters.push(英文名);
+            }
+            lib.translate[英文名+'_character_config'] = 翻译名;
+        };
     	game.导入card=function(英文名,翻译名,obj){var oobj=get.copy(obj);oobj.list=obj.card.list;oobj.card=obj.card.card;oobj.skill=obj.skill.skill;oobj.translate=Object.assign({},obj.card.translate,obj.skill.translate);game.import('card',function(){return oobj});lib.config.all.cards.push(英文名);if(!lib.config.cards.contains(英文名))lib.config.cards.push(英文名);lib.translate[英文名+'_card_config']=翻译名;};
 		game.新增势力=function(名字,映射,渐变){var n,t;if(!名字)return;if(typeof 名字=="string"){n=名字;t=名字}else if(Array.isArray(名字)&&名字.length==2&&typeof 名字[0]=="string"){n=名字[0];t=名字[1]}else return;if(!映射||!Array.isArray(映射)||映射.length!=3)映射=[199,21,133];var y="("+映射[0]+","+映射[1]+","+映射[2];var y1=y+",1)",y2=y+")";var s=document.createElement('style');var l;l=".player .identity[data-color='diy"+n+"'],";l+="div[data-nature='diy"+n+"'],";l+="span[data-nature='diy"+n+"'] {text-shadow: black 0 0 1px,rgba"+y1+" 0 0 2px,rgba"+y1+" 0 0 5px,rgba"+y1+" 0 0 10px,rgba"+y1+" 0 0 10px}";l+="div[data-nature='diy"+n+"m'],";l+="span[data-nature='diy"+n+"m'] {text-shadow: black 0 0 1px,rgba"+y1+" 0 0 2px,rgba"+y1+" 0 0 5px,rgba"+y1+" 0 0 5px,rgba"+y1+" 0 0 5px,black 0 0 1px;}";l+="div[data-nature='diy"+n+"mm'],";l+="span[data-nature='diy"+n+"mm'] {text-shadow: black 0 0 1px,rgba"+y1+" 0 0 2px,rgba"+y1+" 0 0 2px,rgba"+y1+" 0 0 2px,rgba"+y1+" 0 0 2px,black 0 0 1px;}";s.innerHTML=l;document.head.appendChild(s);if(渐变&&Array.isArray(渐变)&&Array.isArray(渐变[0])&&渐变[0].length==3){var str="",st2=[];for(var i=0;i<渐变.length;i++){str+=",rgb("+渐变[i][0]+","+渐变[i][1]+","+渐变[i][2]+")";if(i<2)st2[i]="rgb("+渐变[i][0]+","+渐变[i][1]+","+渐变[i][2]+")";}var tenUi = document.createElement('style');tenUi.innerHTML = ".player>.camp-zone[data-camp='"+n+"']>.camp-back {background: linear-gradient(to bottom"+str+");}";tenUi.innerHTML += ".player>.camp-zone[data-camp='"+n+"']>.camp-name {text-shadow: 0 0 5px "+st2[0]+", 0 0 10px "+st2[1]+";}";document.head.appendChild(tenUi);}lib.group.add(n);lib.translate[n]= t;lib.groupnature[n]= "diy"+n;};
 
@@ -164,6 +220,7 @@ game.导入character("Diuse","崩坏3",{
                 selectTarget:1,
                 content:function (targets)
                 {
+                    game.log(window.version);
                     targets[0].draw();
                     player.chooseUseTarget({name:'sha'},'是否视为使用一张【杀】？',false);
                 },
@@ -2426,6 +2483,7 @@ game.导入character("Diuse","崩坏3",{
 		},
     },
 },"崩坏3");
+
     }
 },help:{},config:{
     Updata:{
@@ -2534,9 +2592,9 @@ game.导入character("Diuse","崩坏3",{
                 '<br>五:出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力)<br>'+
                 '<br>六:获得全部技能效果。<br>'+
                 '<br>-----< 符华 >-----'+
-                '<br>根据弃置的标记获得相应的效果<br>'+
-                '<br>修复众多BUG，每个难度因无法手气卡，补偿保护技能<br>'+
-                '<br>因第三关手牌数与体力上限挂钩，提前提醒不要选高达一号类似技能<br>'+
+                '<br>------<br>'+
+                '<br>------<br>'+
+                '<br>------<br>'+
                 ''+
                 ''+
                 ''+
