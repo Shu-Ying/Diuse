@@ -35,6 +35,7 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
                         if(online_version!=local_version&&i==1){
                             if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+local_version)){
                                 game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/崩坏3/extension.js',function(){
+                                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/崩坏3/version.js');
                                     alert('下载完成，重启生效');
                                 },function(){
                                     alert('下载失败');
