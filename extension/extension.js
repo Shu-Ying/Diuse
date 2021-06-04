@@ -12,7 +12,7 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
     f("Diuse");//此处填武将包英文名
 },precontent:function (Diuse){
     if(Diuse.enable){
-        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.0');
+        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.1');
         lib.content_func=[];
 
         lib.extensionMenu.extension_崩坏3.local_version={
