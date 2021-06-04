@@ -31,8 +31,7 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
             "name":"<span style='text-decoration: underline'>检测更新</span>",
             "clear":true,
             "onclick":function(){
-                var url=lib.assetURL+'extension/崩坏3';
-                var online_version,local_version;
+                var online_version;
                 var httpRequest = new XMLHttpRequest();
     
                 httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js',true);
@@ -43,9 +42,10 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
                         online_version=httpRequest.responseText;
                         lib.extensionMenu.extension_崩坏3.online_version.name='coding数据版本：'+online_version;
                         if(lib.extensionMenu.extension_崩坏3.online_version!=online_version){
-                            if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+local_version)){
+                            if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+lib.config.Diuse_local_version)){
                                 game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/崩坏3/extension.js',function(){
                                     game.saveConfig('Diuse_local_version',Diuse_version);
+                                    alert(lib.config.Diuse_local_version);
                                     alert('下载完成，重启生效');
                                 },function(){
                                     alert('下载失败');
