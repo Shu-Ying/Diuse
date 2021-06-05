@@ -1,4 +1,4 @@
-Diuse_files=[
+Diuse_mp3=[
     'Diuse_Anhong_Juexing1.mp3',
     'Diuse_Anhong_Juexing2.mp3',
     'Diuse_Anhong_Mopai1.mp3',
