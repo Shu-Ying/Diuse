@@ -172,14 +172,24 @@ precontent:function (Diuse){
             "name":"版本检测",
             "clear":true,
             "onclick":function(){
-                download_version();
+                if(confirm('点击确定会检测版本')&&Diuse_Button){
+                    Diuse_Button=false;
+                    download_version();
+                } else if(Diuse_Button==false){
+                    alert('有其他文件正在下载，请稍后再试吧。');
+                }
             },
         };
         lib.extensionMenu.extension_术樱.downmp3={
             "name":"语音下载",
             "clear":true,
             "onclick":function(){
-                download_mp3();
+                if(confirm('点击确定会下载全部语音[约为3.1MB]')&&Diuse_Button){
+                    Diuse_Button=false;
+                    download_mp3();
+                } else if(Diuse_Button==false){
+                    alert('有其他文件正在下载，请稍后再试吧。');
+                }
             },
         };
         lib.extensionMenu.extension_术樱.downstatic={
