@@ -195,8 +195,8 @@ precontent:function (Diuse){
                             var Diuse_num=1;
                           } catch (error) {
                                 if(confirm('本地资源不完整！点击确认重新获取！')){
-                                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){});
-                                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){});
+                                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){},function(){});
+                                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){},function(){});
                                     game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
                                         game.saveConfig('Diuse_local_version',online_version);
                                         alert('下载完成，重启生效');
@@ -207,8 +207,8 @@ precontent:function (Diuse){
                         }
                         if(local_version!=online_version&&Diuse_num==1){
                             if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+local_version)){
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){});
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){});
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){},function(){});
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){},function(){});
                                 game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
                                     game.saveConfig('Diuse_local_version',online_version);
                                     alert('下载完成，重启生效');
