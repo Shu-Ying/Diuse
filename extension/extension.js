@@ -53,6 +53,8 @@ precontent:function (Diuse){
                     '<br>识律小幅度削弱<br>'+
                     '<br>降低任务量需求<br>'+
                     '<br>修复了亡神白起死亡时会导致角色弃牌的BUG<br>'+
+                    '<br>在1.7.1及以上版本都可以使用网络更新啦！<br>'+
+                    '<br>以后正式更名为术樱，还希望大家多多支持<br>'+
                     '-----< 崩坏包 >-----'+
                     '<br>符华技能重做，有很多适配卡牌适配中...<br>'+
                     '<br>因为部分更改，需要删除全部文件后替换压缩包文件<br>'+
@@ -246,7 +248,11 @@ precontent:function (Diuse){
                 }
             }
         };
-
+        lib.extensionMenu.extension_术樱.thank={
+            "name":"最后感谢极光大佬和其他网络上的文献，还有反馈BUG的玩家。谢谢！",
+            "clear":true,
+            "nopointer":true,
+        };
         download_version=function(){
             var online_version;
             var httpRequest = new XMLHttpRequest();
