@@ -193,6 +193,7 @@ precontent:function (Diuse){
                         if(local_version!=online_version){
                             if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+local_version)){
                                 game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){success();},function(){success();});
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){success();},function(){success();});
                                 game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
                                     game.saveConfig('Diuse_local_version',online_version);
                                     alert('下载完成，重启生效');
