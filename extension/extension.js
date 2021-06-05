@@ -183,7 +183,7 @@ precontent:function (Diuse){
         download_version=function(){
             var online_version;
             var httpRequest = new XMLHttpRequest();
-            httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js',true);
+            httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
             httpRequest.send(null);
             httpRequest.onreadystatechange=function(){
                 if (httpRequest.readyState==4&&httpRequest.status==200){
@@ -192,8 +192,8 @@ precontent:function (Diuse){
                         var local_version = Diuse_version;
                         if(local_version!=online_version){
                             if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+local_version)){
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){success();},function(){success();});
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){success();},function(){success();});
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js');
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js');
                                 game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
                                     game.saveConfig('Diuse_local_version',online_version);
                                     alert('下载完成，重启生效');
