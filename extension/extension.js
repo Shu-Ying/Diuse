@@ -452,7 +452,7 @@ game.导入character("Diuse","崩坏3",{
             Diuse_Buluoniya:["female","qun",4,["Diuse_Guozai","Diuse_Zhonggou","Diuse_Fuhe","Diuse_Yinmie"],[]],
             Diuse_Shilv:["female","qun",4,["Diuse_Bingren","Diuse_Fanchen","Diuse_Zhejian"],[]],
             Diuse_Yayi:["female","qun",4,["Diuse_Kongzhan","Diuse_Dianci","Diuse_Yvlei"],[]],
-            Diuse_Yuexia:["female","qun","1/4",['Diuse_Xueqi','Diuse_Shenshi','Diuse_Shoulie','Vate','kagari_zongsi'],[]],
+            Diuse_Yuexia:["female","qun","1/4",['Diuse_Xueqi','Diuse_Shenshi','Diuse_Shoulie'],[]],
             //,'kagari_zongsi'
         },
         translate:{
