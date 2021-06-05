@@ -15,6 +15,7 @@ editable:false,
 precontent:function (Diuse){
     if(Diuse.enable){
         var url=lib.assetURL+'extension/术樱'
+        var Diuse_Button=true;
 
         if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.1');
 
@@ -183,9 +184,11 @@ precontent:function (Diuse){
             "name":"静态全皮肤下载",
             "clear":true,
             "onclick":function(){
-                if(confirm('点击确定会下载全部静态皮肤（处于动态的皮肤均会被替换！不包含天书）[约为1.28MB]'))
-                {
+                if(confirm('点击确定会下载全部静态皮肤（处于动态的皮肤均会被替换！不包含天书）[约为1.28MB]')&&Diuse_Button){
+                    Diuse_Button=false;
                     download_static();
+                } else if(Diuse_Button==false){
+                    alert('有其他文件正在下载，请稍后再试吧。');
                 }
             },
         };
@@ -193,23 +196,57 @@ precontent:function (Diuse){
             "name":"天书全皮肤下载",
             "clear":true,
             "onclick":function(){
-                if(confirm('点击确定会下载全部天书皮肤[约为1.28MB]'))
-                {
+                if(confirm('点击确定会下载全部天书皮肤[约为1.26MB]')&&Diuse_Button){
+                    Diuse_Button=false;
                     download_tianshu();
+                } else if(Diuse_Button==false){
+                    alert('有其他文件正在下载，请稍后再试吧。');
                 }
             },
+        };
+        lib.extensionMenu.extension_术樱.dynamic_name={
+            name:'选择下载的角色：',
+            intro:'选择下载的角色',
+            init:'init',
+            item:{
+                no:'未选择',
+                八重樱:'八重樱',
+                布洛妮娅:'布洛妮娅',
+                符华:'符华',
+                上仙:'上仙',
+                识律:'识律',
+                希儿:'希儿',
+                芽衣:'芽衣',
+                月下:'月下',
+            }
         };
         lib.extensionMenu.extension_术樱.downdynamic={
             name:'<div class="hth_menu">动态皮肤下载</div>',
             clear: true,
             onclick:function(){
-                lib.init.js(url,'files',function(){
-                    var list=Diuse_static;
-                    alert(list[0]);
-                    alert(list.length);
-                });
+                if(lib.config.extension_术樱_dynamic_name=='no'||lib.config.extension_术樱_dynamic_name==undefined){
+                    alert('没有选择所需要的下载的角色');
+                } else {
+                    if(confirm('点击确定会下载'+lib.config.extension_术樱_dynamic_name+'的动态皮肤[动态皮肤需要空间7-20MB的空间]')&&Diuse_Button){
+                        Diuse_Button=false;
+                        switch(lib.config.extension_术樱_dynamic_name){
+                            case '八重樱':download_dynamic('Diuse_Bachongying.jpg');break;
+                            case '布洛妮娅':download_dynamic('Diuse_Buluoniya.jpg');break;
+                            case '符华':download_dynamic('Diuse_Fuhua.jpg');break;
+                            case '上仙':download_dynamic('Diuse_Shangxian.jpg');break;
+                            case '识律':download_dynamic('Diuse_Shilv.jpg');break;
+                            case '希儿':download_dynamic('Diuse_Xier.jpg');break;
+                            case '芽衣':download_dynamic('Diuse_Yayi.jpg');break;
+                            case '月下':download_dynamic('Diuse_Yuexia.jpg');break;
+                            default: alert('未知错误！');
+                        }
+                    } else if(Diuse_Button==false){
+                        alert('有其他文件正在下载，请稍后再试吧。');
+                    }
+                }
             }
         };
+
         download_version=function(){
             var online_version;
             var httpRequest = new XMLHttpRequest();
@@ -222,17 +259,19 @@ precontent:function (Diuse){
                         try {
                             var local_version = Diuse_version;
                             var Diuse_num=1;
-                          } catch (error) {
-                                if(confirm('本地资源不完整！点击确认重新获取！')){
-                                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){},function(){});
-                                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){},function(){});
-                                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
-                                        game.saveConfig('Diuse_local_version',online_version);
-                                        alert('下载完成，重启生效');
-                                    },function(){
-                                        alert('下载失败');
-                                    });
-                                }
+                        } catch (error) {
+                            if(confirm('本地资源不完整！点击确认重新获取！')){
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){},function(){});
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){},function(){});
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
+                                    game.saveConfig('Diuse_local_version',online_version);
+                                    Diuse_Button=true;
+                                    alert('下载完成，重启生效');
+
+                                },function(){
+                                    alert('下载失败');
+                                });
+                            }
                         }
                         if(local_version!=online_version&&Diuse_num==1){
                             if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+local_version)){
@@ -240,6 +279,7 @@ precontent:function (Diuse){
                                 game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){},function(){});
                                 game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
                                     game.saveConfig('Diuse_local_version',online_version);
+                                    Diuse_Button=true;
                                     alert('下载完成，重启生效');
                                 },function(){
                                     alert('下载失败');
@@ -252,7 +292,6 @@ precontent:function (Diuse){
                 }
             }; 
         };
-
         download_mp3=function(){
             lib.init.js(url,'files',function(){
                 var list=Diuse_mp3;
@@ -268,18 +307,19 @@ precontent:function (Diuse){
                                 download1();
                             }else{
                                 Diuse_Text.innerHTML='下载完毕';
+                                Diuse_Button=true;
                                 alert('语音下载完毕!');
                                 document.body.removeChild(Diuse_Text);
                             };
-                    },function(){
-                        if(confirm('下载'+list[0]+'失败，是否继续下载？（取消则关闭扩展包并刷新游戏）')){
-                            download1();
-                        }else{
-                            game.saveConfig('extension_术樱_enable',false);
-                            game.reload();
-                        };
-                    });
-                }
+                        },function(){
+                            if(confirm('下载'+list[0]+'失败，是否继续下载？（取消则关闭扩展包并刷新游戏）')){
+                                download1();
+                            }else{
+                                game.saveConfig('extension_术樱_enable',false);
+                                game.reload();
+                            };
+                        });
+                    }
                 download1();
             });
         };
@@ -298,18 +338,19 @@ precontent:function (Diuse){
                                 download1();
                             }else{
                                 Diuse_Text.innerHTML='下载完毕';
+                                Diuse_Button=true;
                                 alert('静态皮肤下载完毕!');
                                 document.body.removeChild(Diuse_Text);
                             };
-                    },function(){
-                        if(confirm('下载'+list[0]+'失败，是否继续下载？（取消则关闭扩展包并刷新游戏）')){
-                            download1();
-                        }else{
-                            game.saveConfig('extension_术樱_enable',false);
-                            game.reload();
-                        };
-                    });
-                }
+                        },function(){
+                            if(confirm('下载'+list[0]+'失败，是否继续下载？（取消则关闭扩展包并刷新游戏）')){
+                                download1();
+                            }else{
+                                game.saveConfig('extension_术樱_enable',false);
+                                game.reload();
+                            };
+                        });
+                    }
                 download1();
             });
         };
@@ -328,19 +369,33 @@ precontent:function (Diuse){
                                 download1();
                             }else{
                                 Diuse_Text.innerHTML='下载完毕';
+                                Diuse_Button=true;
                                 alert('天书皮肤下载完毕!');
                                 document.body.removeChild(Diuse_Text);
                             };
-                    },function(){
-                        if(confirm('下载'+list[0]+'失败，是否继续下载？（取消则关闭扩展包并刷新游戏）')){
-                            download1();
-                        }else{
-                            game.saveConfig('extension_术樱_enable',false);
-                            game.reload();
-                        };
-                    });
-                }
+                        },function(){
+                            if(confirm('下载'+list[0]+'失败，是否继续下载？（取消则关闭扩展包并刷新游戏）')){
+                                download1();
+                            }else{
+                                game.saveConfig('extension_术樱_enable',false);
+                                game.reload();
+                            };
+                        });
+                    }
                 download1();
+            });
+        };
+        download_dynamic=function(dynamic_name){
+            game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/image/dynamic/'+dynamic_name,'extension/术樱/'+dynamic_name,function(){
+                Diuse_Button=true;
+                alert('所选皮肤下载完毕!');
+            },function(){
+                if(confirm('下载'+dynamic_name+'失败，是否继续下载？（取消则关闭扩展包并刷新游戏）')){
+                    download_dynamic(dynamic_name);
+                }else{
+                    game.saveConfig('extension_术樱_enable',false);
+                    game.reload();
+                };
             });
         };
 
