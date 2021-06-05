@@ -305,7 +305,7 @@ precontent:function (Diuse){
                 var num1=list.length;
                 document.body.appendChild(Diuse_Text);
                 var download1=function(){
-                        game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/skin/'+list[0]+'.mp3','extension/术樱/'+list[0],function(){
+                        game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/skin/'+list[0],'extension/术樱/'+list[0],function(){
                             num++
                             list.remove(list[0]);
                             if(list.length>0){
