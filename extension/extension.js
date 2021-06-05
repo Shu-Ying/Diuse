@@ -1,51 +1,200 @@
 game.import("extension",function(lib,game,ui,get,ai,_status){
     return {
-        name:"崩坏3",
+        name:"术樱",
         content:function (config,pack){
-    var f=function(Diuse){
-        if(config[Diuse]){
-            for(var i in lib.characterPack[Diuse]){
-                if(lib.character[i][4].indexOf("forbidai")<0)lib.character[i][4].push("forbidai");
-            }
+            var f=function(Diuse){
+            if(config[Diuse]){
+                for(var i in lib.characterPack[Diuse]){
+                    if(lib.character[i][4].indexOf("forbidai")<0)lib.character[i][4].push("forbidai");
+                }
             }
         };
     f("Diuse");//此处填武将包英文名
-},precontent:function (Diuse){
+},
+editable:false,
+precontent:function (Diuse){
     if(Diuse.enable){
-        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.1');
-        lib.content_func=[];
+        var url=lib.assetURL+'extension/术樱'
 
-        lib.extensionMenu.extension_崩坏3.local_version={
+        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.1');
+
+        var Diuse_Text=document.createElement("div");
+        var Diuse_Text_style={
+            width:"calc(25%)",
+            height:"calc(5%)",
+            display:"table",
+            background:'rgba(0,0,0,0.5)',
+            position:"absolute",
+            top:"0px",
+            left:"calc(38%)",
+            zIndex:"10",
+            textAlign:"center",
+            'font-size':'30px',
+            'font-family':"'STXinwei','xinwei'",
+        };
+        for(var k in Diuse_Text_style){
+            Diuse_Text.style[k]=Diuse_Text_style[k];
+        };
+
+        lib.extensionMenu.extension_术樱.local_version={
             "name":"扩展版本："+lib.config.Diuse_local_version,
             "clear":true,
             "nopointer":true,
         };
-        lib.extensionMenu.extension_崩坏3.online_version={
-            "name":"coding数据版本：未点击更新按钮",
-            "clear":true,
-            "nopointer":true,
+        lib.extensionMenu.extension_术樱.Uplog={
+            name:'<div class="hth_menu">▶更新和说明</div>',
+            clear: true,
+            onclick:function(){
+                if(this.hth_more==undefined){
+                    var more=ui.create.div('.hth_more',
+                    '<div style="text-align:left"><font size=3px>'+
+                    '-----< 改动 >-----'+
+                    '<br>识律小幅度削弱<br>'+
+                    '<br>降低任务量需求<br>'+
+                    '<br>修复了亡神白起死亡时会导致角色弃牌的BUG<br>'+
+                    '-----< 崩坏包 >-----'+
+                    '<br>符华技能重做，有很多适配卡牌适配中...<br>'+
+                    '<br>因为部分更改，需要删除全部文件后替换压缩包文件<br>'+
+                    '<br>-----< 天书乱斗 >-----'+
+                    '<br>任务量根据不同难度有所不同<br>'+
+                    '<br>修复众多BUG，每个难度因无法手气卡，补偿保护技能<br>'+
+                    '<br>因第三关手牌数与体力上限挂钩，提前提醒不要选高达一号类似技能<br>'+
+                    '</font></div>');
+                    this.parentNode.insertBefore(more,this.nextSibling);
+                    this.hth_more=more;
+                    this.innerHTML='<div class="hth_menu">▼更新日志</div>';
+                }
+                else{
+                        this.parentNode.removeChild(this.hth_more);
+                        delete this.hth_more;
+                        this.innerHTML='<div class="hth_menu">▶更新日志</div>';
+                };
+            },
         };
-
-
-        lib.extensionMenu.extension_崩坏3.Updata={
-            "name":"<span style='text-decoration: underline'>检测更新</span>",
+        lib.extensionMenu.extension_术樱.Benghuai={
+            name:'<div class="hth_menu">▶崩坏3技能说明</div>',
+            clear: true,
+            onclick:function(){
+                if(this.hth_more==undefined){
+                    var more=ui.create.div('.hth_more',
+                    '<div style="text-align:left"><font size=3px>'+
+                    '-----< 识律 >-----'+
+                    '<br>根据武器攻击距离获得相应技能<br>'+
+                    '<br>一:当你于你的回合内使用一张牌后，你可以弃置一张手牌并摸一张牌。<br>'+
+                    '<br>二:当你于回合内获得一张牌且不是因为此技能获得牌时，你摸一张牌。<br>'+
+                    '<br>三:出牌阶段限两次。你造成伤害后你可以让场上的一名角色受到一点无伤害来源的伤害。<br>'+
+                    '<br>四:你使用杀或普通锦囊后你可以多增加一个目标，如果取消则摸X张牌(X为你已损失的体力，如果为0则摸1)<br>'+
+                    '<br>五:出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力)<br>'+
+                    '<br>六:获得全部技能效果。<br>'+
+                    '<br>-----< 符华 >-----'+
+                    '<br>------<br>'+
+                    '<br>------<br>'+
+                    '<br>------<br>'+
+                    ''+
+                    ''+
+                    ''+
+                    '</font></div>');
+                    this.parentNode.insertBefore(more,this.nextSibling);
+                    this.hth_more=more;
+                    this.innerHTML='<div class="hth_menu">▼崩坏3技能说明</div>';
+                }
+                else{
+                        this.parentNode.removeChild(this.hth_more);
+                        delete this.hth_more;
+                        this.innerHTML='<div class="hth_menu">▶崩坏3技能说明</div>';
+                };
+            },
+        };
+        lib.extensionMenu.extension_术樱.Tianshu={
+            name:'<div class="hth_menu">▶天书说明</div>',
+            clear: true,
+            onclick:function(){
+                if(this.hth_more==undefined){
+                    var more=ui.create.div('.hth_more',
+                    '<div style="text-align:left"><font size=3px>'+
+                    '-----< 第三关 >-----'+
+                    '<br>Boss进入濒死会复活然后给随机任务，完成任务即可减少Boss体力上限<br>'+
+                    '<br>任务名  普通/困难/阴间'+
+                    '<br>任务一:摸牌 数量 25/45/85'+
+                    '<br>任务二:伤害 8/15/25'+
+                    '<br>任务三:恢复 3/7/12<br>'+
+                    '<br>-----< 第四关 >-----'+
+                    '<br>鬼阎王具有地府场地技能。场内角色受到伤害前其进行判定并根据效果执行！<br>'+
+                    '<br>判定结果为红桃：'+
+                    '<br>---------------<br>'+
+                    '点数为1：其流失当前全部体力<br>'+
+                    '点数为2-7：其流失一点体力<br>'+
+                    '点数为8-13：其回复一点体力<br>'+
+                    '<br>判定结果为黑桃：'+
+                    '<br>---------------<br>'+
+                    '点数为1：其受到当前体力值的无伤害来源伤害<br>'+
+                    '点数为2-7：该次伤害+1<br>'+
+                    '点数为8-13：该次伤害-1<br>'+
+                    '<br>判定结果为梅花：'+
+                    '<br>---------------<br>'+
+                    '点数为1：其必须将武将面朝下<br>'+
+                    '点数为2-7：其进入全面易伤状态直至其回合开始时<br>'+
+                    '点数为8-13：其获得保护技能<br>'+
+                    '<br>判定结果为方块：'+
+                    '<br>---------------<br>'+
+                    '点数为1：其必须弃置全部手牌<br>'+
+                    '点数为2-7：其弃置一张牌<br>'+
+                    '点数为8-13：其摸一张牌<br>'+
+                    '<br>鬼阎王有更强力的技能！它能完全保护鬼阎王不受到伤害！同时也有强力的输出手段<br>'+
+                    '<br>摸牌阶段结束后有50%的概率再摸两张牌'+
+                    '<br>出牌阶段开始前有50%的概率使用一张杀'+
+                    '<br>出牌阶段开始时有50%的概率使用一张酒'+
+                    '<br>弃牌阶段结束后有50%的概率摸两张牌'+
+                    '<br>鬼阎王造成伤害前有30%的概率使其+1'+
+                    '<br>鬼阎王受到伤害前有30%的概率使其-1'+
+                    '<br>鬼阎王受到伤害后有25%的概率恢复一点体力'+
+                    '<br>鬼阎王受到伤害后有50%的概率摸一张牌'+
+                    '<br>鬼阎王被杀指定后有10%的概率使使用者弃置一张牌'+
+                    '<br>鬼阎王回合开始前有5%的概率执行一个额外有益的回合'+
+                    '<br>鬼阎王被杀指定后有1%的概率使该牌失效'+
+                    '<br>鬼阎王使用杀时有30%的概率出杀次数+1'+
+                    '</font></div>');
+                    this.parentNode.insertBefore(more,this.nextSibling);
+                    this.hth_more=more;
+                    this.innerHTML='<div class="hth_menu">▼天书说明</div>';
+                }
+                else{
+                        this.parentNode.removeChild(this.hth_more);
+                        delete this.hth_more;
+                        this.innerHTML='<div class="hth_menu">▶天书说明</div>';
+                };
+            },
+        };
+        lib.extensionMenu.extension_术樱.Updata={
+            "name":"<span style='text-decoration: underline'>版本检测</span>",
             "clear":true,
             "onclick":function(){
-                var online_version;
-                var httpRequest = new XMLHttpRequest();
-    
-                httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js',true);
-                httpRequest.send(null);
-    
-                httpRequest.onreadystatechange=function(){
-                    if (httpRequest.readyState==4&&httpRequest.status==200){
-                        online_version=httpRequest.responseText;
-                        lib.extensionMenu.extension_崩坏3.online_version.name='coding数据版本：'+online_version;
-                        if(lib.extensionMenu.extension_崩坏3.online_version!=online_version){
-                            if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+lib.config.Diuse_local_version)){
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/崩坏3/extension.js',function(){
+                download_version();
+            },
+        };
+        lib.extensionMenu.extension_术樱.downmp3={
+            "name":"语音下载",
+            "clear":true,
+            "onclick":function(){
+                download_mp3();
+            },
+        };
+
+        download_version=function(){
+            var online_version;
+            var httpRequest = new XMLHttpRequest();
+            httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js',true);
+            httpRequest.send(null);
+            httpRequest.onreadystatechange=function(){
+                if (httpRequest.readyState==4&&httpRequest.status==200){
+                    online_version=httpRequest.responseText;
+                    lib.init.js(url,'version',function(){
+                        var local_version = Diuse_version;
+                        if(local_version!=online_version){
+                            if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+local_version)){
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){success();},function(){success();});
+                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
                                     game.saveConfig('Diuse_local_version',online_version);
-                                    alert(lib.config.Diuse_local_version);
                                     alert('下载完成，重启生效');
                                 },function(){
                                     alert('下载失败');
@@ -54,8 +203,58 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
                         } else {
                             alert('本地版本为最新版');
                         }
-                    }
-                }; 
+                    });
+                }
+            }; 
+        };
+
+        download_mp3=function(){
+            lib.init.js(url,'files',function(){
+                var list=Diuse_mp3;
+                var num=0;
+                var num1=list.length;
+                document.body.appendChild(Diuse_Text);
+                var download1=function(){
+                        game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/skin/'+list[0]+'.mp3','extension/术樱/'+list[0],function(){
+                            num++
+                            list.remove(list[0]);
+                            if(list.length>0){
+                                Diuse_Text.innerHTML='正在下载（'+num+'/'+num1+'）';
+                                download1();
+                            }else{
+                                Diuse_Text.innerHTML='下载完毕';
+                                alert('语音下载完毕!');
+                                document.body.removeChild(Diuse_Text);
+                            };
+                    },function(){
+                        if(confirm('下载'+list[0]+'失败，是否继续下载？（取消则关闭扩展ol并刷新游戏）')){
+                            download1();
+                        }else{
+                            game.saveConfig('extension_术樱_enable',false);
+                            game.reload();
+                        };
+                    });
+                }
+                download1();
+            });
+        };
+
+        lib.extensionMenu.extension_术樱.downstatic={
+            name:'<div class="hth_menu">动态皮肤下载</div>',
+            clear: true,
+            onclick:function(){
+                lib.init.js(url,'files',function(){
+                    var list=Diuse_static;
+                    alert(list[0]);
+                    alert(list.length);
+                });
+            }
+        };
+        lib.extensionMenu.extension_术樱.CPDD={
+            name:"<span style='text- decoration: underline'>反馈BUG</span>",
+            clear:true,
+            onclick:function(){
+                game.open('https://tieba.baidu.com/p/7295369748');
             },
         };
 
@@ -93,7 +292,7 @@ game.导入character("Diuse","崩坏3",{
             Diuse_Bachongying:["female","qun",4,["Diuse_Luoying","Diuse_Yishan","Diuse_Renfan"],[]],
             Diuse_Kalian:["female","qun",4,["Diuse_Wange","Diuse_Sangzhong","Diuse_Zhongqu"],[]],
             Diuse_Xier:["female","qun",4,["Diuse_Anhong","Diuse_Diewu"],[]],
-            Diuse_Buluoniya:["female","qun",4,["Diuse_Guozai","Diuse_Chonggou","Diuse_Fuhe","Diuse_Yinmie"],[]],
+            Diuse_Buluoniya:["female","qun",4,["Diuse_Guozai","Diuse_Zhonggou","Diuse_Fuhe","Diuse_Yinmie"],[]],
             Diuse_Shilv:["female","qun",4,["Diuse_Bingren","Diuse_Fanchen","Diuse_Zhejian"],[]],
             Diuse_Yayi:["female","qun",4,["Diuse_Kongzhan","Diuse_Dianci","Diuse_Yvlei"],[]],
             Diuse_Yuexia:["female","qun","1/4",['Diuse_Xueqi','Diuse_Shenshi','Diuse_Shoulie','Vate','kagari_zongsi'],[]],
@@ -187,7 +386,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Xuesha:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Xier"],
                 trigger:{
                     source:"damageSource",
@@ -210,7 +409,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Diewu:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Xier"],
                 enable:"phaseUse",
                 usable:1,
@@ -256,7 +455,7 @@ game.导入character("Diuse","崩坏3",{
                 group:['Diuse_Anhong_Juexing','Diuse_Anhong_Mopai'],
 				subSkill:{
                     Juexing:{
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Xier"],
                         juexingji:true,
                         skillAnimation:true,
@@ -291,7 +490,7 @@ game.导入character("Diuse","崩坏3",{
                         },
                     },
                     Mopai:{
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Xier"],
                         trigger:{
                             player:"damageBefore",
@@ -307,7 +506,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Guozai:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Buluoniya"],
                 trigger:{
                     global:"gameDrawAfter",
@@ -320,8 +519,8 @@ game.导入character("Diuse","崩坏3",{
                     player.draw(player.maxHp);
                 },
             },
-            Diuse_Chonggou:{
-                audio:"ext:崩坏3:2",
+            Diuse_Zhonggou:{
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Buluoniya"],
                 mod:{
                     maxHandcard:function (player,num){
@@ -366,7 +565,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Yinmie:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Buluoniya"],
                 enable:"phaseUse",
                 usable:1,
@@ -432,7 +631,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             "Diuse_Fuhe2":{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Buluoniya"],
                 trigger:{
                     player:"damageBefore",
@@ -448,7 +647,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             "Diuse_Fuhe3":{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Buluoniya"],
                 trigger:{
                     player:["gainMaxHpEnd","loseMaxHpEnd"],
@@ -462,7 +661,7 @@ game.导入character("Diuse","崩坏3",{
 				group:['Diuse_Wange_Jieduan','Diuse_Wange_Jineng'],
 				subSkill:{
 					Jieduan:{
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Kalian"],
                         trigger:{
                             player:"phaseBegin",
@@ -485,7 +684,7 @@ game.导入character("Diuse","崩坏3",{
                         },
 					},
 					Jineng:{
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Kalian"],
                         forced:true,
                         trigger:{
@@ -508,7 +707,7 @@ game.导入character("Diuse","崩坏3",{
             },
             Diuse_Sangzhong:{
                 forced:true,
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Kalian"],
                 trigger:{
                     player:["damageEnd","phaseEnd"],
@@ -551,7 +750,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Zhongqu:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Kalian"],
                 enable:"phaseUse",
                 usable:1,
@@ -595,7 +794,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             "Diuse_Zhongqu1":{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Kalian"],
                 trigger:{
                     source:"damageBegin1",
@@ -621,7 +820,7 @@ game.导入character("Diuse","崩坏3",{
                 locked:true,
             },
             Diuse_Luoying:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Bachongying"],
                 usable:2,
                 trigger:{
@@ -702,7 +901,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Yishan:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Bachongying"],
                 trigger:{
                     player:["useCard","respond"],
@@ -734,7 +933,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Renfan:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Bachongying"],
                 trigger:{
                     player:["useCard","respond"],
@@ -786,7 +985,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Shanbeng:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Fuhua"],
                 trigger:{
                     player:"useCardToPlayered",
@@ -1310,7 +1509,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Xirang:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Fuhua"],
                 trigger:{
                     player:"phaseDrawBefore",
@@ -1339,7 +1538,7 @@ game.导入character("Diuse","崩坏3",{
                 group:['Diuse_Xunxin_AtkDamage','Diuse_Xunxin_Lose','Diuse_Xunxin_Chu'],
 				subSkill:{
                     AtkDamage:{
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Fuhua"],
                         trigger:{
                             player:'damageEnd'
@@ -1462,7 +1661,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Xianfa:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["shangxian"],
                 enable:"phaseUse",
                 usable:1,
@@ -1499,7 +1698,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Yinyang:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["shangxian"],
                 mark:true,
                 locked:false,
@@ -1556,7 +1755,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Tiandi:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["shangxian"],
                 unique:true,
                 enable:"chooseToUse",
@@ -1623,7 +1822,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Yifa:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["shangxian"],
                 enable:"phaseUse",
                 usable:1,
@@ -1653,7 +1852,7 @@ game.导入character("Diuse","崩坏3",{
                                 case 1:target.addTempSkill('Diuse_Xuesha',{player:'phaseUseAfter'});break;
                                 case 2:target.addTempSkill('Diuse_Diewu',{player:'phaseUseAfter'});break;
                                 case 3:target.addTempSkill('Diuse_Guozai',{player:'phaseUseAfter'});break;
-                                case 4:target.addTempSkill('Diuse_Chonggou',{player:'phaseUseAfter'});break;
+                                case 4:target.addTempSkill('Diuse_Zhonggou',{player:'phaseUseAfter'});break;
                                 case 5:target.addTempSkill('Diuse_Yinmie',{player:'phaseUseAfter'});break;
                                 case 6:target.addTempSkill('Diuse_Renfan',{player:'phaseUseAfter'});break;
                                 case 7:target.addTempSkill('Diuse_Wange',{player:'phaseUseAfter'});break;
@@ -1677,7 +1876,7 @@ game.导入character("Diuse","崩坏3",{
                                 case 1:target.addTempSkill('Diuse_Xuesha',{player:'phaseUseAfter'});break;
                                 case 2:target.addTempSkill('Diuse_Diewu',{player:'phaseUseAfter'});break;
                                 case 3:target.addTempSkill('Diuse_Guozai',{player:'phaseUseAfter'});break;
-                                case 4:target.addTempSkill('Diuse_Chonggou',{player:'phaseUseAfter'});break;
+                                case 4:target.addTempSkill('Diuse_Zhonggou',{player:'phaseUseAfter'});break;
                                 case 5:target.addTempSkill('Diuse_Yinmie',{player:'phaseUseAfter'});break;
                                 case 6:target.addTempSkill('Diuse_Renfan',{player:'phaseUseAfter'});break;
                                 case 7:target.addTempSkill('Diuse_Wange',{player:'phaseUseAfter'});break;
@@ -1709,7 +1908,7 @@ game.导入character("Diuse","崩坏3",{
             },
             Diuse_Bingren:{
                 forced:true,
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Shilv"],
                 trigger:{
                     player:"equipAfter",
@@ -1753,7 +1952,7 @@ game.导入character("Diuse","崩坏3",{
                             },
                         },
                         locked:true,
-                        audio:"ext:崩坏3:4",
+                        audio:"ext:术樱:4",
                         audioname:["Diuse_Shilv"],
                         trigger:{
                             player:"useCardToPlayered",
@@ -1779,7 +1978,7 @@ game.导入character("Diuse","崩坏3",{
                         },
                     },
                     Draw1:{
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Shilv"],
                         trigger:{
                             player:"phaseAfter",
@@ -1803,7 +2002,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Er:{
-                audio:"ext:崩坏3:3",
+                audio:"ext:术樱:3",
                 audioname:["Diuse_Shilv"],
                 forced:true,
                 trigger:{
@@ -1818,7 +2017,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
 			Diuse_San:{
-                audio:"ext:崩坏3:3",
+                audio:"ext:术樱:3",
                 audioname:["Diuse_Shilv"],
 				forced:true,
                 usable:2,
@@ -1848,7 +2047,7 @@ game.导入character("Diuse","崩坏3",{
 				},
 			},
             Diuse_Si:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Shilv"],
                 forced:true,
                 trigger:{
@@ -1903,7 +2102,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Wu:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Shilv"],
                 usable:1,
                 trigger:{
@@ -1932,7 +2131,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Fanchen:{
-                audio:"ext:崩坏3:3",
+                audio:"ext:术樱:3",
                 audioname:["Diuse_Shilv"],
                 usable:1,
                 trigger:{
@@ -1976,7 +2175,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Fanchen1:{
-                audio:"ext:崩坏3:3",
+                audio:"ext:术樱:3",
                 audioname:["Diuse_Shilv"],
                 trigger:{
                     global:"phaseJieshuAfter",
@@ -2007,7 +2206,7 @@ game.导入character("Diuse","崩坏3",{
                 },
             },
             Diuse_Kongzhan:{
-                audio:"ext:崩坏3:2",
+                audio:"ext:术樱:2",
                 audioname:["Diuse_Yayi"],
                 trigger:{
                     player:"shaBegin",
@@ -2076,7 +2275,7 @@ game.导入character("Diuse","崩坏3",{
                             },
                         },
                         locked:true,
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Yayi"],
                         trigger:{
                             player:"useCardToPlayered",
@@ -2246,7 +2445,7 @@ game.导入character("Diuse","崩坏3",{
                 group:['Diuse_Xueqi_Gamego','Diuse_Xueqi_Damage'],
                 subSkill:{
                     Gamego:{
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Yuexia"],
 						trigger:{global:"gameDrawAfter"},
                         forced:true,
@@ -2261,7 +2460,7 @@ game.导入character("Diuse","崩坏3",{
                         },
                     },
                     Damage:{
-                        audio:"ext:崩坏3:3",
+                        audio:"ext:术樱:3",
                         audioname:["Diuse_Yuexia"],
                         trigger:{player:['changeHp','loseMaxHpAfter','gainMaxHpAfter']},
                         forced:true,
@@ -2292,7 +2491,7 @@ game.导入character("Diuse","崩坏3",{
                         },
                     },
                     Die:{
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Yuexia"],
                         trigger:{player:"dyingBegin"},
                         forced:true,
@@ -2323,7 +2522,7 @@ game.导入character("Diuse","崩坏3",{
                 group:['Diuse_Shoulie_Damage','Diuse_Shoulie_Draw'],
                 subSkill:{
                     Damage:{
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Yuexia"],
                         trigger:{source:'damageBefore'},
                         forced:true,
@@ -2333,7 +2532,7 @@ game.导入character("Diuse","崩坏3",{
                         },
                     },
                     Draw:{
-                        audio:"ext:崩坏3:2",
+                        audio:"ext:术樱:2",
                         audioname:["Diuse_Yuexia"],
                         trigger:{global:'phaseUseBefore'},
                         filter:function(event,player){
@@ -2412,8 +2611,8 @@ game.导入character("Diuse","崩坏3",{
             "Diuse_Anhong_info":"觉醒技。当你受到伤害前你可以摸一张牌，如果你受到伤害后的体力低于2则恢复一点体力；失去该技能并获得技能血杀。",
             Diuse_Guozai:"过载",
             "Diuse_Guozai_info":"锁定技。游戏开始时。你的体力上限增加X点（X为你的角色体力上限）并摸Y张牌（Y为你的当前体力值上限）",
-            Diuse_Chonggou:"重构",
-            "Diuse_Chonggou_info":"锁定技。你的手牌上限+X（X为你的当前体力值），当你受到非属性伤害前你取消这次伤害并选择失去一点体力或减少一点体力上限。",
+            Diuse_Zhonggou:"重构",
+            "Diuse_Zhonggou_info":"锁定技。你的手牌上限+X（X为你的当前体力值），当你受到非属性伤害前你取消这次伤害并选择失去一点体力或减少一点体力上限。",
             Diuse_Yinmie:"湮灭",
             "Diuse_Yinmie_info":"出牌阶段限一次。你可以失去1点体力值上限或1点体力值让一名其他角色进入铁锁状态并摸2张牌。",
             Diuse_Fuhe:"负荷",
@@ -2493,146 +2692,10 @@ game.导入character("Diuse","崩坏3",{
             Diuse_Shoulie_info:"锁定技。你造成伤害时改为其获得相同数量的标记；其他角色出牌阶段开始时如果其标记超出一个则其必须失去X点体力并使你恢复X点体力（X为其标记-1）随后其丢弃X个标记",
 		},
     },
-},"崩坏3");
+},"术樱");
 
     }
-},help:{},config:{
-    Updata:{
-        name:'<div class="hth_menu">▶更新和说明</div>',
-        clear: true,
-        onclick:function(){
-            if(this.hth_more==undefined){
-                var more=ui.create.div('.hth_more',
-                '<div style="text-align:left"><font size=3px>'+
-                '-----< 改动 >-----'+
-                '<br>识律小幅度削弱<br>'+
-                '<br>降低任务量需求<br>'+
-                '<br>修复了亡神白起死亡时会导致角色弃牌的BUG<br>'+
-                '-----< 崩坏包 >-----'+
-                '<br>符华技能重做，有很多适配卡牌适配中...<br>'+
-                '<br>因为部分更改，需要删除全部文件后替换压缩包文件<br>'+
-                '<br>-----< 天书乱斗 >-----'+
-                '<br>任务量根据不同难度有所不同<br>'+
-                '<br>修复众多BUG，每个难度因无法手气卡，补偿保护技能<br>'+
-                '<br>因第三关手牌数与体力上限挂钩，提前提醒不要选高达一号类似技能<br>'+
-                '</font></div>');
-                this.parentNode.insertBefore(more,this.nextSibling);
-                this.hth_more=more;
-                this.innerHTML='<div class="hth_menu">▼更新日志</div>';
-            }
-            else{
-                    this.parentNode.removeChild(this.hth_more);
-                    delete this.hth_more;
-                    this.innerHTML='<div class="hth_menu">▶更新日志</div>';
-            };
-        },
-    },
-    Tianshu:{
-        name:'<div class="hth_menu">▶天书说明</div>',
-        clear: true,
-        onclick:function(){
-            if(this.hth_more==undefined){
-                var more=ui.create.div('.hth_more',
-                '<div style="text-align:left"><font size=3px>'+
-                '-----< 第三关 >-----'+
-                '<br>Boss进入濒死会复活然后给随机任务，完成任务即可减少Boss体力上限<br>'+
-                '<br>任务名  普通/困难/阴间'+
-                '<br>任务一:摸牌 数量 25/45/85'+
-                '<br>任务二:伤害 8/15/25'+
-                '<br>任务三:恢复 3/7/12<br>'+
-                '<br>-----< 第四关 >-----'+
-                '<br>鬼阎王具有地府场地技能。场内角色受到伤害前其进行判定并根据效果执行！<br>'+
-                '<br>判定结果为红桃：'+
-                '<br>---------------<br>'+
-                '点数为1：其流失当前全部体力<br>'+
-                '点数为2-7：其流失一点体力<br>'+
-                '点数为8-13：其回复一点体力<br>'+
-                '<br>判定结果为黑桃：'+
-                '<br>---------------<br>'+
-                '点数为1：其受到当前体力值的无伤害来源伤害<br>'+
-                '点数为2-7：该次伤害+1<br>'+
-                '点数为8-13：该次伤害-1<br>'+
-                '<br>判定结果为梅花：'+
-                '<br>---------------<br>'+
-                '点数为1：其必须将武将面朝下<br>'+
-                '点数为2-7：其进入全面易伤状态直至其回合开始时<br>'+
-                '点数为8-13：其获得保护技能<br>'+
-                '<br>判定结果为方块：'+
-                '<br>---------------<br>'+
-                '点数为1：其必须弃置全部手牌<br>'+
-                '点数为2-7：其弃置一张牌<br>'+
-                '点数为8-13：其摸一张牌<br>'+
-                '<br>鬼阎王有更强力的技能！它能完全保护鬼阎王不受到伤害！同时也有强力的输出手段<br>'+
-                '<br>摸牌阶段结束后有50%的概率再摸两张牌'+
-                '<br>出牌阶段开始前有50%的概率使用一张杀'+
-                '<br>出牌阶段开始时有50%的概率使用一张酒'+
-                '<br>弃牌阶段结束后有50%的概率摸两张牌'+
-                '<br>鬼阎王造成伤害前有30%的概率使其+1'+
-                '<br>鬼阎王受到伤害前有30%的概率使其-1'+
-                '<br>鬼阎王受到伤害后有25%的概率恢复一点体力'+
-                '<br>鬼阎王受到伤害后有50%的概率摸一张牌'+
-                '<br>鬼阎王被杀指定后有10%的概率使使用者弃置一张牌'+
-                '<br>鬼阎王回合开始前有5%的概率执行一个额外有益的回合'+
-                '<br>鬼阎王被杀指定后有1%的概率使该牌失效'+
-                '<br>鬼阎王使用杀时有30%的概率出杀次数+1'+
-                '</font></div>');
-                this.parentNode.insertBefore(more,this.nextSibling);
-                this.hth_more=more;
-                this.innerHTML='<div class="hth_menu">▼天书说明</div>';
-            }
-            else{
-                    this.parentNode.removeChild(this.hth_more);
-                    delete this.hth_more;
-                    this.innerHTML='<div class="hth_menu">▶天书说明</div>';
-            };
-        },
-    },
-    Benghuai:{
-        name:'<div class="hth_menu">▶崩坏3技能说明</div>',
-        clear: true,
-        onclick:function(){
-            if(this.hth_more==undefined){
-                var more=ui.create.div('.hth_more',
-                '<div style="text-align:left"><font size=3px>'+
-                '-----< 识律 >-----'+
-                '<br>根据武器攻击距离获得相应技能<br>'+
-                '<br>一:当你于你的回合内使用一张牌后，你可以弃置一张手牌并摸一张牌。<br>'+
-                '<br>二:当你于回合内获得一张牌且不是因为此技能获得牌时，你摸一张牌。<br>'+
-                '<br>三:出牌阶段限两次。你造成伤害后你可以让场上的一名角色受到一点无伤害来源的伤害。<br>'+
-                '<br>四:你使用杀或普通锦囊后你可以多增加一个目标，如果取消则摸X张牌(X为你已损失的体力，如果为0则摸1)<br>'+
-                '<br>五:出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力)<br>'+
-                '<br>六:获得全部技能效果。<br>'+
-                '<br>-----< 符华 >-----'+
-                '<br>------<br>'+
-                '<br>------<br>'+
-                '<br>------<br>'+
-                ''+
-                ''+
-                ''+
-                '</font></div>');
-                this.parentNode.insertBefore(more,this.nextSibling);
-                this.hth_more=more;
-                this.innerHTML='<div class="hth_menu">▼崩坏3技能说明</div>';
-            }
-            else{
-                    this.parentNode.removeChild(this.hth_more);
-                    delete this.hth_more;
-                    this.innerHTML='<div class="hth_menu">▶崩坏3技能说明</div>';
-            };
-        },
-    },
-    Gg:{
-        name:"感谢游玩!",
-        clear:true,
-    },
-    CPDD:{
-        name:"<span style='text- decoration: underline'>反馈BUG</span>",
-        clear:true,
-        onclick:function(){
-            game.open('https://tieba.baidu.com/p/7295369748');
-        },
-    },
-},package:{
+},help:{},config:{},package:{
     character:{
         character:{
             Boss_Diuse_Tianshu:["male","",0,["Boss_Tianshu_Go","Boss_Diuse_Tianshu_intro1","Boss_Diuse_Tianshu_intro2","Boss_Diuse_Tianshu_intro3","Boss_Diuse_Tianshu_intro4","Boss_Diuse_Tianshu_intro5"],["boss"],"qun"],
@@ -4621,10 +4684,10 @@ game.导入character("Diuse","崩坏3",{
             Boss_Diuse_Tianshu_intro4:'&nbsp;第四关',
 			Boss_Diuse_Tianshu_intro4_info:'挑战鬼阎王',
             Boss_Diuse_Tianshu_intro5:'&nbsp;规则：',
-			Boss_Diuse_Tianshu_intro5_info:'共四关，每通过一关，阵亡的角色会复活；随后每个角色摸两张牌和恢复一点体力。每名角色可以选择一个技能获取(阵亡角色除外)，然后游戏轮数清零。  &nbsp; Bate版众测，包含众多BUG，只是测试，不要惊讶。',
+			Boss_Diuse_Tianshu_intro5_info:'共四关，每通过一关，阵亡的角色会复活；随后每个角色摸两张牌和恢复一点体力。每名角色可以选择一个技能获取，然后游戏轮数清零。',
         },
     },
-    intro:"所有素材均来自互联网，侵权必删。<br>",
+    intro:"所有素材均来自互联网，侵权必删。",
     author:"",
     diskURL:"",
     forumURL:"",
