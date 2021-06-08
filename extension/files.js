@@ -110,6 +110,16 @@ Diuse_static=[
     'Diuse_Yayi.jpg',
     'Diuse_Yuexia.jpg',
 ],
+Diuse_dynamic=[
+    'Diuse_Bachongying.jpg',
+    'Diuse_Buluoniya.jpg',
+    'Diuse_Fuhua.jpg',
+    'Diuse_Shangxian.jpg',
+    'Diuse_Shilv.jpg',
+    'Diuse_Xier.jpg',
+    'Diuse_Yayi.jpg',
+    'Diuse_Yuexia.jpg',
+],
 Diuse_tianshu=[
     'Boss_Difficulty_Baiqi.jpg',
     'Boss_Difficulty_Guiyanwang.jpg',
