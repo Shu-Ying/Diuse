@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.1');
+        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.3');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
