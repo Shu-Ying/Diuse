@@ -98,8 +98,6 @@ Diuse_mp3=[
     'Diuse_Zhongqu11.mp3',
     'Diuse_Zhongqu12.mp3',
     'Diuse_Zhongqu2.mp3',
-    'Diuse_Xunxin1.mp3',
-    'Diuse_Xunxin2.mp3',
     'Diuse_Xirang_draw1.mp3',
     'Diuse_Xirang_draw2.mp3',
     'Diuse_Xunxin_AtkDamage1.mp3',
