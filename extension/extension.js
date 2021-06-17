@@ -1527,7 +1527,7 @@ precontent:function (Diuse){
                             },
                             lose:{
                                 trigger:{player:"phaseDiscardBefore"},
-                                filter:function(player){if(player.countMark('Diuse_Xirang_Mark_Sha')>=1||player.countMark('Diuse_Xirang_Mark_Shan')>=1||player.countMark('Diuse_Xirang_Mark_Tiao')>=1||player.countMark('Diuse_Xirang_Mark_Jiu')>=1) return true;},
+                                filter:function(event,player){if(player.countMark('Diuse_Xirang_Mark_Sha')>=1||player.countMark('Diuse_Xirang_Mark_Shan')>=1||player.countMark('Diuse_Xirang_Mark_Tiao')>=1||player.countMark('Diuse_Xirang_Mark_Jiu')>=1) return true;},
                                 content:function(){
                                     var mark_num=0;
                                     if(player.countMark('Diuse_Xirang_Mark_Sha')>=1) mark_num++
