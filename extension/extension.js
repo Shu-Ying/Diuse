@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.3');
+        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.4');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -68,7 +68,7 @@ precontent:function (Diuse){
                     '<br>在1.7.1及以上版本都可以使用网络更新啦！<br>'+
                     '<br>以后正式更名为术樱，还希望大家多多支持<br>'+
                     '-----< 崩坏包 >-----'+
-                    '<br>符华技能重做，有很多适配卡牌适配中...<br>'+
+                    '<br>符华技能重做<br>'+
                     '<br>因为部分更改，需要删除全部文件后替换压缩包文件<br>'+
                     '<br>-----< 天书乱斗 >-----'+
                     '<br>任务量根据不同难度有所不同<br>'+
@@ -80,9 +80,9 @@ precontent:function (Diuse){
                     this.innerHTML='<div class="hth_menu">▼更新日志</div>';
                 }
                 else{
-                        this.parentNode.removeChild(this.hth_more);
-                        delete this.hth_more;
-                        this.innerHTML='<div class="hth_menu">▶更新日志</div>';
+                    this.parentNode.removeChild(this.hth_more);
+                    delete this.hth_more;
+                    this.innerHTML='<div class="hth_menu">▶更新日志</div>';
                 };
             },
         };
@@ -102,21 +102,31 @@ precontent:function (Diuse){
                     '<br>五:出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力)<br>'+
                     '<br>六:获得全部技能效果。<br>'+
                     '<br>-----< 符华 >-----'+
-                    '<br>------<br>'+
-                    '<br>------<br>'+
-                    '<br>------<br>'+
-                    ''+
-                    ''+
-                    ''+
+                    '<br>弃置的牌都必须遵循以下规则<br>'+
+                    '<br>三张重复'+
+                    '<br>【桃】 恢复两点体力并摸三张牌'+
+                    '<br>【闪】 此杀必须两张闪响应 然后你摸两张牌'+
+                    '<br>【杀】 此杀不可被响应 出杀次数+2'+
+                    '<br>【酒】 此杀伤害+3<br>'+
+                    '<br>两张重复'+
+                    '<br>【桃】 恢复一点体力并摸两张牌'+
+                    '<br>【闪】 此杀需要打出两张闪响应'+
+                    '<br>【杀】 不可以被响应'+
+                    '<br>【酒】 此杀伤害+2<br>'+
+                    '<br>一张'+
+                    '<br>【桃】 命中后恢复一点体力'+
+                    '<br>【闪】 命中后摸一张牌'+
+                    '<br>【杀】 出杀次数+1'+
+                    '<br>【酒】 此杀伤害+1'+
                     '</font></div>');
                     this.parentNode.insertBefore(more,this.nextSibling);
                     this.hth_more=more;
                     this.innerHTML='<div class="hth_menu">▼崩坏3技能说明</div>';
                 }
                 else{
-                        this.parentNode.removeChild(this.hth_more);
-                        delete this.hth_more;
-                        this.innerHTML='<div class="hth_menu">▶崩坏3技能说明</div>';
+                    this.parentNode.removeChild(this.hth_more);
+                    delete this.hth_more;
+                    this.innerHTML='<div class="hth_menu">▶崩坏3技能说明</div>';
                 };
             },
         };
@@ -174,9 +184,9 @@ precontent:function (Diuse){
                     this.innerHTML='<div class="hth_menu">▼天书说明</div>';
                 }
                 else{
-                        this.parentNode.removeChild(this.hth_more);
-                        delete this.hth_more;
-                        this.innerHTML='<div class="hth_menu">▶天书说明</div>';
+                    this.parentNode.removeChild(this.hth_more);
+                    delete this.hth_more;
+                    this.innerHTML='<div class="hth_menu">▶天书说明</div>';
                 };
             },
         };
@@ -187,6 +197,18 @@ precontent:function (Diuse){
                 if(confirm('点击确定会检测版本')&&Diuse_Button){
                     Diuse_Button=false;
                     download_version();
+                } else if(Diuse_Button==false){
+                    alert('有其他文件正在下载，请稍后再试吧。');
+                }
+            },
+        };
+        lib.extensionMenu.extension_术樱.RepairBug={
+            "name":"本地资源修复",
+            "clear":true,
+            "onclick":function(){
+                if(confirm('点击确定会检测本地资源，并尝试修复')&&Diuse_Button){
+                    Diuse_Button=false;
+                    RepairBug();
                 } else if(Diuse_Button==false){
                     alert('有其他文件正在下载，请稍后再试吧。');
                 }
@@ -332,6 +354,7 @@ precontent:function (Diuse){
             httpRequest.onreadystatechange=function(){
                 if (httpRequest.readyState==4&&httpRequest.status==200){
                     online_version=httpRequest.responseText;
+                    game.saveConfig('Diuse_online_version',httpRequest.responseText)
                     lib.init.js(url,'version',function(){
                         try {
                             var local_version = Diuse_version;
@@ -344,8 +367,8 @@ precontent:function (Diuse){
                                     game.saveConfig('Diuse_local_version',online_version);
                                     Diuse_Button=true;
                                     alert('下载完成，重启生效');
-
                                 },function(){
+                                    Diuse_Button=true;
                                     alert('下载失败');
                                 });
                             }
@@ -359,6 +382,7 @@ precontent:function (Diuse){
                                     Diuse_Button=true;
                                     alert('下载完成，重启生效');
                                 },function(){
+                                    Diuse_Button=true;
                                     alert('下载失败');
                                 });
                             }
@@ -367,6 +391,19 @@ precontent:function (Diuse){
                                 Diuse_Button=true;
                                 alert('本地版本为最新版');
                             } 
+                        }
+                    },function(){
+                        if(confirm('本地资源不完整！点击确认重新获取！')){
+                            game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){},function(){});
+                            game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){},function(){});
+                            game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
+                                game.saveConfig('Diuse_local_version',online_version);
+                                Diuse_Button=true;
+                                alert('下载完成，重启生效');
+                            },function(){
+                                Diuse_Button=true;
+                                alert('下载失败');
+                            });
                         }
                     });
                 }
@@ -398,6 +435,9 @@ precontent:function (Diuse){
                         });
                     }
                 download1();
+            },function(){
+                Diuse_Button=true;
+                alert('本地资源不完整！请检查文件完整性。');
             });
         };
         download_static=function(){
@@ -426,6 +466,9 @@ precontent:function (Diuse){
                         });
                     }
                 download1();
+            },function(){
+                Diuse_Button=true;
+                alert('本地资源不完整！请检查文件完整性。');
             });
         };
         download_tianshu=function(){
@@ -454,6 +497,9 @@ precontent:function (Diuse){
                         });
                     }
                 download1();
+            },function(){
+                Diuse_Button=true;
+                alert('本地资源不完整！请检查文件完整性。');
             });
         };
         download_dynamic=function(dynamic_name){
@@ -492,12 +538,40 @@ precontent:function (Diuse){
                         });
                     }
                 download1();
+            },function(){
+                Diuse_Button=true;
+                alert('本地资源不完整！请检查文件完整性。');
             });
-        }
+        };
+        RepairBug=function(){
+            lib.init.js(url,'files',function(){
+                lib.init.js(url,'version',function(){RepairBugGo();},function(){
+                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){alert('version资源修复成功！');Diuse_Button=true;},function(){alert('version资源修复成功！');Diuse_Button=true;});
+                });
+            },function(){
+                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){alert('files资源修复成功！');Diuse_Button=true;},function(){alert('files资源修复失败！');Diuse_Button=true;});
+                lib.init.js(url,'version',function(){},function(){
+                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){alert('version资源修复成功！');Diuse_Button=true;},function(){alert('version资源修复成功！');Diuse_Button=true;});
+                });
+            });
+        };
+        RepairBugGo=function(){
+            Diuse_Button=true;
+            if(confirm('本地资源文件检测无误，若有问题点击确定重新下载全部资源。')){
+                Diuse_Button=false;
+                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){},function(){});
+                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){},function(){});
+                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
+                    Diuse_Button=true;
+                    alert('下载完成，重启生效');
+                },function(){
+                    Diuse_Button=true;
+                    alert('下载失败');
+                });
+            }
+        };
 
-
-
-    	game.导入character=function(英文名,翻译名,obj,扩展包名){
+    	game.Diuse=function(英文名,翻译名,obj,扩展包名){
             var oobj=get.copy(obj);oobj.name=英文名;
             oobj.character=obj.character.character;
             oobj.skill=obj.skill.skill;oobj.translate=Object.assign({},obj.character.translate,obj.skill.translate);
@@ -521,2005 +595,564 @@ precontent:function (Diuse){
     	game.导入card=function(英文名,翻译名,obj){var oobj=get.copy(obj);oobj.list=obj.card.list;oobj.card=obj.card.card;oobj.skill=obj.skill.skill;oobj.translate=Object.assign({},obj.card.translate,obj.skill.translate);game.import('card',function(){return oobj});lib.config.all.cards.push(英文名);if(!lib.config.cards.contains(英文名))lib.config.cards.push(英文名);lib.translate[英文名+'_card_config']=翻译名;};
 		game.新增势力=function(名字,映射,渐变){var n,t;if(!名字)return;if(typeof 名字=="string"){n=名字;t=名字}else if(Array.isArray(名字)&&名字.length==2&&typeof 名字[0]=="string"){n=名字[0];t=名字[1]}else return;if(!映射||!Array.isArray(映射)||映射.length!=3)映射=[199,21,133];var y="("+映射[0]+","+映射[1]+","+映射[2];var y1=y+",1)",y2=y+")";var s=document.createElement('style');var l;l=".player .identity[data-color='diy"+n+"'],";l+="div[data-nature='diy"+n+"'],";l+="span[data-nature='diy"+n+"'] {text-shadow: black 0 0 1px,rgba"+y1+" 0 0 2px,rgba"+y1+" 0 0 5px,rgba"+y1+" 0 0 10px,rgba"+y1+" 0 0 10px}";l+="div[data-nature='diy"+n+"m'],";l+="span[data-nature='diy"+n+"m'] {text-shadow: black 0 0 1px,rgba"+y1+" 0 0 2px,rgba"+y1+" 0 0 5px,rgba"+y1+" 0 0 5px,rgba"+y1+" 0 0 5px,black 0 0 1px;}";l+="div[data-nature='diy"+n+"mm'],";l+="span[data-nature='diy"+n+"mm'] {text-shadow: black 0 0 1px,rgba"+y1+" 0 0 2px,rgba"+y1+" 0 0 2px,rgba"+y1+" 0 0 2px,rgba"+y1+" 0 0 2px,black 0 0 1px;}";s.innerHTML=l;document.head.appendChild(s);if(渐变&&Array.isArray(渐变)&&Array.isArray(渐变[0])&&渐变[0].length==3){var str="",st2=[];for(var i=0;i<渐变.length;i++){str+=",rgb("+渐变[i][0]+","+渐变[i][1]+","+渐变[i][2]+")";if(i<2)st2[i]="rgb("+渐变[i][0]+","+渐变[i][1]+","+渐变[i][2]+")";}var tenUi = document.createElement('style');tenUi.innerHTML = ".player>.camp-zone[data-camp='"+n+"']>.camp-back {background: linear-gradient(to bottom"+str+");}";tenUi.innerHTML += ".player>.camp-zone[data-camp='"+n+"']>.camp-name {text-shadow: 0 0 5px "+st2[0]+", 0 0 10px "+st2[1]+";}";document.head.appendChild(tenUi);}lib.group.add(n);lib.translate[n]= t;lib.groupnature[n]= "diy"+n;};
 
-
-game.导入character("Diuse","崩坏3",{
-    connect:true,
-    character:{
-        character:{
-			Diuse_Shangxian:["female","qun",4,["Diuse_Xianfa","Diuse_Yinyang","Diuse_Tiandi"],[]],
-            Diuse_Fuhua:["female","qun",4,["Diuse_Shanbeng","Diuse_Xirang","Diuse_Xunxin"],[]],
-            Diuse_Bachongying:["female","qun",4,["Diuse_Luoying","Diuse_Yishan","Diuse_Renfan"],[]],
-            Diuse_Kalian:["female","qun",4,["Diuse_Wange","Diuse_Sangzhong","Diuse_Zhongqu"],[]],
-            Diuse_Xier:["female","qun",4,["Diuse_Anhong","Diuse_Diewu"],[]],
-            Diuse_Buluoniya:["female","qun",4,["Diuse_Guozai","Diuse_Zhonggou","Diuse_Fuhe","Diuse_Yinmie"],[]],
-            Diuse_Shilv:["female","qun",4,["Diuse_Bingren","Diuse_Fanchen","Diuse_Zhejian"],[]],
-            Diuse_Yayi:["female","qun",4,["Diuse_Kongzhan","Diuse_Dianci","Diuse_Yvlei"],[]],
-            Diuse_Yuexia:["female","qun","1/4",['Diuse_Xueqi','Diuse_Shenshi','Diuse_Shoulie'],[]],
-            //,'kagari_zongsi'
-        },
-        translate:{
-			Diuse_Xier:"希儿",
-            Diuse_Kalian:"卡莲",
-            Diuse_Bachongying:"八重樱",
-            Diuse_Fuhua:"符华",
-            Diuse_Shangxian:"上仙",
-            Diuse_Buluoniya:"布洛妮娅",
-            Diuse_Shilv:"识律",
-            Diuse_Yayi:"芽衣",
-            Diuse_Yuexia:"月下",
-        },
-    },
-    perfectPair:{
-        Diuse_Xier:['Diuse_Buluoniya'],
-        Diuse_Kalian:['Diuse_Bachongying'],
-    },
-    characterTitle:{
-    },
-    characterReplace:{}, //切换版本
-    skill:{
-        skill:{
-            Diuse_Wuli_Yishang_Mark:{ //用于存储标记数量
-                marktext:"易",
-                mark:true,
-                intro:{
-                    content:function (storage,player,skill){
-                    return '物理易伤，受到杀的伤害+1。'
-                    },
+        game.Diuse("Diuse","崩坏3",{
+            connect:true,
+            character:{
+                character:{
+                    Diuse_Shangxian:["female","qun",4,["Diuse_Xianfa","Diuse_Yinyang","Diuse_Tiandi"],[]],
+                    Diuse_Fuhua:["female","qun",4,["Diuse_Shanbeng","Diuse_Xirang","Diuse_Xunxin"],[]],
+                    Diuse_Bachongying:["female","qun",4,["Diuse_Luoying","Diuse_Yishan","Diuse_Renfan"],[]],
+                    Diuse_Kalian:["female","qun",4,["Diuse_Wange","Diuse_Sangzhong","Diuse_Zhongqu"],[]],
+                    Diuse_Xier:["female","qun",4,["Diuse_Anhong","Diuse_Diewu"],[]],
+                    Diuse_Buluoniya:["female","qun",4,["Diuse_Guozai","Diuse_Zhonggou","Diuse_Fuhe","Diuse_Yinmie"],[]],
+                    Diuse_Shilv:["female","qun",4,["Diuse_Bingren","Diuse_Fanchen","Diuse_Zhejian"],[]],
+                    Diuse_Yayi:["female","qun",4,["Diuse_Kongzhan","Diuse_Dianci","Diuse_Yvlei"],[]],
+                    Diuse_Yuexia:["female","qun","1/4",['Diuse_Xueqi','Diuse_Shenshi','Diuse_Shoulie'],[]],
+                    //,'kagari_zongsi'
                 },
-                locked:true,
-            },
-            Diuse_Wuli_Yishang:{ //实际效果
-                trigger:{
-                    player:"damageBefore",
-                },
-                forced:true,
-                nopop:true,
-                filter:function (event,player){
-                    return event.card&&(event.card.name=='sha')
-                },
-                content:function (){
-                    trigger.num++;
+                translate:{
+                    Diuse_Xier:"希儿",
+                    Diuse_Kalian:"卡莲",
+                    Diuse_Bachongying:"八重樱",
+                    Diuse_Fuhua:"符华",
+                    Diuse_Shangxian:"上仙",
+                    Diuse_Buluoniya:"布洛妮娅",
+                    Diuse_Shilv:"识律",
+                    Diuse_Yayi:"芽衣",
+                    Diuse_Yuexia:"月下",
                 },
             },
-            Diuse_Yuansu_Yishang_Mark:{
-                marktext:"易",
-                mark:true,
-                intro:{
-                    content:function (storage,player,skill){
-                    return '元素易伤，受到属性的伤害+1。'
-                    },
-                },
-                locked:true,
+            perfectPair:{
+                Diuse_Xier:['Diuse_Buluoniya'],
+                Diuse_Kalian:['Diuse_Bachongying'],
             },
-            Diuse_Yuansu_Yishang:{
-                trigger:{
-                    player:"damageBefore",
-                },
-                forced:true,
-                nopop:true,
-                filter:function (event,player){
-                    return event.card&&(event.nature=='thunder'||event.nature=='fire'||event.nature=='ice')
-                },
-                content:function (){
-                    trigger.num++;
-                },
-            },
-            Diuse_Quanmian_Yishang_Mark:{
-                marktext:"易",
-                mark:true,
-                intro:{
-                    content:function (storage,player,skill){
-                    return '全面易伤，受到的伤害+1。'
-                    },
-                },
-                locked:true,
-            },
-            Diuse_Quanmian_Yishang_Mark:{
-                trigger:{
-                    player:"damageBefore",
-                },
-                forced:true,
-                nopop:true,
-                content:function (){
-                    trigger.num++;
+            characterTitle:{},
+            characterReplace:{}, //切换版本
+            game:{ //普通自定义函数
+                shanbeng_same:function(same,card_name,player_name){
+                    for(var i=0;i<game.players.length;i++){ //好懒啊 , 做到这里居然要调用game的player 自己弄个吧
+                        if(game.players[i].hasSkill('Diuse_Shanbeng')&&game.players[i].name==player_name){ //防止其他角色拿到技能无法使用
+                            var player=game.players[i]
+                            break;
+                        }
+                    }
+                    switch(card_name){
+                        case 'sha':{if(same==1){player.getStat().card.sha--} else if(same==2){player.addTempSkill('Shanbeng_same_2_sha','shaAfter')} else {player.addTempSkill('Shanbeng_same_3_sha','shaAfter')};break;}
+                        case 'shan':{if(same==1){player.addTempSkill('Shanbeng_same_1_shan','shaAfter')}else if(same==2){player.addTempSkill('Shanbeng_same_2_shan','shaAfter')}else{player.addTempSkill('Shanbeng_same_3_shan','shaAfter')};break;}
+                        case 'tao':{if(same==1){player.addTempSkill('Shanbeng_same_1_tao','shaAfter')}else if(same==2){player.addTempSkill('Shanbeng_same_2_tao','shaAfter')}else{player.addTempSkill('Shanbeng_same_3_tao','shaAfter')};break;}
+                        case 'jiu':{if(same==1){player.addTempSkill('Shanbeng_same_1_jiu','shaAfter')}else if(same==2){player.addTempSkill('Shanbeng_same_2_jiu','shaAfter')}else{player.addTempSkill('Shanbeng_same_3_jiu','shaAfter')};break;}
+                    }
                 },
             },
-            Diuse_Xuesha:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Xier"],
-                trigger:{
-                    source:"damageSource",
-                },
-                priority:1,
-                frequent:true,
-                forced:true,
-                content:function (card,player,num)
-                {
-                    player.draw();
-                    player.addTempSkill('Diuse_Xuesha2');
-                },
-            },
-            Diuse_Xuesha2:{
-                mod:{
-                    cardUsable:function (card,player,num)
-                    {
-                        if(card.name=='sha') return num+1;
-                    },
-                },
-            },
-            Diuse_Diewu:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Xier"],
-                enable:"phaseUse",
-                usable:1,
-                position:"he",
-                filterCard:function (card)
-                {
-                    return get.color(card)=='red';
-                },
-                selectCard:1,
-                check:function (card){
-                    return 1;
-                },
-                discard:false,
-                filterTarget:function (card,player,target)
-                {
-                    return target!=player;
-                },
-                selectTarget:1,
-                content:function (targets)
-                {
-                    game.log(window.version);
-                    targets[0].draw();
-                    player.chooseUseTarget({name:'sha'},'是否视为使用一张【杀】？',false);
-                },
-                ai:{
-                    threaten:0.5,
-                    order:8,
-                    result:{
-                        player:function (player,target){
-                            if(get.attitude(player,target)<=0) return -1;
-                            var num1=0;
-                            if(player.countCards('h',{color:'red'})) num1++;
-                            return num1;
-                        },
-                    },
-                },
-            },
-            Diuse_Anhong:{
-                juexingji:true,
-                skillAnimation:true,
-                forced:true,
-                unique:true,
-                group:['Diuse_Anhong_Juexing','Diuse_Anhong_Mopai'],
-				subSkill:{
-                    Juexing:{
-                        audio:"ext:术樱:2",
-                        audioname:["Diuse_Xier"],
-                        juexingji:true,
-                        skillAnimation:true,
-                        forced:true,
-                        unique:true,
-                        trigger:{
-                            player:"damageSource",
-                        },
-                        filter:function (event,player){
-                            return player.hp<=2;
-                        },
-                        content:function (){
-                            player.loseMaxHp();
-                            player.recover();
-                            game.log(player,'获得了技能','#g【血杀】')
-                            player.addSkill("Diuse_Xuesha");
-                            player.awakenSkill('Diuse_Anhong');
-                        },
-                        ai:{
-                            threaten:function (player,target){
-                                if(target.hp==1) return 2;
-                                return 0.5;
-                            },
-                            maixie:true,
-                            effect:{
-                                target:function (card,player,target){
-                                    if(!target.hasFriend()) return;
-                                    if(get.tag(card,'damage')==1&&target.hp==3&&!target.isTurnedOver()&&
-                                    _status.currentPhase!=target&&get.distance(_status.currentPhase,target,'absolute')<=3) return [0.5,1];
-                                },
+            skill:{
+                skill:{
+                    Diuse_Wuli_Yishang_Mark:{ //用于存储标记数量
+                        marktext:"易",
+                        mark:true,
+                        intro:{
+                            content:function (storage,player,skill){
+                            return '物理易伤，受到杀的伤害+1。'
                             },
                         },
+                        locked:true,
                     },
-                    Mopai:{
-                        audio:"ext:术樱:2",
-                        audioname:["Diuse_Xier"],
+                    Diuse_Wuli_Yishang:{ //实际效果
                         trigger:{
                             player:"damageBefore",
+                        },
+                        forced:true,
+                        nopop:true,
+                        filter:function (event,player){
+                            return event.card&&(event.card.name=='sha')
+                        },
+                        content:function (){
+                            trigger.num++;
+                        },
+                    },
+                    Diuse_Yuansu_Yishang_Mark:{
+                        marktext:"易",
+                        mark:true,
+                        intro:{
+                            content:function (storage,player,skill){
+                            return '元素易伤，受到属性的伤害+1。'
+                            },
+                        },
+                        locked:true,
+                    },
+                    Diuse_Yuansu_Yishang:{
+                        trigger:{
+                            player:"damageBefore",
+                        },
+                        forced:true,
+                        nopop:true,
+                        filter:function (event,player){
+                            return event.card&&(event.nature=='thunder'||event.nature=='fire'||event.nature=='ice')
+                        },
+                        content:function (){
+                            trigger.num++;
+                        },
+                    },
+                    Diuse_Quanmian_Yishang_Mark:{
+                        marktext:"易",
+                        mark:true,
+                        intro:{
+                            content:function (storage,player,skill){
+                            return '全面易伤，受到的伤害+1。'
+                            },
+                        },
+                        locked:true,
+                    },
+                    Diuse_Quanmian_Yishang_Mark:{
+                        trigger:{
+                            player:"damageBefore",
+                        },
+                        forced:true,
+                        nopop:true,
+                        content:function (){
+                            trigger.num++;
+                        },
+                    },
+                    Diuse_Xuesha:{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Xier"],
+                        trigger:{
+                            source:"damageSource",
                         },
                         priority:1,
                         frequent:true,
                         forced:true,
-                        nopop:true,
-                        content:function (){
-                            player.draw(); 
-                        },
-                    },
-                },
-            },
-            Diuse_Guozai:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Buluoniya"],
-                trigger:{
-                    global:"gameDrawAfter",
-                    player:"enterGame",
-                },
-                forced:true,
-                content:function (){
-                    player.gainMaxHp(player.maxHp);
-                    player.draw(player.maxHp);
-                    player.draw(player.maxHp);
-                },
-            },
-            Diuse_Zhonggou:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Buluoniya"],
-                mod:{
-                    maxHandcard:function (player,num){
-                        return num+player.hp;
-                    },
-                },
-                trigger:{
-                    player:"damageBefore",
-                },
-                forced:true,
-                content:function (card,player,target,current){
-                    'step 0'
-                    player.chooseControl('失去1点体力','减1点体力上限','取消').set('prompt','失去1点体力或减1点体力上限').set('ai',function(){
-                        var num4=0
-                        if(trigger.card!=undefined)
+                        content:function (card,player,num)
                         {
-                            if(trigger.card.name =='sha' && trigger.card.nature == 'thunder') num4=1;
-                            if(trigger.card.name =='sha' && trigger.card.nature == 'fire') num4=1;
-                            if(trigger.card.name =='sha' && trigger.card.nature == 'ice') num4=1;
-                            if(trigger.card.name =='huogong') num4=1;
-                        }
-                        
-                        if(get.attitude(player,target)>=3&&trigger.source!=player&&num4)
-                        {
-                            return '取消';
-                        } else if(player.hp==player.maxHp)  
-                        {
-                            return '失去1点体力';
-                        } else {
-                            return '减1点体力上限';
-                        }
-                    });
-                    "step 1"
-                    if(result.control=='失去1点体力'){
-                        player.loseHp();
-                        trigger.cancel();
-                    }
-                    else if(result.control=='减1点体力上限'){
-                        player.loseMaxHp(true);
-                        trigger.cancel();
-                    }
-                },
-            },
-            Diuse_Yinmie:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Buluoniya"],
-                enable:"phaseUse",
-                usable:1,
-                filterTarget:function (card,player,target)
-                {
-                    return target!=player;
-                },
-                selectTarget:1,
-                content:function (targets)
-                {
-                    if(!targets[0].isLinked()){
-                        targets[0].link(true);
-                        player.logSkill('Diuse_Fuhe');
-                    }
-                    'step 0'
-                    player.chooseControl('失去1点体力','减1点体力上限','取消').set('prompt','失去1点体力或减1点体力上限').set('ai',function(){
-                        if(player.hp==player.maxHp)
-                        {
-                            return '失去1点体力';
-                        } else {
-
-                            return '减1点体力上限';
-                        }
-                    });
-                    "step 1"
-                    if(result.control=='失去1点体力'){
-                        player.loseHp();
-                    }
-                    else{
-                        player.loseMaxHp(true);
-                    }
-                    targets[0].draw(2);
-                },
-                ai:{
-                    threaten:0.5,
-                    order:8,
-                    result:{
-                        player:function (player,target){
-                            if(get.attitude(player,target)<=0){
-                                return -1;
-                            } else {
-                                return 1;
-                            }  
-                        },
-                    },
-                },
-            },
-            Diuse_Fuhe:{
-                locked:true,
-                trigger:{
-                    player:["linkBefore","enterGame"],
-                    global:"gameDrawAfter",
-                },
-                forced:true,
-                filter:function (event,player){
-                    return player.isLinked()==(event.name=='link');
-                },
-                content:function (){
-                    if(trigger.name!='link') player.link(true);
-                    else trigger.cancel();
-                    player.addSkill('Diuse_Fuhe2');
-                    player.addSkill('Diuse_Fuhe3');
-                },
-            },
-            "Diuse_Fuhe2":{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Buluoniya"],
-                trigger:{
-                    player:"damageBefore",
-                },
-                priority:1,
-                forced:true,
-                nopop:true,
-                filter:function (event,player){
-                    return player.isLinked();
-                },
-                content:function (){
-                    trigger.num++;
-                },
-            },
-            "Diuse_Fuhe3":{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Buluoniya"],
-                trigger:{
-                    player:["gainMaxHpEnd","loseMaxHpEnd"],
-                },
-                forced:true,
-                content:function (){
-                    player.draw();
-                },
-            },
-            Diuse_Wange:{
-				group:['Diuse_Wange_Jieduan','Diuse_Wange_Jineng'],
-				subSkill:{
-					Jieduan:{
-                        audio:"ext:术樱:2",
-                        audioname:["Diuse_Kalian"],
-                        trigger:{
-                            player:"phaseBegin",
-                        },
-                        forced:true,
-                        content:function (){
-                            'step 0'
-                            player.chooseControl('出牌阶段','摸牌阶段').set('prompt','获得额外的阶段');
-                            "step 1"
-                            if(result.control=='出牌阶段'){
-                                var next=player.phaseUse();
-                                event.next.remove(next);
-                                trigger.next.push(next);
-                            }
-                            else if(result.control=='摸牌阶段'){
-                                var next=player.phaseDraw();
-                                event.next.remove(next);
-                                trigger.next.push(next);
-                            }
-                        },
-					},
-					Jineng:{
-                        audio:"ext:术樱:2",
-                        audioname:["Diuse_Kalian"],
-                        forced:true,
-                        trigger:{
-                            player:"turnOverBefore",
-                        },
-                        content:function (){
-                            'step 0'
-                            player.chooseControl('获得技能','摸牌并恢复体力').set('prompt','选择');
-                            "step 1"
-                            if(result.control=='获得技能'){
-                                player.addTempSkill('Diuse_Yayv',{player:'phaseBefore'});
-                            }
-                            else if(result.control=='摸牌并恢复体力'){
-                                player.draw(2);
-                                player.recover();
-                            }
-                        },
-					},
-				},
-            },
-            Diuse_Sangzhong:{
-                forced:true,
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Kalian"],
-                trigger:{
-                    player:["damageEnd","phaseEnd"],
-                },
-                filter:function(event,player){
-                    return _status.currentPhase!=player;
-                },
-                content:function(){
-                    'step 0'
-                    player.chooseControl('摸牌','复原武将','取消').set('prompt','请选择:摸一张牌(如果没有手牌则摸两张)复原武将').set('ai',function(){
-                        if(player.classList.contains('turnedover'))
-                        {
-                            return '复原武将';
-                        } else {
-                            return '摸牌';
-                        }
-                    });
-                    "step 1"
-                    if(result.control=='摸牌'){
-                        if(player.countCards('h')==0)
-                        {
-                            player.draw(2);
-                        } else {
                             player.draw();
-                        }
-                    }
-                    else if(result.control=='复原武将'){
-                        player.turnOver(false);
-                    }
-                },
-                ai:{
-                    effect:{
-                        target:function (card,player,target){
-                            if(get.tag(card,'damage')&&_status.currentPhase!=target){
-                                if(player.hasSkillTag('jueqing',false,target)) return [1,-1.5];
-                                return [1,0.5];
-                            }
+                            player.addTempSkill('Diuse_Xuesha2');
                         },
                     },
-                },
-            },
-            Diuse_Zhongqu:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Kalian"],
-                enable:"phaseUse",
-                usable:1,
-                position:"he",
-                selectCard:1,
-                filterCard:true,
-                filterTarget:function (card,player,target){
-                    return player!=target;
-                },
-                content:function (){
-                    "step 0"
-                    player.judge(function(card){
-                        if(card.number==1){
-                            player.draw(3);
-                            var card=target.getCards('hej').randomGet();
-                            player.gain(card,target,'giveAuto','bySelf');
-                            player.addTempSkill('Diuse_Zhongqu1',{player:'phaseBefore'});
-                        } else if(card.number>1 && card.number<=7){
-                            var card=target.getCards('hej').randomGet();
-                            player.gain(card,target,'giveAuto','bySelf');
-                            player.draw();
-                        } else if(card.number>7 && card.number<=12){
-                            player.draw(2);
-                        } else if(card.number==13){
-                            player.turnOver();
-                        }    
-                        return -1;
-                    });
-                },
-                ai:{
-                    order:9,
-                    result:{
-                        target:function (player,target){
-                            var numj=target.countCards('j');
-                            var numhe=target.countCards('he');
-                            if(numhe==0) return numj>0?6:-6;
-                            return -6-(numj+1)/numhe;
-                        },
-                    },
-                    threaten:1.1,
-                },
-            },
-            "Diuse_Zhongqu1":{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Kalian"],
-                trigger:{
-                    source:"damageBegin1",
-                },
-                filter:function (event){
-                    return event.card&&(event.card.name=='sha')&&event.notLink();
-                },
-                forced:true,
-                content:function (){
-                    trigger.num++;
-                },
-                ai:{
-                    damageBonus:true,
-                },
-            },
-            Diuse_Ying:{
-                marktext:"樱",
-                mark:true,
-                intro:{
-                    name:"落樱",
-                    content:"mark",
-                },
-                locked:true,
-            },
-            Diuse_Luoying:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Bachongying"],
-                usable:2,
-                trigger:{
-                    player:"useCardToPlayered",
-                },
-                filter:function (event,player){
-                    if(event.getParent().triggeredTargets3.length>1) return false;
-                    if(!player.isPhaseUsing()) return false;
-                    if(!['basic','trick'].contains(get.type(event.card))) return false;
-                    if(get.tag(event.card,'damage')) return true;
-                    return false;
-                },
-                content:function (){
-                    'step 0'
-                    player.chooseTarget(get.prompt('Diuse_Luoying'),function(card,player,target){
-                        return _status.event.targets.contains(target);
-                    }).set('ai',function(target){
-                        return 2-get.attitude(_status.event.player,target);
-                    }).set('targets',trigger.targets);
-                    'step 1'
-                    if(result.bool){
-                        var target=result.targets[0];
-                        event.target=target;
-                        var num7 =target.countMark('Diuse_Ying');
-                        if(num7==0)
-                        {
-                            target.addTempSkill('Diuse_Luoying_mod');
-                            player.draw();
-                        } else if (num7==1){
-                            target.addTempSkill('Diuse_Luoying_attack');
-                        }
-
-                    }
-                },
-            },
-            "Diuse_Luoying_mod":{
-                trigger:{
-                    player:"damageEnd",
-                },
-                silent:true,
-                popup:false,
-                forced:true,
-                filter:function (event,player){
-                    var num9 = player.countMark('Diuse_Ying');
-                    if (num9==0)
-                    {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                },
-                content:function (){
-                    player.addMark('Diuse_Ying',1);
-                    player.draw();
-                    player.removeSkill('Diuse_Luoying_mod');
-                },
-            },
-            "Diuse_Luoying_attack":{
-                trigger:{
-                    player:"damageBefore",
-                },
-                filter:function (event,player){
-                    var num8 = player.countMark('Diuse_Ying');
-                    if (num8==1)
-                    {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                },
-                silent:true,
-                popup:false,
-                forced:true,
-                content:function (){
-                    trigger.num++;
-                    player.removeMark('Diuse_Ying');
-                    player.removeSkill('Diuse_Luoying_attack');
-                },
-            },
-            Diuse_Yishan:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Bachongying"],
-                trigger:{
-                    player:["useCard","respond"],
-                },
-                filter:function (event,player){
-                    return event.card.name=='shan';
-                },
-                content:function (){
-                    "step 0"
-                    player.chooseTarget(get.prompt2('Diuse_Yishan'),function(card,player,target){
-                        return target!=player;
-                    }).ai=function(target){
-                        if(target.hasSkill('hongyan')) return 0;
-                        return get.damageEffect(target,_status.event.player,_status.event.player,'thunder');
-                    };
-                    "step 1"
-                    if(result.bool){
-                        event.target=result.targets[0];
-                        var num10=event.target.countMark('Diuse_Ying');
-                        if(num10==0)
-                        {
-                            event.target.addMark('Diuse_Ying',1);
-                        }else {
-                            event.target.damage(1);
-                            event.target.removeMark('Diuse_Ying',1);
-                            player.draw(player.getAttackRange());
-                        }
-                    }
-                },
-            },
-            Diuse_Renfan:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Bachongying"],
-                trigger:{
-                    player:["useCard","respond"],
-                },
-                direct:true,
-                filter:function (event,player){
-                    return event.card.name=='sha';
-                },
-                content:function (){
-                    'step 0'
-                    player.chooseTarget(get.prompt('Diuse_Renfan'),'你使用或打出杀后，你可以与一名有手牌的角色摸一张牌。若场上有凛，则凛也摸一张。',function(card,player,target){
-                        if(player==target) return false;
-                        return target.countGainableCards(player,'h')>0;
-                    }).set('ai',function(target){
-                        return 10-get.attitude(_status.event.player,target);
-                    });
-                    'step 1'
-                    if(result.bool){
-                        var target=result.targets[0];
-                        player.logSkill('Diuse_Renfan',target);
-                        player.line(target,'fire');
-                        event.draws=game.filterPlayer(function(current){
-                            if(current==target) return true;
-                            return ['Diuse_Bachonglin'].contains(current.name)||['Diuse_Bachonglin'].contains(current.name2);
-                        });
-                        player.draw();
-                    }
-                    else event.finish();
-                    'step 2'
-                    game.asyncDraw(event.draws,1);
-                    game.delay();
-                },
-            },
-            Diuse_Yayv:{
-                trigger:{
-                    player:["loseEnd","gainEnd","loseMaxHpEnd","changeHp","gainMaxHpEnd"],
-                },
-                filter:function(event,player){
-                    return player.countCards('h') != player.hp;
-				},
-                forced:true,
-                content:function (player,event){
-                        if( player.countCards('h') > player.hp )
-                        {
-                            player.chooseToDiscard(player.countCards('h') - player.hp,true);
-                        } else {
-                            player.draw(player.hp-player.countCards('h'));
-                        }
-                },
-            },
-            Diuse_Shanbeng:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Fuhua"],
-                trigger:{
-                    player:"useCardToPlayered",
-                },
-				filter:function(event,player){
-                    return event.card.name=='sha'&&!event.getParent().directHit.contains(event.target)&&player.storage.Diuse_Xunxin.length>0&&player.storage.Diuse_Xunxin;
-				},
-                content:function (){
-                    var Diuse_Shanbeng = event.target;
-                    "step 0"
-                    player.chooseCardButton('弃置一个标记',1,player.storage.Diuse_Xunxin,true);
-                    "step 1"
-                    for(var i=0;i<result.links.length;i++){
-                        player.storage.Diuse_Xunxin.remove(result.links[i]);
-                    }
-                    game.addVideo('storage',player,['Diuse_Xunxin',get.cardsInfo(player.storage.Diuse_Xunxin),'cards']);
-                    game.cardsDiscard(result.links);
-                    if (get.type(result.links[0])=='basic'){
-                        var Diuse_Basic = get.name(result.links[0]);
-                        switch (Diuse_Basic)
-                        {
-                            case 'sha': player.getStat().card.sha--;break;
-                            case 'jiu': player.addTempSkill('Diuse_Sha_Jiu','shaAfter');break;
-                            case 'tao': player.addTempSkill('Diuse_Sha_Tao','shaAfter');break;
-                            case 'shan': player.addTempSkill('Diuse_Sha_Shan','shaAfter');break;
-                            default: player.draw();
-                        }
-                    } else if (get.type(result.links[0])=='trick'){
-                        var Diuse_Trick = get.name(result.links[0]);
-                        switch (Diuse_Trick)
-                        {
-                            case 'shunshou': player.addTempSkill('Diuse_Sha_Shunshou','shaAfter');break;
-                            case 'guohe': player.addTempSkill('Diuse_Sha_Guohe','shaAfter');break;
-                            case 'wugu': player.addTempSkill('Diuse_Sha_Wugu','shaAfter');break;
-                            case 'huogong': player.addTempSkill('Diuse_Sha_Huogong','shaAfter');break;
-                            case 'taoyuan': player.addTempSkill('Diuse_Sha_Taoyuan','shaAfter');break;
-                            case 'tiesuo': player.addTempSkill('Diuse_Sha_Tiesuo','shaAfter');break;
-                            case 'wuzhong': player.addTempSkill('Diuse_Sha_Wuzhong','shaAfter');break;
-                            case 'wanjian': player.addTempSkill('Diuse_Sha_Wanjian_Nanman','shaAfter');break;
-                            case 'nanman': player.addTempSkill('Diuse_Sha_Wanjian_Nanman','shaAfter');break;
-                            case 'jiedao': player.addTempSkill('Diuse_Sha_Jiedao','shaAfter');break;
-                            case 'wuxie': player.addTempSkill('Diuse_Sha_Wuxie','shaAfter');break;
-                            case 'juedou': player.addTempSkill('Diuse_Sha_Juedou','shaAfter');break;
-                            default: player.addTempSkill('mashu','phaseUseAfter');
-                        }
-                    } else if(get.type(result.links[0])=='equip'){
-                        var Diuse_Equip = get.name(result.links[0]);
-                        if(get.subtype(result.links[0])=='equip3'){
-                            player.addTempSkill('feiying','phaseUseAfter');
-                        } else if(get.subtype(result.links[0])=='equip4'){
-                            player.addTempSkill('mashu','phaseUseAfter');
-                        } else if(get.subtype(result.links[0])=='equip5'){
-                            player.draw(2);
-                        } else {
-                            switch (Diuse_Equip)
+                    Diuse_Xuesha2:{
+                        mod:{
+                            cardUsable:function (card,player,num)
                             {
-                                case 'zhuge': player.getStat().card.sha-=999;break;
-                                case 'guding': player.addTempSkill('Diuse_Sha_Guding','shaAfter');break;
-                                case 'hanbing': player.addTempSkill('Diuse_Sha_Hanbing','shaAfter');break;
-                                case 'cixiong': player.addTempSkill('Diuse_Sha_Cixiong','shaAfter');break;
-                                case 'zhuque': player.addTempSkill('Diuse_Sha_Zhuque','shaAfter');break;
-                                case 'qinglong': player.addTempSkill('Diuse_Sha_Qinglong','shaAfter');break;
-                                case 'qinggang': player.addTempSkill('Diuse_Sha_Qinggang','shaAfter');break;
-                                case 'guanshi': player.addTempSkill('Diuse_Sha_Guanshi','shaAfter');break;
-                                case 'baiyin': player.addTempSkill('Diuse_Sha_Baiyin','shaAfter');break;
-                                case 'tengjia': player.addTempSkill('Diuse_Sha_Tengjia','shaAfter');break;
-                                case 'bagua': player.addTempSkill('Diuse_Sha_Bagua','shaAfter');break;
-                                case 'renwang': player.addTempSkill('Diuse_Sha_Renwang','shaAfter');break;
-                                default: player.draw(2);
-                            }
-                        }
-                    } else if(get.type(result.links[0])=='delay'){
-                        var Diuse_Delay = get.name(result.links[0]);
-                        switch (Diuse_Delay)
-                        {
-                            case 'shandian': player.addTempSkill('Diuse_Sha_Shandian','shaAfter');break;
-                            case 'bingliang': player.addTempSkill('Diuse_Sha_Bingliang_Lebu','shaAfter');break;
-                            case 'lebu': player.addTempSkill('Diuse_Sha_Bingliang_Lebu','shaAfter');break;
-                            default: player.addTempSkill('Diuse_Sha_Bingliang_Lebu','shaAfter');
-                        }
-                    } else {
-                        player.draw(2);
-                    }
-                },
-            },
-            Diuse_Sha_Fangtian:{
-				trigger:{source:'damageAfter'},
-                usable:1,
-                content:function(){
-                    player.chooseUseTarget({name:'sha'},'是否视为使用一张【杀】？');
-                }
-            },
-            Diuse_Sha_Bingliang_Lebu:{
-                trigger:{source:'damageBegin'},
-				forced:true,
-				popup:false,
-				content:function(){
-					trigger.player.addTempSkill('rezhixi','phaseUseAfter');
-				}
-            },
-            Diuse_Sha_Jiu:{
-				trigger:{source:'damageBegin'},
-				filter:function(event){
-					return event.card&&event.card.name=='sha'&&event.notLink();
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-					trigger.num++;
-				}
-			},
-            Diuse_Sha_Tao:{
-				trigger:{source:'damageBegin'},
-				filter:function(event){
-					return event.card&&event.card.name=='sha'&&event.notLink();
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-					player.recover();
-				}
-			},
-            Diuse_Sha_Shan:{
-                trigger:{
-                    player:"useCardToPlayered",
-                },
-                forced:true,
-				popup:false,
-                filter:function(event,player){
-                    return event.card.name=='sha'&&!event.getParent().directHit.contains(event.target);
-                },
-                logTarget:"target",
-                content:function(){
-                    var id=trigger.target.playerid;
-                    var map=trigger.getParent().customArgs;
-                    if(!map[id]) map[id]={};
-                    if(typeof map[id].shanRequired=='number'){
-                        map[id].shanRequired++;
-                    }
-                    else{
-                        map[id].shanRequired=2;
-                    }
-                },
-			},
-            Diuse_Sha_Shunshou:{
-                trigger:{source:'damageBegin'},
-				filter:function(event){
-					return event.card&&event.card.name=='sha'&&event.notLink();
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-					player.gainPlayerCard(trigger.player,true,'hej');
-				}
-            },
-            Diuse_Sha_Guohe:{
-                trigger:{source:'damageBegin'},
-				filter:function(event){
-					return event.card&&event.card.name=='sha'&&event.notLink();
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-                    player.discardPlayerCard(trigger.player,'hej',true);
-				}
-            },
-            Diuse_Sha_Wugu:{
-                trigger:{source:'damageBegin'},
-				filter:function(event){
-					return event.card&&event.card.name=='sha'&&event.notLink();
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-                    var Diuse_Sha_Wugu = player.hp
-                    'step 0'
-                    player.chooseTarget([1,Diuse_Sha_Wugu],get.prompt2('山崩'+'：选择至多'+player.hp+'名角色摸一张牌并展示')).set('ai',function(target){
-                        if(get.attitude(player,target)<=0){
-                            return -1;
-                        } else {
-                            return 1;
-                        } 
-                    });
-                    'step 1'
-                    if(result.bool)
-                    {
-                        for(var i=0;i<result.targets.length;i++){
-                            result.targets[i].draw().set('visible',true);
-                        }
-                    } 
-				}
-            },
-            Diuse_Sha_Huogong:{
-                trigger:{source:'damageBegin'},
-                forced:true,
-				popup:false,
-                content:function(){
-                    player.viewHandcards(trigger.player);
-                    'step 0'
-                    player.chooseToDiscard('he',1);
-                    'step 1'
-                    if(result.bool){
-                        trigger.player.damage('fire');
-                    }
-                    else{
-                        trigger.player.addTempSkill('huogong2');
-                    }
-                },
-            },
-            Diuse_Sha_Shandian:{
-				trigger:{source:'damageBegin'},
-				filter:function(event){
-					return event.card&&event.card.name=='sha'&&event.notLink();
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-					trigger.player.damage(3,'nosource','thunder'); 
-				}
-			},
-            Diuse_Sha_Taoyuan:{
-                trigger:{source:'damageBegin'},
-				filter:function(event){
-					return event.card&&event.card.name=='sha'&&event.notLink();
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-                    var Diuse_Sha_Taoyuan = player.hp
-                    'step 0'
-                    player.chooseTarget([1,Diuse_Sha_Taoyuan],get.prompt2('山崩'+'：选择至多'+player.hp+'名角色恢复一点体力')).set('ai',function(target){
-                        if(get.attitude(player,target)<=0){
-                            return -1;
-                        } else {
-                            return 1;
-                        } 
-                    });
-                    'step 1'
-                    if(result.bool)
-                    {
-                        for(var i=0;i<result.targets.length;i++){
-                            result.targets[i].recover();
-                        }
-                    } 
-				},
-            },
-            Diuse_Sha_Tiesuo:{
-                trigger:{source:'damageBegin'},
-				forced:true,
-				popup:false,
-				content:function(){
-                    if(trigger.player.name!='link') trigger.player.link(true);
-                    else player.draw();
-                },
-            },
-            Diuse_Sha_Wuzhong:{
-                trigger:{source:'damageBegin'},
-				forced:true,
-				popup:false,
-				content:function(){
-                    player.draw(2);
-                },
-            },
-            Diuse_Sha_Wanjian_Nanman:{
-                trigger:{source:'damageBegin'},
-				filter:function(event){
-					return event.card&&event.card.name=='sha'&&event.notLink();
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-                    var Sha_Wanjian_Nanman = player.hp
-                    'step 0'
-                    player.chooseTarget([1,Sha_Wanjian_Nanman],get.prompt2('山崩'+'：选择至多'+player.hp+'名角色弃一张牌')).set('ai',function(target){
-                        if(get.attitude(player,target)<=0){
-                            return -1;
-                        } else {
-                            return 1;
-                        } 
-                    });
-                    'step 1'
-                    if(result.bool)
-                    {
-                        for(var i=0;i<result.targets.length;i++){
-                            result.targets[i].chooseToDiscard('he',1,true);
-                        }
-                    } 
-				},
-            },
-            Diuse_Sha_Jiedao:{
-                trigger:{source:'damageBegin'},
-				forced:true,
-				popup:false,
-				content:function(){
-                    if(trigger.player.isEmpty(1)==false)
-                    {
-                        player.draw(2);
-                    }
-                },
-            },
-            Diuse_Sha_Zhuque:{
-                trigger:{source:'useCardToBefore'},
-				forced:true,
-				popup:false,
-                filter:function(event,player){
-                    if(event.card.name=='sha'&&!event.card.nature) return true;
-                    return false;
-                },
-                check:function(event,player){
-                    return false;
-                },
-				content:function(){
-                    trigger.card.nature='fire';
-                },
-            },
-            Diuse_Sha_Guding:{
-                trigger:{source:'damageBegin'},
-				forced:true,
-				popup:false,
-				content:function(){
-                    if(trigger.player.countCards('h')==0)
-                    {
-                        trigger.num++;
-                    }
-                },
-            }, 
-            Diuse_Sha_Hanbing:{
-                trigger:{source:'damageBegin'},
-				forced:true,
-				popup:false,
-                content:function(){
-					"step 0"
-					if(trigger.player.countDiscardableCards(player,'he')){
-						player.line(trigger.player);
-						player.discardPlayerCard('he',trigger.player,true);
-					}
-					"step 1"
-					if(trigger.player.countDiscardableCards(player,'he')){
-						player.line(trigger.player);
-						player.discardPlayerCard('he',trigger.player,true);
-					}
-                },
-            },
-            Diuse_Sha_Cixiong:{
-                trigger:{
-                    player:"useCardToPlayered",
-                },
-                forced:true,
-				popup:false,
-                filter:function(event,player){
-                    if(event.card.name!='sha') return false;
-					if(player.sex=='male'&&event.target.sex=='female') return true;
-					if(player.sex=='female'&&event.target.sex=='male') return true;
-					return false;
-                },
-				content:function(){
-                    "step 0"
-					trigger.target.chooseToDiscard('弃置一张手牌，或令'+get.translation(player)+'摸一张牌').set('ai',function(card){
-						var trigger=_status.event.getTrigger();
-						return -get.attitude(trigger.target,trigger.player)-get.value(card);
-					});
-					"step 1"
-					if(result.bool==false) player.draw();
-                }
-            },
-            Diuse_Sha_Zhuque:{
-				trigger:{
-					player:'useCardToPlayered',
-				},
-                forced:true,
-				popup:false,
-				content:function(){
-                    trigger.card.nature='fire';
-				},
-            },
-            Diuse_Sha_Qinggang:{
-				trigger:{
-					player:'useCardToPlayered',
-				},
-                forced:true,
-				popup:false,
-				content:function(){
-					trigger.target.addTempSkill('qinggang2');
-					trigger.target.storage.qinggang2.add(trigger.card);
-				},
-            },
-            Diuse_Sha_Qinglong:{
-				trigger:{player:'shaMiss'},
-                forced:true,
-				popup:false,
-				content:function(){
-                    player.chooseToUse(get.prompt('Shanbeng'),function(card,player,event){
-                        if(get.name(card)!='sha') return false;
-                        return lib.filter.filterCard.apply(this,arguments);
-                    },trigger.target,-1);
-				}
-            },
-            Diuse_Sha_Guanshi:{
-                trigger:{player:'shaMiss'},
-                forced:true,
-				popup:false,
-                filter:function(event,player){
-                    return event.card.name=='sha'&&!event.getParent().directHit.contains(event.target);
-                },
-				content:function(){
-                    "step 0"
-					var next=player.chooseToDiscard(get.prompt('guanshi'),2,'he',function(card){
-						return _status.event.player.getEquip('guanshi')!=card;
-					});
-					next.logSkill='guanshi_skill';
-					next.set('ai',function(card){
-						var evt=_status.event.getTrigger();
-						if(get.attitude(evt.player,evt.target)<0){
-							if(evt.baseDamage+evt.extraDamage>=Math.min(2,evt.target.hp)){
-								return 8-get.value(card)
-							}
-							return 5-get.value(card)
-						}
-						return -1;
-					});
-					"step 1"
-					if(result.bool){
-						trigger.untrigger();
-						trigger.trigger('shaHit');
-						trigger._result.bool=false;
-						trigger._result.result=null;
-					}
-				},
-            },
-            Diuse_Sha_Baiyin:{
-				trigger:{source:'damageBegin'},
-				filter:function(event){
-					return event.card&&event.card.name=='sha'&&event.notLink();
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-					trigger.num++;
-                    player.recover();
-				}
-            },
-            Diuse_Sha_Tengjia:{
-				trigger:{source:'damageBegin'},
-				filter:function(event){
-					if(event.card.name =='sha' && event.card.nature == 'fire') return true;
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-					trigger.num++;
-				}
-            },
-            Diuse_Sha_Renwang:{
-                trigger:{
-                    player:"useCardToPlayered",
-                },
-				forced:true,
-				popup:false,
-                filter:function(event,player){
-                    var Diuse_Sha_Renwang = get.color(event.card)
-                    player.storage.Shanbeng=Diuse_Sha_Renwang;
-                    return Diuse_Sha_Renwang;
-                },
-                content:function(){
-                    var Diuse_Sha_Renwang2 = player.storage.Shanbeng;
-                    if (Diuse_Sha_Renwang2=='red')
-                    {
-                        trigger.directHit.addArray(game.filterPlayer(function(current){
-                            return current!=player;
-                        }));
-                    } else {
-                        player.draw();
-                    }
-                },
-            },
-            Diuse_Sha_Wuxie:{
-                trigger:{
-                    player:"useCardToPlayered",
-                },
-				forced:true,
-				popup:false,
-                content:function(){
-                    trigger.directHit.addArray(game.filterPlayer(function(current){
-                        return current!=player;
-                    }));
-                },
-            },
-            Diuse_Sha_Juedou:{
-                trigger:{
-                    player:"useCardToPlayered",
-                },
-                forced:true,
-				popup:false,
-                filter:function(event,player){
-                    return event.card.name=='sha'&&!event.getParent().directHit.contains(event.target);
-                },
-				content:function(){
-                    player.chooseUseTarget({name:'juedou'},'是否视为使用一张【决斗】？',false);
-                }
-            },
-            Diuse_Sha_Bagua:{ 
-                trigger:{
-                    player:"useCardToPlayered",
-                },
-                forced:true,
-				popup:false,
-                filter:function(event,player){
-                    return event.card.name=='sha'&&!event.getParent().directHit.contains(event.target);
-                },
-                content:function(){
-                    "step 0"
-                    player.judge('bagua',function(card){return (get.color(card)=='red')?1.5:-0.5});
-                    "step 1"
-					if(result.judge>0){
-                        trigger.directHit.addArray(game.filterPlayer(function(current){
-                            return current!=player;
-                        }));
-					} else {
-                        player.draw();
-                    }
-                },
-            },
-            Diuse_Xirang:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Fuhua"],
-                trigger:{
-                    player:"phaseDrawBefore",
-                },
-                forced:true,
-                content:function (target,player,num)
-                {
-                    trigger.cancel();
-                    player.draw();
-                    player.draw(2,'bottom');
-                },
-            },
-            Diuse_Xunxin:{
-                marktext:"岚",
-                intro:{
-                    content:'cards',
-                    onunmark:function(storage,player){
-                        if(storage&&storage.length){
-                            player.$throw(storage,1000);
-                            game.cardsDiscard(storage);
-                            game.log(storage,'被置入了弃牌堆');
-                        storage.length=0;
-                        }
+                                if(card.name=='sha') return num+1;
+                            },
+                        },
                     },
-                },
-                group:['Diuse_Xunxin_AtkDamage','Diuse_Xunxin_Lose','Diuse_Xunxin_Chu'],
-				subSkill:{
-                    AtkDamage:{
+                    Diuse_Diewu:{
                         audio:"ext:术樱:2",
-                        audioname:["Diuse_Fuhua"],
+                        audioname:["Diuse_Xier"],
+                        enable:"phaseUse",
+                        usable:1,
+                        position:"he",
+                        filterCard:function (card)
+                        {
+                            return get.color(card)=='red';
+                        },
+                        selectCard:1,
+                        check:function (card){
+                            return 1;
+                        },
+                        discard:false,
+                        filterTarget:function (card,player,target)
+                        {
+                            return target!=player;
+                        },
+                        selectTarget:1,
+                        content:function (targets)
+                        {
+                            game.log(window.version);
+                            targets[0].draw();
+                            player.chooseUseTarget({name:'sha'},'是否视为使用一张【杀】？',false);
+                        },
+                        ai:{
+                            threaten:0.5,
+                            order:8,
+                            result:{
+                                player:function (player,target){
+                                    if(get.attitude(player,target)<=0) return -1;
+                                    var num1=0;
+                                    if(player.countCards('h',{color:'red'})) num1++;
+                                    return num1;
+                                },
+                            },
+                        },
+                    },
+                    Diuse_Anhong:{
+                        juexingji:true,
+                        skillAnimation:true,
+                        forced:true,
+                        unique:true,
+                        group:['Diuse_Anhong_Juexing','Diuse_Anhong_Mopai'],
+                        subSkill:{
+                            Juexing:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Xier"],
+                                juexingji:true,
+                                skillAnimation:true,
+                                forced:true,
+                                unique:true,
+                                trigger:{
+                                    player:"damageSource",
+                                },
+                                filter:function (event,player){
+                                    return player.hp<=2;
+                                },
+                                content:function (){
+                                    player.loseMaxHp();
+                                    player.recover();
+                                    game.log(player,'获得了技能','#g【血杀】')
+                                    player.addSkill("Diuse_Xuesha");
+                                    player.awakenSkill('Diuse_Anhong');
+                                },
+                                ai:{
+                                    threaten:function (player,target){
+                                        if(target.hp==1) return 2;
+                                        return 0.5;
+                                    },
+                                    maixie:true,
+                                    effect:{
+                                        target:function (card,player,target){
+                                            if(!target.hasFriend()) return;
+                                            if(get.tag(card,'damage')==1&&target.hp==3&&!target.isTurnedOver()&&
+                                            _status.currentPhase!=target&&get.distance(_status.currentPhase,target,'absolute')<=3) return [0.5,1];
+                                        },
+                                    },
+                                },
+                            },
+                            Mopai:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Xier"],
+                                trigger:{
+                                    player:"damageBefore",
+                                },
+                                priority:1,
+                                frequent:true,
+                                forced:true,
+                                nopop:true,
+                                content:function (){
+                                    player.draw(); 
+                                },
+                            },
+                        },
+                    },
+                    Diuse_Guozai:{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Buluoniya"],
                         trigger:{
-                            player:'damageEnd'
+                            global:"gameDrawAfter",
+                            player:"enterGame",
                         },
-                        frequent:true,
-                        locked:false,
-                        notemp:true,
-                        init:function(player){
-                            if(!player.storage.Diuse_Xunxin) player.storage.Diuse_Xunxin=[];
+                        forced:true,
+                        content:function (){
+                            player.gainMaxHp(player.maxHp);
+                            player.draw(player.maxHp);
+                            player.draw(player.maxHp);
                         },
-                        filter:function(event){
-                            return event.num>0;
+                    },
+                    Diuse_Zhonggou:{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Buluoniya"],
+                        mod:{
+                            maxHandcard:function (player,num){
+                                return num+player.hp;
+                            },
                         },
-                        content:function(){
-                            "step 0"
-                            event.xunxinNum=trigger.num;
+                        trigger:{
+                            player:"damageBefore",
+                        },
+                        forced:true,
+                        content:function (card,player,target,current){
+                            'step 0'
+                            player.chooseControl('失去1点体力','减1点体力上限','取消').set('prompt','失去1点体力或减1点体力上限').set('ai',function(){
+                                var num4=0
+                                if(trigger.card!=undefined)
+                                {
+                                    if(trigger.card.name =='sha' && trigger.card.nature == 'thunder') num4=1;
+                                    if(trigger.card.name =='sha' && trigger.card.nature == 'fire') num4=1;
+                                    if(trigger.card.name =='sha' && trigger.card.nature == 'ice') num4=1;
+                                    if(trigger.card.name =='huogong') num4=1;
+                                }
+                                
+                                if(get.attitude(player,target)>=3&&trigger.source!=player&&num4)
+                                {
+                                    return '取消';
+                                } else if(player.hp==player.maxHp)  
+                                {
+                                    return '失去1点体力';
+                                } else {
+                                    return '减1点体力上限';
+                                }
+                            });
                             "step 1"
-                            event.xunxinNum--;
-                            player.draw();
-                            "step 2"
-                            if(player.countCards('h')){
-                                player.chooseCard('将一张手牌置于武将牌上作为“岚”',true);
+                            if(result.control=='失去1点体力'){
+                                player.loseHp();
+                                trigger.cancel();
+                            }
+                            else if(result.control=='减1点体力上限'){
+                                player.loseMaxHp(true);
+                                trigger.cancel();
+                            }
+                        },
+                    },
+                    Diuse_Yinmie:{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Buluoniya"],
+                        enable:"phaseUse",
+                        usable:1,
+                        filterTarget:function (card,player,target)
+                        {
+                            return target!=player;
+                        },
+                        selectTarget:1,
+                        content:function (targets)
+                        {
+                            if(!targets[0].isLinked()){
+                                targets[0].link(true);
+                                player.logSkill('Diuse_Fuhe');
+                            }
+                            'step 0'
+                            player.chooseControl('失去1点体力','减1点体力上限','取消').set('prompt','失去1点体力或减1点体力上限').set('ai',function(){
+                                if(player.hp==player.maxHp)
+                                {
+                                    return '失去1点体力';
+                                } else {
+
+                                    return '减1点体力上限';
+                                }
+                            });
+                            "step 1"
+                            if(result.control=='失去1点体力'){
+                                player.loseHp();
                             }
                             else{
-                                event.goto(4);
+                                player.loseMaxHp(true);
                             }
-                            "step 3"
-                            if(result.cards&&result.cards.length){
-                                player.lose(result.cards,ui.special,'toStorage');
-                                player.storage.Diuse_Xunxin=player.storage.Diuse_Xunxin.concat(result.cards);
-                                player.syncStorage('Diuse_Xunxin');
-                                player.markSkill('Diuse_Xunxin');
-                                game.log(player,'将',result.cards,'置于武将牌上作为“岚”');
+                            targets[0].draw(2);
+                        },
+                        ai:{
+                            threaten:0.5,
+                            order:8,
+                            result:{
+                                player:function (player,target){
+                                    if(get.attitude(player,target)<=0){
+                                        return -1;
+                                    } else {
+                                        return 1;
+                                    }  
+                                },
+                            },
+                        },
+                    },
+                    Diuse_Fuhe:{
+                        locked:true,
+                        trigger:{
+                            player:["linkBefore","enterGame"],
+                            global:"gameDrawAfter",
+                        },
+                        forced:true,
+                        filter:function (event,player){
+                            return player.isLinked()==(event.name=='link');
+                        },
+                        content:function (){
+                            if(trigger.name!='link') player.link(true);
+                            else trigger.cancel();
+                            player.addSkill('Diuse_Fuhe2');
+                            player.addSkill('Diuse_Fuhe3');
+                        },
+                    },
+                    "Diuse_Fuhe2":{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Buluoniya"],
+                        trigger:{
+                            player:"damageBefore",
+                        },
+                        priority:1,
+                        forced:true,
+                        nopop:true,
+                        filter:function (event,player){
+                            return player.isLinked();
+                        },
+                        content:function (){
+                            trigger.num++;
+                        },
+                    },
+                    "Diuse_Fuhe3":{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Buluoniya"],
+                        trigger:{
+                            player:["gainMaxHpEnd","loseMaxHpEnd"],
+                        },
+                        forced:true,
+                        content:function (){
+                            player.draw();
+                        },
+                    },
+                    Diuse_Wange:{
+                        group:['Diuse_Wange_Jieduan','Diuse_Wange_Jineng'],
+                        subSkill:{
+                            Jieduan:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Kalian"],
+                                trigger:{
+                                    player:"phaseBegin",
+                                },
+                                forced:true,
+                                content:function (){
+                                    'step 0'
+                                    player.chooseControl('出牌阶段','摸牌阶段').set('prompt','获得额外的阶段');
+                                    "step 1"
+                                    if(result.control=='出牌阶段'){
+                                        var next=player.phaseUse();
+                                        event.next.remove(next);
+                                        trigger.next.push(next);
+                                    }
+                                    else if(result.control=='摸牌阶段'){
+                                        var next=player.phaseDraw();
+                                        event.next.remove(next);
+                                        trigger.next.push(next);
+                                    }
+                                },
+                            },
+                            Jineng:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Kalian"],
+                                forced:true,
+                                trigger:{
+                                    player:"turnOverBefore",
+                                },
+                                content:function (){
+                                    'step 0'
+                                    player.chooseControl('获得技能','摸牌并恢复体力').set('prompt','选择');
+                                    "step 1"
+                                    if(result.control=='获得技能'){
+                                        player.addTempSkill('Diuse_Yayv',{player:'phaseBefore'});
+                                    }
+                                    else if(result.control=='摸牌并恢复体力'){
+                                        player.draw(2);
+                                        player.recover();
+                                    }
+                                },
+                            },
+                        },
+                    },
+                    Diuse_Sangzhong:{
+                        forced:true,
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Kalian"],
+                        trigger:{
+                            player:["damageEnd","phaseEnd"],
+                        },
+                        filter:function(event,player){
+                            return _status.currentPhase!=player;
+                        },
+                        content:function(){
+                            'step 0'
+                            player.chooseControl('摸牌','复原武将','取消').set('prompt','请选择:摸一张牌(如果没有手牌则摸两张)复原武将').set('ai',function(){
+                                if(player.classList.contains('turnedover'))
+                                {
+                                    return '复原武将';
+                                } else {
+                                    return '摸牌';
+                                }
+                            });
+                            "step 1"
+                            if(result.control=='摸牌'){
+                                if(player.countCards('h')==0)
+                                {
+                                    player.draw(2);
+                                } else {
+                                    player.draw();
+                                }
                             }
-                            "step 4"
-                            if(event.xunxinNum>0){
-                                player.chooseBool(get.prompt2('Diuse_Xunxin')).set('frequentSkill','Diuse_Xunxin');
-                            }
-                            else event.finish();
-                            "step 5"
-                            if(result.bool){
-                                player.logSkill('Diuse_Xunxin');
-                                event.goto(1);
+                            else if(result.control=='复原武将'){
+                                player.turnOver(false);
                             }
                         },
                         ai:{
-                            maixie:true,
-                            maixie_hp:true,
-                            threaten:0.8,
                             effect:{
-                                target:function(card,player,target){
-                                    if(get.tag(card,'damage')){
-                                        if(player.hasSkillTag('jueqing',false,target)) return [1,-2];
-                                        if(!target.hasFriend()) return;
-                                        if(target.hp>=4) return [0.5,get.tag(card,'damage')*2];
-                                        if(!target.hasSkill('Diuse_Xunxin')&&target.hp>1) return [0.5,get.tag(card,'damage')*1.5];
+                                target:function (card,player,target){
+                                    if(get.tag(card,'damage')&&_status.currentPhase!=target){
+                                        if(player.hasSkillTag('jueqing',false,target)) return [1,-1.5];
+                                        return [1,0.5];
                                     }
-                                }
-                            }
-                        }
-                    },
-                    Lose:{
-                        trigger:{player:'loseAfter'},
-                        init:function(player){
-                            if(!player.storage.Diuse_Xunxin) player.storage.Diuse_Xunxin=[];
-                        },
-                        filter:function(event,player){
-                            if(event.type!='discard') return false;
-                            for(var i=0;i<event.cards2.length;i++){
-                                if(get.position(event.cards2[i])=='d'){
-                                    return true;
-                                }
-                            }
-                            return false;
-                        },
-                        direct:true,
-                        content:function(event){
-                            'step 0'
-                            var cards=[];
-                            for(var i=0;i<trigger.cards2.length;i++){
-                                if(get.position(trigger.cards2[i],true)=='d'){
-                                    game.cardsGotoSpecial(trigger.cards2[i],'toStorage');
-                                    player.storage.Diuse_Xunxin=player.storage.Diuse_Xunxin.concat(trigger.cards2[i]);
-                                    player.syncStorage('Diuse_Xunxin');
-                                    player.markSkill('Diuse_Xunxin');
-                                    game.log(player,'将',trigger.cards2[i],'置于武将牌上作为“岚”');
-                                }
-                            }
-                            'step 1'
-                            player.markSkill('Diuse_Xunxin');
-                        },
-                    },
-                    Chu:{
-                        trigger:{player:'phaseUseBefore'},
-                        direct:true,
-                        content:function(){
-                            if(player.storage.Diuse_Xunxin.length>=30)
-                            {
-                                player.draw(5);
-                                player.addTempSkill('wansha',{player:'phaseUseAfter'});
-                                player.addTempSkill('minigongxin',{player:'phaseUseAfter'});
-                                player.addTempSkill('pingjian',{player:'phaseUseAfter'});
-                                player.addTempSkill('Diuse_Yifa',{player:'phaseUseAfter'});
-                            }
-                            if(player.storage.Diuse_Xunxin.length>=20){
-                                player.draw(4);
-                                player.addTempSkill('wansha',{player:'phaseUseAfter'});
-                                player.addTempSkill('minigongxin',{player:'phaseUseAfter'});
-                            } else if(player.storage.Diuse_Xunxin.length>=15){
-                                player.draw(3);
-                                player.addTempSkill('pingjian',{player:'phaseUseAfter'});
-                            } else if(player.storage.Diuse_Xunxin.length>=10){
-                                player.draw(2);
-                                player.addTempSkill('Diuse_Yifa',{player:'phaseUseAfter'});
-                            } else if(player.storage.Diuse_Xunxin.length>=5){
-                                player.draw(2);
-                            }
-                        },
-                    },
-                },
-            },
-            Diuse_Xianfa:{
-                audio:"ext:术樱:2",
-                audioname:["shangxian"],
-                enable:"phaseUse",
-                usable:1,
-                discard:false,
-                check:function (event,player){
-                    if(ai.get.attitude(player,event.player)>=0) return true;      
-                },
-                filterTarget:function (card,player,target)
-                {
-                    return target!=player;
-                },
-                selectTarget:1,
-                content:function (targets)
-                {
-                    if(player.storage.Yinyang==true){
-                        player.draw();
-                        targets[0].draw();
-                        targets[0].addTempSkill('Diuse_Yinyang2',{player:'phaseAfter'});
-                    }else{
-                        player.draw();
-                        targets[0].draw();
-                        targets[0].addTempSkill('Diuse_Yinyang1',{player:'phaseAfter'});
-                    }
-                },
-                ai:{
-                    order:1,
-                    player:function (player){
-                        if(ai.get.attitude(player,target)>=3){
-                            return 1;
-                        } else {
-                            return 0;
-                        }            
-                    },
-                },
-            },
-            Diuse_Yinyang:{
-                audio:"ext:术樱:2",
-                audioname:["shangxian"],
-                mark:true,
-                locked:false,
-                zhuanhuanji:true,
-                marktext:"阴",
-                intro:{
-                    content:function (storage,player,skill){
-                        var str=player.storage.Yinyang?'阳：摸牌阶段，你多摸一张牌':'阴：出牌阶段限一次。多使用一张杀';
-                        return str;
-                    },
-                },
-                trigger:{
-                    player:"phaseEnd",
-                },
-                content:function (card,player,num){
-                    if(player.storage.Yinyang==true){
-                        player.storage.Yinyang=false;
-                        player.removeSkill('Diuse_Yinyang2');
-                        player.addSkill('Diuse_Yinyang1');
-                    }else{
-                        player.storage.Yinyang=true;
-                        player.removeSkill('Diuse_Yinyang1');
-                        player.addSkill('Diuse_Yinyang2');
-                    }
-                },
-                ai:{
-                    order:1,
-                    result:{
-                        target:-1,
-                    },
-                },
-            },
-            "Diuse_Yinyang1":{
-                mod:{
-                    cardUsable:function (card,player,num)
-                    {
-                        if(card.name=='sha') return num+1;
-                    },
-                },
-            },
-            "Diuse_Yinyang2":{
-                trigger:{
-                    player:"phaseDrawBegin2",
-                },
-                frequent:true,
-                filter:function(event,player){
-                    return !event.numFixed;
-                },
-                content:function(){
-                    trigger.num++;
-                },
-                ai:{
-                    threaten:1.3,
-                },
-            },
-            Diuse_Tiandi:{
-                audio:"ext:术樱:2",
-                audioname:["shangxian"],
-                unique:true,
-                enable:"chooseToUse",
-                mark:true,
-                limited:true,
-                skillAnimation:true,
-                animationStr:"天地",
-                animationColor:"fire",
-                init:function (player){
-                    player.storage.Tiandi=false;
-                },
-                filter:function (event,player){
-                    if(player.storage.Tiandi) return false;
-                    if(event.type=='dying'){
-                        if(player!=event.dying) return false;
-                        return true;
-                    }
-                    else if(event.parent.name=='phaseUse'){
-                        return true;
-                    }
-                    return false;
-                },
-                content:function (){
-                    'step 0'
-                    player.awakenSkill('Diuse_Tiandi');
-                    player.storage.Tiandi=true;
-                    player.addSkill('Diuse_Yifa');
-                    'step 1'
-                    if(player.hp<=0){
-                        player.link(false);
-                        player.turnOver(false);
-                        player.recover();
-                        player.draw(3);
-                    }
-                    'step 2'
-                    player.chooseTarget(get.prompt('Diuse_Tiandi'),'选择一名角色增加一点体力上限并摸一张牌',function(player,target){
-                        return player!=target
-                    })
-                    "step 3"
-                    if(result.bool){
-                        result.targets[0].gainMaxHp(1);
-                        result.targets[0].recover();
-                    }
-                },
-                ai:{
-                    order:0.5,
-                    skillTagFilter:function (player,tag,target){
-                        if(player!=target||player.storage.Tiandi) return false;
-                    },
-                    save:true,
-                    result:{
-                        player:function (player){
-                            if(player.hp<=0) return 10;
-                            if(player.hp<=1&&player.countCards('he')<=1) return 10;
-                            return 0;
-                        },
-                    },
-                    threaten:function (player,target){
-                        if(!target.storage.Tiandi) return 0.6;
-                    },
-                },
-                intro:{
-                    content:"limited",
-                },
-            },
-            Diuse_Yifa:{
-                audio:"ext:术樱:2",
-                audioname:["shangxian"],
-                enable:"phaseUse",
-                usable:1,
-                filter:function (target,player){
-                    return player.hp>=0;
-                },
-                content:function (){
-                    "step 0"
-                    player.chooseTarget(get.prompt('Diuse_Yifa'),'选择一名角色临时获得一个技能').set('ai',function(target){
-                        var num3 =0;
-                        if(ai.get.attitude(player,target)>=0){
-                            num3++;
-                        } else if(target==player){
-                            num3++;
-                        } 
-                        return num3;
-                        
-                    });
-                    "step 1"
-                    if(result.bool){
-                        var target=result.targets[0];  
-                        if(target==player)
-                        {
-                            var num=[1,2,3,4,5,6,7,8,9,10,11,14,15,19,20,21].randomGet();
-                            switch(num)
-                            {
-                                case 1:target.addTempSkill('Diuse_Xuesha',{player:'phaseUseAfter'});break;
-                                case 2:target.addTempSkill('Diuse_Diewu',{player:'phaseUseAfter'});break;
-                                case 3:target.addTempSkill('Diuse_Guozai',{player:'phaseUseAfter'});break;
-                                case 4:target.addTempSkill('Diuse_Zhonggou',{player:'phaseUseAfter'});break;
-                                case 5:target.addTempSkill('Diuse_Yinmie',{player:'phaseUseAfter'});break;
-                                case 6:target.addTempSkill('Diuse_Renfan',{player:'phaseUseAfter'});break;
-                                case 7:target.addTempSkill('Diuse_Wange',{player:'phaseUseAfter'});break;
-                                case 8:target.addTempSkill('Diuse_Sangzhong',{player:'phaseUseAfter'});break;
-                                case 9:target.addTempSkill('Diuse_Zhongqu',{player:'phaseUseAfter'});break;
-                                case 10:target.addTempSkill('Diuse_Luoying',{player:'phaseUseAfter'});break;
-                                case 11:target.addTempSkill('Diuse_Yishan',{player:'phaseUseAfter'});break;
-                                case 14:target.addTempSkill('Diuse_Yayv',{player:'phaseUseAfter'});break;
-                                case 15:target.addTempSkill('Diuse_Cunjin',{player:'phaseUseAfter'});break;
-
-                                case 19:target.addTempSkill('Diuse_Bingren',{player:'phaseUseAfter'});break;
-                                case 20:target.addTempSkill('Diuse_Fanchen',{player:'phaseUseAfter'});break;
-                                case 21:target.addTempSkill('Diuse_Zhejian',{player:'phaseUseAfter'});break;
-                                default: return 0;
-                            }
-                        }else{
-                            var num=[1,2,3,4,5,6,7,8,9,10,11,12,14,15,19,20,21,22,23,24].randomGet();
-                            player.draw(2);
-                            switch(num)
-                            {
-                                case 1:target.addTempSkill('Diuse_Xuesha',{player:'phaseUseAfter'});break;
-                                case 2:target.addTempSkill('Diuse_Diewu',{player:'phaseUseAfter'});break;
-                                case 3:target.addTempSkill('Diuse_Guozai',{player:'phaseUseAfter'});break;
-                                case 4:target.addTempSkill('Diuse_Zhonggou',{player:'phaseUseAfter'});break;
-                                case 5:target.addTempSkill('Diuse_Yinmie',{player:'phaseUseAfter'});break;
-                                case 6:target.addTempSkill('Diuse_Renfan',{player:'phaseUseAfter'});break;
-                                case 7:target.addTempSkill('Diuse_Wange',{player:'phaseUseAfter'});break;
-                                case 8:target.addTempSkill('Diuse_Sangzhong',{player:'phaseUseAfter'});break;
-                                case 9:target.addTempSkill('Diuse_Zhongqu',{player:'phaseUseAfter'});break;
-                                case 10:target.addTempSkill('Diuse_Luoying',{player:'phaseUseAfter'});break;
-                                case 11:target.addTempSkill('Diuse_Yishan',{player:'phaseUseAfter'});break;
-                                case 12:target.addTempSkill('Diuse_Xirang',{player:'phaseUseAfter'});break;
-                                case 14:target.addTempSkill('Diuse_Yayv',{player:'phaseUseAfter'});break;
-                                case 15:target.addTempSkill('Diuse_Cunjin',{player:'phaseUseAfter'});break;
-                                case 19:target.addTempSkill('Diuse_Xianfa',{player:'phaseUseAfter'});break;
-                                case 20:target.addTempSkill('Diuse_Yinyang',{player:'phaseUseAfter'});break;
-                                case 21:target.addTempSkill('Diuse_Yifa',{player:'phaseUseAfter'});break;
-                                case 22:target.addTempSkill('Diuse_Bingren',{player:'phaseUseAfter'});break;
-                                case 23:target.addTempSkill('Diuse_Fanchen',{player:'phaseUseAfter'});break;
-                                case 24:target.addTempSkill('Diuse_Zhejian',{player:'phaseUseAfter'});break;
-                                default: return 0;
-                            }
-                        }
-                    }
-                },
-                ai:{
-                    order:10,
-                    threaten:0.5,
-                    result:{
-                        player:1,
-                    },
-                },
-            },
-            Diuse_Bingren:{
-                forced:true,
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Shilv"],
-                trigger:{
-                    player:"equipAfter",
-                },
-                filter:function (event,player){
-                    return get.subtype(event.card)=='equip1';
-                },
-                content:function (){
-                    var Br1=player.getAttackRange();
-                    player.removeSkill('Diuse_Yi');
-                    player.removeSkill('Diuse_Er');
-                    player.removeSkill('Diuse_San');
-                    player.removeSkill('Diuse_Si');
-                    player.removeSkill('Diuse_Wu');
-                    if (Br1==1){
-                        player.draw();
-                    } else {
-                        player.draw(parseInt(Br1/2));
-                    }
-                    switch(Br1)
-                    {
-                        case 1:player.addSkill('Diuse_Yi');break;
-                        case 2:player.addSkill('Diuse_Er');break;
-                        case 3:player.addSkill('Diuse_San');break;
-                        case 4:player.addSkill('Diuse_Si');break;
-                        case 5:player.addSkill('Diuse_Wu');break;
-                        case 6:player.addSkill('Diuse_Yi');player.addSkill('Diuse_Er');player.addSkill('Diuse_San');player.addSkill('Diuse_Si');player.addSkill('Diuse_Wu');break;
-                        default: return 0;
-                    }
-                },
-            },
-            Diuse_Yi:{
-                group:['Diuse_Yi_Use1','Diuse_Yi_Draw1'],
-                subSkill:{
-                    Use1:{
-                        marktext:"一",
-                        mark:true,
-                        intro:{
-                            content:function (storage,player,skill){
-                            return '如果该值大于5,回合结束将手牌补至5张。'
+                                },
                             },
                         },
-                        locked:true,
-                        audio:"ext:术樱:4",
-                        audioname:["Diuse_Shilv"],
-                        trigger:{
-                            player:"useCardToPlayered",
-                        }, 
-                        frequent:true,
-                        filter:function(event,player){
-                            if(!event.targets) return false;
-                            if(!event.isFirstTarget) return false;
-                            return true;
-                        },
-                        content:function(){
-                            'step 0'
-                            var Diuse_Yi_Equip1 = player.getEquip(1);
-                            var next=player.chooseToDiscard('he',function(card,player){
-                                return card!=Diuse_Yi_Equip1;
-                            },get.prompt(event.name,trigger.player),'弃置一张牌后摸一张牌');
-                            'step 1'
-                            if(result.bool) 
-                            {
-                                player.draw();
-                                player.addMark('Diuse_Yi_Use1',1);
-                            }
-                        },
                     },
-                    Draw1:{
+                    Diuse_Zhongqu:{
                         audio:"ext:术樱:2",
-                        audioname:["Diuse_Shilv"],
+                        audioname:["Diuse_Kalian"],
+                        enable:"phaseUse",
+                        usable:1,
+                        position:"he",
+                        selectCard:1,
+                        filterCard:true,
+                        filterTarget:function (card,player,target){
+                            return player!=target;
+                        },
+                        content:function (){
+                            "step 0"
+                            player.judge(function(card){
+                                if(card.number==1){
+                                    player.draw(3);
+                                    var card=target.getCards('hej').randomGet();
+                                    player.gain(card,target,'giveAuto','bySelf');
+                                    player.addTempSkill('Diuse_Zhongqu1',{player:'phaseBefore'});
+                                } else if(card.number>1 && card.number<=7){
+                                    var card=target.getCards('hej').randomGet();
+                                    player.gain(card,target,'giveAuto','bySelf');
+                                    player.draw();
+                                } else if(card.number>7 && card.number<=12){
+                                    player.draw(2);
+                                } else if(card.number==13){
+                                    player.turnOver();
+                                }    
+                                return -1;
+                            });
+                        },
+                        ai:{
+                            order:9,
+                            result:{
+                                target:function (player,target){
+                                    var numj=target.countCards('j');
+                                    var numhe=target.countCards('he');
+                                    if(numhe==0) return numj>0?6:-6;
+                                    return -6-(numj+1)/numhe;
+                                },
+                            },
+                            threaten:1.1,
+                        },
+                    },
+                    "Diuse_Zhongqu1":{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Kalian"],
                         trigger:{
-                            player:"phaseAfter",
+                            source:"damageBegin1",
                         },
-                        frequent:true,
-                        filter:function (event,player){
-                            var Diuse_Draw1=event.player.countMark('Diuse_Yi_Use1')
-                            if(Diuse_Draw1>=1) return true;
-                        },  
-                        content:function(){
-                            var Disue_Draw2=player.countMark('Diuse_Yi_Use1')
-                            if (Disue_Draw2>=5)
-                            {
-                                player.draw(player.maxHp-player.countCards('h'));
-                                player.removeMark('Diuse_Yi_Use1',player.countMark('Diuse_Yi_Use1'));
-                            }   else {
-                                player.removeMark('Diuse_Yi_Use1',player.countMark('Diuse_Yi_Use1'));
-                            }
+                        filter:function (event){
+                            return event.card&&(event.card.name=='sha')&&event.notLink();
+                        },
+                        forced:true,
+                        content:function (){
+                            trigger.num++;
+                        },
+                        ai:{
+                            damageBonus:true,
                         },
                     },
-                },
-            },
-            Diuse_Er:{
-                audio:"ext:术樱:3",
-                audioname:["Diuse_Shilv"],
-                forced:true,
-                trigger:{
-                    player:"gainAfter",
-                },
-                filter:function (event,player){
-                    if(_status.currentPhase!=player) return false;
-                    return event.getParent(2).name!='Diuse_Er';
-                },
-                content:function (){
-                    player.draw();
-                },
-            },
-			Diuse_San:{
-                audio:"ext:术樱:3",
-                audioname:["Diuse_Shilv"],
-				forced:true,
-                usable:2,
-				trigger:{
-				    source:"damageSource",
-				},
-				filter:function(event,player){
-					return event.getParent(2).name!='Diuse_San';
-				},
-				content:function(){
-                    "step 0"
-                    player.chooseTarget(get.prompt('Diuse_San'),'选择一名角色受到无伤害来源的伤害').set('ai',function(target){
-                        var num3 =0;
-                        if(ai.get.attitude(player,target)>=0){
-                            num3++;
-                        } else if(target==player){
-                            num3++;
-                        } 
-                        return num3;
-                        
-                    });
-                    "step 1"
-                    if(result.bool){
-                        var target=result.targets[0];
-                        target.damage(1,'nosource'); 
-                    }
-				},
-			},
-            Diuse_Si:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Shilv"],
-                forced:true,
-                trigger:{
-                    player:"useCard2",
-                },
-                filter:function(event,player){
-                    if(event.card.name!='sha'&&get.type(event.card)!='trick') return false;
-                    var info=get.info(event.card);
-                    if(info.allowMultiple==false) return false;
-                    if(event.targets&&!info.multitarget){
-                        if(game.hasPlayer(function(current){
-                            return lib.filter.targetEnabled2(event.card,player,current);
-                        })){
-                            return true;
-                        }
-                    }
-                    return false;
-                },
-                content:function(){
-                    'step 0'
-                    var prompt2='为'+get.translation(trigger.card)+'额外指定一个目标';
-                    player.chooseTarget([1,player.storage.fumian_red],get.prompt(event.name),function(card,player,target){
-                        var player=_status.event.player;
-                        if(_status.event.targets.contains(target)) return false;
-                        return lib.filter.targetEnabled2(_status.event.card,player,target);
-                    }).set('prompt2',prompt2).set('ai',function(target){
-                        var trigger=_status.event.getTrigger();
-                        var player=_status.event.player;
-                        return get.effect(target,trigger.card,player,player);
-                    }).set('targets',trigger.targets).set('card',trigger.card);
-                    'step 1'
-                    if(result.bool){
-                        if(!_status.connectMode&&!event.isMine()) game.delayx();
-                        event.targets=result.targets;
-                    }
-                    else{
-                        var Wu1= player.maxHp;
-                        var Wu2 = Wu1-player.hp;
-                        if(Wu2==0)
-                        {
-                            player.draw();
-                        }else{
-                            player.draw(Wu2);
-                        }
-                        event.finish();
-                    }
-                    'step 2'
-                    if(event.targets){
-                        player.logSkill(event.name,event.targets);
-                        trigger.targets.addArray(event.targets);
-                    }
-                },
-            },
-            Diuse_Wu:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Shilv"],
-                usable:1,
-                trigger:{
-                    player:"useCardToPlayered",
-                },
-                filter:function (event,player){
-                    if(event.getParent().triggeredTargets3.length>1) return false;
-                    if(!player.isPhaseUsing()) return false;
-                    if(!['basic','trick'].contains(get.type(event.card))) return false;
-                    if(get.tag(event.card,'damage')) return true;
-                    return false;
-                },
-                content:function (){
-                    'step 0'
-                    player.chooseTarget(get.prompt('Diuse_Wu'),function(card,player,target){
-                        return _status.event.targets.contains(target);
-                    }).set('ai',function(target){
-                        return 2-get.attitude(_status.event.player,target);
-                    }).set('targets',trigger.targets);
-                    'step 1'
-                    if(result.bool){
-                        var target=result.targets[0];
-                        event.target=target;
-                        player.draw(target.hp);
-                    }
-                },
-            },
-            Diuse_Fanchen:{
-                audio:"ext:术樱:3",
-                audioname:["Diuse_Shilv"],
-                usable:1,
-                trigger:{
-                    player:"damageEnd",
-                },
-                filter:function(event,player){
-                    return _status.currentPhase!=player;
-                },
-                forced:true,
-                content:function(event,player){
-                    "step 0"
-                    player.chooseControl('恢复一点体力','体力变为1','取消').set('prompt','恢复一点体力或体力变为1').set('ai',function(){
-                        if(player.countCards('h','shan')>=1)
-                        {
-                            return '体力变为1';
-                        } else {
-
-                            return '恢复一点体力';
-                        }
-                    });
-                    "step 1"
-                    if(result.control=='恢复一点体力'){
-                        player.recover();
-                    } else {
-                        var Fan1 = player.hp-1;
-                        player.addMark('Diuse_Wuli_Yishang_Mark',Fan1);
-                        player.addTempSkill('Diuse_Wuli_Yishang');
-                        player.loseHp(Fan1);
-                        player.addSkill('Diuse_Fanchen1');
-                    }
-                },
-                ai:{
-                    effect:{
-                        target:function (card,player,target){
-                            if(get.tag(card,'damage')&&_status.currentPhase!=target){
-                                if(player.hasSkillTag('jueqing',false,target)) return [1,-1.5];
-                                return [1,0.5];
-                            }
-                        },
-                    },
-                },
-            },
-            Diuse_Fanchen1:{
-                audio:"ext:术樱:3",
-                audioname:["Diuse_Shilv"],
-                trigger:{
-                    global:"phaseJieshuAfter",
-                },
-                silent:true,
-                forced:true,
-                popup:false,
-                content:function(){
-                    if(player.storage.Diuse_Wuli_Yishang_Mark){
-                        trigger.player.logSkill('Diuse_Fanchen1');
-                        trigger.player.line(player);
-                        var Fan2 = player.countMark('Diuse_Wuli_Yishang_Mark')
-                        player.recover(Fan2);
-                        player.draw(Fan2);
-                        player.removeMark('Diuse_Wuli_Yishang_Mark',Fan2);
-                    }
-                    player.removeSkill('Diuse_Fanchen1');
-                },
-            },
-            Diuse_Zhejian:{
-                mod:{
-                    canBeDiscarded:function (card){
-                        if(get.position(card)=='e'&&['equip1'].contains(get.subtype(card))) return false;
-                    },
-                    canBeGained:function (card){
-                        if(get.position(card)=='e'&&['equip1'].contains(get.subtype(card))) return false;
-                    },                
-                },
-            },
-            Diuse_Kongzhan:{
-                audio:"ext:术樱:2",
-                audioname:["Diuse_Yayi"],
-                trigger:{
-                    player:"shaBegin",
-                },
-                usable:1,
-                content:function (){
-                    'step 0'
-                    player.chooseTarget(get.prompt('Diuse_Kongzhan'),function(card,player,target){
-                        return _status.event.targets.contains(target);
-                    }).set('ai',function(target){
-                        return 2-get.attitude(_status.event.player,target);
-                    }).set('targets',trigger.targets);
-                    'step 1'
-                    if(result.bool){
-                        var target=result.targets[0];
-                        event.target=target;
-                        target.damage();
-                        target.addTempSkill('Diuse_Kongzhan1');
-                        target.addTempSkill('Diuse_Kongzhan2');
-                    }
-                },
-            },
-            Diuse_Kongzhan1:{
-                trigger:{
-                    player:["useCard","respond"],
-                },
-                usable:1,
-                silent:true,
-                popup:false,
-                forced:true,
-                filter:function(event,player){
-                    return event.card.name=='shan';
-                },
-                content:function(){
-                    player.draw(2);
-                    player.removeSkill('Diuse_Kongzhan1');
-                    player.removeSkill('Diuse_Kongzhan2');
-                }
-            },
-            Diuse_Kongzhan2:{
-                trigger:{
-                    player:"damageBefore",
-                },
-                usable:1,
-                silent:true,
-                popup:false,
-                forced:true,
-                filter:function(event){
-                    return event.card&&event.card.name=='sha';
-                },
-                content:function(){
-                    trigger.source.draw(2);
-                    player.removeSkill('Diuse_Kongzhan1');
-                    player.removeSkill('Diuse_Kongzhan2');
-                },
-            },
-            Diuse_Dianci:{
-                group:['Diuse_Dianci_Mark','Diuse_Dianci_Hit'],
-				subSkill:{
-					Mark:{
-                        marktext:"磁",
+                    Diuse_Ying:{
+                        marktext:"樱",
                         mark:true,
                         intro:{
-                            content:function (storage,player,skill){
-                            return '电磁能量'
-                            },
+                            name:"落樱",
+                            content:"mark",
                         },
                         locked:true,
+                    },
+                    Diuse_Luoying:{
                         audio:"ext:术樱:2",
-                        audioname:["Diuse_Yayi"],
+                        audioname:["Diuse_Bachongying"],
+                        usable:2,
                         trigger:{
                             player:"useCardToPlayered",
                         },
-                        frequent:true,
                         filter:function (event,player){
                             if(event.getParent().triggeredTargets3.length>1) return false;
                             if(!player.isPhaseUsing()) return false;
@@ -2528,411 +1161,1568 @@ game.导入character("Diuse","崩坏3",{
                             return false;
                         },
                         content:function (){
-                            player.addMark('Diuse_Dianci_Mark',1);
-                        },
-					},
-					Hit:{
-                        trigger:{
-                            player:'useCardAfter',
-                        },
-                        filter:function(event,player){
-                            if(player.hasSkill('Diuse_DianciY')||!player.countCards('h')) return false;
-                            if(!event.targets||!event.targets.length||!event.isPhaseUsing(player)) return false;
-                            var history=player.getHistory('useCard');
-                            var index=history.indexOf(event)-1;
-                            if(index<0) return false;
-                            var evt=history[index];
-                            if(!evt||!evt.targets||!evt.targets.length||!evt.isPhaseUsing(player)) return false;
-                            for(var i=0;i<event.targets.length;i++){
-                                if(evt.targets.contains(event.targets[i])&&lib.filter.filterTarget({name:'sha'},player,event.targets[i])) return true;
+                            'step 0'
+                            player.chooseTarget(get.prompt('Diuse_Luoying'),function(card,player,target){
+                                return _status.event.targets.contains(target);
+                            }).set('ai',function(target){
+                                return 2-get.attitude(_status.event.player,target);
+                            }).set('targets',trigger.targets);
+                            'step 1'
+                            if(result.bool){
+                                var target=result.targets[0];
+                                event.target=target;
+                                var num7 =target.countMark('Diuse_Ying');
+                                if(num7==0)
+                                {
+                                    target.addTempSkill('Diuse_Luoying_mod');
+                                    player.draw();
+                                } else if (num7==1){
+                                    target.addTempSkill('Diuse_Luoying_attack');
+                                }
+
                             }
-                            return false;
+                        },
+                    },
+                    "Diuse_Luoying_mod":{
+                        trigger:{
+                            player:"damageEnd",
+                        },
+                        silent:true,
+                        popup:false,
+                        forced:true,
+                        filter:function (event,player){
+                            var num9 = player.countMark('Diuse_Ying');
+                            if (num9==0)
+                            {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        },
+                        content:function (){
+                            player.addMark('Diuse_Ying',1);
+                            player.draw();
+                            player.removeSkill('Diuse_Luoying_mod');
+                        },
+                    },
+                    "Diuse_Luoying_attack":{
+                        trigger:{
+                            player:"damageBefore",
+                        },
+                        filter:function (event,player){
+                            var num8 = player.countMark('Diuse_Ying');
+                            if (num8==1)
+                            {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        },
+                        silent:true,
+                        popup:false,
+                        forced:true,
+                        content:function (){
+                            trigger.num++;
+                            player.removeMark('Diuse_Ying');
+                            player.removeSkill('Diuse_Luoying_attack');
+                        },
+                    },
+                    Diuse_Yishan:{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Bachongying"],
+                        trigger:{
+                            player:["useCard","respond"],
+                        },
+                        filter:function (event,player){
+                            return event.card.name=='shan';
+                        },
+                        content:function (){
+                            "step 0"
+                            player.chooseTarget(get.prompt2('Diuse_Yishan'),function(card,player,target){
+                                return target!=player;
+                            }).ai=function(target){
+                                if(target.hasSkill('hongyan')) return 0;
+                                return get.damageEffect(target,_status.event.player,_status.event.player,'thunder');
+                            };
+                            "step 1"
+                            if(result.bool){
+                                event.target=result.targets[0];
+                                var num10=event.target.countMark('Diuse_Ying');
+                                if(num10==0)
+                                {
+                                    event.target.addMark('Diuse_Ying',1);
+                                }else {
+                                    event.target.damage(1);
+                                    event.target.removeMark('Diuse_Ying',1);
+                                    player.draw(player.getAttackRange());
+                                }
+                            }
+                        },
+                    },
+                    Diuse_Renfan:{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Bachongying"],
+                        trigger:{
+                            player:["useCard","respond"],
                         },
                         direct:true,
-                        content:function(){
-                            var targets=player.getLastUsed(1).targets;
-                            var next=player.chooseToUse();
-                            next.set('targets',game.filterPlayer(function(current){
-                                return targets.contains(current)&&trigger.targets.contains(current);
-                            }));
-                            next.set('openskilldialog',get.prompt2('Diuse_Dianci'));
-                            next.set('norestore',true);
-                            next.set('_backupevent','Diuse_DianciX');
-                            next.set('custom',{
-                                add:{},
-                                replace:{window:function(){}}
-                            });
-                            next.backup('Diuse_DianciX');
-                            player.addMark('Diuse_Dianci_Mark',1);
+                        filter:function (event,player){
+                            return event.card.name=='sha';
                         },
-                    }, 
-                },
-            },
-            Diuse_DianciX:{
-				filterCard:function(card){
-					return get.itemtype(card)=='card';
-				},
-				position:"h",
-				viewAs:{
-					name:"sha",nature:'thunder',
-				},
-				filterTarget:function (card,player,target){
-					return _status.event.targets&&_status.event.targets.contains(target)&&lib.filter.filterTarget.apply(this,arguments);
-				},
-				prompt:"将一张牌当杀使用，该杀占用使用杀的次数。",
-				check:function (card){return 7-get.value(card)},
-                onuse:function(links,player){player.addTempSkill('Diuse_DianciY')},
-			},
-            Diuse_DianciY:{},
-            Diuse_Yvlei:{
-                group:['Diuse_Yvlei_Draw','Diuse_Yvlei_Move'],
-                subSkill:{
-                    Draw:{
-                        trigger:{player:'phaseBegin'},
-                        filter:function(event,player){
-                            var Yvlei1 = event.player.countMark('Diuse_Dianci_Mark');
-                            if(Yvlei1 >= 3) return true;
-                        },
-                        content:function(){
-                            var Diuse_Yvlei = player.countMark('Diuse_Dianci_Mark');
+                        content:function (){
                             'step 0'
-                            if (Diuse_Yvlei>=5)
-                            {
-                                var card=get.discardPile(function(card){
-                                    return card.nature=='thunder'||card.name=='sha';
-                                });
-                                if(card) {
-                                    player.gain(card,'gain2');
-                                }
-                                player.draw(2);
-                                player.addSkill('Diuse_Leidian');
-                                player.removeMark('Diuse_Dianci_Mark',5);
-                            }
-                            'step 1'
-                            if(Diuse_Yvlei>=3)
-                            {
-                                var card=get.discardPile(function(card){
-                                    return card.name=='sha';
-                                });
-                                if(card) player.gain(card,'gain2');
-                                player.removeMark('Diuse_Dianci_Mark',3);
-                                player.draw();
-                            }
-                        },
-                    },
-                    Move:{
-                        trigger:{player:'damageBegin4'},
-                        filter:function(event){
-                            return event.nature=='thunder';
-                        },
-                        forced:true,
-                        content:function(){
-                            trigger.cancel();
-                        },
-                        ai:{
-                            nofire:true,
-                            effect:{
-                                target:function(card,player,target,current){
-                                    if(get.tag(card,'thunderDamage')) return 'zerotarget';
-                                }
-                            }
-                        }
-                    },
-                },
-            },
-            Diuse_Leidian:{
-                trigger:{
-                    global:"damageBegin1",
-                },
-                filter:function(event){
-                    return event.source&&event.nature=='thunder';
-                },
-                check:function(event,player){
-                    return get.attitude(player,event.source)>0&&get.attitude(player,event.player)>0;
-                },
-                prompt:function(event){
-                    return get.translation(event.source)+'即将对'+get.translation(event.player)+'造成伤害，'+get.prompt('Diuse_Leidian');
-                },
-                logTarget:"source",
-                content:function(){
-                    trigger.source.judge().callback=lib.skill.Diuse_Leidian.callback;
-                },
-                callback:function(){
-                    var targets=game.filterPlayer(function(current){
-                        return current!=player&&current.hasSkill('Diuse_Leidian');
-                    });
-                    var evt=event.getParent(2);
-                    if(event.judgeResult.color=='black'){
-                        evt._trigger.num++;
-                    }
-                    else{
-                        player.draw(2);
-                    }
-                },
-            },
-            Diuse_Xueqi_Mark:{
-                marktext:"契",
-                mark:true,
-                intro:{
-                    content:function (storage,player,skill){
-                    return '你已经被定下契约，时刻准备贡献你的鲜血吧！'
-                    },
-                },
-                locked:true,
-            },
-            Diuse_Xueqi:{
-                group:['Diuse_Xueqi_Gamego','Diuse_Xueqi_Damage'],
-                subSkill:{
-                    Gamego:{
-                        audio:"ext:术樱:2",
-                        audioname:["Diuse_Yuexia"],
-						trigger:{global:"gameDrawAfter"},
-                        forced:true,
-                        content:function(){
-                            for(var i=0;i<game.players.length;i++){
-                                if(game.players[i]==player){
-                                    if(game.players[i].hp>1) game.players[i].loseHp(game.players[i].hp-1);
-                                    continue;
-                                }
-                                game.players[i].addMark('Diuse_Xueqi_Mark',1);
-                            }
-                        },
-                    },
-                    Damage:{
-                        audio:"ext:术樱:3",
-                        audioname:["Diuse_Yuexia"],
-                        trigger:{player:['changeHp','loseMaxHpAfter','gainMaxHpAfter']},
-                        forced:true,
-                        content:function(){
-                            if(player.countCards('h')==0){
-                                player.draw(Math.abs(trigger.num)+1);
-                            }
-                            else{
-                                player.draw(Math.abs(trigger.num));
-                            }
-                            if(player.hp>1) player.loseHp(player.hp-1);
-                        },
-                    },
-                },
-            },
-            Diuse_Shenshi:{
-                group:['Diuse_Shenshi_H','Diuse_Shenshi_Die'],
-                subSkill:{
-                    H:{
-                        mod:{
-                            maxHandcardBase:function(player,num){
-                                var Marknum=0
-                                for(var i=0;i<game.players.length;i++){
-                                    if(game.players[i].countMark('Diuse_Xueqi_Mark')) Marknum+=game.players[i].countMark('Diuse_Xueqi_Mark');
-                                }
-                                return player.maxHp+Marknum;
-                            },
-                        },
-                    },
-                    Die:{
-                        audio:"ext:术樱:2",
-                        audioname:["Diuse_Yuexia"],
-                        trigger:{player:"dyingBegin"},
-                        forced:true,
-                        filter:function(event,player){
-                            var bool=game.hasPlayer(function(current){
-                                return current!=player&&current.hasMark('Diuse_Xueqi_Mark');
-                            });
-                            if(bool) return true;
-                        },
-                        content:function(){
-                            'step 0'
-                            player.chooseTarget(get.prompt('Diuse_Xueqi'),function(card,player,target){
-                                return target!=player&&target.hasMark('Diuse_Xueqi_Mark');
+                            player.chooseTarget(get.prompt('Diuse_Renfan'),'你使用或打出杀后，你可以与一名有手牌的角色摸一张牌。若场上有凛，则凛也摸一张。',function(card,player,target){
+                                if(player==target) return false;
+                                return target.countGainableCards(player,'h')>0;
                             }).set('ai',function(target){
-                                return get.attitude(_status.event.player,target);
+                                return 10-get.attitude(_status.event.player,target);
                             });
                             'step 1'
                             if(result.bool){
-                                var Marknum = result.targets[0].countMark('Diuse_Xueqi_Mark');
-                                result.targets[0].removeMark('Diuse_Xueqi_Mark',Marknum);
-                                player.recover(Marknum);
+                                var target=result.targets[0];
+                                player.logSkill('Diuse_Renfan',target);
+                                player.line(target,'fire');
+                                event.draws=game.filterPlayer(function(current){
+                                    if(current==target) return true;
+                                    return ['Diuse_Bachonglin'].contains(current.name)||['Diuse_Bachonglin'].contains(current.name2);
+                                });
+                                player.draw();
                             }
+                            else event.finish();
+                            'step 2'
+                            game.asyncDraw(event.draws,1);
+                            game.delay();
                         },
                     },
-                },
-            },
-            Diuse_Shoulie:{
-                group:['Diuse_Shoulie_Damage','Diuse_Shoulie_Draw'],
-                subSkill:{
-                    Damage:{
-                        audio:"ext:术樱:2",
-                        audioname:["Diuse_Yuexia"],
-                        trigger:{source:'damageBefore'},
-                        forced:true,
-                        content:function(){
-                            trigger.player.addMark('Diuse_Xueqi_Mark',trigger.num);
-                            trigger.cancel();
+                    Diuse_Yayv:{
+                        trigger:{
+                            player:["loseEnd","gainEnd","loseMaxHpEnd","changeHp","gainMaxHpEnd"],
                         },
-                    },
-                    Draw:{
-                        audio:"ext:术樱:2",
-                        audioname:["Diuse_Yuexia"],
-                        trigger:{global:'phaseUseBefore'},
                         filter:function(event,player){
-                            return event.player.countMark('Diuse_Xueqi_Mark')>1;
+                            return player.countCards('h') != player.hp;
                         },
                         forced:true,
-                        content:function(){
-                            var Marknum=trigger.player.countMark('Diuse_Xueqi_Mark');
-                            trigger.player.loseHp(Marknum-1);
-                            trigger.player.removeMark('Diuse_Xueqi_Mark',Marknum-1);
-                            player.recover(Marknum-1);
+                        content:function (player,event){
+                                if( player.countCards('h') > player.hp )
+                                {
+                                    player.chooseToDiscard(player.countCards('h') - player.hp,true);
+                                } else {
+                                    player.draw(player.hp-player.countCards('h'));
+                                }
                         },
                     },
-                },
-            },
-            Vate:{
-                trigger:{
-                    target:"useCardToTargeted",
-                },
-                direct:true,
-                filter:function(event,player){
-                    return event.card.name=='sha';
-                },
-                content:function(){
-                    var playern=trigger.player;
-                    'step 0'
-                    player.chooseCardTarget({
-                        filterCard:true,
-                        selectCard:1,
-                        position:'he',
-                        filterTarget:function(card,player,target,event){
-                            return player!=target&&_status.event.targets.contains(target)&&_status.event.targets.contains(playern);
+                    Diuse_Shanbeng:{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Fuhua"],
+                        trigger:{
+                            player:"useCardToPlayered",
                         },
-                        ai1:function(card){
-                            if(card.name=='du') return 20;
-                            if(_status.event.player.storage.drlt_xiongluan&&get.type(card)=="equip") return 15;
-                            return 6-get.value(card);
+                        filter:function(event,player){
+                            return event.card.name=='sha'&&!event.getParent().directHit.contains(event.target)&&player.storage.Diuse_Xunxin.length>0&&player.storage.Diuse_Xunxin;
                         },
-                        ai2:function(target){
-                            var att=get.attitude(_status.event.player,target);
-                            if(ui.selected.cards.length&&ui.selected.cards[0].name=='du'){
-                                if(target.hasSkillTag('nodu')) return 0.1;
-                                return 1-att;
+                        content:function (){
+                            'step 0'
+                            if(player.storage.Diuse_Xunxin.length==1){
+                                player.chooseControl('一').set('prompt','请选择弃置的标记数量').set('ai',function(){return '一';});
+                            } else if(player.storage.Diuse_Xunxin.length<=2){
+                                player.chooseControl('一','二').set('prompt','请选择弃置的标记数量').set('ai',function(){return '一';});
+                            } else {
+                                player.chooseControl('一','二','三').set('prompt','请选择弃置的标记数量').set('ai',function(){return '一';});
                             }
-                            return att-3;
+                            "step 1"
+                            if(result.control=='一'){
+                                player.chooseCardButton('弃置一个标记',1,player.storage.Diuse_Xunxin,true);
+                            } else if(result.control=='二'){
+                                player.chooseCardButton('弃置两个标记',2,player.storage.Diuse_Xunxin,true);
+                            } else if(result.control=='三'){
+                                player.chooseCardButton('弃置三个标记',3,player.storage.Diuse_Xunxin,true);
+                            }
+                            "step 2"
+                            if(result.links.length==3){
+                                if(result.links[result.links.length-1].name==result.links[result.links.length-2].name){ //第三个和第二个比
+                                    if(result.links[result.links.length-1].name==result.links[result.links.length-3].name){ //如果三个全部相等
+                                        game.shanbeng_same(3,result.links[result.links.length-1].name,player.name);
+                                    } else { //两个相同
+                                        game.shanbeng_same(2,result.links[result.links.length-1].name,player.name);
+                                        game.shanbeng_same(1,result.links[result.links.length-3].name,player.name);
+                                    }
+                                } else if(result.links[result.links.length-1].name==result.links[result.links.length-3].name){ //第三个和第一个比
+                                    game.shanbeng_same(2,result.links[result.links.length-1].name,player.name);
+                                    game.shanbeng_same(1,result.links[result.links.length-2].name,player.name);
+                                } else if(result.links[result.links.length-2].name==result.links[result.links.length-3].name){ //第二个和第一个比
+                                    game.shanbeng_same(2,result.links[result.links.length-2].name,player.name);
+                                    game.shanbeng_same(1,result.links[result.links.length-1].name,player.name);
+                                } else { //都不相同
+                                    game.shanbeng_same(1,result.links[result.links.length-1].name,player.name);
+                                    game.shanbeng_same(1,result.links[result.links.length-2].name,player.name);
+                                    game.shanbeng_same(1,result.links[result.links.length-3].name,player.name);
+                                }
+                            } else if(result.links.length==2){
+                                if(result.links[result.links.length-1].name==result.links[result.links.length-2].name){
+                                    game.shanbeng_same(2,result.links[result.links.length-1].name,player.name);
+                                } else {
+                                    game.shanbeng_same(1,result.links[result.links.length-1].name,player.name);
+                                    game.shanbeng_same(1,result.links[result.links.length-2].name,player.name);
+                                }
+                            } else {
+                                game.shanbeng_same(1,result.links[0].name,player.name);
+                            }
+                            for(var i=0;i<result.links.length;i++){player.storage.Diuse_Xunxin.remove(result.links[i]);}
+                            game.addVideo('storage',player,['Diuse_Xunxin',get.cardsInfo(player.storage.Diuse_Xunxin),'cards']);
+                            game.cardsDiscard(result.links);
                         },
-                        prompt:get.prompt2('drlt_congjian'),
-                        targets:trigger.targets,
-                    });
-                    'step 1'
-                    if(result.bool){
-                        event.target=result.targets[0];
-                        player.line(event.target);
-                        player.logSkill('drlt_congjian');
-                        event.target.gain(result.cards[0],player,'give');
-                        var num=1;
-                        if(get.type(result.cards[0])=='equip') num=2;
-                        player.draw(num);
-                    };
+                    },
+                    Shanbeng_same_2_sha:{
+                        trigger:{player:"useCardToPlayered",},
+                        frequent:true,
+                        content:function(){trigger.directHit.addArray(game.players);}
+                    },
+                    Shanbeng_same_3_sha:{
+                        trigger:{player:"useCardToPlayered",},
+                        frequent:true,
+                        content:function(){player.getStat().card.sha-=2;trigger.directHit.addArray(game.players);}
+                    },
+                    Shanbeng_same_1_shan:{
+                        trigger:{source:'damageAfter'},
+                        frequent:true,
+                        content:function(){player.draw();}
+                    },
+                    Shanbeng_same_2_shan:{
+                        trigger:{player:"useCardToPlayered",},
+                        forced:true,
+                        filter:function(event,player){return event.card.name=='sha'&&!event.getParent().directHit.contains(event.target);},
+                        logTarget:"target",
+                        content:function(){
+                            var id=trigger.target.playerid;
+                            var map=trigger.getParent().customArgs;
+                            if(!map[id]) map[id]={};
+                            if(typeof map[id].shanRequired=='number'){
+                                map[id].shanRequired++;
+                            }
+                            else{
+                                map[id].shanRequired=2;
+                            }
+                        },
+                    },
+                    Shanbeng_same_3_shan:{
+                        trigger:{player:"useCardToPlayered",},
+                        forced:true,
+                        filter:function(event,player){return event.card.name=='sha'&&!event.getParent().directHit.contains(event.target);},
+                        logTarget:"target",
+                        content:function(){
+                            var id=trigger.target.playerid;
+                            var map=trigger.getParent().customArgs;
+                            if(!map[id]) map[id]={};
+                            if(typeof map[id].shanRequired=='number'){
+                                map[id].shanRequired++;
+                            }
+                            else{
+                                map[id].shanRequired=2;
+                            }
+                            player.draw(2);
+                        },
+                    },
+                    Shanbeng_same_1_tao:{
+                        trigger:{source:'damageAfter'},
+                        frequent:true,
+                        content:function(){player.recover();}
+                    },
+                    Shanbeng_same_2_tao:{
+                        trigger:{source:'damageAfter'},
+                        frequent:true,
+                        content:function(){player.recover();player.draw(2);}
+                    },
+                    Shanbeng_same_3_tao:{
+                        trigger:{source:'damageAfter'},
+                        frequent:true,
+                        content:function(){player.recover(2);player.draw(3);}
+                    },
+                    Shanbeng_same_1_jiu:{
+                        trigger:{source:'damageBegin'},
+                        filter:function(event){return event.card&&event.card.name=='sha'&&event.notLink();},
+                        forced:true,
+                        popup:false,
+                        content:function(){trigger.num++;}
+                    },
+                    Shanbeng_same_2_jiu:{
+                        trigger:{source:'damageBegin'},
+                        filter:function(event){return event.card&&event.card.name=='sha'&&event.notLink();},
+                        forced:true,
+                        popup:false,
+                        content:function(){trigger.num+=2;}
+                    },
+                    Shanbeng_same_3_jiu:{
+                        trigger:{source:'damageBegin'},
+                        filter:function(event){return event.card&&event.card.name=='sha'&&event.notLink();},
+                        forced:true,
+                        popup:false,
+                        content:function(){trigger.num+=3;}
+                    },
+                    Diuse_Xirang_Mark:{
+                        group:['Diuse_Xirang_Mark_Sha','Diuse_Xirang_Mark_Shan','Diuse_Xirang_Mark_Tiao','Diuse_Xirang_Mark_Jiu'],
+                        subSkill:{
+                            Sha:{
+                                marktext:"杀",
+                                mark:true,
+                                intro:{content:function (storage,player,skill){return '在弃牌开始前使用过【杀】了，无法再通过使用【杀】来触发此技能'},},
+                                locked:true,
+                            },
+                            Shan:{
+                                marktext:"闪",
+                                mark:true,
+                                intro:{content:function (storage,player,skill){return '在弃牌开始前使用过【闪】了，无法再通过使用【闪】来触发此技能'},},
+                                locked:true,
+                            },
+                            Tiao:{
+                                marktext:"桃",
+                                mark:true,
+                                intro:{content:function (storage,player,skill){return '在弃牌开始前使用过【桃】了，无法再通过使用【桃】来触发此技能'},},
+                                locked:true,
+                            },
+                            Jiu:{
+                                marktext:"酒",
+                                mark:true,
+                                intro:{content:function (storage,player,skill){return '在弃牌开始前使用过【酒】了，无法再通过使用【酒】来触发此技能'},},
+                                locked:true,
+                            },
+                        },
+                    },
+                    Diuse_Xirang:{
+                        group:['Diuse_Xirang_draw','Diuse_Xirang_use','Diuse_Xirang_lose'],
+                        subSkill:{
+                            draw:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Fuhua"],
+                                trigger:{player:"phaseDrawBefore",},
+                                forced:true,
+                                content:function (target,player,num)
+                                {
+                                    'step 0'
+                                    trigger.cancel();
+                                    'step 1'
+                                    player.chooseControl('从牌堆顶摸两张','从牌堆底摸两张').set('prompt','请选择从何处摸两张牌').set('ai',function(){return '从牌堆顶摸两张';});
+                                    'step 2'
+                                    if(result.control=='从牌堆顶摸两张'){player.draw(2);player.draw(1,'bottom');} else {player.draw(2,'bottom');player.draw();}
+                                },
+                            },
+                            use:{
+                                trigger:{player:"useCardAfter",},
+                                filter:function(event,player){
+                                    if(event.card.name=='sha'&&player.countMark('Diuse_Xirang_Mark_Sha')>=1) return false;
+                                    if(event.card.name=='shan'&&player.countMark('Diuse_Xirang_Mark_Shan')>=1) return false;
+                                    if(event.card.name=='tao'&&player.countMark('Diuse_Xirang_Mark_Tiao')>=1) return false;
+                                    if(event.card.name=='jiu'&&player.countMark('Diuse_Xirang_Mark_Jiu')>=1) return false;
+                                    if(event.card.name=='sha'||event.card.name=='shan'||event.card.name=='tao'||event.card.name=='jiu') return true;
+                                },
+                                content:function(){
+                                    card=trigger.card.name;
+                                    player.draw();
+                                    switch(card){
+                                        case 'sha':player.addMark('Diuse_Xirang_Mark_Sha',1);break;
+                                        case 'shan':player.addMark('Diuse_Xirang_Mark_Shan',1);break;
+                                        case 'tao':player.addMark('Diuse_Xirang_Mark_Tiao',1);break;
+                                        case 'jiu':player.addMark('Diuse_Xirang_Mark_Jiu',1);break;
+                                    }
+                                },
+                            },
+                            lose:{
+                                trigger:{player:"phaseDiscardBefore"},
+                                filter:function(player){if(player.countMark('Diuse_Xirang_Mark_Sha')>=1||player.countMark('Diuse_Xirang_Mark_Shan')>=1||player.countMark('Diuse_Xirang_Mark_Tiao')>=1||player.countMark('Diuse_Xirang_Mark_Jiu')>=1) return true;},
+                                content:function(){
+                                    var mark_num=0;
+                                    if(player.countMark('Diuse_Xirang_Mark_Sha')>=1) mark_num++
+                                    if(player.countMark('Diuse_Xirang_Mark_Shan')>=1) mark_num++
+                                    if(player.countMark('Diuse_Xirang_Mark_Tiao')>=1) mark_num++
+                                    if(player.countMark('Diuse_Xirang_Mark_Jiu')>=1) mark_num++
+                                    if(player.countCards('h')<player.hp){
+                                        player.chooseToDiscard('h',mark_num+(parseInt(mark_num/2)),true);
+                                        player.draw(mark_num);
+                                        player.removeMark('Diuse_Xirang_Mark_Sha',player.countMark('Diuse_Xirang_Mark_Sha'));
+                                        player.removeMark('Diuse_Xirang_Mark_Shan',player.countMark('Diuse_Xirang_Mark_Shan'));
+                                        player.removeMark('Diuse_Xirang_Mark_Tiao',player.countMark('Diuse_Xirang_Mark_Tiao'));
+                                        player.removeMark('Diuse_Xirang_Mark_Jiu',player.countMark('Diuse_Xirang_Mark_Jiu'));
+                                    } 
+                                }
+                            },
+                        },
+                    },
+                    Diuse_Xunxin:{
+                        marktext:"岚",
+                        intro:{
+                            content:'cards',
+                            onunmark:function(storage,player){
+                                if(storage&&storage.length){
+                                    player.$throw(storage,1000);
+                                    game.cardsDiscard(storage);
+                                    game.log(storage,'被置入了弃牌堆');
+                                storage.length=0;
+                                }
+                            },
+                        },
+                        group:['Diuse_Xunxin_AtkDamage','Diuse_Xunxin_Lose'],
+                        subSkill:{
+                            AtkDamage:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Fuhua"],
+                                trigger:{
+                                    player:'damageEnd'
+                                },
+                                frequent:true,
+                                locked:false,
+                                notemp:true,
+                                init:function(player){
+                                    if(!player.storage.Diuse_Xunxin) player.storage.Diuse_Xunxin=[];
+                                },
+                                filter:function(event){
+                                    return event.num>0;
+                                },
+                                content:function(){
+                                    "step 0"
+                                    event.xunxinNum=trigger.num;
+                                    "step 1"
+                                    event.xunxinNum--;
+                                    "step 2"
+                                    if(player.countCards('h')){
+                                        player.draw();
+                                        player.chooseToDiscard('请弃置一张牌',true);
+                                    }
+                                    else{
+                                        event.goto(3);
+                                    }
+                                    "step 3"
+                                    if(event.xunxinNum>0){
+                                        player.chooseBool(get.prompt2('Diuse_Xunxin')).set('frequentSkill','Diuse_Xunxin');
+                                    }
+                                    else event.finish();
+                                    "step 4"
+                                    if(result.bool){
+                                        player.logSkill('Diuse_Xunxin');
+                                        event.goto(1);
+                                    }
+                                },
+                                ai:{
+                                    maixie:true,
+                                    maixie_hp:true,
+                                    threaten:0.8,
+                                    effect:{
+                                        target:function(card,player,target){
+                                            if(get.tag(card,'damage')){
+                                                if(player.hasSkillTag('jueqing',false,target)) return [1,-2];
+                                                if(!target.hasFriend()) return;
+                                                if(target.hp>=4) return [0.5,get.tag(card,'damage')*2];
+                                                if(!target.hasSkill('Diuse_Xunxin')&&target.hp>1) return [0.5,get.tag(card,'damage')*1.5];
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            Lose:{
+                                trigger:{player:'loseAfter'},
+                                init:function(player){
+                                    if(!player.storage.Diuse_Xunxin) player.storage.Diuse_Xunxin=[];
+                                },
+                                filter:function(event,player){
+                                    if(event.type!='discard') return false;
+                                    for(var i=0;i<event.cards2.length;i++){
+                                        if(get.position(event.cards2[i])=='d'){
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                },
+                                direct:true,
+                                content:function(event){
+                                    'step 0'
+                                    var cards=[];
+                                    for(var i=0;i<trigger.cards2.length;i++){
+                                        if(get.position(trigger.cards2[i],true)=='d'&&trigger.cards2[i].name=='sha'||trigger.cards2[i].name=='jiu'||trigger.cards2[i].name=='tao'||trigger.cards2[i].name=='shan'){
+                                            game.cardsGotoSpecial(trigger.cards2[i],'toStorage');
+                                            player.storage.Diuse_Xunxin=player.storage.Diuse_Xunxin.concat(trigger.cards2[i]);
+                                            player.syncStorage('Diuse_Xunxin');
+                                            player.markSkill('Diuse_Xunxin');
+                                            game.log(player,'将',trigger.cards2[i],'置于武将牌上作为“岚”');
+                                        }
+                                    }
+                                    'step 1'
+                                    player.markSkill('Diuse_Xunxin');
+                                },
+                            },
+                        },
+                    },
+                    Diuse_Xianfa:{
+                        audio:"ext:术樱:2",
+                        audioname:["shangxian"],
+                        enable:"phaseUse",
+                        usable:1,
+                        discard:false,
+                        check:function (event,player){
+                            if(ai.get.attitude(player,event.player)>=0) return true;      
+                        },
+                        filterTarget:function (card,player,target)
+                        {
+                            return target!=player;
+                        },
+                        selectTarget:1,
+                        content:function (targets)
+                        {
+                            if(player.storage.Yinyang==true){
+                                player.draw();
+                                targets[0].draw();
+                                targets[0].addTempSkill('Diuse_Yinyang2',{player:'phaseAfter'});
+                            }else{
+                                player.draw();
+                                targets[0].draw();
+                                targets[0].addTempSkill('Diuse_Yinyang1',{player:'phaseAfter'});
+                            }
+                        },
+                        ai:{
+                            order:1,
+                            player:function (player){
+                                if(ai.get.attitude(player,target)>=3){
+                                    return 1;
+                                } else {
+                                    return 0;
+                                }            
+                            },
+                        },
+                    },
+                    Diuse_Yinyang:{
+                        audio:"ext:术樱:2",
+                        audioname:["shangxian"],
+                        mark:true,
+                        locked:false,
+                        zhuanhuanji:true,
+                        marktext:"阴",
+                        intro:{
+                            content:function (storage,player,skill){
+                                var str=player.storage.Yinyang?'阳：摸牌阶段，你多摸一张牌':'阴：出牌阶段限一次。多使用一张杀';
+                                return str;
+                            },
+                        },
+                        trigger:{
+                            player:"phaseEnd",
+                        },
+                        content:function (card,player,num){
+                            if(player.storage.Yinyang==true){
+                                player.storage.Yinyang=false;
+                                player.removeSkill('Diuse_Yinyang2');
+                                player.addSkill('Diuse_Yinyang1');
+                            }else{
+                                player.storage.Yinyang=true;
+                                player.removeSkill('Diuse_Yinyang1');
+                                player.addSkill('Diuse_Yinyang2');
+                            }
+                        },
+                        ai:{
+                            order:1,
+                            result:{
+                                target:-1,
+                            },
+                        },
+                    },
+                    "Diuse_Yinyang1":{
+                        mod:{
+                            cardUsable:function (card,player,num)
+                            {
+                                if(card.name=='sha') return num+1;
+                            },
+                        },
+                    },
+                    "Diuse_Yinyang2":{
+                        trigger:{
+                            player:"phaseDrawBegin2",
+                        },
+                        frequent:true,
+                        filter:function(event,player){
+                            return !event.numFixed;
+                        },
+                        content:function(){
+                            trigger.num++;
+                        },
+                        ai:{
+                            threaten:1.3,
+                        },
+                    },
+                    Diuse_Tiandi:{
+                        audio:"ext:术樱:2",
+                        audioname:["shangxian"],
+                        unique:true,
+                        enable:"chooseToUse",
+                        mark:true,
+                        limited:true,
+                        skillAnimation:true,
+                        animationStr:"天地",
+                        animationColor:"fire",
+                        init:function (player){
+                            player.storage.Tiandi=false;
+                        },
+                        filter:function (event,player){
+                            if(player.storage.Tiandi) return false;
+                            if(event.type=='dying'){
+                                if(player!=event.dying) return false;
+                                return true;
+                            }
+                            else if(event.parent.name=='phaseUse'){
+                                return true;
+                            }
+                            return false;
+                        },
+                        content:function (){
+                            'step 0'
+                            player.awakenSkill('Diuse_Tiandi');
+                            player.storage.Tiandi=true;
+                            player.addSkill('Diuse_Yifa');
+                            'step 1'
+                            if(player.hp<=0){
+                                player.link(false);
+                                player.turnOver(false);
+                                player.recover();
+                                player.draw(3);
+                            }
+                            'step 2'
+                            player.chooseTarget(get.prompt('Diuse_Tiandi'),'选择一名角色增加一点体力上限并摸一张牌',function(player,target){
+                                return player!=target
+                            })
+                            "step 3"
+                            if(result.bool){
+                                result.targets[0].gainMaxHp(1);
+                                result.targets[0].recover();
+                            }
+                        },
+                        ai:{
+                            order:0.5,
+                            skillTagFilter:function (player,tag,target){
+                                if(player!=target||player.storage.Tiandi) return false;
+                            },
+                            save:true,
+                            result:{
+                                player:function (player){
+                                    if(player.hp<=0) return 10;
+                                    if(player.hp<=1&&player.countCards('he')<=1) return 10;
+                                    return 0;
+                                },
+                            },
+                            threaten:function (player,target){
+                                if(!target.storage.Tiandi) return 0.6;
+                            },
+                        },
+                        intro:{
+                            content:"limited",
+                        },
+                    },
+                    Diuse_Yifa:{
+                        audio:"ext:术樱:2",
+                        audioname:["shangxian"],
+                        enable:"phaseUse",
+                        usable:1,
+                        filter:function (target,player){
+                            return player.hp>=0;
+                        },
+                        content:function (){
+                            "step 0"
+                            player.chooseTarget(get.prompt('Diuse_Yifa'),'选择一名角色临时获得一个技能').set('ai',function(target){
+                                var num3 =0;
+                                if(ai.get.attitude(player,target)>=0){
+                                    num3++;
+                                } else if(target==player){
+                                    num3++;
+                                } 
+                                return num3;
+                                
+                            });
+                            "step 1"
+                            if(result.bool){
+                                var target=result.targets[0];  
+                                if(target==player)
+                                {
+                                    var num=[1,2,3,4,5,6,7,8,9,10,11,14,15,19,20,21].randomGet();
+                                    switch(num)
+                                    {
+                                        case 1:target.addTempSkill('Diuse_Xuesha',{player:'phaseUseAfter'});break;
+                                        case 2:target.addTempSkill('Diuse_Diewu',{player:'phaseUseAfter'});break;
+                                        case 3:target.addTempSkill('Diuse_Guozai',{player:'phaseUseAfter'});break;
+                                        case 4:target.addTempSkill('Diuse_Zhonggou',{player:'phaseUseAfter'});break;
+                                        case 5:target.addTempSkill('Diuse_Yinmie',{player:'phaseUseAfter'});break;
+                                        case 6:target.addTempSkill('Diuse_Renfan',{player:'phaseUseAfter'});break;
+                                        case 7:target.addTempSkill('Diuse_Wange',{player:'phaseUseAfter'});break;
+                                        case 8:target.addTempSkill('Diuse_Sangzhong',{player:'phaseUseAfter'});break;
+                                        case 9:target.addTempSkill('Diuse_Zhongqu',{player:'phaseUseAfter'});break;
+                                        case 10:target.addTempSkill('Diuse_Luoying',{player:'phaseUseAfter'});break;
+                                        case 11:target.addTempSkill('Diuse_Yishan',{player:'phaseUseAfter'});break;
+                                        case 14:target.addTempSkill('Diuse_Yayv',{player:'phaseUseAfter'});break;
+                                        case 15:target.addTempSkill('Diuse_Cunjin',{player:'phaseUseAfter'});break;
+
+                                        case 19:target.addTempSkill('Diuse_Bingren',{player:'phaseUseAfter'});break;
+                                        case 20:target.addTempSkill('Diuse_Fanchen',{player:'phaseUseAfter'});break;
+                                        case 21:target.addTempSkill('Diuse_Zhejian',{player:'phaseUseAfter'});break;
+                                        default: return 0;
+                                    }
+                                }else{
+                                    var num=[1,2,3,4,5,6,7,8,9,10,11,12,14,15,19,20,21,22,23,24].randomGet();
+                                    player.draw(2);
+                                    switch(num)
+                                    {
+                                        case 1:target.addTempSkill('Diuse_Xuesha',{player:'phaseUseAfter'});break;
+                                        case 2:target.addTempSkill('Diuse_Diewu',{player:'phaseUseAfter'});break;
+                                        case 3:target.addTempSkill('Diuse_Guozai',{player:'phaseUseAfter'});break;
+                                        case 4:target.addTempSkill('Diuse_Zhonggou',{player:'phaseUseAfter'});break;
+                                        case 5:target.addTempSkill('Diuse_Yinmie',{player:'phaseUseAfter'});break;
+                                        case 6:target.addTempSkill('Diuse_Renfan',{player:'phaseUseAfter'});break;
+                                        case 7:target.addTempSkill('Diuse_Wange',{player:'phaseUseAfter'});break;
+                                        case 8:target.addTempSkill('Diuse_Sangzhong',{player:'phaseUseAfter'});break;
+                                        case 9:target.addTempSkill('Diuse_Zhongqu',{player:'phaseUseAfter'});break;
+                                        case 10:target.addTempSkill('Diuse_Luoying',{player:'phaseUseAfter'});break;
+                                        case 11:target.addTempSkill('Diuse_Yishan',{player:'phaseUseAfter'});break;
+                                        case 12:target.addTempSkill('Diuse_Xirang',{player:'phaseUseAfter'});break;
+                                        case 14:target.addTempSkill('Diuse_Yayv',{player:'phaseUseAfter'});break;
+                                        case 15:target.addTempSkill('Diuse_Cunjin',{player:'phaseUseAfter'});break;
+                                        case 19:target.addTempSkill('Diuse_Xianfa',{player:'phaseUseAfter'});break;
+                                        case 20:target.addTempSkill('Diuse_Yinyang',{player:'phaseUseAfter'});break;
+                                        case 21:target.addTempSkill('Diuse_Yifa',{player:'phaseUseAfter'});break;
+                                        case 22:target.addTempSkill('Diuse_Bingren',{player:'phaseUseAfter'});break;
+                                        case 23:target.addTempSkill('Diuse_Fanchen',{player:'phaseUseAfter'});break;
+                                        case 24:target.addTempSkill('Diuse_Zhejian',{player:'phaseUseAfter'});break;
+                                        default: return 0;
+                                    }
+                                }
+                            }
+                        },
+                        ai:{
+                            order:10,
+                            threaten:0.5,
+                            result:{
+                                player:1,
+                            },
+                        },
+                    },
+                    Diuse_Bingren:{
+                        group:['Diuse_Bingren_equip','Diuse_Bingren_lose'],
+                        subSkill:{
+                            equip:{
+                                audio:"ext:崩坏3:2",
+                                audioname:["Diuse_Shilv"],
+                                trigger:{
+                                    player:"equipAfter",
+                                },
+                                filter:function (event,player){
+                                    return get.subtype(event.card)=='equip1';
+                                },
+                                forced:true,
+                                content:function (){
+                                    var Br1=player.getAttackRange();
+                                    if (Br1==1){
+                                        player.draw();
+                                    } else {
+                                        player.draw(parseInt(Br1/2));
+                                    }
+                                    switch(Br1)
+                                    {
+                                        case 1:player.addSkill('Diuse_Yi');break;
+                                        case 2:player.addSkill('Diuse_Er');break;
+                                        case 3:player.addSkill('Diuse_San');break;
+                                        case 4:player.addSkill('Diuse_Si');break;
+                                        case 5:player.addSkill('Diuse_Wu');break;
+                                        case 6:player.addSkill('Diuse_Yi');player.addSkill('Diuse_Er');player.addSkill('Diuse_San');player.addSkill('Diuse_Si');player.addSkill('Diuse_Wu');break;
+                                        default: return 0;
+                                    }
+                                },
+                            },
+                            lose:{
+                                trigger:{
+                                    player:"loseAfter",
+                                    global:["equipAfter","addJudgeAfter","gainAfter","loseAsyncAfter"],
+                                },
+                                filter:function(event,player){
+                                    if(player.hasSkill('Diuse_Yi')||player.hasSkill('Diuse_Er')||player.hasSkill('Diuse_San')||player.hasSkill('Diuse_Si')||player.hasSkill('Diuse_Wu')){
+                                        if(player.isEmpty(1)) {
+                                            return true;
+                                        }
+                                        return false;
+                                    }
+                                },
+                                forced:true,
+                                content:function(){
+                                    player.removeSkill('Diuse_Yi');
+                                    player.removeSkill('Diuse_Er');
+                                    player.removeSkill('Diuse_San');
+                                    player.removeSkill('Diuse_Si');
+                                    player.removeSkill('Diuse_Wu');
+                                },
+                            },
+                        },
+                    },
+                    Diuse_Yi:{
+                        group:['Diuse_Yi_Use1','Diuse_Yi_Draw1'],
+                        subSkill:{
+                            Use1:{
+                                marktext:"一",
+                                mark:true,
+                                intro:{
+                                    content:function (storage,player,skill){
+                                    return '如果该值大于5,回合结束将手牌补至5张。'
+                                    },
+                                },
+                                locked:true,
+                                audio:"ext:术樱:4",
+                                audioname:["Diuse_Shilv"],
+                                trigger:{
+                                    player:"useCardToPlayered",
+                                }, 
+                                frequent:true,
+                                filter:function(event,player){
+                                    if(!event.targets) return false;
+                                    if(!event.isFirstTarget) return false;
+                                    return true;
+                                },
+                                content:function(){
+                                    'step 0'
+                                    var Diuse_Yi_Equip1 = player.getEquip(1);
+                                    var next=player.chooseToDiscard('he',function(card,player){
+                                        return card!=Diuse_Yi_Equip1;
+                                    },get.prompt(event.name,trigger.player),'弃置一张牌后摸一张牌');
+                                    'step 1'
+                                    if(result.bool) 
+                                    {
+                                        player.draw();
+                                        player.addMark('Diuse_Yi_Use1',1);
+                                    }
+                                },
+                            },
+                            Draw1:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Shilv"],
+                                trigger:{
+                                    player:"phaseAfter",
+                                },
+                                frequent:true,
+                                filter:function (event,player){
+                                    var Diuse_Draw1=event.player.countMark('Diuse_Yi_Use1')
+                                    if(Diuse_Draw1>=1) return true;
+                                },  
+                                content:function(){
+                                    var Disue_Draw2=player.countMark('Diuse_Yi_Use1')
+                                    if (Disue_Draw2>=5)
+                                    {
+                                        player.draw(player.maxHp-player.countCards('h'));
+                                        player.removeMark('Diuse_Yi_Use1',player.countMark('Diuse_Yi_Use1'));
+                                    }   else {
+                                        player.removeMark('Diuse_Yi_Use1',player.countMark('Diuse_Yi_Use1'));
+                                    }
+                                },
+                            },
+                        },
+                    },
+                    Diuse_Er:{
+                        audio:"ext:术樱:3",
+                        audioname:["Diuse_Shilv"],
+                        forced:true,
+                        trigger:{
+                            player:"gainAfter",
+                        },
+                        filter:function (event,player){
+                            if(_status.currentPhase!=player) return false;
+                            return event.getParent(2).name!='Diuse_Er';
+                        },
+                        content:function (){
+                            player.draw();
+                        },
+                    },
+                    Diuse_San:{
+                        audio:"ext:术樱:3",
+                        audioname:["Diuse_Shilv"],
+                        forced:true,
+                        usable:2,
+                        trigger:{
+                            source:"damageSource",
+                        },
+                        filter:function(event,player){
+                            return event.getParent(2).name!='Diuse_San';
+                        },
+                        content:function(){
+                            "step 0"
+                            player.chooseTarget(get.prompt('Diuse_San'),'选择一名角色受到无伤害来源的伤害').set('ai',function(target){
+                                var num3 =0;
+                                if(ai.get.attitude(player,target)>=0){
+                                    num3++;
+                                } else if(target==player){
+                                    num3++;
+                                } 
+                                return num3;
+                                
+                            });
+                            "step 1"
+                            if(result.bool){
+                                var target=result.targets[0];
+                                target.damage(1,'nosource'); 
+                            }
+                        },
+                    },
+                    Diuse_Si:{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Shilv"],
+                        forced:true,
+                        trigger:{
+                            player:"useCard2",
+                        },
+                        filter:function(event,player){
+                            if(event.card.name!='sha'&&get.type(event.card)!='trick') return false;
+                            var info=get.info(event.card);
+                            if(info.allowMultiple==false) return false;
+                            if(event.targets&&!info.multitarget){
+                                if(game.hasPlayer(function(current){
+                                    return lib.filter.targetEnabled2(event.card,player,current);
+                                })){
+                                    return true;
+                                }
+                            }
+                            return false;
+                        },
+                        content:function(){
+                            'step 0'
+                            var prompt2='为'+get.translation(trigger.card)+'额外指定一个目标';
+                            player.chooseTarget([1,player.storage.fumian_red],get.prompt(event.name),function(card,player,target){
+                                var player=_status.event.player;
+                                if(_status.event.targets.contains(target)) return false;
+                                return lib.filter.targetEnabled2(_status.event.card,player,target);
+                            }).set('prompt2',prompt2).set('ai',function(target){
+                                var trigger=_status.event.getTrigger();
+                                var player=_status.event.player;
+                                return get.effect(target,trigger.card,player,player);
+                            }).set('targets',trigger.targets).set('card',trigger.card);
+                            'step 1'
+                            if(result.bool){
+                                if(!_status.connectMode&&!event.isMine()) game.delayx();
+                                event.targets=result.targets;
+                            }
+                            else{
+                                var Wu1= player.maxHp;
+                                var Wu2 = Wu1-player.hp;
+                                if(Wu2==0)
+                                {
+                                    player.draw();
+                                }else{
+                                    player.draw(Wu2);
+                                }
+                                event.finish();
+                            }
+                            'step 2'
+                            if(event.targets){
+                                player.logSkill(event.name,event.targets);
+                                trigger.targets.addArray(event.targets);
+                            }
+                        },
+                    },
+                    Diuse_Wu:{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Shilv"],
+                        usable:1,
+                        trigger:{
+                            player:"useCardToPlayered",
+                        },
+                        filter:function (event,player){
+                            if(event.getParent().triggeredTargets3.length>1) return false;
+                            if(!player.isPhaseUsing()) return false;
+                            if(!['basic','trick'].contains(get.type(event.card))) return false;
+                            if(get.tag(event.card,'damage')) return true;
+                            return false;
+                        },
+                        content:function (){
+                            'step 0'
+                            player.chooseTarget(get.prompt('Diuse_Wu'),function(card,player,target){
+                                return _status.event.targets.contains(target);
+                            }).set('ai',function(target){
+                                return 2-get.attitude(_status.event.player,target);
+                            }).set('targets',trigger.targets);
+                            'step 1'
+                            if(result.bool){
+                                var target=result.targets[0];
+                                event.target=target;
+                                player.draw(target.hp);
+                            }
+                        },
+                    },
+                    Diuse_Fanchen:{
+                        audio:"ext:术樱:3",
+                        audioname:["Diuse_Shilv"],
+                        usable:1,
+                        trigger:{
+                            player:"damageEnd",
+                        },
+                        filter:function(event,player){
+                            return _status.currentPhase!=player;
+                        },
+                        forced:true,
+                        content:function(event,player){
+                            "step 0"
+                            player.chooseControl('恢复一点体力','体力变为1','取消').set('prompt','恢复一点体力或体力变为1').set('ai',function(){
+                                if(player.countCards('h','shan')>=1)
+                                {
+                                    return '体力变为1';
+                                } else {
+
+                                    return '恢复一点体力';
+                                }
+                            });
+                            "step 1"
+                            if(result.control=='恢复一点体力'){
+                                player.recover();
+                            } else {
+                                var Fan1 = player.hp-1;
+                                player.addMark('Diuse_Wuli_Yishang_Mark',Fan1);
+                                player.addTempSkill('Diuse_Wuli_Yishang');
+                                player.loseHp(Fan1);
+                                player.addSkill('Diuse_Fanchen1');
+                            }
+                        },
+                        ai:{
+                            effect:{
+                                target:function (card,player,target){
+                                    if(get.tag(card,'damage')&&_status.currentPhase!=target){
+                                        if(player.hasSkillTag('jueqing',false,target)) return [1,-1.5];
+                                        return [1,0.5];
+                                    }
+                                },
+                            },
+                        },
+                    },
+                    Diuse_Fanchen1:{
+                        audio:"ext:术樱:3",
+                        audioname:["Diuse_Shilv"],
+                        trigger:{
+                            global:"phaseJieshuAfter",
+                        },
+                        silent:true,
+                        forced:true,
+                        popup:false,
+                        content:function(){
+                            if(player.storage.Diuse_Wuli_Yishang_Mark){
+                                trigger.player.logSkill('Diuse_Fanchen1');
+                                trigger.player.line(player);
+                                var Fan2 = player.countMark('Diuse_Wuli_Yishang_Mark')
+                                player.recover(Fan2);
+                                player.draw(Fan2);
+                                player.removeMark('Diuse_Wuli_Yishang_Mark',Fan2);
+                            }
+                            player.removeSkill('Diuse_Fanchen1');
+                        },
+                    },
+                    Diuse_Zhejian:{
+                        mod:{
+                            canBeDiscarded:function (card){
+                                if(get.position(card)=='e'&&['equip1'].contains(get.subtype(card))) return false;
+                            },
+                            canBeGained:function (card){
+                                if(get.position(card)=='e'&&['equip1'].contains(get.subtype(card))) return false;
+                            },                
+                        },
+                    },
+                    Diuse_Kongzhan:{
+                        audio:"ext:术樱:2",
+                        audioname:["Diuse_Yayi"],
+                        trigger:{
+                            player:"shaBegin",
+                        },
+                        usable:1,
+                        content:function (){
+                            'step 0'
+                            player.chooseTarget(get.prompt('Diuse_Kongzhan'),function(card,player,target){
+                                return _status.event.targets.contains(target);
+                            }).set('ai',function(target){
+                                return 2-get.attitude(_status.event.player,target);
+                            }).set('targets',trigger.targets);
+                            'step 1'
+                            if(result.bool){
+                                var target=result.targets[0];
+                                event.target=target;
+                                target.damage();
+                                target.addTempSkill('Diuse_Kongzhan1');
+                                target.addTempSkill('Diuse_Kongzhan2');
+                            }
+                        },
+                    },
+                    Diuse_Kongzhan1:{
+                        trigger:{
+                            player:["useCard","respond"],
+                        },
+                        usable:1,
+                        silent:true,
+                        popup:false,
+                        forced:true,
+                        filter:function(event,player){
+                            return event.card.name=='shan';
+                        },
+                        content:function(){
+                            player.draw(2);
+                            player.removeSkill('Diuse_Kongzhan1');
+                            player.removeSkill('Diuse_Kongzhan2');
+                        }
+                    },
+                    Diuse_Kongzhan2:{
+                        trigger:{
+                            player:"damageBefore",
+                        },
+                        usable:1,
+                        silent:true,
+                        popup:false,
+                        forced:true,
+                        filter:function(event){
+                            return event.card&&event.card.name=='sha';
+                        },
+                        content:function(){
+                            trigger.source.draw(2);
+                            player.removeSkill('Diuse_Kongzhan1');
+                            player.removeSkill('Diuse_Kongzhan2');
+                        },
+                    },
+                    Diuse_Dianci:{
+                        group:['Diuse_Dianci_Mark','Diuse_Dianci_Hit'],
+                        subSkill:{
+                            Mark:{
+                                marktext:"磁",
+                                mark:true,
+                                intro:{
+                                    content:function (storage,player,skill){
+                                    return '电磁能量'
+                                    },
+                                },
+                                locked:true,
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Yayi"],
+                                trigger:{
+                                    player:"useCardToPlayered",
+                                },
+                                frequent:true,
+                                filter:function (event,player){
+                                    if(event.getParent().triggeredTargets3.length>1) return false;
+                                    if(!player.isPhaseUsing()) return false;
+                                    if(!['basic','trick'].contains(get.type(event.card))) return false;
+                                    if(get.tag(event.card,'damage')) return true;
+                                    return false;
+                                },
+                                content:function (){
+                                    player.addMark('Diuse_Dianci_Mark',1);
+                                },
+                            },
+                            Hit:{
+                                trigger:{
+                                    player:'useCardAfter',
+                                },
+                                filter:function(event,player){
+                                    if(player.hasSkill('Diuse_DianciY')||!player.countCards('h')) return false;
+                                    if(!event.targets||!event.targets.length||!event.isPhaseUsing(player)) return false;
+                                    var history=player.getHistory('useCard');
+                                    var index=history.indexOf(event)-1;
+                                    if(index<0) return false;
+                                    var evt=history[index];
+                                    if(!evt||!evt.targets||!evt.targets.length||!evt.isPhaseUsing(player)) return false;
+                                    for(var i=0;i<event.targets.length;i++){
+                                        if(evt.targets.contains(event.targets[i])&&lib.filter.filterTarget({name:'sha'},player,event.targets[i])) return true;
+                                    }
+                                    return false;
+                                },
+                                direct:true,
+                                content:function(){
+                                    var targets=player.getLastUsed(1).targets;
+                                    var next=player.chooseToUse();
+                                    next.set('targets',game.filterPlayer(function(current){
+                                        return targets.contains(current)&&trigger.targets.contains(current);
+                                    }));
+                                    next.set('openskilldialog',get.prompt2('Diuse_Dianci'));
+                                    next.set('norestore',true);
+                                    next.set('_backupevent','Diuse_DianciX');
+                                    next.set('custom',{
+                                        add:{},
+                                        replace:{window:function(){}}
+                                    });
+                                    next.backup('Diuse_DianciX');
+                                    player.addMark('Diuse_Dianci_Mark',1);
+                                },
+                            }, 
+                        },
+                    },
+                    Diuse_DianciX:{
+                        filterCard:function(card){
+                            return get.itemtype(card)=='card';
+                        },
+                        position:"h",
+                        viewAs:{
+                            name:"sha",nature:'thunder',
+                        },
+                        filterTarget:function (card,player,target){
+                            return _status.event.targets&&_status.event.targets.contains(target)&&lib.filter.filterTarget.apply(this,arguments);
+                        },
+                        prompt:"将一张牌当杀使用，该杀占用使用杀的次数。",
+                        check:function (card){return 7-get.value(card)},
+                        onuse:function(links,player){player.addTempSkill('Diuse_DianciY')},
+                    },
+                    Diuse_DianciY:{},
+                    Diuse_Yvlei:{
+                        group:['Diuse_Yvlei_Draw','Diuse_Yvlei_Move'],
+                        subSkill:{
+                            Draw:{
+                                trigger:{player:'phaseBegin'},
+                                filter:function(event,player){
+                                    var Yvlei1 = event.player.countMark('Diuse_Dianci_Mark');
+                                    if(Yvlei1 >= 3) return true;
+                                },
+                                content:function(){
+                                    var Diuse_Yvlei = player.countMark('Diuse_Dianci_Mark');
+                                    'step 0'
+                                    if (Diuse_Yvlei>=5)
+                                    {
+                                        var card=get.discardPile(function(card){
+                                            return card.nature=='thunder'||card.name=='sha';
+                                        });
+                                        if(card) {
+                                            player.gain(card,'gain2');
+                                        }
+                                        player.draw(2);
+                                        player.addSkill('Diuse_Leidian');
+                                        player.removeMark('Diuse_Dianci_Mark',5);
+                                    }
+                                    'step 1'
+                                    if(Diuse_Yvlei>=3)
+                                    {
+                                        var card=get.discardPile(function(card){
+                                            return card.name=='sha';
+                                        });
+                                        if(card) player.gain(card,'gain2');
+                                        player.removeMark('Diuse_Dianci_Mark',3);
+                                        player.draw();
+                                    }
+                                },
+                            },
+                            Move:{
+                                trigger:{player:'damageBegin4'},
+                                filter:function(event){
+                                    return event.nature=='thunder';
+                                },
+                                forced:true,
+                                content:function(){
+                                    trigger.cancel();
+                                },
+                                ai:{
+                                    nofire:true,
+                                    effect:{
+                                        target:function(card,player,target,current){
+                                            if(get.tag(card,'thunderDamage')) return 'zerotarget';
+                                        }
+                                    }
+                                }
+                            },
+                        },
+                    },
+                    Diuse_Leidian:{
+                        trigger:{
+                            global:"damageBegin1",
+                        },
+                        filter:function(event){
+                            return event.source&&event.nature=='thunder';
+                        },
+                        check:function(event,player){
+                            return get.attitude(player,event.source)>0&&get.attitude(player,event.player)>0;
+                        },
+                        prompt:function(event){
+                            return get.translation(event.source)+'即将对'+get.translation(event.player)+'造成伤害，'+get.prompt('Diuse_Leidian');
+                        },
+                        logTarget:"source",
+                        content:function(){
+                            trigger.source.judge().callback=lib.skill.Diuse_Leidian.callback;
+                        },
+                        callback:function(){
+                            var targets=game.filterPlayer(function(current){
+                                return current!=player&&current.hasSkill('Diuse_Leidian');
+                            });
+                            var evt=event.getParent(2);
+                            if(event.judgeResult.color=='black'){
+                                evt._trigger.num++;
+                            }
+                            else{
+                                player.draw(2);
+                            }
+                        },
+                    },
+                    Diuse_Xueqi_Mark:{
+                        marktext:"契",
+                        mark:true,
+                        intro:{
+                            content:function (storage,player,skill){
+                            return '你已经被定下契约，时刻准备贡献你的鲜血吧！'
+                            },
+                        },
+                        locked:true,
+                    },
+                    Diuse_Xueqi:{
+                        group:['Diuse_Xueqi_Gamego','Diuse_Xueqi_Damage'],
+                        subSkill:{
+                            Gamego:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Yuexia"],
+                                trigger:{global:"gameDrawAfter"},
+                                forced:true,
+                                content:function(){
+                                    for(var i=0;i<game.players.length;i++){
+                                        if(game.players[i]==player){
+                                            if(game.players[i].hp>1) game.players[i].loseHp(game.players[i].hp-1);
+                                            continue;
+                                        }
+                                        game.players[i].addMark('Diuse_Xueqi_Mark',1);
+                                    }
+                                },
+                            },
+                            Damage:{
+                                audio:"ext:术樱:3",
+                                audioname:["Diuse_Yuexia"],
+                                trigger:{player:['changeHp','loseMaxHpAfter','gainMaxHpAfter']},
+                                forced:true,
+                                content:function(){
+                                    if(player.countCards('h')==0){
+                                        player.draw(Math.abs(trigger.num)+1);
+                                    }
+                                    else{
+                                        player.draw(Math.abs(trigger.num));
+                                    }
+                                    if(player.hp>1) player.loseHp(player.hp-1);
+                                },
+                            },
+                        },
+                    },
+                    Diuse_Shenshi:{
+                        group:['Diuse_Shenshi_H','Diuse_Shenshi_Die'],
+                        subSkill:{
+                            H:{
+                                mod:{
+                                    maxHandcardBase:function(player,num){
+                                        var Marknum=0
+                                        for(var i=0;i<game.players.length;i++){
+                                            if(game.players[i].countMark('Diuse_Xueqi_Mark')) Marknum+=game.players[i].countMark('Diuse_Xueqi_Mark');
+                                        }
+                                        return player.maxHp+Marknum;
+                                    },
+                                },
+                            },
+                            Die:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Yuexia"],
+                                trigger:{player:"dyingBegin"},
+                                forced:true,
+                                filter:function(event,player){
+                                    var bool=game.hasPlayer(function(current){
+                                        return current!=player&&current.hasMark('Diuse_Xueqi_Mark');
+                                    });
+                                    if(bool) return true;
+                                },
+                                content:function(){
+                                    'step 0'
+                                    player.chooseTarget(get.prompt('Diuse_Xueqi'),function(card,player,target){
+                                        return target!=player&&target.hasMark('Diuse_Xueqi_Mark');
+                                    }).set('ai',function(target){
+                                        return get.attitude(_status.event.player,target);
+                                    });
+                                    'step 1'
+                                    if(result.bool){
+                                        var Marknum = result.targets[0].countMark('Diuse_Xueqi_Mark');
+                                        result.targets[0].removeMark('Diuse_Xueqi_Mark',Marknum);
+                                        player.recover(Marknum);
+                                    }
+                                },
+                            },
+                        },
+                    },
+                    Diuse_Shoulie:{
+                        group:['Diuse_Shoulie_Damage','Diuse_Shoulie_Draw'],
+                        subSkill:{
+                            Damage:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Yuexia"],
+                                trigger:{source:'damageBefore'},
+                                forced:true,
+                                content:function(){
+                                    trigger.player.addMark('Diuse_Xueqi_Mark',trigger.num);
+                                    trigger.cancel();
+                                },
+                            },
+                            Draw:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Yuexia"],
+                                trigger:{global:'phaseUseBefore'},
+                                filter:function(event,player){
+                                    return event.player.countMark('Diuse_Xueqi_Mark')>1;
+                                },
+                                forced:true,
+                                content:function(){
+                                    var Marknum=trigger.player.countMark('Diuse_Xueqi_Mark');
+                                    trigger.player.loseHp(Marknum-1);
+                                    trigger.player.removeMark('Diuse_Xueqi_Mark',Marknum-1);
+                                    player.recover(Marknum-1);
+                                },
+                            },
+                        },
+                    },
+                    Vate:{
+                        trigger:{
+                            target:"useCardToTargeted",
+                        },
+                        direct:true,
+                        filter:function(event,player){
+                            return event.card.name=='sha';
+                        },
+                        content:function(){
+                            var playern=trigger.player;
+                            'step 0'
+                            player.chooseCardTarget({
+                                filterCard:true,
+                                selectCard:1,
+                                position:'he',
+                                filterTarget:function(card,player,target,event){
+                                    return player!=target&&_status.event.targets.contains(target)&&_status.event.targets.contains(playern);
+                                },
+                                ai1:function(card){
+                                    if(card.name=='du') return 20;
+                                    if(_status.event.player.storage.drlt_xiongluan&&get.type(card)=="equip") return 15;
+                                    return 6-get.value(card);
+                                },
+                                ai2:function(target){
+                                    var att=get.attitude(_status.event.player,target);
+                                    if(ui.selected.cards.length&&ui.selected.cards[0].name=='du'){
+                                        if(target.hasSkillTag('nodu')) return 0.1;
+                                        return 1-att;
+                                    }
+                                    return att-3;
+                                },
+                                prompt:get.prompt2('drlt_congjian'),
+                                targets:trigger.targets,
+                            });
+                            'step 1'
+                            if(result.bool){
+                                event.target=result.targets[0];
+                                player.line(event.target);
+                                player.logSkill('drlt_congjian');
+                                event.target.gain(result.cards[0],player,'give');
+                                var num=1;
+                                if(get.type(result.cards[0])=='equip') num=2;
+                                player.draw(num);
+                            };
+                        },
+                    },
+                    Diuse_Xujie:{
+
+                    },
+                    Diuse_Kongwu:{
+                        
+                    },
+                    Diuse_Benghuai:{},
+
+
+                },
+                translate:{
+                    Diuse_Wuli_Yishang:"物理易伤",
+                    Diuse_Yuansu_Yishang:"元素易伤",
+                    Diuse_Quanmian_Yishang:"全面易伤",
+                    Diuse_Wuli_Yishang_Mark:"物理易伤",
+                    Diuse_Yuansu_Yishang_Mark:"元素易伤",
+                    Diuse_Quanmian_Yishang_Mark:"全面易伤",
+                    Diuse_Xuesha:"血杀",
+                    "Diuse_Xuesha_info":"你的回合内，有角色受到伤害后你可以摸一张牌并可以额外使用一张杀。",
+                    Diuse_Diewu:"蝶舞",
+                    "Diuse_Diewu_info":"出牌阶段限一次，你弃置一张红色牌并指定一名角色摸一张牌后可以使用一张杀（不计入出杀次数）。",
+                    "Diuse_Xuesha2":"血杀",
+                    Diuse_Anhong:"暗洪",
+                    "Diuse_Anhong_info":"觉醒技。当你受到伤害前你可以摸一张牌，如果你受到伤害后的体力低于2则恢复一点体力；失去该技能并获得技能血杀。",
+                    Diuse_Guozai:"过载",
+                    "Diuse_Guozai_info":"锁定技。游戏开始时。你的体力上限增加X点（X为你的角色体力上限）并摸Y张牌（Y为你的当前体力值上限）",
+                    Diuse_Zhonggou:"重构",
+                    "Diuse_Zhonggou_info":"锁定技。你的手牌上限+X（X为你的当前体力值），当你受到非属性伤害前你取消这次伤害并选择失去一点体力或减少一点体力上限。",
+                    Diuse_Yinmie:"湮灭",
+                    "Diuse_Yinmie_info":"出牌阶段限一次。你可以失去1点体力值上限或1点体力值让一名其他角色进入铁锁状态并摸2张牌。",
+                    Diuse_Fuhe:"负荷",
+                    "Diuse_Fuhe_info":"锁定技。你永远处于铁锁状态，当你受到伤害后该伤害+1。当你的体力上限发生变化后你摸一张牌。",
+                    "Diuse_Fuhe2":"负荷",
+                    "Diuse_Fuhe3":"负荷",
+                    Diuse_Wange:"挽歌",
+                    "Diuse_Wange_info":"回合开始时限一次。你额外获得任意一个有益阶段执行；你翻面时你摸两张牌并恢复一点体力或获得技能鸦羽。",
+                    Diuse_Sangzhong:"丧钟",
+                    "Diuse_Sangzhong_info":"你于回合外受到伤害后，你可以摸一张牌或复原武将。如果你没有手牌则改为摸两张。",
+                    Diuse_Zhongqu:"终曲",
+                    "Diuse_Zhongqu_info":"出牌阶段限一次。你可以弃一张牌并指定一名角色判定根据点数执行效果：1：你摸三张牌并随机获得其一张任何区域的牌然后在你下个回合开始前杀的伤害+1；2-7：你随机获得其一张任何区域的牌并摸一张牌；8-12：你摸两张牌；13：你的武将翻面。",
+                    Diuse_Luoying:"落樱",
+                    "Diuse_Luoying_info":"出牌阶段限两次。当你使用可以造成伤害的牌指定目标后该次数减一。你可以选择一名指定角色，然后对其造成伤害后如果其拥有樱花标记则该伤害+1否则获得樱花标记，且你摸一张牌。",
+                    Diuse_Yishan:"一闪",
+                    "Diuse_Yishan_info":"在你使用闪后你可以引爆或给予其他角色樱花标记，如果该角色因此受到伤害则你摸X张牌。(X为你的武器距离)",
+                    Diuse_Renfan:"刃返",
+                    "Diuse_Renfan_info":"你使用或打出杀后，你可以与一名有手牌的角色摸一张牌。若场上有凛，则凛也摸一张。",
+                    "Diuse_Zhongqu1":"终曲",
+                    Diuse_Yayv:"鸦羽",
+                    "Diuse_Yayv_info":"锁定技。你的手牌始终等于你的当前体力值。",
+                    Diuse_Xirang_Mark_Sha:"息壤标记-杀",
+                    Diuse_Xirang_Mark_Shan:"息壤标记-闪",
+                    Diuse_Xirang_Mark_Jiu:"息壤标记-酒",
+                    Diuse_Xirang_Mark_Tiao:"息壤标记-桃",
+                    Diuse_Shanbeng:"山崩",
+                    "Diuse_Shanbeng_info":"当你使用杀指定目标，你可以弃置一张标记牌然后获得相应效果",
+                    Diuse_Xirang:"息壤",
+                    "Diuse_Xirang_info":"你始终跳过摸牌阶段，然后选择从牌堆顶摸两张或从牌堆底摸两张，当你选择后从相反方向摸一张牌；当你使用【杀】【闪】【桃】【酒】时，若你没有对应标记则摸一张牌并获得相应标记；弃牌阶段开始时，若你的当前手牌小于当前体力值且有标记则可以摸X张牌再弃置X+（X/2）张牌和移除标记（X为标记【杀】【闪】【桃】【酒】的数量；X向下取整）",
+                    Diuse_Xunxin:"迅心",
+                    Diuse_Xunxin_backup:"讯心",
+                    "Diuse_Xunxin_info":"锁定技。当你受到伤害后你摸一张牌并选择一张手牌弃置；你的牌因弃置而进入弃牌堆的【杀】【闪】【桃】【酒】会放置‘岚’中。",
+                    Diuse_Xianfa:"仙法",
+                    "Diuse_Xianfa_info":"出牌限一次。你选择一名角色并在其出牌阶段结束之前获得与你相同的阴阳效果，然后你与其摸一张牌。",
+                    Diuse_Yinyang:"阴阳",
+                    "Diuse_Yinyang_info":"回合结束后。你可以转换阴阳并获得相应效果。(阴:多使用一张杀 阳:摸牌阶段多摸一张)",
+                    Diuse_Tiandi:"天地",
+                    "Diuse_Tiandi_info":"限定技。出牌阶段或者濒死时可以选择一名角色增加一点体力上限并恢复一点体力，然后你获得技能仪法。如果玩家处于濒死则会清空负面效果并恢复一点体力然后摸三张牌",
+                    Diuse_Yifa:"仪法",
+                    "Diuse_Yifa_info":"每轮限一次。你选择一名角色随机临时获得崩坏包的一个角色的技能，如果目标不是自己则摸两张牌。主公技，限定技，觉醒技除外。",
+                    "Diuse_Yinyang1":"阴",
+                    "Diuse_Yinyang2":"阳",
+                    Diuse_Bingren:"兵刃",
+                    Diuse_Bingren_info:"锁定技。在你使用一张武器牌后，根据当前武器攻击距离摸X张牌并获得相应的技能效果(X为武器距离/2，向下取整，最小且为1)",
+                    Diuse_Fanchen:"凡尘",
+                    Diuse_Fanchen_info:"锁定技。回合外第一次受到伤害后，你可以选择恢复一点体力或如果你的体力大于1，则将体力值改为1并进入物理易伤状态。当前回合结束后你恢复体力并摸X张牌（X为你恢复的体力）",
+                    Diuse_Zhejian:"折剑",
+                    Diuse_Zhejian_info:"锁定技。其他角色无法弃置或顺走你武器区的牌。",
+                    Diuse_Yi:"一",
+                    Diuse_Yi_info:"当你于你的回合内使用一张牌后，你可以弃置一张手牌并摸一张牌。",
+                    Diuse_Er:"二",
+                    Diuse_Er_info:"当你于回合内获得一张牌且不是因为此技能获得牌时，你摸一张牌。",
+                    Diuse_San:"三",
+                    Diuse_San_info:"出牌阶段限两次。你造成伤害后你可以让场上的一名角色受到一点无伤害来源的伤害。",
+                    Diuse_Si:"四",
+                    Diuse_Si_info:"你使用杀或普通锦囊后你可以多增加一个目标，如果取消则摸X张牌(X为你已损失的体力，如果为0则摸1)",
+                    Diuse_Wu:"五",
+                    Diuse_Wu_info:"出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力)",
+                    Diuse_Liu:"六",
+                    Diuse_Liu_info:"你获得全部攻击距离技能。",
+                    Diuse_Fanchen1:"凡尘",
+                    Diuse_Kongzhan:"空斩",
+                    Diuse_Kongzhan_info:"每回合限一次。你使用杀指定目标后你可以对其造成一点伤害，然后标记猎物。如果其打出或使用闪，其摸两张牌并清空猎物标记；如果其在此之前受到杀的伤害则你摸两张牌并清空猎物标记。回合结束后猎物标记清除。",
+                    Diuse_Kongzhan1:"空斩",
+                    Diuse_Kongzhan1_info:"空斩猎物标记，没有受到伤害会摸牌。",
+                    Diuse_Kongzhan2:"空斩",
+                    Diuse_Kongzhan2_info:"空斩猎物标记，没有受到伤害会摸牌。",
+                    Diuse_Dianci:"电磁",
+                    Diuse_DianciX:"电磁",
+                    Diuse_Dianci_info:"你使用可以造成伤害的牌指定目标后你可以获得一个电磁标记。如果你连续指定同一个目标两次后可以将一张手牌视为杀对其打出，并获得一个电磁标记。",
+                    Diuse_Yvlei:"御雷",
+                    Diuse_Yvlei_info:"锁定技。你免疫雷属性伤害。回合开始时，如果你的电磁标记大于三则可以消耗三个标记摸一张牌从弃牌堆获得一张杀；标记大于五则可以消耗五个标记摸两张牌并从弃牌堆优先获得一张雷杀（如果弃牌堆没有雷杀则换为杀），然后获得雷电技能。",
+                    Diuse_Leidian:"雷电",
+                    Diuse_Leidian_info:"当一名角色造成雷属性伤害时，你可以令其判定。若结果为黑色，则此伤害+1；若为红色，则你摸两张牌。",
+                    Diuse_Xueqi_Mark:"血契",
+                    Diuse_Xueqi:"血契",
+                    Diuse_Xueqi_info:"游戏开始时全场其他角色获得一个标记；锁定技。你的体力值超出1点后会流失其余体力，当你体力或上限发生变化后你摸X张牌（X为发生改变的数量，如果你没有手牌则多摸一张牌）",
+                    Diuse_Shenshi:"神蚀",
+                    Diuse_Shenshi_info:"锁定技。当你进入濒死时，你选择场上一名有标记的角色令其移除全部标记然后你回复X点体力（X为移除的标记数）；你的手牌上限等于Y（Y为全场标记数量+你最大体力值）",
+                    Diuse_Shoulie:"狩猎",
+                    Diuse_Shoulie_info:"锁定技。你造成伤害时改为其获得相同数量的标记；其他角色出牌阶段开始时如果其标记超出一个则其必须失去X点体力并使你恢复X点体力（X为其标记-1）随后其丢弃X个标记",
+                    Diuse_Xujie:"虚界",
+                    Diuse_Xujie_info:"你对其他角色使用可以造成伤害的牌后其获得一个‘锁’标记；其他角色使用可以造成伤害的牌指定你后其获得一个‘虚’标记。",
+                    Diuse_Kongwu:"空无",
+                    Diuse_Kongwu_info:"出牌阶段时出杀的次数+X，手牌上限+X；弃牌阶段若场上其他角色拥有两个‘锁’和一个‘虚’则其移除全部标记并获得其当前血量的‘空’标记（X为场上有‘空’的角色数）",
+                    Diuse_Benghuai:"崩坏",
+                    Diuse_Benghuai_info:"非Boss模式下。场上有‘空’标记的角色的体力值不得小于或大于‘空’的标记数量；摸牌阶段结束后，你可以选择一名有‘空’标记的角色使其流失X点体力并使你摸X张牌（X为其‘空’的数量）",
                 },
             },
-        },
-        translate:{
-            Diuse_Wuli_Yishang:"物理易伤",
-            Diuse_Yuansu_Yishang:"元素易伤",
-            Diuse_Quanmian_Yishang:"全面易伤",
-            Diuse_Wuli_Yishang_Mark:"物理易伤",
-            Diuse_Yuansu_Yishang_Mark:"元素易伤",
-            Diuse_Quanmian_Yishang_Mark:"全面易伤",
-			Diuse_Xuesha:"血杀",
-            "Diuse_Xuesha_info":"你的回合内，有角色受到伤害后你可以摸一张牌并可以额外使用一张杀。",
-            Diuse_Diewu:"蝶舞",
-            "Diuse_Diewu_info":"出牌阶段限一次，你弃置一张红色牌并指定一名角色摸一张牌后可以使用一张杀（不计入出杀次数）。",
-            "Diuse_Xuesha2":"血杀",
-            Diuse_Anhong:"暗洪",
-            "Diuse_Anhong_info":"觉醒技。当你受到伤害前你可以摸一张牌，如果你受到伤害后的体力低于2则恢复一点体力；失去该技能并获得技能血杀。",
-            Diuse_Guozai:"过载",
-            "Diuse_Guozai_info":"锁定技。游戏开始时。你的体力上限增加X点（X为你的角色体力上限）并摸Y张牌（Y为你的当前体力值上限）",
-            Diuse_Zhonggou:"重构",
-            "Diuse_Zhonggou_info":"锁定技。你的手牌上限+X（X为你的当前体力值），当你受到非属性伤害前你取消这次伤害并选择失去一点体力或减少一点体力上限。",
-            Diuse_Yinmie:"湮灭",
-            "Diuse_Yinmie_info":"出牌阶段限一次。你可以失去1点体力值上限或1点体力值让一名其他角色进入铁锁状态并摸2张牌。",
-            Diuse_Fuhe:"负荷",
-            "Diuse_Fuhe_info":"锁定技。你永远处于铁锁状态，当你受到伤害后该伤害+1。当你的体力上限发生变化后你摸一张牌。",
-            "Diuse_Fuhe2":"负荷",
-            "Diuse_Fuhe3":"负荷",
-            Diuse_Wange:"挽歌",
-            "Diuse_Wange_info":"回合开始时限一次。你额外获得任意一个有益阶段执行；你翻面时你摸两张牌并恢复一点体力或获得技能鸦羽。",
-            Diuse_Sangzhong:"丧钟",
-            "Diuse_Sangzhong_info":"你于回合外受到伤害后，你可以摸一张牌或复原武将。如果你没有手牌则改为摸两张。",
-            Diuse_Zhongqu:"终曲",
-            "Diuse_Zhongqu_info":"出牌阶段限一次。你可以弃一张牌并指定一名角色判定根据点数执行效果：1：你摸三张牌并随机获得其一张任何区域的牌然后在你下个回合开始前杀的伤害+1；2-7：你随机获得其一张任何区域的牌并摸一张牌；8-12：你摸两张牌；13：你的武将翻面。",
-            Diuse_Luoying:"落樱",
-            "Diuse_Luoying_info":"出牌阶段限两次。当你使用可以造成伤害的牌指定目标后该次数减一。你可以选择一名指定角色，然后对其造成伤害后如果其拥有樱花标记则该伤害+1否则获得樱花标记，且你摸一张牌。",
-            Diuse_Yishan:"一闪",
-            "Diuse_Yishan_info":"在你使用闪后你可以引爆或给予其他角色樱花标记，如果该角色因此受到伤害则你摸X张牌。(X为你的武器距离)",
-            Diuse_Renfan:"刃返",
-            "Diuse_Renfan_info":"你使用或打出杀后，你可以与一名有手牌的角色摸一张牌。若场上有凛，则凛也摸一张。",
-            "Diuse_Zhongqu1":"终曲",
-            Diuse_Yayv:"鸦羽",
-            "Diuse_Yayv_info":"锁定技。你的手牌始终等于你的当前体力值。",
-            Diuse_Shanbeng:"山崩",
-            "-_info":"当你使用杀指定目标，你可以弃置一张标记牌然后获得相应效果",
-            Diuse_Xirang:"息壤",
-            "Diuse_Xirang_info":"摸牌阶段时，你跳过摸牌阶段。然后从牌堆顶摸一张，牌堆底摸两张。",
-            Diuse_Xunxin:"迅心",
-            Diuse_Xunxin_backup:"讯心",
-            "Diuse_Xunxin_info":"锁定技。当你受到伤害后你摸一张牌并选择一张手牌放置武将牌上称之为‘岚’；你的牌因弃置而进入弃牌堆的牌会放置‘岚’中；出牌阶段开始时，你根据‘岚’的数量获得效果/技能。",
-            Diuse_Xianfa:"仙法",
-            "Diuse_Xianfa_info":"出牌限一次。你选择一名角色并在其出牌阶段结束之前获得与你相同的阴阳效果，然后你与其摸一张牌。",
-            Diuse_Yinyang:"阴阳",
-            "Diuse_Yinyang_info":"回合结束后。你可以转换阴阳并获得相应效果。(阴:多使用一张杀 阳:摸牌阶段多摸一张)",
-            Diuse_Tiandi:"天地",
-            "Diuse_Tiandi_info":"限定技。出牌阶段或者濒死时可以选择一名角色增加一点体力上限并恢复一点体力，然后你获得技能仪法。如果玩家处于濒死则会清空负面效果并恢复一点体力然后摸三张牌",
-            Diuse_Yifa:"仪法",
-            "Diuse_Yifa_info":"每轮限一次。你选择一名角色随机临时获得崩坏包的一个角色的技能，如果目标不是自己则摸两张牌。主公技，限定技，觉醒技除外。",
-            "Diuse_Yinyang1":"阴",
-            "Diuse_Yinyang2":"阳",
-            Diuse_Bingren:"兵刃",
-            Diuse_Bingren_info:"锁定技。在你使用一张武器牌后，根据当前武器攻击距离摸X张牌并获得相应的技能效果(X为武器距离/2，向下取整，最小且为1)",
-            Diuse_Fanchen:"凡尘",
-            Diuse_Fanchen_info:"锁定技。回合外第一次受到伤害后，你可以选择恢复一点体力或如果你的体力大于1，则将体力值改为1并进入物理易伤状态。当前回合结束后你恢复体力并摸X张牌（X为你恢复的体力）",
-            Diuse_Zhejian:"折剑",
-            Diuse_Zhejian_info:"锁定技。其他角色无法弃置或顺走你武器区的牌。",
-            Diuse_Yi:"一",
-            Diuse_Yi_info:"当你于你的回合内使用一张牌后，你可以弃置一张手牌并摸一张牌。",
-            Diuse_Er:"二",
-            Diuse_Er_info:"当你于回合内获得一张牌且不是因为此技能获得牌时，你摸一张牌。",
-            Diuse_San:"三",
-            Diuse_San_info:"出牌阶段限两次。你造成伤害后你可以让场上的一名角色受到一点无伤害来源的伤害。",
-            Diuse_Si:"四",
-            Diuse_Si_info:"你使用杀或普通锦囊后你可以多增加一个目标，如果取消则摸X张牌(X为你已损失的体力，如果为0则摸1)",
-            Diuse_Wu:"五",
-            Diuse_Wu_info:"出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力)",
-            Diuse_Liu:"六",
-            Diuse_Liu_info:"你获得全部攻击距离技能。",
-            Diuse_Fanchen1:"凡尘",
-            Diuse_Kongzhan:"空斩",
-            Diuse_Kongzhan_info:"每回合限一次。你使用杀指定目标后你可以对其造成一点伤害，然后标记猎物。如果其打出或使用闪，其摸两张牌并清空猎物标记；如果其在此之前受到杀的伤害则你摸两张牌并清空猎物标记。回合结束后猎物标记清除。",
-            Diuse_Kongzhan1:"空斩",
-            Diuse_Kongzhan1_info:"空斩猎物标记，没有受到伤害会摸牌。",
-            Diuse_Kongzhan2:"空斩",
-            Diuse_Kongzhan2_info:"空斩猎物标记，没有受到伤害会摸牌。",
-            Diuse_Dianci:"电磁",
-            Diuse_DianciX:"电磁",
-            Diuse_Dianci_info:"你使用可以造成伤害的牌指定目标后你可以获得一个电磁标记。如果你连续指定同一个目标两次后可以将一张手牌视为杀对其打出，并获得一个电磁标记。",
-            Diuse_Yvlei:"御雷",
-            Diuse_Yvlei_info:"锁定技。你免疫雷属性伤害。回合开始时，如果你的电磁标记大于三则可以消耗三个标记摸一张牌从弃牌堆获得一张杀；标记大于五则可以消耗五个标记摸两张牌并从弃牌堆优先获得一张雷杀（如果弃牌堆没有雷杀则换为杀），然后获得雷电技能。",
-            Diuse_Leidian:"雷电",
-            Diuse_Leidian_info:"当一名角色造成雷属性伤害时，你可以令其判定。若结果为黑色，则此伤害+1；若为红色，则你摸两张牌。",
-            Diuse_Xueqi_Mark:"血契",
-            Diuse_Xueqi:"血契",
-            Diuse_Xueqi_info:"游戏开始时全场其他角色获得一个标记；锁定技。你的体力值超出1点后会流失其余体力，当你体力或上限发生变化后你摸X张牌（X为发生改变的数量，如果你没有手牌则多摸一张牌）",
-            Diuse_Shenshi:"神蚀",
-            Diuse_Shenshi_info:"锁定技。当你进入濒死时，你选择场上一名有标记的角色令其移除全部标记然后你回复X点体力（X为移除的标记数）；你的手牌上限等于Y（Y为全场标记数量+你最大体力值）",
-            Diuse_Shoulie:"狩猎",
-            Diuse_Shoulie_info:"锁定技。你造成伤害时改为其获得相同数量的标记；其他角色出牌阶段开始时如果其标记超出一个则其必须失去X点体力并使你恢复X点体力（X为其标记-1）随后其丢弃X个标记",
-		},
-    },
-},"术樱");
-
+        },"术樱");
     }
 },help:{},config:{},package:{
     character:{
@@ -3013,7 +2803,7 @@ game.导入character("Diuse","崩坏3",{
 				}
 			},
         },
-        game:{
+        game:{ //Boss自定义函数处
             reserveDead:true,
             getSkillDialog:function(skills,prompt){
                 var dialog=ui.create.dialog('hidden','forcebutton');
@@ -3027,7 +2817,7 @@ game.导入character("Diuse","崩坏3",{
             skillsList:function(){
                 var skills=[];
                 var banned=[
-                    'huoxin','jueqing','qinqing','beige','huashen',
+                    'huoxin','jueqing','qinqing','beige','huashen','Diuse_Shanbeng',
                 ];
                 var characters=[];
                 for(var name in lib.character){
