@@ -1535,8 +1535,8 @@ precontent:function (Diuse){
                                     if(player.countMark('Diuse_Xirang_Mark_Tiao')>=1) mark_num++
                                     if(player.countMark('Diuse_Xirang_Mark_Jiu')>=1) mark_num++
                                     if(player.countCards('h')<player.hp){
-                                        player.chooseToDiscard('h',mark_num+(parseInt(mark_num/2)),true);
                                         player.draw(mark_num);
+                                        player.chooseToDiscard('h',mark_num+(parseInt(mark_num/2)),true);
                                         player.removeMark('Diuse_Xirang_Mark_Sha',player.countMark('Diuse_Xirang_Mark_Sha'));
                                         player.removeMark('Diuse_Xirang_Mark_Shan',player.countMark('Diuse_Xirang_Mark_Shan'));
                                         player.removeMark('Diuse_Xirang_Mark_Tiao',player.countMark('Diuse_Xirang_Mark_Tiao'));
