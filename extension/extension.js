@@ -757,7 +757,6 @@ precontent:function (Diuse){
                         selectTarget:1,
                         content:function (targets)
                         {
-                            game.log(window.version);
                             targets[0].draw();
                             player.chooseUseTarget({name:'sha'},'是否视为使用一张【杀】？',false);
                         },
@@ -1527,21 +1526,19 @@ precontent:function (Diuse){
                             },
                             lose:{
                                 trigger:{player:"phaseDiscardBefore"},
-                                filter:function(event,player){if(player.countMark('Diuse_Xirang_Mark_Sha')>=1||player.countMark('Diuse_Xirang_Mark_Shan')>=1||player.countMark('Diuse_Xirang_Mark_Tiao')>=1||player.countMark('Diuse_Xirang_Mark_Jiu')>=1) return true;},
+                                filter:function(event,player){if(player.countCards('h')<player.hp&&player.countMark('Diuse_Xirang_Mark_Sha')>=1||player.countMark('Diuse_Xirang_Mark_Shan')>=1||player.countMark('Diuse_Xirang_Mark_Tiao')>=1||player.countMark('Diuse_Xirang_Mark_Jiu')>=1) return true;},
                                 content:function(){
                                     var mark_num=0;
                                     if(player.countMark('Diuse_Xirang_Mark_Sha')>=1) mark_num++
                                     if(player.countMark('Diuse_Xirang_Mark_Shan')>=1) mark_num++
                                     if(player.countMark('Diuse_Xirang_Mark_Tiao')>=1) mark_num++
                                     if(player.countMark('Diuse_Xirang_Mark_Jiu')>=1) mark_num++
-                                    if(player.countCards('h')<player.hp){
-                                        player.draw(mark_num);
-                                        player.chooseToDiscard('h',mark_num+(parseInt(mark_num/2)),true);
-                                        player.removeMark('Diuse_Xirang_Mark_Sha',player.countMark('Diuse_Xirang_Mark_Sha'));
-                                        player.removeMark('Diuse_Xirang_Mark_Shan',player.countMark('Diuse_Xirang_Mark_Shan'));
-                                        player.removeMark('Diuse_Xirang_Mark_Tiao',player.countMark('Diuse_Xirang_Mark_Tiao'));
-                                        player.removeMark('Diuse_Xirang_Mark_Jiu',player.countMark('Diuse_Xirang_Mark_Jiu'));
-                                    } 
+                                    player.draw(mark_num);
+                                    player.chooseToDiscard('h',mark_num+(parseInt(mark_num/2)),true);
+                                    player.removeMark('Diuse_Xirang_Mark_Sha',player.countMark('Diuse_Xirang_Mark_Sha'));
+                                    player.removeMark('Diuse_Xirang_Mark_Shan',player.countMark('Diuse_Xirang_Mark_Shan'));
+                                    player.removeMark('Diuse_Xirang_Mark_Tiao',player.countMark('Diuse_Xirang_Mark_Tiao'));
+                                    player.removeMark('Diuse_Xirang_Mark_Jiu',player.countMark('Diuse_Xirang_Mark_Jiu'));
                                 }
                             },
                         },
