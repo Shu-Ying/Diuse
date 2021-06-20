@@ -1505,7 +1505,10 @@ precontent:function (Diuse){
                                 },
                             },
                             use:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Fuhua"],
                                 trigger:{player:"useCardAfter",},
+                                prompt:'是否获得标记并摸牌',
                                 filter:function(event,player){
                                     if(event.card.name=='sha'&&player.countMark('Diuse_Xirang_Mark_Sha')>=1) return false;
                                     if(event.card.name=='shan'&&player.countMark('Diuse_Xirang_Mark_Shan')>=1) return false;
@@ -1525,8 +1528,15 @@ precontent:function (Diuse){
                                 },
                             },
                             lose:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Fuhua"],
                                 trigger:{player:"phaseDiscardBefore"},
-                                filter:function(event,player){if(player.countCards('h')<player.hp&&player.countMark('Diuse_Xirang_Mark_Sha')>=1||player.countMark('Diuse_Xirang_Mark_Shan')>=1||player.countMark('Diuse_Xirang_Mark_Tiao')>=1||player.countMark('Diuse_Xirang_Mark_Jiu')>=1) return true;},
+                                prompt:'是否移除标记并摸牌',
+                                filter:function(event,player){
+                                    if(player.countCards('h')<player.hp){
+                                        if(player.countMark('Diuse_Xirang_Mark_Sha')>=1||player.countMark('Diuse_Xirang_Mark_Shan')>=1||player.countMark('Diuse_Xirang_Mark_Tiao')>=1||player.countMark('Diuse_Xirang_Mark_Jiu')>=1) return true;
+                                    }
+                                },
                                 content:function(){
                                     var mark_num=0,mark_num2=0;
                                     if(player.countMark('Diuse_Xirang_Mark_Sha')>=1) mark_num++
@@ -1615,6 +1625,8 @@ precontent:function (Diuse){
                                 }
                             },
                             Lose:{
+                                audio:"ext:术樱:2",
+                                audioname:["Diuse_Fuhua"],
                                 trigger:{player:'loseAfter'},
                                 init:function(player){
                                     if(!player.storage.Diuse_Xunxin) player.storage.Diuse_Xunxin=[];
