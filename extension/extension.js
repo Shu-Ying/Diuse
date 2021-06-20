@@ -1545,6 +1545,7 @@ precontent:function (Diuse){
                                     if(player.countMark('Diuse_Xirang_Mark_Jiu')>=1) mark_num++
                                     player.draw(mark_num);
                                     mark_num2=parseInt(mark_num/2);
+                                    if(mark_num2==0) mark_num2=1;
                                     player.chooseToDiscard('h',mark_num2,true);
                                     player.removeMark('Diuse_Xirang_Mark_Sha',player.countMark('Diuse_Xirang_Mark_Sha'));
                                     player.removeMark('Diuse_Xirang_Mark_Shan',player.countMark('Diuse_Xirang_Mark_Shan'));
