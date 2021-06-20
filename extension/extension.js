@@ -1528,13 +1528,14 @@ precontent:function (Diuse){
                                 trigger:{player:"phaseDiscardBefore"},
                                 filter:function(event,player){if(player.countCards('h')<player.hp&&player.countMark('Diuse_Xirang_Mark_Sha')>=1||player.countMark('Diuse_Xirang_Mark_Shan')>=1||player.countMark('Diuse_Xirang_Mark_Tiao')>=1||player.countMark('Diuse_Xirang_Mark_Jiu')>=1) return true;},
                                 content:function(){
-                                    var mark_num=0;
+                                    var mark_num=0,mark_num2=0;
                                     if(player.countMark('Diuse_Xirang_Mark_Sha')>=1) mark_num++
                                     if(player.countMark('Diuse_Xirang_Mark_Shan')>=1) mark_num++
                                     if(player.countMark('Diuse_Xirang_Mark_Tiao')>=1) mark_num++
                                     if(player.countMark('Diuse_Xirang_Mark_Jiu')>=1) mark_num++
                                     player.draw(mark_num);
-                                    player.chooseToDiscard('h',mark_num+(parseInt(mark_num/2)),true);
+                                    mark_num2=parseInt(mark_num/2);
+                                    player.chooseToDiscard('h',mark_num2,true);
                                     player.removeMark('Diuse_Xirang_Mark_Sha',player.countMark('Diuse_Xirang_Mark_Sha'));
                                     player.removeMark('Diuse_Xirang_Mark_Shan',player.countMark('Diuse_Xirang_Mark_Shan'));
                                     player.removeMark('Diuse_Xirang_Mark_Tiao',player.countMark('Diuse_Xirang_Mark_Tiao'));
@@ -2658,7 +2659,7 @@ precontent:function (Diuse){
                     Diuse_Shanbeng:"山崩",
                     "Diuse_Shanbeng_info":"当你使用杀指定目标，你可以弃置一张标记牌然后获得相应效果",
                     Diuse_Xirang:"息壤",
-                    "Diuse_Xirang_info":"你始终跳过摸牌阶段，然后选择从牌堆顶摸两张或从牌堆底摸两张，当你选择后从相反方向摸一张牌；当你使用【杀】【闪】【桃】【酒】时，若你没有对应标记则摸一张牌并获得相应标记；弃牌阶段开始时，若你的当前手牌小于当前体力值且有标记则可以摸X张牌再弃置X+（X/2）张牌和移除标记（X为标记【杀】【闪】【桃】【酒】的数量；X向下取整）",
+                    "Diuse_Xirang_info":"你始终跳过摸牌阶段，然后选择从牌堆顶摸两张或从牌堆底摸两张，当你选择后从相反方向摸一张牌；当你使用【杀】【闪】【桃】【酒】时，若你没有对应标记则摸一张牌并获得相应标记；弃牌阶段开始时，若你的当前手牌小于当前体力值且有标记则可以摸X张牌再弃置X/2张牌和移除标记（X为标记【杀】【闪】【桃】【酒】的数量；X向下取整且最少为1）",
                     Diuse_Xunxin:"迅心",
                     Diuse_Xunxin_backup:"讯心",
                     "Diuse_Xunxin_info":"锁定技。当你受到伤害后你摸一张牌并选择一张手牌弃置；你的牌因弃置而进入弃牌堆的【杀】【闪】【桃】【酒】会放置‘岚’中。",
