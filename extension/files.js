@@ -102,6 +102,12 @@ Diuse_mp3=[
     'Diuse_Xirang_draw2.mp3',
     'Diuse_Xunxin_AtkDamage1.mp3',
     'Diuse_Xunxin_AtkDamage2.mp3',
+    'Diuse_Xirang_lose1.mp3',
+    'Diuse_Xirang_lose2.mp3',
+    'Diuse_Xirang_use1.mp3',
+    'Diuse_Xirang_use2.mp3',
+    'Diuse_Xunxin_Lose1.mp3',
+    'Diuse_Xunxin_Lose2.mp3',
 ],
 Diuse_static=[
     'Diuse_Bachongying.jpg',
