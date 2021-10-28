@@ -329,7 +329,7 @@ precontent:function (Diuse){
                         break;
                     }
                     case 'mp3':{
-                        if(confirm('点击确定会下载全部配音[约为3.1MB]')&&Diuse_Button){
+                        if(confirm('点击确定会下载全部配音[约为6.1MB]')&&Diuse_Button){
                             Diuse_Button=false;
                             download_mp3();
                         } else if(Diuse_Button==false){
