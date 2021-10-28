@@ -69,7 +69,6 @@ precontent:function (Diuse){
                     '<br>以后正式更名为术樱，还希望大家多多支持<br>'+
                     '-----< 崩坏包 >-----'+
                     '<br>上仙技能重做<br>'+
-                    '<br>加入空之律者模板，无实际技能效果<br>'+
                     '<br>因为部分更改，需要删除全部文件后替换压缩包文件<br>'+
                     '<br>-----< 天书乱斗 >-----'+
                     '<br>98%跟踪官方进度<br>'+
@@ -330,7 +329,7 @@ precontent:function (Diuse){
                         break;
                     }
                     case 'mp3':{
-                        if(confirm('点击确定会下载全部配音[约为6.1MB]')&&Diuse_Button){
+                        if(confirm('点击确定会下载全部配音[约为3.1MB]')&&Diuse_Button){
                             Diuse_Button=false;
                             download_mp3();
                         } else if(Diuse_Button==false){
@@ -2690,7 +2689,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            //Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Baonue','Qingqing_Boss_Qvbu','Qingqing_Boss_Wangzun','Qingqing_Boss_Duoxi'],[]],
+            Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Baonue','Qingqing_Boss_Qvbu','Qingqing_Boss_Wangzun','Qingqing_Boss_Duoxi'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -6989,9 +6988,7 @@ precontent:function (Diuse){
                     player.chooseTarget([1,event.Baonue],get.prompt('Qingqing_Boss_Baonue'),function(card,player,target){
                         return target!=player;
                     }).set('ai',function(target){
-                        var trigger=_status.event.getTrigger();
-                        var player=_status.event.player;
-                        return get.effect(target,trigger.card,player,player);
+                        if(get.attitude(player,target)>0){return false;} else{return true;}
                     });
                     'step 1'
                     if(result.bool){
@@ -7017,9 +7014,7 @@ precontent:function (Diuse){
                     player.chooseTarget([1,event.Baonue],get.prompt('Qingqing_Boss_Baonue_Difficulty'),function(card,player,target){
                         return target!=player;
                     }).set('ai',function(target){
-                        var trigger=_status.event.getTrigger();
-                        var player=_status.event.player;
-                        return get.effect(target,trigger.card,player,player);
+                        if(get.attitude(player,target)>0){return false;} else{return true;}
                     });
                     'step 1'
                     if(result.bool){
@@ -7045,9 +7040,7 @@ precontent:function (Diuse){
                     player.chooseTarget([1,event.Baonue],get.prompt('Qingqing_Boss_Baonue_Fucking'),function(card,player,target){
                         return target!=player;
                     }).set('ai',function(target){
-                        var trigger=_status.event.getTrigger();
-                        var player=_status.event.player;
-                        return get.effect(target,trigger.card,player,player);
+                        if(get.attitude(player,target)>0){return false;} else{return true;}
                     });
                     'step 1'
                     if(result.bool){
