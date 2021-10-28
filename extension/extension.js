@@ -2689,7 +2689,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Baonue','Qingqing_Boss_Qvbu','Qingqing_Boss_Wangzun','Qingqing_Boss_Duoxi'],[]],
+            //Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Baonue','Qingqing_Boss_Qvbu','Qingqing_Boss_Wangzun','Qingqing_Boss_Duoxi'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
