@@ -3218,6 +3218,7 @@ precontent:function (Diuse){
                 locked:true,
             },
             Boss_Nine_Skills:{
+                mode:['boss'],
                 trigger:{global:'roundStart'},
                 forced:true,
                 filter:function(event,player){
@@ -3228,6 +3229,7 @@ precontent:function (Diuse){
                 },
             },
             livePlayer:{
+                mode:['boss'],
                 marktext:"度",
                 mark:true,
                 intro:{
@@ -3318,6 +3320,7 @@ precontent:function (Diuse){
                 locked:true,
             },
             checkPoint:{
+                mode:['boss'],
                 marktext:"关",
                 mark:true,
                 intro:{content:function(event,player){
@@ -3524,6 +3527,7 @@ precontent:function (Diuse){
                 },
             },
             Boss_Tianshu_Go:{
+                mode:['boss'],
 				trigger:{global:'gameStart'},
 				forced:true,
 				popup:false,
@@ -6853,6 +6857,7 @@ precontent:function (Diuse){
                 },
             },
             Qingqing_Boss_Jiuchi:{
+                mode:['boss'],
                 enable:"chooseToUse",
                 filterCard:function(card){
                     return get.suit(card)=='spade';
@@ -6941,6 +6946,7 @@ precontent:function (Diuse){
                 },
             },
             Qingqing_Boss_Roulin:{
+                mode:['boss'],
                 trigger:{
                     player:"useCardToPlayered",
                     target:"useCardToTargeted",
@@ -6975,6 +6981,7 @@ precontent:function (Diuse){
                 },
             },
             Qingqing_Boss_Baonue:{
+                mode:['boss'],
                 trigger:{player:"phaseUseBegin"},
                 forced:true,
                 multitarget:true,
@@ -7001,6 +7008,7 @@ precontent:function (Diuse){
                 },
             },
             Qingqing_Boss_Baonue_Difficulty:{
+                mode:['boss'],
                 trigger:{player:"phaseUseBegin"},
                 forced:true,
                 multitarget:true,
@@ -7027,6 +7035,7 @@ precontent:function (Diuse){
                 },
             },
             Qingqing_Boss_Baonue_Fucking:{
+                mode:['boss'],
                 trigger:{player:"phaseUseBegin"},
                 forced:true,
                 multitarget:true,
@@ -7053,6 +7062,7 @@ precontent:function (Diuse){
                 },
             },
             Qingqing_Boss_Qvbu:{
+                mode:['boss'],
                 trigger:{global:"shaBegin"},
                 forced:true,
                 multitarget:true,
@@ -7068,6 +7078,7 @@ precontent:function (Diuse){
                 },
             },
             Qingqing_Boss_Qvbu_Fucking:{
+                mode:['boss'],
                 trigger:{global:"shaBegin"},
                 forced:true,
                 multitarget:true,
@@ -7083,6 +7094,7 @@ precontent:function (Diuse){
                 },
             },
             Qingqing_Boss_Yongsi:{
+                mode:['boss'],
                 group:["Qingqing_Boss_Yongsi_1","Qingqing_Boss_Yongsi_2"],
                 subSkill:{
                     "1":{
@@ -7220,6 +7232,7 @@ precontent:function (Diuse){
                 },
             },
             Qingqing_Boss_Duoxi:{
+                mode:['boss'],
                 trigger:{global:"phaseDrawBegin"},
                 check:function(event,player){
                     if(!event.player.isFriendOf(player)) return true;
@@ -7237,6 +7250,7 @@ precontent:function (Diuse){
                 },
             },
             Qingqing_Boss_Duoxi_Fucking:{
+                mode:['boss'],
                 trigger:{global:"phaseDrawBegin"},
                 check:function(event,player){
                     if(event.player==player) return false;
