@@ -2689,7 +2689,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Baonue','Qingqing_Boss_Qvbu','Qingqing_Boss_Wangzun','Qingqing_Boss_Duoxi'],[]],
+            //Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Baonue','Qingqing_Boss_Qvbu','Qingqing_Boss_Wangzun','Qingqing_Boss_Duoxi'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -3362,7 +3362,7 @@ precontent:function (Diuse){
                         var nextCheckPoint1=game.bossName(trigger.player.name,num,num2);
                         if(nextCheckPoint1){
                             trigger.player.hide();
-                            if(trigger.source==undefined){}else if(trigger.source.hp!=trigger.source.hpMax){trigger.source.recover();}else {trigger.source.draw(2);}
+                            if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
                             var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
                             if(gameBoss==false){
                                 player.addMark('nextCheckPoint',1);
@@ -3396,7 +3396,7 @@ precontent:function (Diuse){
                         var nextCheckPoint2=game.bossName(trigger.player.name,num,num2);
                         if(nextCheckPoint2){
                             trigger.player.hide();
-                            if(trigger.source==undefined){}else if(trigger.source.hp!=trigger.source.hpMax){trigger.source.recover();}else {trigger.source.draw(2);}
+                            if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
                             var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
                             if(gameBoss==false){
                                 player.addMark('nextCheckPoint',1);
@@ -3430,7 +3430,7 @@ precontent:function (Diuse){
                         var nextCheckPoint3=game.bossName(trigger.player.name,num,num2);
                         if(nextCheckPoint3){
                             trigger.player.hide();
-                            if(trigger.source==undefined){}else if(trigger.source.hp!=trigger.source.hpMax){trigger.source.recover();}else {trigger.source.draw(2);}
+                            if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
                             var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
                             if(gameBoss==false){
                                 player.addMark('nextCheckPoint',1);
@@ -3464,7 +3464,7 @@ precontent:function (Diuse){
                         var nextCheckPoint4=game.bossName(trigger.player.name,num,num2);
                         if(nextCheckPoint4){
                             trigger.player.hide();
-                            if(trigger.source==undefined){}else if(trigger.source.hp!=trigger.source.hpMax){trigger.source.recover();}else {trigger.source.draw(2);}
+                            if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
                             var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
                             if(gameBoss==false){
                                 game.over(true);
