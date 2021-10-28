@@ -2606,11 +2606,11 @@ precontent:function (Diuse){
                     Diuse_Yayv:"鸦羽",
                     "Diuse_Yayv_info":"锁定技。你的手牌始终等于你的当前体力值。",
                     Diuse_Shanbeng:"山崩",
-                    "Diuse_Shanbeng_info":"当你使用杀指定目标，你可以弃置一张标记牌然后获得相应效果",
+                    "Diuse_Shanbeng_info":"当你使用杀指定唯一目标后，你可以弃置至多三张标记牌然后获得相应效果。",
                     Diuse_Xirang:"息壤",
                     "Diuse_Xirang_info":"你始终跳过摸牌阶段，然后选择从牌堆顶摸两张或从牌堆底摸两张，当你选择后从相反方向摸一张牌；当你使用【杀】【闪】【桃】【酒】时，若你没有对应标记则摸一张牌并获得相应标记；弃牌阶段开始时，若你的当前手牌小于当前体力值且有标记则可以摸X张牌再弃置X/2张牌和移除标记（X为标记【杀】【闪】【桃】【酒】的数量；X向下取整且最少为1）",
                     Diuse_Xunxin:"迅心",
-                    "Diuse_Xunxin_info":"锁定技。当你受到伤害后你摸一张牌并选择一张手牌弃置；你的牌因弃置而进入弃牌堆的【杀】【闪】【桃】【酒】会放置‘岚’中。",
+                    "Diuse_Xunxin_info":"锁定技。当你受到一点伤害后你摸一张牌并选择一张手牌弃置；你的牌因弃置而进入弃牌堆的【杀】【闪】【桃】【酒】会放置‘岚’中。",
                     Diuse_Xianfa:"仙法",
                     "Diuse_Xianfa_info":"回合结束后，你可以指定至多X名其他角色，然后其进入‘相引’状态，你的出牌阶段开始前会移除全场的‘相引’(X为你装备栏的空位且至多为3) 相引：你体力值或上限发生变化后场上拥有‘相引’发生相同变化随后移除技能。",
                     Diuse_Yinyang:"阴阳",
@@ -3362,9 +3362,7 @@ precontent:function (Diuse){
                         var nextCheckPoint1=game.bossName(trigger.player.name,num,num2);
                         if(nextCheckPoint1){
                             trigger.player.hide();
-                            if(trigger.source==undefined){}
-                            else if(trigger.source.hp<trigger.source.hpMax){trigger.source.recover();}
-                            else {trigger.source.draw(2);}
+                            if(trigger.source==undefined){}else if(trigger.source.hp!=trigger.source.hpMax){trigger.source.recover();}else {trigger.source.draw(2);}
                             var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
                             if(gameBoss==false){
                                 player.addMark('nextCheckPoint',1);
@@ -3398,9 +3396,7 @@ precontent:function (Diuse){
                         var nextCheckPoint2=game.bossName(trigger.player.name,num,num2);
                         if(nextCheckPoint2){
                             trigger.player.hide();
-                            if(trigger.source==undefined){}
-                            else if(trigger.source.hp<trigger.source.hpMax){trigger.source.recover();}
-                            else {trigger.source.draw(2);}
+                            if(trigger.source==undefined){}else if(trigger.source.hp!=trigger.source.hpMax){trigger.source.recover();}else {trigger.source.draw(2);}
                             var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
                             if(gameBoss==false){
                                 player.addMark('nextCheckPoint',1);
@@ -3434,9 +3430,7 @@ precontent:function (Diuse){
                         var nextCheckPoint3=game.bossName(trigger.player.name,num,num2);
                         if(nextCheckPoint3){
                             trigger.player.hide();
-                            if(trigger.source==undefined){}
-                            else if(trigger.source.hp<trigger.source.hpMax){trigger.source.recover();}
-                            else {trigger.source.draw(2);}
+                            if(trigger.source==undefined){}else if(trigger.source.hp!=trigger.source.hpMax){trigger.source.recover();}else {trigger.source.draw(2);}
                             var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
                             if(gameBoss==false){
                                 player.addMark('nextCheckPoint',1);
@@ -3470,9 +3464,7 @@ precontent:function (Diuse){
                         var nextCheckPoint4=game.bossName(trigger.player.name,num,num2);
                         if(nextCheckPoint4){
                             trigger.player.hide();
-                            if(trigger.source==undefined){}
-                            else if(trigger.source.hp<trigger.source.hpMax){trigger.source.recover();}
-                            else {trigger.source.draw(2);}
+                            if(trigger.source==undefined){}else if(trigger.source.hp!=trigger.source.hpMax){trigger.source.recover();}else {trigger.source.draw(2);}
                             var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
                             if(gameBoss==false){
                                 game.over(true);
@@ -6797,6 +6789,8 @@ precontent:function (Diuse){
                     return true;
                 },
                 content:function(){
+                    event.num=trigger.num;
+                    'step 0'
                     player.discardPlayerCard(trigger.player,2,'he',get.prompt('Zhuogui_Boss_Mizui',trigger.player),true).set('ai',function(button){
                         if(!_status.event.att) return 0;
                         if(get.position(button.link)=='e'){
@@ -6805,6 +6799,11 @@ precontent:function (Diuse){
                         }
                         return 1;
                     }).set('att',get.attitude(player,trigger.player)<=0);
+                    'step 1'
+                    if(event.num>0){
+                        event.num--;
+                        event.goto(0);
+                    } else {event.finish();}
                 },
             },
             Zhuogui_Boss_Qiangzheng:{
