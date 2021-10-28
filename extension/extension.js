@@ -6564,6 +6564,7 @@ precontent:function (Diuse){
                 forced:true,
                 filter:function(event,player){
                     if(event.player&&!event.player.isFriendOf(player)) return true;
+                    if(event.player.countCards('h')>event.player.maxHp) return true;
                     return false;
                 },
                 content:function(){
@@ -6693,7 +6694,7 @@ precontent:function (Diuse){
                 trigger:{player:"phaseZhunbeiBegin"},
                 forced:true,
                 content:function(){
-                    for(var i=0;game.players.length;i++){
+                    for(var i=0;i<game.players.length;i++){
                         if(!game.players[i].isFriendOf(player)) game.players[i].damage(1,'thunder');
                     }
                 },
