@@ -3230,17 +3230,19 @@ precontent:function (Diuse){
             livePlayer:{
                 marktext:"度",
                 mark:true,
-                intro:{content:function(event,player,){
-                    if(player.countMark('livePlayer')==undefined||player.countMark('livePlayer')==0){
-                        return '难度暂未选择';
-                    } else if(player.countMark('livePlayer')==1){
-                        return '简单难度';
-                    } else if(player.countMark('livePlayer')==2){
-                        return '困难难度';
-                    } else {
-                        return '阴间难度';
-                    }
-                },},
+                intro:{
+                    content:function(event,player){
+                        if(player.countMark('livePlayer')==undefined||player.countMark('livePlayer')==0){
+                            return '难度暂未选择';
+                        } else if(player.countMark('livePlayer')==1){
+                            return '简单难度';
+                        } else if(player.countMark('livePlayer')==2){
+                            return '困难难度';
+                        } else {
+                            return '阴间难度';
+                        }
+                    },
+                },
                 locked:true,
                 trigger:{global:"gameDrawBefore"},
                 forced:true,
