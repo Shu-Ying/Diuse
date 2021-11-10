@@ -1,4 +1,4 @@
-game.import("extension",function(lib,game,ui,get,ai,_status){
+;;game.import("extension",function(lib,game,ui,get,ai,_status){
     return {
         name:"术樱",
         content:function (config,pack){
@@ -588,8 +588,26 @@ precontent:function (Diuse){
         'Tianshu_Boss_Hanba_Fucking','Xvni_Xiaosha','Xvni_Xiaoshan','Xvni_Xiaojiu','Xvni_Xiaotao','Xvni_Xiaole','Boss_Ordinary_Hankui','Boss_Difficulty_Hankui','Boss_Fucking_Hankui','Boss_Ordinary_Baiqi','Boss_Difficulty_Baiqi',
         'Boss_Fucking_Baiqi','Boss_Ordinary_WangshenBaiqi','Boss_Difficulty_WangshenBaiqi','Boss_Fucking_WangshenBaiqi','Boss_Ordinary_Guiyanwang','Boss_Difficulty_Guiyanwang','Boss_Fucking_Guiyanwang'];
         //'','','','','','','','','','','','','','','','','',
+        
         for(var i=0;i<mode.length;i++){
-            game.saveConfig(mode[i]+'_banned',pveBannedName);
+            var modeBanndeList=lib.config[mode[i]+'_banned'];
+            modeBanndeList=JSON.stringify(modeBanndeList)
+            modeBanndeList=modeBanndeList.substring(1,modeBanndeList.length - 1);
+            modeBanndeList=modeBanndeList.replace(/\"/g, "");
+            var modeBanned=modeBanndeList.split("," );
+            for(var j=0;j<modeBanned.length;j++){
+                pveBannedName.push(modeBanned[j])        
+            }   
+            var bannedList=[]
+            for(j = 0; j < pveBannedName.length; j++){
+                for(k = j + 1; k < pveBannedName.length; k++){
+                    if(pveBannedName[j] === pveBannedName[k]){
+                        j = ++k;
+                    }
+                }
+                bannedList.push(pveBannedName[j]); 
+            }
+            game.saveConfig(mode[i]+'_banned',bannedList);
         }
 
     	game.Diuse=function(英文名,翻译名,obj,扩展包名){
@@ -2748,7 +2766,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Zhanjia','Qingqing_Boss_Shenji_Fucking','Qingqing_Boss_Wushuang','Zhuogui_Boss_Taiping_Fucking','kagari_zongsi'],[]],
+            //Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Zhanjia','Qingqing_Boss_Shenji_Fucking','Qingqing_Boss_Wushuang','Zhuogui_Boss_Taiping_Fucking','kagari_zongsi'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
