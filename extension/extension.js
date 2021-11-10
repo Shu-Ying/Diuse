@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.8');
+        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.9');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -64,7 +64,7 @@ precontent:function (Diuse){
                     '<br>优化算法<br>'+
                     '<br>天书乱斗追更至官方版本<br>'+
                     '<br>修复了众多文本描述错误<br>'+
-                    '<br>在1.7.7版本加入的禁用BOSS相关函数，导致无法禁将和重置禁将，受到影响的小伙伴们我在这里道歉，对不起。现1.7.8及以上修复...<br>'+
+                    '<br>在1.7.8版本加入的禁用BOSS相关函数，导致无法禁将和重置禁将池，受到影响的小伙伴们我在这里道歉，对不起。现1.7.9及以上修复...<br>'+
                     '<br>优化了UI调用，解决了部分界面带来的问题<br>'+
                     '<br>在1.7.1及以上版本都可以使用网络更新啦！<br>'+
                     '<br>以后正式更名为术樱，还希望大家多多支持<br>'+
