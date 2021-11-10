@@ -60,10 +60,11 @@ precontent:function (Diuse){
                     '<div style="text-align:left"><font size=3px>'+
                     //'<br><br>'+
                     '-----< 改动 >-----'+
-                    '<br>优化符华标记<br>'+
+                    '<br>上仙增强，卡莲削弱。剩下的懒得写了，好懒啊。。。<br>'+
                     '<br>优化算法<br>'+
                     '<br>天书乱斗追更至官方版本<br>'+
                     '<br>修复了众多文本描述错误<br>'+
+                    '<br>在1.7.7版本加入的禁用BOSS相关函数，导致无法禁将和重置禁将，受到影响的小伙伴们我在这里道歉，对不起。现1.7.8及以上修复...<br>'+
                     '<br>优化了UI调用，解决了部分界面带来的问题<br>'+
                     '<br>在1.7.1及以上版本都可以使用网络更新啦！<br>'+
                     '<br>以后正式更名为术樱，还希望大家多多支持<br>'+
@@ -588,30 +589,8 @@ precontent:function (Diuse){
         'Tianshu_Boss_Hanba_Fucking','Xvni_Xiaosha','Xvni_Xiaoshan','Xvni_Xiaojiu','Xvni_Xiaotao','Xvni_Xiaole','Boss_Ordinary_Hankui','Boss_Difficulty_Hankui','Boss_Fucking_Hankui','Boss_Ordinary_Baiqi','Boss_Difficulty_Baiqi',
         'Boss_Fucking_Baiqi','Boss_Ordinary_WangshenBaiqi','Boss_Difficulty_WangshenBaiqi','Boss_Fucking_WangshenBaiqi','Boss_Ordinary_Guiyanwang','Boss_Difficulty_Guiyanwang','Boss_Fucking_Guiyanwang'];
         //'','','','','','','','','','','','','','','','','',
-        
         for(var i=0;i<mode.length;i++){
-            var modeBanndeList=lib.config[mode[i]+'_banned'];
-            if(modeBanndeList==undefined){
-                game.saveConfig(mode[i]+'_banned',pveBannedName);
-            } else {
-                modeBanndeList=JSON.stringify(modeBanndeList);
-                modeBanndeList=modeBanndeList.substring(1,modeBanndeList.length - 1);
-                modeBanndeList=modeBanndeList.replace(/\"/g, "");
-                var modeBanned=modeBanndeList.split("," );
-                for(var j=0;j<modeBanned.length;j++){
-                    pveBannedName.push(modeBanned[j]);
-                }   
-                var bannedList=[]
-                for(j = 0; j < pveBannedName.length; j++){
-                    for(k = j + 1; k < pveBannedName.length; k++){
-                        if(pveBannedName[j] === pveBannedName[k]){
-                            j = ++k;
-                        }
-                    }
-                    bannedList.push(pveBannedName[j]); 
-                }
-               game.saveConfig(mode[i]+'_banned',bannedList);
-            }
+            game.saveConfig(mode[i]+'_banned',pveBannedName);
         }
 
     	game.Diuse=function(英文名,翻译名,obj,扩展包名){
@@ -1857,7 +1836,7 @@ precontent:function (Diuse){
                             } else {
                                 var target=trigger.targets;
                                 for(var i=0;i<target.length;i++){
-                                    target[i].addTempSkill('Diuse_Yuansu_Yishang');
+                                    target[i].addTempSkill('Diuse_Yuansu_Yishang',{target:"phaseBefore"});
                                 }
                             }
                         },
@@ -1912,16 +1891,17 @@ precontent:function (Diuse){
                                     if(result.bool){
                                         var lengthStor=player.storage.Tiandi_Buff;
                                         if(lengthStor[0]==3){
-                                            result.targets[0].addTempSkill('Diuse_Tiandi_A');
+                                            result.targets[0].addTempSkill('Diuse_Tiandi_A',{target:"phaseAfter"});
                                             result.targets[0].draw();
                                         } else if(lengthStor[0]==1){
-                                            result.targets[0].addTempSkill('Diuse_Tiandi_B');
+                                            result.targets[0].addTempSkill('Diuse_Tiandi_B',{target:"phaseAfter"});
                                         } else {
                                             result.targets[0].draw();
                                         }
                                     }
                                     'step 2'
                                     player.storage.Tiandi_Go=false;
+                                    player.storage.Tiandi_Buff=[];
                                 },
                             },
                             Dying:{
@@ -2695,7 +2675,7 @@ precontent:function (Diuse){
                     Diuse_Xianfa:"仙法",
                     "Diuse_Xianfa_info":"回合结束后，你可以指定至多X名其他角色，然后其进入‘相引’状态，你的出牌阶段开始前会移除全场的‘相引’(X为你装备栏的空位且至多为3) 相引：你体力值或上限发生变化后场上拥有‘相引’发生相同变化随后移除技能。",
                     Diuse_Yinyang:"阴阳",
-                    "Diuse_Yinyang_info":"每回合限一次。当你使用牌指定唯一其他角色目标后你可以执行以下效果：若你武器区为空则弃置其一张牌；若你防具区为空则其获得元素易伤直至当前回合结束；若均为空或均不为空则你摸一张牌。",
+                    "Diuse_Yinyang_info":"每回合限一次。当你使用牌指定唯一其他角色目标后你可以执行以下效果：若你武器区为空则弃置其一张牌；若你防具区为空则其获得元素易伤直至其回合开始前；若均为空或均不为空则你摸一张牌。",
                     Diuse_Tiandi:"天地",
                     "Diuse_Tiandi_info":"准备阶段。若你的武器区为空或防具区为空则你可以多使用一张杀或摸一张牌，若两个均为空则额外手牌上限+2；结束阶段。你可以将本回合的天地效果给一名其他角色；锁定技，进入濒死后限一次，你将体力回复至1点并修改仙法：出牌阶段开始时不会再移除全场‘相引’",
                     Diuse_Yifa:"相引",//原仪法
@@ -2770,7 +2750,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            //Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Zhanjia','Qingqing_Boss_Shenji_Fucking','Qingqing_Boss_Wushuang','Zhuogui_Boss_Taiping_Fucking','kagari_zongsi'],[]],
+            Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Zhanjia','Qingqing_Boss_Shenji_Fucking','Qingqing_Boss_Wushuang','Zhuogui_Boss_Taiping_Fucking','kagari_zongsi'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
