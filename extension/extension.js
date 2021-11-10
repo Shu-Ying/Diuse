@@ -1,4 +1,4 @@
-;;game.import("extension",function(lib,game,ui,get,ai,_status){
+game.import("extension",function(lib,game,ui,get,ai,_status){
     return {
         name:"术樱",
         content:function (config,pack){
@@ -591,23 +591,27 @@ precontent:function (Diuse){
         
         for(var i=0;i<mode.length;i++){
             var modeBanndeList=lib.config[mode[i]+'_banned'];
-            modeBanndeList=JSON.stringify(modeBanndeList)
-            modeBanndeList=modeBanndeList.substring(1,modeBanndeList.length - 1);
-            modeBanndeList=modeBanndeList.replace(/\"/g, "");
-            var modeBanned=modeBanndeList.split("," );
-            for(var j=0;j<modeBanned.length;j++){
-                pveBannedName.push(modeBanned[j])        
-            }   
-            var bannedList=[]
-            for(j = 0; j < pveBannedName.length; j++){
-                for(k = j + 1; k < pveBannedName.length; k++){
-                    if(pveBannedName[j] === pveBannedName[k]){
-                        j = ++k;
+            if(modeBanndeList==undefined){
+                game.saveConfig(mode[i]+'_banned',pveBannedName);
+            } else {
+                modeBanndeList=JSON.stringify(modeBanndeList);
+                modeBanndeList=modeBanndeList.substring(1,modeBanndeList.length - 1);
+                modeBanndeList=modeBanndeList.replace(/\"/g, "");
+                var modeBanned=modeBanndeList.split("," );
+                for(var j=0;j<modeBanned.length;j++){
+                    pveBannedName.push(modeBanned[j]);
+                }   
+                var bannedList=[]
+                for(j = 0; j < pveBannedName.length; j++){
+                    for(k = j + 1; k < pveBannedName.length; k++){
+                        if(pveBannedName[j] === pveBannedName[k]){
+                            j = ++k;
+                        }
                     }
+                    bannedList.push(pveBannedName[j]); 
                 }
-                bannedList.push(pveBannedName[j]); 
+               game.saveConfig(mode[i]+'_banned',bannedList);
             }
-            game.saveConfig(mode[i]+'_banned',bannedList);
         }
 
     	game.Diuse=function(英文名,翻译名,obj,扩展包名){
