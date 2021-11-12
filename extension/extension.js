@@ -589,8 +589,30 @@ precontent:function (Diuse){
         'Tianshu_Boss_Hanba_Fucking','Xvni_Xiaosha','Xvni_Xiaoshan','Xvni_Xiaojiu','Xvni_Xiaotao','Xvni_Xiaole','Boss_Ordinary_Hankui','Boss_Difficulty_Hankui','Boss_Fucking_Hankui','Boss_Ordinary_Baiqi','Boss_Difficulty_Baiqi',
         'Boss_Fucking_Baiqi','Boss_Ordinary_WangshenBaiqi','Boss_Difficulty_WangshenBaiqi','Boss_Fucking_WangshenBaiqi','Boss_Ordinary_Guiyanwang','Boss_Difficulty_Guiyanwang','Boss_Fucking_Guiyanwang'];
         //'','','','','','','','','','','','','','','','','',
+        
         for(var i=0;i<mode.length;i++){
-            game.saveConfig(mode[i]+'_banned',pveBannedName);
+            var modeBanndeList=lib.config[mode[i]+'_banned'];
+            if(modeBanndeList==''||modeBanndeList==undefined){
+                game.saveConfig(mode[i]+'_banned',pveBannedName);
+            } else {
+                modeBanndeList=JSON.stringify(modeBanndeList)
+                modeBanndeList=modeBanndeList.substring(1,modeBanndeList.length - 1);
+                modeBanndeList=modeBanndeList.replace(/\"/g, "");
+                var modeBanned=modeBanndeList.split("," );
+                for(var j=0;j<modeBanned.length;j++){
+                    pveBannedName.push(modeBanned[j])        
+                }   
+                var bannedList=[]
+                for(j = 0; j < pveBannedName.length; j++){
+                    for(k = j + 1; k < pveBannedName.length; k++){
+                        if(pveBannedName[j] === pveBannedName[k]){
+                            j = ++k;
+                        }
+                    }
+                    bannedList.push(pveBannedName[j]); 
+                }
+                game.saveConfig(mode[i]+'_banned',bannedList);
+            }
         }
 
     	game.Diuse=function(英文名,翻译名,obj,扩展包名){
@@ -6836,20 +6858,45 @@ precontent:function (Diuse){
                 },
                 content:function(){
                     'step 0'
-                    trigger.source.chooseToDiscard(2,function(card){
-                        if(ui.selected.cards.length){
-                            return get.suit(card)!=get.suit(ui.selected.cards[0]);
-                        }
-                        return true;
-                    }).set('ai',function(card){
-                        if(card.name=='tao') return -10;
-                        if(card.name=='jiu'&&_status.event.player.hp==1) return -10;
-                        return get.unuseful(card)+2.5*(5-get.owner(card).hp);
-                    });
+                    event.videoId=lib.status.videoId++;
+					game.broadcastAll(function(player,id,cards,num){
+                        str='太平：弃置两张花色不同的手牌，取消则失去一点体力';
+						var dialog=ui.create.dialog(str,cards);
+						dialog.videoId=id;
+					},trigger.source,event.videoId,trigger.source.getCards());
+					game.addVideo('delay',null,2);
                     "step 1"
-                    if(result.bool==false){
-                        trigger.source.loseHp();
-                    }
+                    var next=trigger.source.chooseButton();
+					next.set('dialog',event.videoId);
+					next.set('filterButton',function(button){
+                        if(ui.selected.buttons.length>1){
+                            if(get.suit(ui.selected.buttons[0].link)==get.suit(ui.selected.buttons[1].link)){
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        } else {return true}
+					});
+                    next.set('selectButton',function(button){
+                        var num=player.countCards('h');
+                        if(ui.selected.buttons.length>1){
+                            if(get.suit(ui.selected.buttons[0].link)==get.suit(ui.selected.buttons[1].link)){
+                                return num+255;
+                            } else {
+                                return 2;
+                            }
+                        } else {return 3;}
+                    });
+                    next.set('ai',function(button){
+                        if(ui.selected.buttons.link=='tao') return -10;
+						if(ui.selected.buttons.link=='jiu'&&_status.event.player.hp==1) return -10;
+						return true;
+                    });
+                    "step 2"
+                    if(result.bool&&result.links){
+                        trigger.source.discard(result.links);
+                    } else {trigger.source.loseHp();}
+                    game.broadcastAll('closeDialog',event.videoId);
                 },
             },
             Zhuogui_Boss_Taiping_Fucking:{
@@ -8241,9 +8288,9 @@ precontent:function (Diuse){
             Zhuogui_Boss_Xixing_Fucking:"吸星",
             Zhuogui_Boss_Xixing_Fucking_info:"锁定技，准备阶段，你对所有敌方角色的一名角色造成1点雷电伤害，然后回复1点体力。",
             Zhuogui_Boss_Taiping:"太平",
-            Zhuogui_Boss_Taiping_info:"锁定技，当你受到敌方角色造成的伤害后，伤害来源需弃置两张牌，否则失去1点体力。",
+            Zhuogui_Boss_Taiping_info:"锁定技，当你受到敌方角色造成的伤害后，伤害来源需弃置两张花色不同的手牌，否则失去1点体力。",
             Zhuogui_Boss_Taiping_Fucking:"太平",
-            Zhuogui_Boss_Taiping_Fucking_info:"锁定技，当你受到敌方角色造成的1点伤害后，伤害来源需弃置两张牌，否则失去1点体力。",
+            Zhuogui_Boss_Taiping_Fucking_info:"锁定技，当你受到敌方角色造成的1点伤害后，伤害来源需弃置两张花色不同的手牌，否则失去1点体力。",
             Zhuogui_Boss_Mizui:"迷醉",
             Zhuogui_Boss_Mizui_info:"你的红色【杀】或属性【杀】造成伤害后，你可以弃置受伤角色一张牌。",
             Zhuogui_Boss_Mizui_Fucking:"迷醉",
