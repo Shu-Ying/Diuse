@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.10');
+        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.11');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -348,6 +348,24 @@ precontent:function (Diuse){
                         break;
                     }
                 }
+            }
+        };
+        lib.extensionMenu.extension_术樱.tianshu_xvni={
+            "name":'虚拟偶像',
+            "init":'random',
+            "item":{
+                Xiaojiu:'小酒',
+                Xiaosha:'小杀',
+                Xiaoshan:'小闪',
+                Xiaole:'小乐',
+                random:'随机',
+            },
+            visualMenu:function(node){
+                node.className='button character controlbutton';
+                node.style.backgroundSize='';
+            },
+            onclick:function(layout){
+                game.saveConfig('extension_术樱_tianshu_xvni',layout);
             }
         };
         lib.extensionMenu.extension_术樱.thank={
@@ -1721,7 +1739,9 @@ precontent:function (Diuse){
                                 trigger:{player:"phaseUseBefore",},
                                 forced:true,
                                 filter:function(event,player){
-                                    if(player.countMark('Diuse_Xianfa')==undefined||player.countMark('Diuse_Xianfa')==0) return true;
+                                    for(var i=0;i<game.players.length;i++){
+                                        if(game.players[i].hasSkill('Diuse_Yifa')&&player.countMark('Diuse_Xianfa')==undefined||player.countMark('Diuse_Xianfa')==0) return true;
+                                    }
                                     return false;
                                 },
                                 content:function(event,player){
@@ -2772,7 +2792,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Zhanjia','Qingqing_Boss_Shenji_Fucking','Qingqing_Boss_Wushuang','Zhuogui_Boss_Taiping_Fucking','kagari_zongsi'],[]],
+            //Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Zhanjia','Qingqing_Boss_Shenji_Fucking','Qingqing_Boss_Wushuang','Zhuogui_Boss_Taiping_Fucking','kagari_zongsi'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -2923,9 +2943,7 @@ precontent:function (Diuse){
             Boss_Diuse_Tianshu:{
 				chongzheng:0,
                 checkResult:function(player){
-					if(game.boss.name!='AAA'){
-						return false;
-					}
+                    return false;
 				},
 				init:function(){
                     _status.additionalReward=function(){
@@ -3008,8 +3026,8 @@ precontent:function (Diuse){
                 for(var i=0;i<game.players.length;i++){
                     if(game.players[i].side) continue;
                     game.players[i].hujia=0;
-                    game.players[i].classList.remove('turnedover');
-                    game.players[i].removeLink();
+                    //game.players[i].classList.remove('turnedover');
+                    //game.players[i].removeLink();
                     game.players[i].recover(Hp);
                     game.players[i].draw(Pai);
                 }
@@ -3381,10 +3399,32 @@ precontent:function (Diuse){
 				unique:true,
                 filter:function(event,player){return player!=game.boss;},
                 content:function(){
-                    var livelist=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole']
-                    var forBool=false;
+                    var livelist=[];
+                    switch(lib.config.extension_术樱_tianshu_xvni){
+                        case 'random':{
+                            livelist=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'].randomGet();
+                            break;
+                        }
+                        case 'Xiaojiu':{
+                            livelist='Xvni_Xiaojiu';
+                            break;
+                        }
+                        case 'Xiaosha':{
+                            livelist='Xvni_Xiaosha';
+                            break;
+                        }
+                        case 'Xiaoshan':{
+                            livelist='Xvni_Xiaoshan';
+                            break;
+                        }
+                        case 'Xiaole':{
+                            livelist='Xvni_Xiaole';
+                            break;
+                        }
+                    }
+                    var forBool= qfalse;
                     "step 0"
-                    var fellow=game.addFellow(6,livelist.randomGet(),'zoominanim');
+                    var fellow=game.addFellow(6,livelist,'zoominanim');
                     fellow.side=player.side;
                     //fellow.classList.add('turnedover');
                     event.source=fellow;
@@ -6094,11 +6134,24 @@ precontent:function (Diuse){
                 audio:"ext:术樱:2",
                 trigger:{global:"phaseUseBegin"},
                 check:function(event,player){return (get.attitude(player,event.player)>0);},
-                filter:function(event,player){return event.player!=player},
+                filter:function(event,player){
+                    if(player.storage.Xiaojiu_Meiniang==undefined) player.storage.Xiaojiu_Meiniang=[];
+                    return event.player!=player;
+                },
                 content:function(){
                     player.line(trigger.player);
                     trigger.player.chooseUseTarget({name:'jiu'},true,'noTargetDelay','nodelayx');
-                    trigger.player.addTempSkill('Diuse_Xvni_Xiaojiu_Jiu_Buff');
+                    player.storage.Xiaojiu_Meiniang.push('1');
+                    trigger.player.addTempSkill('Diuse_Xvni_Xiaojiu_Jiu_Buff'); 
+                },
+                group:['Diuse_Xvni_Xiaojiu_Meiniang_Jieshu'],
+                subSkill:{
+                    trigger:{global:"phaseJieshu"},
+                    forced:true,
+                    popup:false,
+                    content:function(){
+                        player.storage.Xiaojiu_Meiniang=[];
+                    },
                 },
             },
             Diuse_Xvni_Xiaojiu_Yaoli:{
@@ -6113,7 +6166,15 @@ precontent:function (Diuse){
                 mode:['boss'],
                 mod:{
                     cardUsable:function(card,player,num){
-                        if(card.name=='jiu') return num+1;
+                        var number=1;
+                        for(var i=0;i<game.players.length;i++){
+                            if(game.players[i].storage.Xiaojiu_Meiniang==undefined){
+                                continue;
+                            } else {
+                                number=game.players[i].storage.Xiaojiu_Meiniang.length;
+                            }
+                        }
+                        if(card.name=='jiu') return num+number;
                     },
                 },
             },
@@ -6953,12 +7014,13 @@ precontent:function (Diuse){
                     if(result.bool&&result.links){
                         trigger.source.discard(result.links);
                     } else {trigger.source.loseHp();}
-                    game.broadcastAll('closeDialog',event.videoId);
                     "step 4"
                     if(event.Taiping){
                         player.logSkill('Zhuogui_Boss_Taiping_Fucking');
                         event.goto(1);
                     }
+                    "step 5"
+                    game.broadcastAll('closeDialog',event.videoId);
                 },
             },
             Zhuogui_Boss_Mizui:{
@@ -7176,7 +7238,7 @@ precontent:function (Diuse){
                     'step 1'
                     if(event.bool1==false)  event.finish();
                     event.name=game.playerCardMax(player);
-                    var num=event.name.countCards('h')/2;
+                    var num=parseInt(event.name.countCards('h')/2);
                     event.name.chooseCard('h',true,'交给'+get.translation(player)+get.cnNumber(num)+'张牌',num).set('ai',function(card){
                         var evt=_status.event.getParent();
                         if(get.attitude(_status.event.player,evt.player)>2){
@@ -7859,18 +7921,9 @@ precontent:function (Diuse){
             },
             Qingqing_Boss_Shenji_Buff_Fucking:{
                 mode:['boss'],
-                trigger:{player:"useCard"},
-                forced:true,
-                popup:false,
-                filter:function(event,player){
-                    return player.isPhaseUsing()&&(event.card.name=='sha');
-                },
-                content:function(){
-                    trigger.directHit.addArray(game.players);
-                },
                 mod:{
                     selectTarget:function(card,player,range){if(card.name=='sha'&&range[1]!=-1) range[1]+2;},
-                    cardUsable:function(card,player,num){if(player.isEmpty(1)&&card.name=='sha') return num+2;},
+                    cardUsable:function(card,player,num){return num+2;},
                 },
             },
             Qingqing_Boss_Zhanjia:{
