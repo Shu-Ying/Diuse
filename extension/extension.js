@@ -3422,7 +3422,7 @@ precontent:function (Diuse){
                             break;
                         }
                     }
-                    var forBool= qfalse;
+                    var forBool=false;
                     "step 0"
                     var fellow=game.addFellow(6,livelist,'zoominanim');
                     fellow.side=player.side;
@@ -6146,11 +6146,13 @@ precontent:function (Diuse){
                 },
                 group:['Diuse_Xvni_Xiaojiu_Meiniang_Jieshu'],
                 subSkill:{
-                    trigger:{global:"phaseJieshu"},
-                    forced:true,
-                    popup:false,
-                    content:function(){
-                        player.storage.Xiaojiu_Meiniang=[];
+                    Jieshu:{
+                        trigger:{global:"phaseJieshu"},
+                        forced:true,
+                        popup:false,
+                        content:function(){
+                            player.storage.Xiaojiu_Meiniang=[];
+                        },
                     },
                 },
             },
