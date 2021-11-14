@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.11');
+        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.13');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -2942,7 +2942,7 @@ precontent:function (Diuse){
         boss:{
             Boss_Diuse_Tianshu:{
 				chongzheng:0,
-                checkResult:function(player){
+				checkResult:function(player){
                     return false;
 				},
 				init:function(){
@@ -3399,12 +3399,8 @@ precontent:function (Diuse){
 				unique:true,
                 filter:function(event,player){return player!=game.boss;},
                 content:function(){
-                    var livelist=[];
+                    var livelist=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'];
                     switch(lib.config.extension_术樱_tianshu_xvni){
-                        case 'random':{
-                            livelist=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'].randomGet();
-                            break;
-                        }
                         case 'Xiaojiu':{
                             livelist='Xvni_Xiaojiu';
                             break;
@@ -3421,6 +3417,10 @@ precontent:function (Diuse){
                             livelist='Xvni_Xiaole';
                             break;
                         }
+                        default:{
+                            livelist=livelist.randomGet();
+                            break;
+                        }
                     }
                     var forBool=false;
                     "step 0"
@@ -3434,6 +3434,7 @@ precontent:function (Diuse){
                     event.result=event.source;
                     game.players[0].chooseControl('普通','困难','阴间');
                     "step 2"
+                    livelist=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'];
                     if(result.control=='普通'){
                         player.addMark('livePlayer',1);
                         for(var i=0;i<game.players.length;i++){
