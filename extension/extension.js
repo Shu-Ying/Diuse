@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        if(lib.config.Diuse_local_version==undefined) game.saveConfig('Diuse_local_version','1.7.13');
+        game.saveConfig('Diuse_local_version','1.7.14');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -368,12 +368,27 @@ precontent:function (Diuse){
                 game.saveConfig('extension_术樱_tianshu_xvni',layout);
             }
         };
+        lib.extensionMenu.extension_术樱.Log={
+            "name":"<span style='text-decoration: underline'>反馈BUG</span>",
+            "clear":true,
+            "onclick":function(){
+                game.open('https://tieba.baidu.com/p/7592422139');
+            },
+        };
         lib.extensionMenu.extension_术樱.thank={
             "name":"最后感谢极光大佬和其他网络上的文献，还有反馈BUG的玩家。谢谢！",
             "clear":true,
             "nopointer":true,
         };
-        
+        lib.extensionMenu.extension_术樱.autoUpdate={
+            "name":"自动更新",
+            "init":true,
+            "intro":"开启后，打开游戏时自动更新"
+        };
+
+        download_filter=function(){
+
+        },
         download_version=function(){
             var online_version;
             var httpRequest = new XMLHttpRequest();
@@ -399,6 +414,8 @@ precontent:function (Diuse){
                                     Diuse_Button=true;
                                     alert('下载失败');
                                 });
+                            } else {
+                                Diuse_Button=true;
                             }
                         }
                         if(local_version!=online_version&&Diuse_num==1){
@@ -413,6 +430,8 @@ precontent:function (Diuse){
                                     Diuse_Button=true;
                                     alert('下载失败');
                                 });
+                            } else {
+                                Diuse_Button=true;
                             }
                         } else {
                             if(Diuse_num==1){
@@ -432,6 +451,8 @@ precontent:function (Diuse){
                                 Diuse_Button=true;
                                 alert('下载失败');
                             });
+                        } else {
+                            Diuse_Button=true;
                         }
                     });
                 }
@@ -541,6 +562,37 @@ precontent:function (Diuse){
             });
         };
         download_dynamic_all=function(){
+            lib.init.js(url,'files',function(){
+                var list=Diuse_dynamic;
+                var num=0;
+                var num1=list.length;
+                document.body.appendChild(Diuse_Text);
+                var download1=function(){
+                        game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/image/dynamic/'+list[0],'extension/术樱/'+list[0],function(){
+                            num++
+                            list.remove(list[0]);
+                            if(list.length>0){
+                                Diuse_Text.innerHTML='正在下载（'+num+'/'+num1+'）';
+                                download1();
+                            }else{
+                                Diuse_Text.innerHTML='下载完毕';
+                                Diuse_Button=true;
+                                alert('动态皮肤下载完毕!');
+                                document.body.removeChild(Diuse_Text);
+                            };
+                        },function(){
+                            if(confirm('下载'+list[0]+'失败，是否继续下载？')){
+                                download1();
+                            }
+                        });
+                    }
+                download1();
+            },function(){
+                Diuse_Button=true;
+                alert('本地资源不完整！请检查文件完整性。');
+            });
+        };
+        download_files_all=function(){
             lib.init.js(url,'files',function(){
                 var list=Diuse_dynamic;
                 var num=0;
@@ -1114,7 +1166,7 @@ precontent:function (Diuse){
                                     }
                                 });
                             } else {
-                                player.chooseControl('摸牌','取消').set('prompt','请选择:摸一张牌(如果没有手牌则摸两张)复原武将').set('ai',function(){
+                                player.chooseControl('摸牌','取消').set('prompt','请选择:摸一张牌(如果没有手牌则摸两张)').set('ai',function(){
                                     return '摸牌';
                                 });
                             }
@@ -1878,7 +1930,7 @@ precontent:function (Diuse){
                             } else {
                                 var target=trigger.targets;
                                 for(var i=0;i<target.length;i++){
-                                    target[i].addTempSkill('Diuse_Yuansu_Yishang',{target:"phaseBefore"});
+                                    target[i].addTempSkill('Diuse_Yuansu_Yishang',{player:"phaseBefore"});
                                 }
                             }
                         },
@@ -1933,10 +1985,10 @@ precontent:function (Diuse){
                                     if(result.bool){
                                         var lengthStor=player.storage.Tiandi_Buff;
                                         if(lengthStor[0]==3){
-                                            result.targets[0].addTempSkill('Diuse_Tiandi_A',{target:"phaseAfter"});
+                                            result.targets[0].addTempSkill('Diuse_Tiandi_A',{player:"phaseAfter"});
                                             result.targets[0].draw();
                                         } else if(lengthStor[0]==1){
-                                            result.targets[0].addTempSkill('Diuse_Tiandi_B',{target:"phaseAfter"});
+                                            result.targets[0].addTempSkill('Diuse_Tiandi_B',{player:"phaseAfter"});
                                         } else {
                                             result.targets[0].draw();
                                         }
@@ -2792,7 +2844,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            //Diuse_Beta:["female","qun","9/10",['Qingqing_Boss_Zhanjia','Qingqing_Boss_Shenji_Fucking','Qingqing_Boss_Wushuang','Zhuogui_Boss_Taiping_Fucking','kagari_zongsi'],[]],
+            Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Nianshou_Zhuyan'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -2966,7 +3018,7 @@ precontent:function (Diuse){
                             node.remove();
                         }
                     }
-				}
+				},
 			},
         },
         game:{ //Boss自定义函数处
@@ -3115,7 +3167,7 @@ precontent:function (Diuse){
                 if(a==undefined) a=-99
                 var liveList=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'];
                 var oneList=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
-                'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun',];
+            'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun',];
                 var twoOrdinaryList=['Zhuogui_Boss_Baowei','Zhuogui_Boss_Heibaiwuchang','Zhuigui_Boss_Huangfeng'];
                 var twoDifficultyList=['Zhuogui_Boss_Baowei_Difficulty','Zhuogui_Boss_Heibaiwuchang_Difficulty','Zhuigui_Boss_Huangfeng_Difficulty'];
                 var twoFuckingList=['Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang_Fucking','Zhuigui_Boss_Huangfeng_Fucking'];
@@ -3561,7 +3613,7 @@ precontent:function (Diuse){
                             game.tianshuNewBoss(_status.currentPhase.next);
                             for(var i=0;i<game.players.length;i++){
                                 if(game.players[i].name==name1||game.players[i].name==name2){
-                                    if(num2==1){game.players[i].draw(2);} else if(num2==2){game.players[i].draw(3);} else {game.players[i].draw(4);}
+                                    if(num2==1){game.players[i].draw(1);} else if(num2==2){game.players[i].draw(2);} else {game.players[i].draw(3);}
                                 }
                             }
                         }
@@ -3595,7 +3647,7 @@ precontent:function (Diuse){
                             game.tianshuNewBoss(_status.currentPhase.next);
                             for(var i=0;i<game.players.length;i++){
                                 if(game.players[i].name==name1||game.players[i].name==name2){
-                                    if(num2==1){game.players[i].draw(4);} else if(num2==2){game.players[i].draw(6);} else {game.players[i].draw(8);}
+                                    if(num2==1){game.players[i].draw(2);} else if(num2==2){game.players[i].draw(3);} else {game.players[i].draw(4);}
                                 }
                             }
                         }
@@ -3629,7 +3681,7 @@ precontent:function (Diuse){
                             game.tianshuNewBoss(_status.currentPhase.next);
                             for(var i=0;i<game.players.length;i++){
                                 if(game.players[i].name==name1||game.players[i].name==name2){
-                                    if(num2==1){game.players[i].draw(6);} else if(num2==2){game.players[i].draw(9);} else {game.players[i].draw(12);}
+                                    if(num2==1){game.players[i].draw(3);} else if(num2==2){game.players[i].draw(4);} else {game.players[i].draw(5);}
                                 }
                             }
                         }
@@ -4570,6 +4622,7 @@ precontent:function (Diuse){
                     },
                 },
             },
+            AAA:{},
             Tianshu_Boss_Difficulty_Shashen:{
                 mode:['boss'],
                 trigger:{
@@ -6052,22 +6105,9 @@ precontent:function (Diuse){
                     'step 1'
                     if(result.bool){
                         trigger.player.getStat().card.sha--;
-                        trigger.player.addTempSkill('Diuse_Xvni_Xiaosha_Guisha_Buff','shaAfter');
+                        trigger.baseDamage+=1;
                     }
                 },
-            },
-            Diuse_Xvni_Xiaosha_Guisha_Buff:{
-                mode:['boss'],
-                audio:"ext:术樱:2",
-				trigger:{source:'damageBegin'},
-				filter:function(event){
-					return event.card&&event.card.name=='sha'&&event.notLink();
-				},
-				forced:true,
-				popup:false,
-				content:function(){
-					trigger.num++;
-				}
             },
             Diuse_Xvni_Xiaosha_Zhuli:{
                 mode:['boss'],
@@ -6163,7 +6203,9 @@ precontent:function (Diuse){
                 trigger:{global:"useCard"},
                 check:function(event,player){return (get.attitude(player,event.player)>0);},
                 filter:function(event,player){return event.player!=player&&event.card.name=='jiu';},
-                content:function(){trigger.player.addTempSkill('Diuse_Xvni_Xiaojiu_Sha_Buff','shaAfter');},
+                content:function(){
+                    trigger.player.addTempSkill('Diuse_Xvni_Xiaojiu_Sha_Buff',{player:['shaAfter','phaseAfter']});
+                },
             },
             Diuse_Xvni_Xiaojiu_Jiu_Buff:{
                 mode:['boss'],
@@ -6358,25 +6400,21 @@ precontent:function (Diuse){
                 audio:"ext:术樱:2",
                 trigger:{player:"phaseDrawBefore"},
                 content:function(){
+                    'step 0'
                     trigger.cancel();
-                    var cards=[]; 
-                    for(var i=0;i<4;i++){
-                        var card=get.cardPile(function(card){
-                            return card.number==game.randomNum(13,1);
-                        });
-                        if(card&&cards.length<2){
-                            cards.push(card);
-                        } else {
-                            for(var j=0;j<cards.length;j++){
-                                if(card==cards[j]){
-                                    i--;
-                                    cards.splice(j,1);
-                                }
-                            }
-                            cards.push(card);
-                        }
-                    }
-                    player.gain(cards,'gain2');
+                    event.cards=[]; 
+                    event.num=0;
+                    'step 1'
+                    var card=get.cardPile2(function(card){
+                        if(event.cards.contains(card)) return false;
+                        return true;
+                    });
+                    if(card) event.cards.push(card);
+                    event.num++;
+                    'step 2'
+                    if(event.num<4) event.goto(1);
+                    'step 3'
+                    player.gain(event.cards,'gain2');
                 },
             },
             Nianshou_Xiaoji:{
@@ -6977,6 +7015,8 @@ precontent:function (Diuse){
                 content:function(){
                     "step 0"
                     event.Taiping=trigger.num;
+                    "step 1"
+                    event.Taiping--;
                     event.videoId=lib.status.videoId++;
 					game.broadcastAll(function(player,id,cards,num){
                         str='太平：弃置两张花色不同的手牌，取消则失去一点体力';
@@ -6984,8 +7024,6 @@ precontent:function (Diuse){
 						dialog.videoId=id;
 					},trigger.source,event.videoId,trigger.source.getCards());
 					game.addVideo('delay',null,2);
-                    "step 1"
-                    event.Taiping--;
                     "step 2"
                     var next=trigger.source.chooseButton();
 					next.set('dialog',event.videoId);
@@ -7017,19 +7055,19 @@ precontent:function (Diuse){
                     if(result.bool&&result.links){
                         trigger.source.discard(result.links);
                     } else {trigger.source.loseHp();}
+                    game.broadcastAll('closeDialog',event.videoId);
                     "step 4"
                     if(event.Taiping){
                         player.logSkill('Zhuogui_Boss_Taiping_Fucking');
                         event.goto(1);
                     }
-                    "step 5"
-                    game.broadcastAll('closeDialog',event.videoId);
                 },
             },
             Zhuogui_Boss_Mizui:{
                 mode:["boss"],
                 audio:"ext:术樱:2",
                 trigger:{source:"damageAfter"},
+                check:function(event,player){return (get.attitude(player,event.player)<0);},
                 filter:function(event,player){
                     if(!event.card) return false;
                     if(event.card.name!='sha') return false;
@@ -7051,6 +7089,7 @@ precontent:function (Diuse){
                 mode:["boss"],
                 audio:"Zhuogui_Boss_Mizui",
                 trigger:{source:"damageAfter"},
+                check:function(event,player){return (get.attitude(player,event.player)<0);},
                 filter:function(event,player){
                     if(!event.card) return false;
                     if(event.card.name!='sha') return false;
@@ -7058,8 +7097,6 @@ precontent:function (Diuse){
                     return true;
                 },
                 content:function(){
-                    event.num=trigger.num;
-                    'step 0'
                     player.discardPlayerCard(trigger.player,2,'he',get.prompt('Zhuogui_Boss_Mizui',trigger.player),true).set('ai',function(button){
                         if(!_status.event.att) return 0;
                         if(get.position(button.link)=='e'){
@@ -7068,11 +7105,6 @@ precontent:function (Diuse){
                         }
                         return 1;
                     }).set('att',get.attitude(player,trigger.player)<=0);
-                    'step 1'
-                    if(event.num>0){
-                        event.num--;
-                        event.goto(0);
-                    } else {event.finish();}
                 },
             },
             Zhuogui_Boss_Qiangzheng:{
@@ -7608,6 +7640,7 @@ precontent:function (Diuse){
                 filter:function(event,player){
                     if(player.storage.Wangzun_Damage==undefined) {
                         event.player.chooseToDiscard(1,true);
+                        player.storage.Wangzun_Damage=[];
                         return false;
                     }
                     if(player.storage.Wangzun_Damage.length==1) return false;
@@ -7622,14 +7655,16 @@ precontent:function (Diuse){
                     } else {
                         trigger.player.damage();
                     }
+                    delete player.storage.Wangzun_Damage;
                 },
-                group:['Qingqing_Boss_Wangzun_Fucking_Damage','Qingqing_Boss_Wangzun_Fucking_Zhunbei'],
+                group:['Qingqing_Boss_Wangzun_Fucking_Damage'],
                 subSkill:{
                     Damage:{
                         trigger:{player:"damageAfter"},
                         forced:true,
                         popup:false,
                         filter:function(event,player){
+                            if(player.storage.Wangzun_Damage==undefined) player.storage.Wangzun_Damage=[];
                             if(event.source!=undefined&&event.source==_status.currentPhase) return true;
                             return false;
                         },
@@ -7638,12 +7673,6 @@ precontent:function (Diuse){
                                 player.storage.Wangzun_Damage.push('1');
                             }
                         },
-                    },
-                    Zhunbei:{
-                        trigger:{global:"phaseZhunbeiBegin"},
-                        forced:true,
-                        popup:false,
-                        content:function(){player.storage.Wangzun_Damage=[];},
                     },
                 },
             },
@@ -7945,7 +7974,7 @@ precontent:function (Diuse){
             Tianshu_Boss_Dishi:{
                 mode:["boss"],
                 audio:"ext:术樱:2",
-                trigger:{global:"useCardToTarget"},
+                trigger:{player:"useCardToTarget"},
                 filter:function(event,player){
                     if(player.storage.DishiTarget!=undefined){
                         var lengthStor=player.storage.DishiTarget;
@@ -8189,7 +8218,7 @@ precontent:function (Diuse){
             },
             Tianshu_Boss_Zhiri:{
                 mode:["boss"],
-                trigger:{global:"useCardToEnd"},
+                trigger:{global:"useCardToPlayered"},
                 multitarget:true,
                 forced:true,
                 popup:false,
@@ -8202,7 +8231,7 @@ precontent:function (Diuse){
             },
             Tianshu_Boss_Zhiri_Fuck:{
                 mode:["boss"],
-                trigger:{global:"useCardToEnd"},
+                trigger:{global:"useCardToPlayered"},
                 forced:true,
                 popup:false,
                 multitarget:true,
@@ -8226,6 +8255,8 @@ precontent:function (Diuse){
         },
         translate:{
             Tianshu_Skill:"天书",
+            AAA:"终焉",
+            AAA_info:"时间技，使用后于90秒后",
             checkPoint:"关卡",
             livePlayer:"难度",
             Tianshu_Protect:"保护",
