@@ -16,12 +16,7 @@ precontent:function (Diuse){
     if(Diuse.enable){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
-        // var url_search='extension/术樱/extension1.js';
-        // game.readFile(url_search,function(){
-        //     alert('1');
-        // },function(){
-        //     alert('2');
-        // });
+
         game.saveConfig('Diuse_local_version','1.7.15');
 
         var httpRequest = new XMLHttpRequest();
@@ -197,11 +192,6 @@ precontent:function (Diuse){
         //         };
         //     },
         // };
-        lib.extensionMenu.extension_术樱.autoUpdate={
-            "name":"自动更新",
-            "init":true,
-            "intro":"开启后，打开游戏时自动更新"
-        };
         lib.extensionMenu.extension_术樱.Updata={
             "name":"版本检测",
             "clear":true,
@@ -576,74 +566,6 @@ precontent:function (Diuse){
                 }
             }; 
         };
-        autoUpdate_download=function(){
-            var online_version;
-            var httpRequest = new XMLHttpRequest();
-            httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
-            httpRequest.send(null);
-            httpRequest.onreadystatechange=function(){
-                if (httpRequest.readyState==4&&httpRequest.status==200){
-                    online_version=httpRequest.responseText;
-                    game.saveConfig('Diuse_online_version',httpRequest.responseText)
-                    lib.init.js(url,'version',function(){
-                        try {
-                            var local_version = Diuse_version;
-                            var Diuse_num=1;
-                        } catch (error) {
-                            if(confirm('本地资源不完整！点击确认重新获取！')){
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){},function(){});
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){},function(){});
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
-                                    game.saveConfig('Diuse_local_version',online_version);
-                                    Diuse_Button=true;
-                                    alert('下载完成，重启生效');
-                                },function(){
-                                    Diuse_Button=true;
-                                    alert('下载失败');
-                                });
-                            } else {
-                                Diuse_Button=true;
-                            }
-                        }
-                        if(local_version!=online_version&&Diuse_num==1){
-                            if(confirm('检测到最新版本为:'+online_version+'本地版本为:'+local_version)){
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){},function(){});
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){},function(){});
-                                game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
-                                    game.saveConfig('Diuse_local_version',online_version);
-                                    Diuse_Button=true;
-                                    alert('下载完成，重启生效');
-                                },function(){
-                                    Diuse_Button=true;
-                                    alert('下载失败');
-                                });
-                            } else {
-                                Diuse_Button=true;
-                            }
-                        } else {
-                            if(Diuse_num==1){
-                                Diuse_Button=true;
-                            } 
-                        }
-                    },function(){
-                        if(confirm('本地资源不完整！点击确认重新获取！')){
-                            game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){},function(){});
-                            game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){},function(){});
-                            game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/extension.js','extension/术樱/extension.js',function(){
-                                game.saveConfig('Diuse_local_version',online_version);
-                                Diuse_Button=true;
-                                alert('下载完成，重启生效');
-                            },function(){
-                                Diuse_Button=true;
-                                alert('下载失败');
-                            });
-                        } else {
-                            Diuse_Button=true;
-                        }
-                    });
-                }
-            }; 
-        };
         download_mp3=function(){
             lib.init.js(url,'files',function(){
                 var list=Diuse_mp3;
@@ -836,11 +758,6 @@ precontent:function (Diuse){
                 });
             }
         };
-
-        if(lib.config.extension_术樱_autoUpdate){
-            Diuse_Button=false;
-            autoUpdate_download();
-        }                    
 
         var mode=lib.config.all.mode.slice(0);
         var pveBannedName=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji',
