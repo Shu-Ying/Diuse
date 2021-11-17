@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.16');
+        game.saveConfig('Diuse_local_version','1.7.17');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -2953,7 +2953,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Nianshou_Zhuyan'],[]],
+            //Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Nianshou_Zhuyan'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -6208,7 +6208,10 @@ precontent:function (Diuse){
                 audio:"ext:术樱:2",
                 trigger:{global:"useCard"},
                 check:function(event,player){return (get.attitude(player,event.player)>0);},
-                filter:function(event,player,target){return event.card.name=='sha'&&player.countCards('he')>0&&event.player.isPhaseUsing();},
+                filter:function(event,player,target){
+                    if(event.player==player) return false;
+                    return event.card.name=='sha'&&player.countCards('he')>0&&event.player.isPhaseUsing();
+                },
                 content:function(){
                     'step 0'
                     player.chooseToDiscard(get.prompt('Diuse_Xvni_Xiaosha_Guisha'),'he','弃置一张牌使该【杀】伤害+1，且不计入出杀次数',true).set('ai',function(){
@@ -6226,8 +6229,11 @@ precontent:function (Diuse){
                 audio:"ext:术樱:2",
                 usable:2,
                 trigger:{global:"damageEnd",},
-                check:function(event,player){return (get.attitude(player,event.player)>0);},
-                filter:function(event,player){
+                check:function(event,player,source){
+                    return (get.attitude(player,event.source)>0);
+                },
+                filter:function(event,player,source){
+                    if(event.player==player) return false;
                     return event.source&&event.card&&event.card.name=='sha'&&event.source!=player;
                 },
                 logTarget:"source",
@@ -7072,6 +7078,10 @@ precontent:function (Diuse){
                 },
                 content:function(){
                     'step 0'
+                    if(trigger.source.countCards()<=0){
+                        trigger.source.loseHp();
+                        event.finish();
+                    }
                     event.videoId=lib.status.videoId++;
 					game.broadcastAll(function(player,id,cards,num){
                         str='太平：弃置两张花色不同的手牌，取消则失去一点体力';
@@ -7121,7 +7131,7 @@ precontent:function (Diuse){
                 filter:function(event,player){
                     if(event.source==undefined) return false;
                     if(event.source==player) return false;
-                    //if(event.source.isFriendOf(player)) return false;
+                    if(event.source.isFriendOf(player)) return false;
                     return true;
                 },
                 content:function(){
@@ -7129,6 +7139,11 @@ precontent:function (Diuse){
                     event.Taiping=trigger.num;
                     "step 1"
                     event.Taiping--;
+                    if(trigger.source.countCards()<=0){
+                        trigger.source.loseHp();
+                        event.goto(5);
+                    }
+                    "step 2"
                     event.videoId=lib.status.videoId++;
 					game.broadcastAll(function(player,id,cards,num){
                         str='太平：弃置两张花色不同的手牌，取消则失去一点体力';
@@ -7136,7 +7151,7 @@ precontent:function (Diuse){
 						dialog.videoId=id;
 					},trigger.source,event.videoId,trigger.source.getCards());
 					game.addVideo('delay',null,2);
-                    "step 2"
+                    "step 3"
                     var next=trigger.source.chooseButton();
 					next.set('dialog',event.videoId);
 					next.set('filterButton',function(button){
@@ -7163,12 +7178,12 @@ precontent:function (Diuse){
 						if(ui.selected.buttons.link=='jiu'&&_status.event.player.hp==1) return -10;
 						return true;
                     });
-                    "step 3"
+                    "step 4"
                     if(result.bool&&result.links){
                         trigger.source.discard(result.links);
                     } else {trigger.source.loseHp();}
                     game.broadcastAll('closeDialog',event.videoId);
-                    "step 4"
+                    "step 5"
                     if(event.Taiping){
                         player.logSkill('Zhuogui_Boss_Taiping_Fucking');
                         event.goto(1);
@@ -7360,7 +7375,7 @@ precontent:function (Diuse){
                     if(evt&&evt.name=='phase'){
                         evt.finish();
                     }
-                    player.markSkillCharacter('Zhuogui_Boss_Zhennu',player,'Zhuogui_Boss_Zhennu','已经生效');
+                    player.markSkillCharacter('Zhuogui_Boss_Zhennu',player,'震怒','已经生效');
                     player.storage.Zhennu.push('true');
                     player.draw(4);
 					player.insertPhase();
