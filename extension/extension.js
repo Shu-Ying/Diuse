@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.21');
+        game.saveConfig('Diuse_local_version','1.7.22');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -42,7 +42,7 @@ precontent:function (Diuse){
             Diuse_Text.style[k]=Diuse_Text_style[k];
         };
         lib.extensionMenu.extension_术樱.local_version={
-            "name":"扩展版本："+lib.config.Diuse_local_version+"[稳定版]",
+            "name":"扩展版本："+lib.config.Diuse_local_version,
             "clear":true,
             "nopointer":true,
         };
@@ -370,6 +370,7 @@ precontent:function (Diuse){
                 Xiaosha:'小杀',
                 Xiaoshan:'小闪',
                 Xiaole:'小乐',
+                Xiaotao:'小桃',
                 random:'随机',
             },
             visualMenu:function(node){
@@ -871,7 +872,7 @@ precontent:function (Diuse){
             skill:{
                 skill:{
                     Diuse_Wuli_Yishang_Mark:{ //用于存储标记数量
-                        marktext:"易",
+                        marktext:"易伤",
                         mark:true,
                         intro:{
                             content:function (storage,player,skill){
@@ -893,7 +894,7 @@ precontent:function (Diuse){
                         },
                     },
                     Diuse_Yuansu_Yishang_Mark:{
-                        marktext:"易",
+                        marktext:"易伤",
                         mark:true,
                         intro:{
                             content:function (storage,player,skill){
@@ -915,7 +916,7 @@ precontent:function (Diuse){
                         },
                     },
                     Diuse_Quanmian_Yishang_Mark:{
-                        marktext:"易",
+                        marktext:"易伤",
                         mark:true,
                         intro:{
                             content:function (storage,player,skill){
@@ -1367,7 +1368,7 @@ precontent:function (Diuse){
                         },
                     },
                     Diuse_Ying:{
-                        marktext:"樱",
+                        marktext:"落樱",
                         mark:true,
                         intro:{
                             name:"落樱",
@@ -1864,7 +1865,7 @@ precontent:function (Diuse){
                     Diuse_Xianfa:{
                         audio:"ext:术樱:2",
                         audioname:["shangxian"],
-                        marktext:"仙",
+                        marktext:"仙法",
                         mark:true,
                         intro:{
                             content:function (storage,player,skill){
@@ -1900,10 +1901,10 @@ precontent:function (Diuse){
                                 trigger:{player:"phaseUseBefore",},
                                 forced:true,
                                 filter:function(event,player){
+                                    if(player.countMark('Diuse_Xianfa')) return false;
                                     for(var i=0;i<game.players.length;i++){
-                                        if(game.players[i].hasSkill('Diuse_Yifa')&&player.countMark('Diuse_Xianfa')==undefined||player.countMark('Diuse_Xianfa')==0) return true;
+                                        if(game.players[i].hasSkill('Diuse_Yifa')) return true;
                                     }
-                                    return false;
                                 },
                                 content:function(event,player){
                                     for(var i=0;i<game.players.length;i++){
@@ -1918,7 +1919,7 @@ precontent:function (Diuse){
                     },
                     Diuse_Yifa:{//改名但懒得换名字了
                         audioname:["shangxian"],
-                        marktext:"引",
+                        marktext:"相引",
                         mark:true,
                         intro:{
                             content:function (storage,player,skill){
@@ -2122,8 +2123,28 @@ precontent:function (Diuse){
                             },
                         },
                     },
-                    Diuse_Tiandi_A:{mod:{cardUsable:function(card,player,num){if(card.name=='sha') return num+1;},maxHandcardBase:function(player,num){return num+2;},},},
-                    Diuse_Tiandi_B:{mod:{cardUsable:function(card,player,num){if(card.name=='sha') return num+1;},},},
+                    Diuse_Tiandi_A:{
+                        marktext:"仙法",
+                        mark:true,
+                        locked:true,
+                        intro:{
+                            content:function(storage,player,skill){
+                                return "使用【杀】的次数+1，手牌上限+2。";
+                            }
+                        },
+                        mod:{cardUsable:function(card,player,num){if(card.name=='sha') return num+1;},maxHandcardBase:function(player,num){return num+2;},},
+                    },
+                    Diuse_Tiandi_B:{
+                        marktext:"仙法",
+                        mark:true,
+                        locked:true,
+                        intro:{
+                            content:function(storage,player,skill){
+                                return "使用【杀】的次数+1。";
+                            }
+                        },
+                        mod:{cardUsable:function(card,player,num){if(card.name=='sha') return num+1;},},
+                    },
                     Diuse_Bingren:{
                         group:['Diuse_Bingren_equip','Diuse_Bingren_lose'],
                         subSkill:{
@@ -2880,6 +2901,8 @@ precontent:function (Diuse){
                     Diuse_Yinyang:"阴阳",
                     "Diuse_Yinyang_info":"每回合限一次。当你使用牌指定唯一其他角色目标后你可以执行以下效果：若你武器区为空则弃置其一张牌；若你防具区为空则其获得元素易伤直至其回合开始前；若均为空或均不为空则你摸一张牌。",
                     Diuse_Tiandi:"天地",
+                    Diuse_Tiandi_A:"天地",
+                    Diuse_Tiandi_B:"天地",
                     "Diuse_Tiandi_info":"准备阶段。若你的武器区为空或防具区为空则你可以多使用一张杀或摸一张牌，若两个均为空则额外手牌上限+2；结束阶段。你可以将本回合的天地效果给一名其他角色；锁定技，进入濒死后限一次，你将体力回复至1点并修改仙法：出牌阶段开始时不会再移除全场‘相引’",
                     Diuse_Yifa:"相引",//原仪法
                     //"Diuse_Yifa_info":"每轮限一次。你选择一名角色随机临时获得崩坏包的一个角色的技能，如果目标不是自己则摸两张牌。主公技，限定技，觉醒技除外。",
@@ -2953,7 +2976,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            //Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Nianshou_Zhuyan'],[]],
+            //Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Zhuogui_Boss_Anchao','Zhuogui_Boss_Guixi'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -2987,18 +3010,21 @@ precontent:function (Diuse){
             Qingqing_Boss_Lvbu_Difficulty:['male','qun',20,['Qingqing_Boss_Mashu','Qingqing_Boss_Wushuang','Qingqing_Boss_Shenji','Qingqing_Boss_Zhanjia'],['qun','hiddenboss','bossallowed']],
             Qingqing_Boss_Lvbu_Fucking:['male','qun',30,['Qingqing_Boss_Mashu','Qingqing_Boss_Wushuang','Qingqing_Boss_Shenji_Fucking','Qingqing_Boss_Zhanjia'],['qun','hiddenboss','bossallowed']],
 
-            Zhuogui_Boss_Baowei:['male','shen',7,['Zhuogui_Boss_Yinsha','Zhuogui_Boss_Eli'],['qun','hiddenboss','bossallowed']],
-            Zhuogui_Boss_Baowei_Difficulty:['male','shen',10,['Zhuogui_Boss_Yinsha','Zhuogui_Boss_Eli','Zhuogui_Boss_Guimei'],['qun','hiddenboss','bossallowed']],
-            Zhuogui_Boss_Baowei_Fucking:['male','shen',13,['Zhuogui_Boss_Yinsha','Zhuogui_Boss_Eli','Zhuogui_Boss_Guimei'],['qun','hiddenboss','bossallowed']],
-            Zhuogui_Boss_Heibaiwuchang:['male','shen',7,['Zhuogui_Boss_Xixing','Zhuogui_Boss_Taiping','Zhuogui_Boss_Mizui'],['qun','hiddenboss','bossallowed']],
-            Zhuogui_Boss_Heibaiwuchang_Difficulty:['male','shen',11,['Zhuogui_Boss_Xixing_Difficulty','Zhuogui_Boss_Taiping','Zhuogui_Boss_Mizui_Fucking','Zhuogui_Boss_Qiangzheng'],['qun','hiddenboss','bossallowed']],
-            Zhuogui_Boss_Heibaiwuchang_Fucking:['male','shen',15,['Zhuogui_Boss_Xixing_Fucking','Zhuogui_Boss_Taiping_Fucking','Zhuogui_Boss_Mizui_Fucking','Zhuogui_Boss_Qiangzheng_Fucking'],['qun','hiddenboss','bossallowed']],
+            Zhuogui_Boss_Baowei:['male','qun',7,['Zhuogui_Boss_Yinsha','Zhuogui_Boss_Eli'],['qun','hiddenboss','bossallowed']],
+            Zhuogui_Boss_Baowei_Difficulty:['male','qun',10,['Zhuogui_Boss_Yinsha','Zhuogui_Boss_Eli','Zhuogui_Boss_Guimei'],['qun','hiddenboss','bossallowed']],
+            Zhuogui_Boss_Baowei_Fucking:['male','qun',13,['Zhuogui_Boss_Yinsha','Zhuogui_Boss_Eli','Zhuogui_Boss_Guimei'],['qun','hiddenboss','bossallowed']],
+            Zhuogui_Boss_Heibaiwuchang:['male','qun',7,['Zhuogui_Boss_Xixing','Zhuogui_Boss_Taiping','Zhuogui_Boss_Mizui'],['qun','hiddenboss','bossallowed']],
+            Zhuogui_Boss_Heibaiwuchang_Difficulty:['male','qun',11,['Zhuogui_Boss_Xixing_Difficulty','Zhuogui_Boss_Taiping','Zhuogui_Boss_Mizui_Fucking','Zhuogui_Boss_Qiangzheng'],['qun','hiddenboss','bossallowed']],
+            Zhuogui_Boss_Heibaiwuchang_Fucking:['male','qun',15,['Zhuogui_Boss_Xixing_Fucking','Zhuogui_Boss_Taiping_Fucking','Zhuogui_Boss_Mizui_Fucking','Zhuogui_Boss_Qiangzheng_Fucking'],['qun','hiddenboss','bossallowed']],
             Zhuigui_Boss_Huangfeng:['male','qun',7,['Zhuogui_Boss_Duzhen','Zhuogui_Boss_Mingchong','Zhuogui_Boss_Guimei'],['qun','hiddenboss','bossallowed']],
             Zhuigui_Boss_Huangfeng_Difficulty:['male','qun',10,['Zhuogui_Boss_Duzhen','Zhuogui_Boss_Mingchong','Zhuogui_Boss_Guimei'],['qun','hiddenboss','bossallowed']],
             Zhuigui_Boss_Huangfeng_Fucking:['male','qun',13,['Zhuogui_Boss_Duzhen','Zhuogui_Boss_Mingchong','Zhuogui_Boss_Guimei'],['qun','hiddenboss','bossallowed']],
             Zhuigui_Boss_Yanluowang:['male','qun',10,['Zhuogui_Boss_Tiemian','Zhuogui_Boss_Difu','Zhuogui_Boss_Zhennu'],['qun','hiddenboss','bossallowed']],
             Zhuigui_Boss_Yanluowang_Difficulty:['male','qun',13,['Zhuogui_Boss_Tiemian','Zhuogui_Boss_Difu','Zhuogui_Boss_Zhennu','Zhuogui_Boss_Xingpan'],['qun','hiddenboss','bossallowed']],
             Zhuigui_Boss_Yanluowang_Fucking:['male','qun',16,['Zhuogui_Boss_Tiemian','Zhuogui_Boss_Difu','Zhuogui_Boss_Zhennu','Zhuogui_Boss_Xingpan','Zhuogui_Boss_Dianwei'],['qun','hiddenboss','bossallowed']],
+            Zhuogui_Boss_Yvsai:['female','qun',10,['Zhuogui_Boss_Guixi','Zhuogui_Boss_Anchao'],['qun','hiddenboss','bossallowed']],
+            Zhuogui_Boss_Yvsai_Difficulty:['female','qun',13,['Zhuogui_Boss_Guixi','Zhuogui_Boss_Anchao','Zhuogui_Boss_Guimei_Female'],['qun','hiddenboss','bossallowed']],
+            Zhuogui_Boss_Yvsai_Fucking:['female','qun',16,['Zhuogui_Boss_Guixi','Zhuogui_Boss_Anchao','Zhuogui_Boss_Guimei_Female'],['qun','hiddenboss','bossallowed']],
 
             Tianshu_Boss_Xuannv:['female','shen',12,['Tianshu_Boss_Dishi','Tianshu_Boss_Jiutian',],['qun','hiddenboss','bossallowed']],
             Tianshu_Boss_Xuannv_Difficulty:['female','shen',15,['Tianshu_Boss_Dishi','Tianshu_Boss_Jiutian','Tianshu_Boss_Xuanlie'],['qun','hiddenboss','bossallowed']],
@@ -3052,6 +3078,9 @@ precontent:function (Diuse){
             Zhuigui_Boss_Yanluowang:"阎罗王",
             Zhuigui_Boss_Yanluowang_Difficulty:"阎罗王",
             Zhuigui_Boss_Yanluowang_Fucking:"阎罗王",
+            Zhuogui_Boss_Yvsai:"鱼鳃",
+            Zhuogui_Boss_Yvsai_Difficulty:"鱼鳃",
+            Zhuogui_Boss_Yvsai_Fucking:"鱼鳃",
 
             Qingqing_Boss_Dongzhuo:"董卓",
             Qingqing_Boss_Dongzhuo_Difficulty:"董卓",
@@ -3279,9 +3308,9 @@ precontent:function (Diuse){
                 var liveList=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'];
                 var oneList=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
             'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun'];
-                var twoOrdinaryList=['Zhuogui_Boss_Baowei','Zhuogui_Boss_Heibaiwuchang','Zhuigui_Boss_Huangfeng'];
-                var twoDifficultyList=['Zhuogui_Boss_Baowei_Difficulty','Zhuogui_Boss_Heibaiwuchang_Difficulty','Zhuigui_Boss_Huangfeng_Difficulty'];
-                var twoFuckingList=['Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang_Fucking','Zhuigui_Boss_Huangfeng_Fucking'];
+                var twoOrdinaryList=['Zhuogui_Boss_Baowei','Zhuogui_Boss_Heibaiwuchang','Zhuigui_Boss_Huangfeng','Zhuogui_Boss_Yvsai'];
+                var twoDifficultyList=['Zhuogui_Boss_Baowei_Difficulty','Zhuogui_Boss_Heibaiwuchang_Difficulty','Zhuigui_Boss_Huangfeng_Difficulty','Zhuogui_Boss_Yvsai_Difficulty'];
+                var twoFuckingList=['Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang_Fucking','Zhuigui_Boss_Huangfeng_Fucking','Zhuogui_Boss_Yvsai_Fucking'];
                 var threeOrdinaryList=['Qingqing_Boss_Dongzhuo','Qingqing_Boss_Yuanshu','Qingqing_Boss_Lvbu'];
                 var threeDifficultyList=['Qingqing_Boss_Dongzhuo_Difficulty','Qingqing_Boss_Yuanshu_Difficulty','Qingqing_Boss_Lvbu_Difficulty'];
                 var threeFuckingList=['Qingqing_Boss_Dongzhuo_Fucking','Qingqing_Boss_Yuanshu_Fucking','Qingqing_Boss_Lvbu_Fucking'];
@@ -3578,6 +3607,10 @@ precontent:function (Diuse){
                         }
                         case 'Xiaole':{
                             livelist='Xvni_Xiaole';
+                            break;
+                        }
+                        case 'Xiaotao':{
+                            livelist='Xvni_Xiaotao';
                             break;
                         }
                         default:{
@@ -7024,6 +7057,39 @@ precontent:function (Diuse){
                     },
                 },
             },
+            Zhuogui_Boss_Guimei_Female:{
+                mode:["boss"],
+                audio:"ext:术樱:2", //用audioname不知道为什么不触发, 可能是我的问题?
+                trigger:{player:["phaseDrawSkipped","PhaseDrawCancelled"]},
+                forced:true,
+                content:function(){
+                    player.draw();
+                },
+                group:["Zhuogui_Boss_Guimei_Female_Use","Zhuogui_Boss_Guimei_Female_Turnover"],
+                subSkill:{
+                    Use:{
+                        audio:"Zhuogui_Boss_Guimei_Female",
+                        trigger:{player:["phaseUseSkipped","PhaseUseCancelled"]},
+                        forced:true,
+                        content:function(){
+                            player.addTempSkill('Zhuogui_Boss_Guimei_Buff');
+                        },   
+                    },
+                    Turnover:{
+                        audio:"Zhuogui_Boss_Guimei_Female",
+                        trigger:{player:'turnOverBefore'},
+                        priority:20,
+                        forced:true,
+                        filter:function(event,player){
+                            return !player.isTurnedOver();
+                        },
+                        content:function(){
+                            trigger.cancel();
+                            game.log(player,'取消了翻面');
+                        },
+                    },
+                },
+            },
             Zhuogui_Boss_Guimei_Buff:{
                 mod:{
                     maxHandcardBase:function(player,num){
@@ -7405,6 +7471,85 @@ precontent:function (Diuse){
                             player.useCard({name:'sha'},game.players[i]);
                         }
                     }
+                },
+            },
+            Zhuogui_Boss_Guixi:{
+                mode:["boss"],
+                audio:"ext:术樱:2",
+                trigger:{player:"damageAfter"},
+                forced:true,
+                content:function(){
+                    player.judge(function(card){
+                        if(get.suit(card)=='heart'){
+                            player.recover();
+                        } else {
+                            player.loseHp();
+                        }
+                    });
+                }
+            },
+            Zhuogui_Boss_Anchao:{
+                mode:["boss"],
+                audio:"ext:术樱:2",
+                marktext:"暗潮",
+                mark:true,
+                locked:true,
+                intro:{
+                    content:function(storage,player,skill){
+                        var num=player.countMark('Zhuogui_Boss_Anchao');
+                        if(num==undefined) num=0;
+                        return "摸牌阶段多摸"+num+"造成的伤害+"+num;
+                    }
+                },
+                trigger:{global:"phaseJieshuBegin"},
+                forced:true,
+                filter:function(event,player){
+                    if(event.player==player) return true;
+                    if(!event.player.isFriendOf(player)) return false;
+                    return true;
+                },
+                content:function(){
+                    var numMark=trigger.player.countMark()
+                    if(trigger.player.getStat('damage')&&numMark!=undefined){
+                        trigger.player.removeMark('Zhuogui_Boss_Anchao',numMark);
+                    } else {
+                        trigger.player.addMark('Zhuogui_Boss_Anchao');
+                    }
+                },
+                group:['Zhuogui_Boss_Anchao_Darw','Zhuogui_Boss_Anchao_Damage'],
+                subSkill:{
+                    Darw:{
+                        trigger:{global:"phaseDrawBegin"},
+                        forced:true,
+                        filter:function(event,player){
+                            var numMark=event.player.countMark('Zhuogui_Boss_Anchao');
+                            if(event.player==player&&numMark) return true;
+                            if(!event.player.isFriendOf(player)) return false;
+                            return numMark;
+                        },
+                        content:function(){
+                            var numMark=trigger.player.countMark('Zhuogui_Boss_Anchao');
+                            trigger.num+=numMark;
+                        },
+                    },
+                    Damage:{
+                        trigger:{global:'damageBegin1'},
+                        filter:function(event,player,source){
+                            var numMark=event.source.countMark('Zhuogui_Boss_Anchao');
+                            if(event.source==player&&numMark) return true;
+                            if(!event.source.isFriendOf(player)) return false;
+                            if(event.player.isFriendOf(player)) return false;
+                            return numMark;
+                        },
+                        forced:true,
+                        content:function(){
+                            var numMark=trigger.source.countMark('Zhuogui_Boss_Anchao');
+                            trigger.num+=numMark;
+                        },
+                        ai:{
+                            damageBonus:true
+                        }
+                    },
                 },
             },
             Qingqing_Boss_Jiuchi:{
@@ -8200,7 +8345,7 @@ precontent:function (Diuse){
                 audio:"ext:术樱:2",
                 mark:true,
                 locked:false,
-                marktext:'玄',
+                marktext:'玄烈',
                 intro:{
                     content:function(storage,player,skill){
                         var str='即将受伤的角色：';
@@ -8349,8 +8494,7 @@ precontent:function (Diuse){
         },
         translate:{
             Tianshu_Skill:"天书",
-            AAA:"终焉",
-            AAA_info:"时间技，使用后于90秒后",
+            nextCheckPoint:"下一关",
             checkPoint:"关卡",
             livePlayer:"难度",
             Tianshu_Protect:"保护",
@@ -8494,6 +8638,10 @@ precontent:function (Diuse){
             Zhuogui_Boss_Xingpan_info:"锁定技，出牌阶段开始时，你进行一次判定：若结果为红色，敌方手牌最多的角色将一半数量的手牌交给你（向下取整）；若为黑色，敌方体力最多的角色失去1点体力。",
             Zhuogui_Boss_Dianwei:"殿威",
             Zhuogui_Boss_Dianwei_info:"锁定技，准备阶段，你视为对装备区里没有牌的其他角色使用一张【杀】，然后装备区里有牌的其他角色随机弃置一张装备区的牌。",
+            Zhuogui_Boss_Guixi:"鬼吸",
+            Zhuogui_Boss_Guixi_info:"锁定技，当你受到伤害后，你进行一次判定，若结果为红桃，你回复1点体力；若结果不为红桃，你失去1点体力。",
+            Zhuogui_Boss_Anchao:"暗潮",
+            Zhuogui_Boss_Anchao_info:"锁定技，己方角色的回合结束时，若此回合该角色没有造成伤害，则获得一个“暗潮”标记，若该角色造成过伤害，则移去所有标记。己方角色的回合开始时，若其有标记，则本回合多摸X张牌且对敌方角色造成的伤害+X（X为“暗潮”的标记数）",
             Qingqing_Boss_Jiuchi:"酒池",
             Qingqing_Boss_Jiuchi_info:"你可以将一张黑桃手牌当【酒】使用。",
             Qingqing_Boss_Roulin:"肉林",
