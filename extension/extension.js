@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.20');
+        game.saveConfig('Diuse_local_version','1.7.21');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -7093,28 +7093,16 @@ precontent:function (Diuse){
                     var next=trigger.source.chooseButton();
 					next.set('dialog',event.videoId);
 					next.set('filterButton',function(button){
-                        if(ui.selected.buttons.length>1){
-                            if(get.suit(ui.selected.buttons[0].link)==get.suit(ui.selected.buttons[1].link)){
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        } else {return true}
+                        for(var i=0;i<ui.selected.buttons.length;i++){
+                            if(get.suit(ui.selected.buttons[i].link)==get.suit(button.link)) return false;
+                        }
+                        return true;
 					});
                     next.set('selectButton',function(button){
-                        var num=player.countCards('h');
-                        if(ui.selected.buttons.length>1){
-                            if(get.suit(ui.selected.buttons[0].link)==get.suit(ui.selected.buttons[1].link)){
-                                return num+255;
-                            } else {
-                                return 2;
-                            }
-                        } else {return 3;}
+                        return 2;
                     });
                     next.set('ai',function(button){
-                        if(ui.selected.buttons.link=='tao') return -10;
-						if(ui.selected.buttons.link=='jiu'&&_status.event.player.hp==1) return -10;
-						return true;
+                        return get.value(button.link,_status.event.player);
                     });
                     "step 2"
                     if(result.bool&&result.links){
