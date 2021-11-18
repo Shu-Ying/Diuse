@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.17');
+        game.saveConfig('Diuse_local_version','1.7.18');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -3277,8 +3277,8 @@ precontent:function (Diuse){
             bossName:function(name,num,a){
                 if(a==undefined) a=-99
                 var liveList=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'];
-                var oneList=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
-            'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun',];
+                var oneList=[/*'Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
+            'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu',*/'Xishou_Daqun','Zhuogui_Boss_Heibaiwuchang_Fucking'];
                 var twoOrdinaryList=['Zhuogui_Boss_Baowei','Zhuogui_Boss_Heibaiwuchang','Zhuigui_Boss_Huangfeng'];
                 var twoDifficultyList=['Zhuogui_Boss_Baowei_Difficulty','Zhuogui_Boss_Heibaiwuchang_Difficulty','Zhuigui_Boss_Huangfeng_Difficulty'];
                 var twoFuckingList=['Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang_Fucking','Zhuigui_Boss_Huangfeng_Fucking'];
@@ -7155,28 +7155,16 @@ precontent:function (Diuse){
                     var next=trigger.source.chooseButton();
 					next.set('dialog',event.videoId);
 					next.set('filterButton',function(button){
-                        if(ui.selected.buttons.length>1){
-                            if(get.suit(ui.selected.buttons[0].link)==get.suit(ui.selected.buttons[1].link)){
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        } else {return true}
+                        for(var i=0;i<ui.selected.buttons.length;i++){
+                            if(get.suit(ui.selected.buttons[i].link)==get.suit(button.link)) return false;
+                        }
+                        return true;
 					});
                     next.set('selectButton',function(button){
-                        var num=player.countCards('h');
-                        if(ui.selected.buttons.length>1){
-                            if(get.suit(ui.selected.buttons[0].link)==get.suit(ui.selected.buttons[1].link)){
-                                return num+255;
-                            } else {
-                                return 2;
-                            }
-                        } else {return 3;}
+                        return 2;
                     });
                     next.set('ai',function(button){
-                        if(ui.selected.buttons.link=='tao') return -10;
-						if(ui.selected.buttons.link=='jiu'&&_status.event.player.hp==1) return -10;
-						return true;
+                        return get.value(button.link,_status.event.player);
                     });
                     "step 4"
                     if(result.bool&&result.links){
