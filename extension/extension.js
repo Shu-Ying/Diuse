@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.18');
+        game.saveConfig('Diuse_local_version','1.7.20');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -42,7 +42,7 @@ precontent:function (Diuse){
             Diuse_Text.style[k]=Diuse_Text_style[k];
         };
         lib.extensionMenu.extension_术樱.local_version={
-            "name":"扩展版本："+lib.config.Diuse_local_version+"[测试版]",
+            "name":"扩展版本："+lib.config.Diuse_local_version+"[稳定版]",
             "clear":true,
             "nopointer":true,
         };
@@ -3277,8 +3277,8 @@ precontent:function (Diuse){
             bossName:function(name,num,a){
                 if(a==undefined) a=-99
                 var liveList=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'];
-                var oneList=[/*'Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
-            'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu',*/'Xishou_Daqun','Zhuogui_Boss_Heibaiwuchang_Fucking'];
+                var oneList=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
+            'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun'];
                 var twoOrdinaryList=['Zhuogui_Boss_Baowei','Zhuogui_Boss_Heibaiwuchang','Zhuigui_Boss_Huangfeng'];
                 var twoDifficultyList=['Zhuogui_Boss_Baowei_Difficulty','Zhuogui_Boss_Heibaiwuchang_Difficulty','Zhuigui_Boss_Huangfeng_Difficulty'];
                 var twoFuckingList=['Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang_Fucking','Zhuigui_Boss_Huangfeng_Fucking'];
@@ -8543,7 +8543,7 @@ precontent:function (Diuse){
             Qingqing_Boss_Zhanjia:"战甲",
             Qingqing_Boss_Zhanjia_info:"锁定技，每回合限一次，当你受到大于2点的伤害时，将此伤害减至2点，然后摸两张牌。",
             Tianshu_Boss_Dishi:"帝师",
-            Tianshu_Boss_Dishi_info:"当有角色使用【杀】或普通锦囊牌指定目标时，如果目标数为1，你可以为其增加一个目标；如果目标数大于1，你可以为其减少一个目标。",
+            Tianshu_Boss_Dishi_info:"当你使用【杀】或普通锦囊牌指定目标时，如果目标数为1，你可以为其增加一个目标；如果目标数大于1，你可以为其减少一个目标。",
             Tianshu_Boss_Jiutian:"九天",
             Tianshu_Boss_Jiutian_info:"锁定技，准备阶段，如果敌方角色有超过两种不同花色的手牌，则你获得其一张手牌。如果你以此法获得的所有牌花色均不同，则对所有你以此法获得其牌的敌方角色造成1点伤害。",
             Tianshu_Boss_Xuanlie:"玄烈",
