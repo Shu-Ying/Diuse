@@ -1,1 +1,1 @@
-Diuse_version='1.7.18';
+Diuse_version='1.7.20';
