@@ -169,6 +169,9 @@ Diuse_mp3=[
     'Zhuogui_Boss_Mingchong1.mp3',
     'Zhuogui_Boss_Tiemian1.mp3',
     'Zhuogui_Boss_Xingpan1.mp3',
+    'Zhuogui_Boss_Anchao1.mp3',
+    'Zhuogui_Boss_Guimei_Female1.mp3',
+    'Zhuogui_Boss_Guixi1.mp3',
 ],
 Diuse_static=[
     'Diuse_Bachongying.jpg',
@@ -259,4 +262,7 @@ Diuse_tianshu=[
     'Zhuigui_Boss_Yanluowang.jpg',
     'Zhuigui_Boss_Yanluowang_Difficulty.jpg',
     'Zhuigui_Boss_Yanluowang_Fucking.jpg',
+    'Zhuogui_Boss_Yvsai.jpg',
+    'Zhuogui_Boss_Yvsai_Difficulty.jpg',
+    'Zhuogui_Boss_Yvsai_Fucking.jpg',
 ]
