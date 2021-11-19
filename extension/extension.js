@@ -220,7 +220,7 @@ precontent:function (Diuse){
             "name":"查漏补缺&nbsp;<--补齐丢失资源",
             "clear":true,
             "onclick":function(){
-                if(confirm('点击确定会检测本地丢失资源，并开始修补；若是武将立绘则是静态，若需动态请手动下载。')&&Diuse_Button){
+                if(confirm('点击确定会检测本地丢失资源，并开始修补；若是武将立绘则是静态，若需动态请手动下载（请注意流量使用情况！务必在WIFI状态下修补）')&&Diuse_Button){
                     Diuse_Button=false;
                     download_filter();
                 } else if(Diuse_Button==false){
