@@ -381,6 +381,11 @@ precontent:function (Diuse){
                 game.saveConfig('extension_术樱_tianshu_xvni',layout);
             }
         };
+        lib.extensionMenu.extension_术樱.giveaiskill={
+            "name":"单人控制AI技能",
+            "init":false,
+            "intro":"开启后，天书乱斗模式每次过关且处于单人控制规则下则玩家给AI选择技能。"
+        };
         lib.extensionMenu.extension_术樱.Log={
             "name":"<span style='text-decoration: underline'>反馈BUG</span>",
             "clear":true,
@@ -766,7 +771,8 @@ precontent:function (Diuse){
         'Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang','Zhuogui_Boss_Heibaiwuchang_Difficulty','Qingqing_Boss_Dongzhuo','Zhuogui_Boss_Heibaiwuchang_Fucking','Qingqing_Boss_Dongzhuo_Difficulty','Qingqing_Boss_Dongzhuo_Fucking',
         'Qingqing_Boss_Yuanshu','Qingqing_Boss_Yuanshu_Difficulty','Qingqing_Boss_Yuanshu_Fucking','Tianshu_Boss_Xuannv','Tianshu_Boss_Xuannv_Difficulty','Tianshu_Boss_Xuannv_Fucking','Tianshu_Boss_Hanba','Tianshu_Boss_Hanba_Difficulty',
         'Tianshu_Boss_Hanba_Fucking','Xvni_Xiaosha','Xvni_Xiaoshan','Xvni_Xiaojiu','Xvni_Xiaotao','Xvni_Xiaole','Boss_Ordinary_Hankui','Boss_Difficulty_Hankui','Boss_Fucking_Hankui','Boss_Ordinary_Baiqi','Boss_Difficulty_Baiqi',
-        'Boss_Fucking_Baiqi','Boss_Ordinary_WangshenBaiqi','Boss_Difficulty_WangshenBaiqi','Boss_Fucking_WangshenBaiqi','Boss_Ordinary_Guiyanwang','Boss_Difficulty_Guiyanwang','Boss_Fucking_Guiyanwang'];
+        'Boss_Fucking_Baiqi','Boss_Ordinary_WangshenBaiqi','Boss_Difficulty_WangshenBaiqi','Boss_Fucking_WangshenBaiqi','Boss_Ordinary_Guiyanwang','Boss_Difficulty_Guiyanwang','Boss_Fucking_Guiyanwang',
+        'Zhuogui_Boss_Yvsai','Zhuogui_Boss_Yvsai_Difficulty','Zhuogui_Boss_Yvsai_Fucking'];
         //'','','','','','','','','','','','','','','','','',
         
         for(var i=0;i<mode.length;i++){
@@ -3870,13 +3876,21 @@ precontent:function (Diuse){
 					if(!list.length){event.finish();return;}
                     //list.push('刷新');
 					event.list=list;
-					var dialog=game.getSkillDialog(event.list,'选择获得一个技能');
-					game.players[event.Diuse_Player].chooseControl(event.list).set('ai',function(){
-						return 0;
-					}).dialog=dialog;
+                    var name=get.translation(game.players[event.Diuse_Player]);
+                    var buttonGiveAiSkills=lib.config.extension_术樱_giveaiskill;
+					var dialog=game.getSkillDialog(event.list,name+'选择获得一个技能');
+                    if(get.config('single_control')==false&&buttonGiveAiSkills){
+                        game.me.chooseControl(event.list).set('ai',function(){
+                            return 0;
+                        }).dialog=dialog;
+                    } else {
+                        game.players[event.Diuse_Player].chooseControl(event.list).set('ai',function(){
+                            return 0;
+                        }).dialog=dialog;
+                    }
                     'step 5'
                     // if(result.control=='刷新'){
-                    //     event.goto(1);
+                    //     event.goto(3);
                     //     return;
                     // }
 					event.skill=result.control
@@ -6514,6 +6528,7 @@ precontent:function (Diuse){
                 audio:"ext:术樱:2",
                 trigger:{source:"damageAfter"},
                 forced:true,
+                multitarget:true,
                 filter:function(event,player){
                     return event.card&&event.card.name=='sha';
                 },
@@ -8199,7 +8214,7 @@ precontent:function (Diuse){
             },
             Qingqing_Boss_Zhanjia:{
                 mode:['boss'],
-                trigger:{player:"damageBegin"},
+                trigger:{player:"damageBegin4"},
                 forced:true,
                 usable:1,
                 filter:function(event,player){
