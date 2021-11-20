@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.22');
+        game.saveConfig('Diuse_local_version','1.7.24');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -986,7 +986,6 @@ precontent:function (Diuse){
                         content:function (event,player,targets)
                         {
                             targets[0].draw();
-                            game.updateRoundNumber();
                             player.chooseUseTarget({name:'sha'},'是否视为使用一张【杀】？',false);
                         },
                         ai:{
@@ -2971,7 +2970,7 @@ precontent:function (Diuse){
             Boss_Diuse_Tianshu:["male","",0,["Boss_Tianshu_Go","Boss_Diuse_Tianshu_intro1","Boss_Diuse_Tianshu_intro2","Boss_Diuse_Tianshu_intro3","Boss_Diuse_Tianshu_intro4","Boss_Diuse_Tianshu_intro5"],["boss"],"qun"],
             
             Boss_Ordinary_Hankui:['female','shen',10,['boss_shenyi','Tianshu_Boss_Ordinary_Chiyan','Tianshu_Boss_Ordinary_Fali','Tianshu_Ordinary_Hankui_Die'],['qun','hiddenboss','bossallowed']],
-            Boss_Difficulty_Hankui:['female','shen',13,['boss_shenyei','Tianshu_Boss_Difficulty_Chiyan','Tianshu_Boss_Difficulty_Fali','Tianshu_Difficulty_Hankui_Die'],['qun','hiddenboss','bossallowed']],
+            Boss_Difficulty_Hankui:['female','shen',13,['boss_shenyi','Tianshu_Boss_Difficulty_Chiyan','Tianshu_Boss_Difficulty_Fali','Tianshu_Difficulty_Hankui_Die'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Hankui:['female','shen',15,['boss_shenyi','Tianshu_Boss_Chiyan','Tianshu_Boss_Fali','Tianshu_Boss_Shangshi','Tianshu_Fucking_Hankui_Die'],['qun','hiddenboss','bossallowed']],
             Boss_Ordinary_Baiqi:['male','shen',13,['boss_shenyi','boss_zhue','Tianshu_Boss_Tusha','Tianshu_Ordinary_Baiqi_Die'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Baiqi:['male','shen',16,['boss_shenyi','boss_zhue','Tianshu_Boss_Shangshi','Tianshu_Boss_Rentu_1','Tianshu_Boss_Tusha','Tianshu_Difficulty_Baiqi_Die'],['qun','hiddenboss','bossallowed']],
@@ -2982,7 +2981,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            //Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Zhuogui_Boss_Anchao','Zhuogui_Boss_Guixi'],[]],
+            //Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Tianshu_Boss_Shenen'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -3035,10 +3034,13 @@ precontent:function (Diuse){
             Tianshu_Boss_Xuannv:['female','shen',12,['Tianshu_Boss_Dishi','Tianshu_Boss_Jiutian',],['qun','hiddenboss','bossallowed']],
             Tianshu_Boss_Xuannv_Difficulty:['female','shen',15,['Tianshu_Boss_Dishi','Tianshu_Boss_Jiutian','Tianshu_Boss_Xuanlie'],['qun','hiddenboss','bossallowed']],
             Tianshu_Boss_Xuannv_Fucking:['female','shen',19,['Tianshu_Boss_Dishi','Tianshu_Boss_Jiutian','Tianshu_Boss_Xuanlie','Tianshu_Boss_Shenqu'],['qun','hiddenboss','bossallowed']],
-
             Tianshu_Boss_Hanba:['female','shen',9,['Tianshu_Boss_Fenshi','Tianshu_Boss_Zhiri'],['qun','hiddenboss','bossallowed']],
             Tianshu_Boss_Hanba_Difficulty:['female','shen',11,['Tianshu_Boss_Fenshi','Tianshu_Boss_Zhiri','Tianshu_Boss_Xinji'],['qun','hiddenboss','bossallowed']],
             Tianshu_Boss_Hanba_Fucking:['female','shen',13,['Tianshu_Boss_Fenshi','Tianshu_Boss_Zhiri_Fuck','Tianshu_Boss_Xinji'],['qun','hiddenboss','bossallowed']],
+            Tianshu_Boss_Shaohao:['male','shen',12,['Tianshu_Boss_Shenen','Tianshu_Boss_Baiyi'],['qun','hiddenboss','bossallowed']],
+            Tianshu_Boss_Shaohao_Difficulty:['male','shen',15,['Tianshu_Boss_Shenen','Tianshu_Boss_Baiyi'],['qun','hiddenboss','bossallowed']],
+            Tianshu_Boss_Shaohao_Fucking:['male','shen',19,['Tianshu_Boss_Shenen','Tianshu_Boss_Baiyi_Fucking'],['qun','hiddenboss','bossallowed']],
+
 
             Xvni_Xiaosha:["female","qun",4,['Diuse_Xvni_Xiaosha_Guisha','Diuse_Xvni_Xiaosha_Zhuli','Diuse_Xvni_Xvxiang','checkPoint'],['qun','hiddenboss','bossallowed']],
             Xvni_Xiaoshan:["female","qun",4,['Diuse_Xvni_Xiaoshan_Shanwu','Diuse_Xvni_Xiaoshan_Xianli','Diuse_Xvni_Xvxiang','checkPoint'],['qun','hiddenboss','bossallowed']],
@@ -3104,7 +3106,10 @@ precontent:function (Diuse){
             Tianshu_Boss_Hanba:"旱魃",
             Tianshu_Boss_Hanba_Difficulty:"旱魃",
             Tianshu_Boss_Hanba_Fucking:"旱魃",
-            
+            Tianshu_Boss_Shaohao:"少昊",
+            Tianshu_Boss_Shaohao_Difficulty:"少昊",
+            Tianshu_Boss_Shaohao_Fucking:"少昊",
+
             Xvni_Xiaosha:"小杀",
             Xvni_Xiaoshan:"小闪",
             Xvni_Xiaojiu:"小酒",
@@ -3310,7 +3315,7 @@ precontent:function (Diuse){
                 }
             },
             bossName:function(name,num,a){
-                if(a==undefined) a=-99
+                if(a==undefined) a=-99;
                 var liveList=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'];
                 var oneList=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
             'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun'];
@@ -3320,9 +3325,9 @@ precontent:function (Diuse){
                 var threeOrdinaryList=['Qingqing_Boss_Dongzhuo','Qingqing_Boss_Yuanshu','Qingqing_Boss_Lvbu'];
                 var threeDifficultyList=['Qingqing_Boss_Dongzhuo_Difficulty','Qingqing_Boss_Yuanshu_Difficulty','Qingqing_Boss_Lvbu_Difficulty'];
                 var threeFuckingList=['Qingqing_Boss_Dongzhuo_Fucking','Qingqing_Boss_Yuanshu_Fucking','Qingqing_Boss_Lvbu_Fucking'];
-                var FourOrdinaryList=['Tianshu_Boss_Xuannv','Tianshu_Boss_Hanba','Zhuigui_Boss_Yanluowang'];
-                var FourDifficultyList=['Tianshu_Boss_Xuannv_Difficulty','Tianshu_Boss_Hanba_Difficulty','Zhuigui_Boss_Yanluowang_Difficulty'];
-                var FourFuckingList=['Tianshu_Boss_Xuannv_Fucking','Tianshu_Boss_Hanba_Fucking','Zhuigui_Boss_Yanluowang_Fucking'];
+                var FourOrdinaryList=['Tianshu_Boss_Xuannv','Tianshu_Boss_Hanba','Zhuigui_Boss_Yanluowang','Tianshu_Boss_Shaohao'];
+                var FourDifficultyList=['Tianshu_Boss_Xuannv_Difficulty','Tianshu_Boss_Hanba_Difficulty','Zhuigui_Boss_Yanluowang_Difficulty','Tianshu_Boss_Shaohao_Difficulty'];
+                var FourFuckingList=['Tianshu_Boss_Xuannv_Fucking','Tianshu_Boss_Hanba_Fucking','Zhuigui_Boss_Yanluowang_Fucking','Tianshu_Boss_Shaohao_Fucking'];
                 switch(num){
                     case 0:{
                         for(var i=0;i<liveList.length;i++){
@@ -5821,18 +5826,16 @@ precontent:function (Diuse){
                     player.chooseTarget(get.prompt('Boss_Shengxiao_Zishu'),'选择一名手牌比自己多的角色',function(event,player,target){
                         return player!=target&&target.countCards('h')>=player.countCards('h');
                     }).set('ai',function(target){
-                        if(get.attitude(player,target)<=0){
-                            return true;
-                        }
+                        if(get.attitude(player,target)>0){ return false; }
+                        return true;
                     });
                     'step 1'
                     if(result.bool){
                         player.gainPlayerCard(result.targets[0],'h',true);
-                    }
-                    'setp 2'
-                    for(var i=0;i<game.players.length;i++){
-                        if(game.players[i]==player) continue;
-                        if(game.players[i].countCards('h')>=player.countCards('h')) event.goto(0);
+                        for(var i=0;i<game.players.length;i++){
+                            if(game.players[i]==player) continue;
+                            if(game.players[i].countCards('h')>=player.countCards('h')) event.goto(0);
+                        }
                     }
                 },
                 ai:{
@@ -7531,9 +7534,9 @@ precontent:function (Diuse){
                         trigger.player.addMark('Zhuogui_Boss_Anchao');
                     }
                 },
-                group:['Zhuogui_Boss_Anchao_Darw','Zhuogui_Boss_Anchao_Damage'],
+                group:['Zhuogui_Boss_Anchao_Draw','Zhuogui_Boss_Anchao_Damage'],
                 subSkill:{
-                    Darw:{
+                    Draw:{
                         trigger:{global:"phaseDrawBegin"},
                         forced:true,
                         filter:function(event,player){
@@ -8506,6 +8509,122 @@ precontent:function (Diuse){
                 forced:true,
                 content:function(){_status.currentPhase.damage();},
             },
+            Tianshu_Boss_Shenen:{
+                mode:['boss'],
+                forced:true,
+                unique:true,
+                global:'Tianshu_Boss_Shenen_Buff'
+            },
+            Tianshu_Boss_Shenen_Buff:{
+                mod:{
+                    targetInRange:function(card,player){if(player.side) return true;},
+                    maxHandcard:function(player,num){if(player.side) return num+1;}
+                },
+            },
+			Tianshu_Boss_Baiyi:{
+                mode:['boss'],
+                trigger:{global:'roundStart'},
+                forced:true,
+                filter:function(event,player){return game.roundNumber==5;},
+                logTarget:function(event,player){
+                    return player.getEnemies();
+                },
+                content:function(){
+                    'step 0'
+                    event.list=player.getEnemies();
+                    'step 1'
+                    if(event.list.length){
+                        event.list.shift().damage(1,'thunder',player);
+                        event.redo();
+                    }
+                },
+				group:['Tianshu_Boss_Baiyi_Draw','Tianshu_Boss_Baiyi_Thunder'],
+				subSkill:{
+					Draw:{
+						trigger:{global:'phaseDrawBegin'},
+						forced:true,
+						filter:function(event,player){
+							return game.roundNumber<3&&event.player.isEnemyOf(player);
+						},
+						content:function(){
+							trigger.num--;
+						}
+					},
+					Thunder:{
+						trigger:{player:'damageBegin4'},
+						filter:function(event){
+							return event.nature=='thunder'&&game.roundNumber<7;
+						},
+						forced:true,
+						content:function(){
+							trigger.num--;
+						},
+						ai:{
+							nothunder:true,
+							skillTagFilter:function(){
+								return game.roundNumber<7;
+							},
+							effect:{
+								target:function(card,player,target,current){
+									if(get.tag(card,'thunderDamage')&&game.roundNumber<7) return 0;
+								}
+							}
+						}
+					}
+				}
+			},
+            Tianshu_Boss_Baiyi_Fucking:{
+                mode:['boss'],
+                trigger:{global:'roundStart'},
+                forced:true,
+                filter:function(){return game.roundNumber==5;},
+                logTarget:function(event,player){
+                    return player.getEnemies();
+                },
+                content:function(){
+                    'step 0'
+                    event.list=player.getEnemies();
+                    'step 1'
+                    if(event.list.length){
+                        event.list.shift().damage(2,'thunder',player);
+                        event.redo();
+                    }
+                },
+				group:['Tianshu_Boss_Baiyi_Fucking_Draw','Tianshu_Boss_Baiyi_Fucking_Thunder'],
+				subSkill:{
+					Draw:{
+						trigger:{global:'phaseDrawBegin'},
+						forced:true,
+						filter:function(event,player){
+							return game.roundNumber<3&&event.player.isEnemyOf(player);
+						},
+						content:function(){
+							trigger.num--;
+						}
+					},
+					Thunder:{
+						trigger:{player:'damageBegin4'},
+						filter:function(event){
+							return event.nature=='thunder'&&game.roundNumber<7;
+						},
+						forced:true,
+						content:function(){
+							trigger.cancel();
+						},
+						ai:{
+							nothunder:true,
+							skillTagFilter:function(){
+								return game.roundNumber<7;
+							},
+							effect:{
+								target:function(card,player,target,current){
+									if(get.tag(card,'thunderDamage')&&game.roundNumber<7) return 0;
+								}
+							}
+						}
+					}
+				}
+			},
         },
         translate:{
             Tianshu_Skill:"天书",
@@ -8620,6 +8739,8 @@ precontent:function (Diuse){
             Zhuogui_Boss_Wansha_Buff:"完杀",
             Zhuogui_Boss_Guimei:"鬼魅",
             Zhuogui_Boss_Guimei_info:"锁定技，你不会被翻面；你跳过摸牌阶段时，你摸一张牌；你跳过出牌阶段时，本回合手牌上限无限制。",
+            Zhuogui_Boss_Guimei_Female:"鬼魅",
+            Zhuogui_Boss_Guimei_Female_info:"锁定技，你不会被翻面；你跳过摸牌阶段时，你摸一张牌；你跳过出牌阶段时，本回合手牌上限无限制。",
             Zhuogui_Boss_Guimei_Buff:"鬼魅",
             Zhuogui_Boss_Xixing:"吸星",
             Zhuogui_Boss_Xixing_info:"锁定技，准备阶段，你对敌方体力最多的一名角色造成1点雷电伤害，然后回复1点体力。",
@@ -8709,6 +8830,12 @@ precontent:function (Diuse){
             Tianshu_Boss_Zhiri_Fuck_info:"锁定技，当敌方角色使用红色锦囊牌指定目标后，你摸三张牌。",
             Tianshu_Boss_Xinji:"心悸",
             Tianshu_Boss_Xinji_info:"锁定技，当你于回合外因弃置而失去手牌时，你对当前回合角色造成1点伤害。",
+            Tianshu_Boss_Shenen:'神恩',
+            Tianshu_Boss_Shenen_info:'锁定技，所有己方角色使用牌没有距离限制，所有敌方角色手牌上限+1.',
+            Tianshu_Boss_Baiyi_Fucking:'白仪',
+            Tianshu_Boss_Baiyi_Fucking_info:'锁定技，每名敌方角色摸牌阶段，若当前轮数小于3，其少摸一张牌；第五轮开始时，每名敌方角色受到1点雷电伤害；当己方角色受到雷电伤害时，若当前轮数小于7，则此伤害-1。',
+            Tianshu_Boss_Baiyi:'白仪',
+            Tianshu_Boss_Baiyi_info:'锁定技，每名敌方角色摸牌阶段，若当前轮数小于3，其少摸一张牌；第五轮开始时，每名敌方角色受到1点雷电伤害；当己方角色受到雷电伤害时，若当前轮数小于7，则此伤害-1。',
 
             Diuse_Xvni_Xvxiang:"虚像",
             Diuse_Xvni_Xvxiang_info:"锁定技，当你受到伤害或体力流失时，防止该伤害；若你阵亡或三名友军阵亡则游戏失败。",
