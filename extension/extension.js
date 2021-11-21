@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.25');
+        game.saveConfig('Diuse_local_version','1.7.26');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -3149,13 +3149,7 @@ precontent:function (Diuse){
         boss:{
             Boss_Diuse_Tianshu:{
 				chongzheng:0,
-                loopFirst:function(){
-					return game.boss.nextSeat;
-                },
-				checkResult:function(player){
-                    return false;
-				},
-				init:function(){
+                init:function(){
                     _status.additionalReward=function(){
                         return 500;
                     }
@@ -3176,6 +3170,12 @@ precontent:function (Diuse){
                             node.remove();
                         }
                     }
+				},
+                loopFirst:function(){
+					return game.boss.nextSeat;
+                },
+				checkResult:function(player){
+                    return false;
 				},
 			},
         },
@@ -3327,8 +3327,8 @@ precontent:function (Diuse){
             bossName:function(name,num,a){
                 if(a==undefined) a=-99;
                 var liveList=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'];
-                var oneList=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
-            'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun'];
+                var oneList=['Shengxiao_Zishu','Zhuigui_Boss_Yanluowang_Difficulty'/*,'Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
+            'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun'*/];
                 var twoOrdinaryList=['Zhuogui_Boss_Baowei','Zhuogui_Boss_Heibaiwuchang','Zhuigui_Boss_Huangfeng','Zhuogui_Boss_Yvsai'];
                 var twoDifficultyList=['Zhuogui_Boss_Baowei_Difficulty','Zhuogui_Boss_Heibaiwuchang_Difficulty','Zhuigui_Boss_Huangfeng_Difficulty','Zhuogui_Boss_Yvsai_Difficulty'];
                 var twoFuckingList=['Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang_Fucking','Zhuigui_Boss_Huangfeng_Fucking','Zhuogui_Boss_Yvsai_Fucking'];
@@ -7468,17 +7468,18 @@ precontent:function (Diuse){
                         }
                     });
                     'step 1'
-                    if(event.bool1==false)  event.finish();
-                    event.name=game.playerCardMax(player);
-                    var num=parseInt(event.name.countCards('h')/2);
-                    event.name.chooseCard('h',true,'交给'+get.translation(player)+get.cnNumber(num)+'张牌',num).set('ai',function(card){
-                        var evt=_status.event.getParent();
-                        if(get.attitude(_status.event.player,evt.player)>2){
-                            if(card.name=='jiu') return 120;
-                            if(card.name=='tao') return 110;
-                        }
-                        return 100-get.value(card);
-                    });
+                    if(event.bool1==true){
+                        event.name=game.playerCardMax(player);
+                        var num=parseInt(event.name.countCards('h')/2);
+                        event.name.chooseCard('h',true,'交给'+get.translation(player)+get.cnNumber(num)+'张牌',num).set('ai',function(card){
+                            var evt=_status.event.getParent();
+                            if(get.attitude(_status.event.player,evt.player)>2){
+                                if(card.name=='jiu') return 120;
+                                if(card.name=='tao') return 110;
+                            }
+                            return 100-get.value(card);
+                        });
+                    }
                     'step 2'
                     if(result.bool){
                         player.gain(result.cards,event.name,'giveAuto');
@@ -7526,7 +7527,7 @@ precontent:function (Diuse){
                     content:function(storage,player,skill){
                         var num=player.countMark('Zhuogui_Boss_Anchao');
                         if(num==undefined) num=0;
-                        return "摸牌阶段多摸"+num+"造成的伤害+"+num;
+                        return "摸牌阶段多摸"+num+"张牌，"+"造成的伤害+"+num;
                     }
                 },
                 trigger:{global:"phaseJieshuBegin"},
