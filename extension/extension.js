@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.24');
+        game.saveConfig('Diuse_local_version','1.7.25');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -771,8 +771,8 @@ precontent:function (Diuse){
         'Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang','Zhuogui_Boss_Heibaiwuchang_Difficulty','Qingqing_Boss_Dongzhuo','Zhuogui_Boss_Heibaiwuchang_Fucking','Qingqing_Boss_Dongzhuo_Difficulty','Qingqing_Boss_Dongzhuo_Fucking',
         'Qingqing_Boss_Yuanshu','Qingqing_Boss_Yuanshu_Difficulty','Qingqing_Boss_Yuanshu_Fucking','Tianshu_Boss_Xuannv','Tianshu_Boss_Xuannv_Difficulty','Tianshu_Boss_Xuannv_Fucking','Tianshu_Boss_Hanba','Tianshu_Boss_Hanba_Difficulty',
         'Tianshu_Boss_Hanba_Fucking','Xvni_Xiaosha','Xvni_Xiaoshan','Xvni_Xiaojiu','Xvni_Xiaotao','Xvni_Xiaole','Boss_Ordinary_Hankui','Boss_Difficulty_Hankui','Boss_Fucking_Hankui','Boss_Ordinary_Baiqi','Boss_Difficulty_Baiqi',
-        'Boss_Fucking_Baiqi','Boss_Ordinary_WangshenBaiqi','Boss_Difficulty_WangshenBaiqi','Boss_Fucking_WangshenBaiqi','Boss_Ordinary_Guiyanwang','Boss_Difficulty_Guiyanwang','Boss_Fucking_Guiyanwang',
-        'Zhuogui_Boss_Yvsai','Zhuogui_Boss_Yvsai_Difficulty','Zhuogui_Boss_Yvsai_Fucking'];
+        'Boss_Fucking_Baiqi','Boss_Ordinary_WangshenBaiqi','Boss_Difficulty_WangshenBaiqi','Boss_Fucking_WangshenBaiqi','Boss_Ordinary_Guiyanwang','Boss_Difficulty_Guiyanwang','Boss_Fucking_Guiyanwang','Qingqing_Boss_Simayi_Fucking',
+        'Zhuogui_Boss_Yvsai','Zhuogui_Boss_Yvsai_Difficulty','Zhuogui_Boss_Yvsai_Fucking','Qingqing_Boss_Lvbu','Qingqing_Boss_Lvbu_Difficulty','Qingqing_Boss_Lvbu_Fucking','Qingqing_Boss_Simayi','Qingqing_Boss_Simayi_Difficulty'];
         //'','','','','','','','','','','','','','','','','',
         
         for(var i=0;i<mode.length;i++){
@@ -2981,7 +2981,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            //Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Tianshu_Boss_Shenen'],[]],
+            //Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Qingqing_Boss_Fankui','Qingqing_Boss_Langgu','Qingqing_Boss_Yuanlv','Qingqing_Boss_Guicai'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -3014,6 +3014,9 @@ precontent:function (Diuse){
             Qingqing_Boss_Lvbu:['male','qun',10,['Qingqing_Boss_Mashu','Qingqing_Boss_Wushuang','Qingqing_Boss_Shenji'],['qun','hiddenboss','bossallowed']],
             Qingqing_Boss_Lvbu_Difficulty:['male','qun',20,['Qingqing_Boss_Mashu','Qingqing_Boss_Wushuang','Qingqing_Boss_Shenji','Qingqing_Boss_Zhanjia'],['qun','hiddenboss','bossallowed']],
             Qingqing_Boss_Lvbu_Fucking:['male','qun',30,['Qingqing_Boss_Mashu','Qingqing_Boss_Wushuang','Qingqing_Boss_Shenji_Fucking','Qingqing_Boss_Zhanjia'],['qun','hiddenboss','bossallowed']],
+            Qingqing_Boss_Simayi:['male','qun',10,['Qingqing_Boss_Fankui','Qingqing_Boss_Guicai','Qingqing_Boss_Langgu'],['qun','hiddenboss','bossallowed']],
+            Qingqing_Boss_Simayi_Difficulty:['male','qun',20,['Qingqing_Boss_Fankui','Qingqing_Boss_Guicai','Qingqing_Boss_Langgu','Qingqing_Boss_Yuanlv'],['qun','hiddenboss','bossallowed']],
+            Qingqing_Boss_Simayi_Fucking:['male','qun',30,['Qingqing_Boss_Fankui','Qingqing_Boss_Guicai','Qingqing_Boss_Langgu_Fucking','Qingqing_Boss_Yuanlv'],['qun','hiddenboss','bossallowed']],
 
             Zhuogui_Boss_Baowei:['male','qun',7,['Zhuogui_Boss_Yinsha','Zhuogui_Boss_Eli'],['qun','hiddenboss','bossallowed']],
             Zhuogui_Boss_Baowei_Difficulty:['male','qun',10,['Zhuogui_Boss_Yinsha','Zhuogui_Boss_Eli','Zhuogui_Boss_Guimei'],['qun','hiddenboss','bossallowed']],
@@ -3099,6 +3102,9 @@ precontent:function (Diuse){
             Qingqing_Boss_Lvbu:"吕布",
             Qingqing_Boss_Lvbu_Difficulty:"吕布",
             Qingqing_Boss_Lvbu_Fucking:"吕布",
+            Qingqing_Boss_Simayi:"司马懿",
+            Qingqing_Boss_Simayi_Difficulty:"司马懿",
+            Qingqing_Boss_Simayi_Fucking:"司马懿",
 
             Tianshu_Boss_Xuannv:"玄女",
             Tianshu_Boss_Xuannv_Difficulty:"玄女",
@@ -3143,6 +3149,9 @@ precontent:function (Diuse){
         boss:{
             Boss_Diuse_Tianshu:{
 				chongzheng:0,
+                loopFirst:function(){
+					return game.boss.nextSeat;
+                },
 				checkResult:function(player){
                     return false;
 				},
@@ -3276,11 +3285,12 @@ precontent:function (Diuse){
                 }
                 return 0;
             },
-            tianshuNewBoss:function(nextName){
+            tianshuNewBoss:function(nextName,checkPoint,livePlayer){
                 while(_status.event.name!='phaseLoop'){
                     _status.event=_status.event.parent;
                 }
                 if(game.bossName(nextName.name,0,0)) nextName=game.boss;
+                if(game.bossName(nextName.name,checkPoint,livePlayer)) nextName=game.boss;
                 game.resetSkills();
                 _status.paused=false;
                 _status.event.player=nextName;
@@ -3322,9 +3332,9 @@ precontent:function (Diuse){
                 var twoOrdinaryList=['Zhuogui_Boss_Baowei','Zhuogui_Boss_Heibaiwuchang','Zhuigui_Boss_Huangfeng','Zhuogui_Boss_Yvsai'];
                 var twoDifficultyList=['Zhuogui_Boss_Baowei_Difficulty','Zhuogui_Boss_Heibaiwuchang_Difficulty','Zhuigui_Boss_Huangfeng_Difficulty','Zhuogui_Boss_Yvsai_Difficulty'];
                 var twoFuckingList=['Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang_Fucking','Zhuigui_Boss_Huangfeng_Fucking','Zhuogui_Boss_Yvsai_Fucking'];
-                var threeOrdinaryList=['Qingqing_Boss_Dongzhuo','Qingqing_Boss_Yuanshu','Qingqing_Boss_Lvbu'];
-                var threeDifficultyList=['Qingqing_Boss_Dongzhuo_Difficulty','Qingqing_Boss_Yuanshu_Difficulty','Qingqing_Boss_Lvbu_Difficulty'];
-                var threeFuckingList=['Qingqing_Boss_Dongzhuo_Fucking','Qingqing_Boss_Yuanshu_Fucking','Qingqing_Boss_Lvbu_Fucking'];
+                var threeOrdinaryList=['Qingqing_Boss_Dongzhuo','Qingqing_Boss_Yuanshu','Qingqing_Boss_Lvbu','Qingqing_Boss_Simayi'];
+                var threeDifficultyList=['Qingqing_Boss_Dongzhuo_Difficulty','Qingqing_Boss_Yuanshu_Difficulty','Qingqing_Boss_Lvbu_Difficulty','Qingqing_Boss_Simayi_Difficulty'];
+                var threeFuckingList=['Qingqing_Boss_Dongzhuo_Fucking','Qingqing_Boss_Yuanshu_Fucking','Qingqing_Boss_Lvbu_Fucking','Qingqing_Boss_Simayi_Fucking'];
                 var FourOrdinaryList=['Tianshu_Boss_Xuannv','Tianshu_Boss_Hanba','Zhuigui_Boss_Yanluowang','Tianshu_Boss_Shaohao'];
                 var FourDifficultyList=['Tianshu_Boss_Xuannv_Difficulty','Tianshu_Boss_Hanba_Difficulty','Zhuigui_Boss_Yanluowang_Difficulty','Tianshu_Boss_Shaohao_Difficulty'];
                 var FourFuckingList=['Tianshu_Boss_Xuannv_Fucking','Tianshu_Boss_Hanba_Fucking','Zhuigui_Boss_Yanluowang_Fucking','Tianshu_Boss_Shaohao_Fucking'];
@@ -3765,7 +3775,7 @@ precontent:function (Diuse){
                             game.addBossFellow(5,name1);
                             var name2=game.bossName(0,-2,num2);
                             game.changeBoss(name2);
-                            game.tianshuNewBoss(_status.currentPhase.next);
+                            game.tianshuNewBoss(_status.currentPhase.next,num,num2);
                             for(var i=0;i<game.players.length;i++){
                                 if(game.players[i].name==name1||game.players[i].name==name2){
                                     if(num2==1){game.players[i].draw(1);} else if(num2==2){game.players[i].draw(2);} else {game.players[i].draw(3);}
@@ -3799,7 +3809,7 @@ precontent:function (Diuse){
                             game.addBossFellow(5,name1);
                             var name2=game.bossName(0,-3,num2);
                             game.changeBoss(name2);
-                            game.tianshuNewBoss(_status.currentPhase.next);
+                            game.tianshuNewBoss(_status.currentPhase.next,num,num2);
                             for(var i=0;i<game.players.length;i++){
                                 if(game.players[i].name==name1||game.players[i].name==name2){
                                     if(num2==1){game.players[i].draw(2);} else if(num2==2){game.players[i].draw(3);} else {game.players[i].draw(4);}
@@ -3833,7 +3843,7 @@ precontent:function (Diuse){
                             game.addBossFellow(5,name1);
                             var name2=game.bossName(0,-4,num2);
                             game.changeBoss(name2);
-                            game.tianshuNewBoss(_status.currentPhase.next);
+                            game.tianshuNewBoss(_status.currentPhase.next,num,num2);
                             for(var i=0;i<game.players.length;i++){
                                 if(game.players[i].name==name1||game.players[i].name==name2){
                                     if(num2==1){game.players[i].draw(3);} else if(num2==2){game.players[i].draw(4);} else {game.players[i].draw(5);}
@@ -7185,7 +7195,7 @@ precontent:function (Diuse){
                     next.set('selectButton',function(button){
                         return 2;
                     });
-                    next.set('ai',function(button){
+                    next.set('ai',function(event,button){
                         return get.value(button.link,_status.event.player);
                     });
                     "step 2"
@@ -7946,7 +7956,7 @@ precontent:function (Diuse){
                 mode:['boss'],
                 trigger:{global:"phaseDrawBegin"},
                 check:function(event,player){
-                    if(!event.player.isFriendOf(player)) return true;
+                    if(!event.player.isFriendOf(player)&&player.hp>1) return true;
                     return false;
                 },
                 filter:function(event,player){
@@ -7965,7 +7975,7 @@ precontent:function (Diuse){
                 trigger:{global:"phaseDrawBegin"},
                 check:function(event,player){
                     if(event.player==player) return false;
-                    if(!event.player.isFriendOf(player)) return true;
+                    if(!event.player.isFriendOf(player)&&player.hp>1) return true;
                     return false;
                 },
                 filter:function(event,player){
@@ -8226,6 +8236,165 @@ precontent:function (Diuse){
                 content:function(){
                     trigger.num=2;
                     player.draw(2);
+                },
+            },
+            Qingqing_Boss_Fankui:{
+                mode:['boss'],
+                trigger:{
+                    player:"damageEnd",
+                },
+                direct:true,
+                filter:function(event,player){
+                    return (event.source&&event.source.countGainableCards(player,'he')&&event.num>0&&event.source!=player);
+                },
+                content:function(){
+                    "step 0"
+                    event.count=trigger.num;
+                    "step 1"
+                    event.count--;
+                    player.gainPlayerCard(get.prompt('refankui',trigger.source),trigger.source,get.buttonValue,'he').set('logSkill',[event.name,trigger.source]);
+                    "step 2"
+                    if(result.bool&&event.count>0&&trigger.source.countGainableCards(player,'he')>0) event.goto(1);
+                },
+                ai:{
+                    "maixie_defend":true,
+                    effect:{
+                        target:function(card,player,target){
+                            if(player.countCards('he')>1&&get.tag(card,'damage')){
+                                if(player.hasSkillTag('jueqing',false,target)) return [1,-1.5];
+                                if(get.attitude(target,player)<0) return [1,1];
+                            }
+                        },
+                    },
+                },
+            },
+            Qingqing_Boss_Guicai:{
+                mode:['boss'],
+                trigger:{
+                    global:"judge",
+                },
+                direct:true,
+                filter:function(event,player){
+                    return player.countCards('hes')>0;
+                },
+                content:function(){
+                    "step 0"
+                    player.chooseCard(get.translation(trigger.player)+'的'+(trigger.judgestr||'')+'判定为'+
+                    get.translation(trigger.player.judging[0])+'，'+get.prompt('reguicai'),'hes',function(card){
+                        var player=_status.event.player;
+                        var mod2=game.checkMod(card,player,'unchanged','cardEnabled2',player);
+                        if(mod2!='unchanged') return mod2;
+                        var mod=game.checkMod(card,player,'unchanged','cardRespondable',player);
+                        if(mod!='unchanged') return mod;
+                        return true;
+                    }).set('ai',function(card){
+                        var trigger=_status.event.getTrigger();
+                        var player=_status.event.player;
+                        var judging=_status.event.judging;
+                        var result=trigger.judge(card)-trigger.judge(judging);
+                        var attitude=get.attitude(player,trigger.player);
+                        if(attitude==0||result==0) return 0;
+                        if(attitude>0){
+                            return result-get.value(card)/2;
+                        }
+                        else{
+                            return -result-get.value(card)/2;
+                        }
+                    }).set('judging',trigger.player.judging[0]);
+                    "step 1"
+                    if(result.bool){
+                        player.respond(result.cards,'reguicai','highlight','noOrdering');
+                    }
+                    else{
+                        event.finish();
+                    }
+                    "step 2"
+                    if(result.bool){
+                        if(trigger.player.judging[0].clone){
+                            trigger.player.judging[0].clone.classList.remove('thrownhighlight');
+                            game.broadcast(function(card){
+                                if(card.clone){
+                                    card.clone.classList.remove('thrownhighlight');
+                                }
+                            },trigger.player.judging[0]);
+                            game.addVideo('deletenode',player,get.cardsInfo([trigger.player.judging[0].clone]));
+                        }
+                        game.cardsDiscard(trigger.player.judging[0]);
+                        trigger.player.judging[0]=result.cards[0];
+                        trigger.orderingCards.addArray(result.cards);
+                        game.log(trigger.player,'的判定牌改为',result.cards[0]);
+                        game.delay(2);
+                    }
+                },
+                ai:{
+                    rejudge:true,
+                    tag:{
+                        rejudge:1,
+                    },
+                },
+            },
+            Qingqing_Boss_Langgu:{
+                mode:["boss"],
+                trigger:{player:"gainAfter"},
+                filter:function(event,player){
+                    if(player.hasSkill('Qingqing_Boss_Langgu_No')) return false;
+                    if(event.source==undefined||event.source==player) return false;
+                    return true;
+                },
+                check:function(event,player){
+                    if(event.source.isFriendOf(player)) return false;
+                    return true;
+                },
+                forced:true,
+                content:function(){
+                    player.judge(function(card){
+                        if(get.suit(card)=='spade'){
+                            trigger.source.randomDiscard();
+                        } else {
+                            player.addTempSkill('Qingqing_Boss_Langgu_No','phaseUseEnd');
+                        }
+                    });
+                }
+            },
+            Qingqing_Boss_Langgu_Fucking:{
+                mode:["boss"],
+                trigger:{player:"gainAfter"},
+                filter:function(event,player){
+                    if(player.hasSkill('Qingqing_Boss_Langgu_No')) return false;
+                    if(event.source==undefined||event.source==player) return false;
+                    return true;
+                },
+                check:function(event,player){
+                    if(event.source.isFriendOf(player)) return false;
+                    return true;
+                },
+                forced:true,
+                content:function(){
+                    player.judge(function(card){
+                        if(get.color(card)=='black'){
+                            trigger.source.randomDiscard();
+                        } else {
+                            player.addTempSkill('Qingqing_Boss_Langgu_No','phaseUseEnd');
+                        }
+                    });
+                }
+            },
+            Qingqing_Boss_Langgu_No:{}, //开关
+            Qingqing_Boss_Yuanlv:{
+                mode:["boss"],
+                trigger:{source:"damageBegin3",},
+                check:function(event,player){
+                    if(event.num>=2) return false;
+                    if(event.player.countCards('e')>1&&player.hp>1) return true; 
+                    return false;
+                },
+                filter:function(event,player){
+                    return get.type(event.card)=='trick'&&!event.player.isFriendOf(player);
+                },
+                content:function(){
+                    trigger.cancel();
+                    player.draw();
+                    player.damage(1,trigger.player);
                 },
             },
             Tianshu_Boss_Dishi:{
@@ -8814,6 +8983,16 @@ precontent:function (Diuse){
             Qingqing_Boss_Shenji_Buff:"神戟",
             Qingqing_Boss_Zhanjia:"战甲",
             Qingqing_Boss_Zhanjia_info:"锁定技，每回合限一次，当你受到大于2点的伤害时，将此伤害减至2点，然后摸两张牌。",
+            Qingqing_Boss_Fankui:"反馈",
+            Qingqing_Boss_Fankui_info:"当你受到1点伤害后，你可以获得伤害来源的一张牌。",
+            Qingqing_Boss_Guicai:"鬼才",
+            Qingqing_Boss_Guicai_info:"当一名角色的判定牌生效前，你可以打出一张牌代替之。",
+            Qingqing_Boss_Langgu:"狼顾",
+            Qingqing_Boss_Langgu_info:"锁定技，每回合限一次，当你获得其他角色牌时，进行一次判定：若结果为黑桃，随机弃置其1张手牌，且视为此技能未发动。",
+            Qingqing_Boss_Langgu_Fucking:"狼顾",
+            Qingqing_Boss_Langgu_Fucking_info:"锁定技，每回合限一次，当你获得其他角色牌时，进行一次判定：若结果为黑桃，随机弃置其1张手牌，且视为此技能未发动。",
+            Qingqing_Boss_Yuanlv:"远虑",
+            Qingqing_Boss_Yuanlv_info:"当你使用锦囊牌对敌方角色造成伤害时，你可以防止该伤害，改为摸一张牌且该敌方角色对你造成1点伤害。",
             Tianshu_Boss_Dishi:"帝师",
             Tianshu_Boss_Dishi_info:"当你使用【杀】或普通锦囊牌指定目标时，如果目标数为1，你可以为其增加一个目标；如果目标数大于1，你可以为其减少一个目标。",
             Tianshu_Boss_Jiutian:"九天",
@@ -8832,11 +9011,11 @@ precontent:function (Diuse){
             Tianshu_Boss_Xinji_info:"锁定技，当你于回合外因弃置而失去手牌时，你对当前回合角色造成1点伤害。",
             Tianshu_Boss_Shenen:'神恩',
             Tianshu_Boss_Shenen_info:'锁定技，所有己方角色使用牌没有距离限制，所有敌方角色手牌上限+1.',
-            Tianshu_Boss_Baiyi_Fucking:'白仪',
-            Tianshu_Boss_Baiyi_Fucking_info:'锁定技，每名敌方角色摸牌阶段，若当前轮数小于3，其少摸一张牌；第五轮开始时，每名敌方角色受到1点雷电伤害；当己方角色受到雷电伤害时，若当前轮数小于7，则此伤害-1。',
             Tianshu_Boss_Baiyi:'白仪',
             Tianshu_Boss_Baiyi_info:'锁定技，每名敌方角色摸牌阶段，若当前轮数小于3，其少摸一张牌；第五轮开始时，每名敌方角色受到1点雷电伤害；当己方角色受到雷电伤害时，若当前轮数小于7，则此伤害-1。',
-
+            Tianshu_Boss_Baiyi_Fucking:'白仪',
+            Tianshu_Boss_Baiyi_Fucking_info:'锁定技，每名敌方角色摸牌阶段，若当前轮数小于3，其少摸一张牌；第五轮开始时，每名敌方角色受到1点雷电伤害；当己方角色受到雷电伤害时，若当前轮数小于7，则此伤害-1。',
+            
             Diuse_Xvni_Xvxiang:"虚像",
             Diuse_Xvni_Xvxiang_info:"锁定技，当你受到伤害或体力流失时，防止该伤害；若你阵亡或三名友军阵亡则游戏失败。",
             Diuse_Xvni_Xiaosha_Guisha:"瑰杀",
