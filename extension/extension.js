@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.27');
+        game.saveConfig('Diuse_local_version','1.7.28');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -3217,7 +3217,7 @@ precontent:function (Diuse){
                     for(var j=0;j<list.length;j++){
                         if(skills.contains(list[j])||banned.contains(list[j])) continue;
                         var info=get.info(list[j]);
-                        if(!info||info.charlotte||(info.unique&&!info.gainable)||info.juexingji||info.limited||info.zhuSkill||info.hiddenSkill||!info.dutySkill) continue;
+                        if(!info||info.charlotte||(info.unique&&!info.gainable)||info.juexingji||info.limited||info.zhuSkill||info.hiddenSkill||info.dutySkill) continue;
                         skills.push(list[j]);
                     }
                 }
