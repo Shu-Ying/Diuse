@@ -268,4 +268,7 @@ Diuse_tianshu=[
     'Tianshu_Boss_Shaohao.jpg',
     'Tianshu_Boss_Shaohao_Difficulty.jpg',
     'Tianshu_Boss_Shaohao_Fucking.jpg',
+    'Qingqing_Boss_Simayi.jpg',
+    'Qingqing_Boss_Simayi_Difficulty.jpg',
+    'Qingqing_Boss_Simayi_Fucking.jpg',
 ]
