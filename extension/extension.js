@@ -17,12 +17,12 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.28');
+        game.saveConfig('Diuse_local_version','1.7.29');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
         httpRequest.send(null);
-        httpRequest.onreadystatechange=function(){if(httpRequest.readyState==4&&httpRequest.status==200){game.saveConfig('Diuse_online_version',httpRequest.responseText)}else{game.saveConfig('Diuse_online_version','无法访问服务器')}}
+        httpRequest.onreadystatechange=function(){if(httpRequest.readyState==4&&httpRequest.status==200){game.saveConfig('Diuse_online_version',httpRequest.responseText)}else{game.saveConfig('Diuse_online_version','无法访问服务器')}}    
 
         var Diuse_Text=document.createElement("div");
         var Diuse_Text_style={
@@ -764,7 +764,6 @@ precontent:function (Diuse){
                 });
             }
         };
-
         var mode=lib.config.all.mode.slice(0);
         var pveBannedName=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji',
         'Shengxiao_Xvgou','Shengxiao_Haizhu','Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun','Zhuogui_Boss_Baowei','Zhuogui_Boss_Baowei_Difficulty',
@@ -1325,22 +1324,42 @@ precontent:function (Diuse){
                         content:function (){
                             "step 0"
                             player.judge(function(card){
-                                if(card.number==1){
-                                    player.draw(3);
-                                    var card=target.getCards('hej').randomGet();
-                                    player.gain(card,target,'giveAuto','bySelf');
-                                    player.addTempSkill('Diuse_Zhongqu1',{player:'phaseBefore'});
-                                } else if(card.number>1 && card.number<=7){
-                                    var card=target.getCards('hej').randomGet();
-                                    player.gain(card,target,'giveAuto','bySelf');
-                                    player.draw();
-                                } else if(card.number>7 && card.number<=12){
-                                    player.draw(2);
-                                } else if(card.number==13){
-                                    player.turnOver();
-                                }    
-                                return -1;
-                            });
+                                var num=get.number(card);
+                                if(num==1){
+                                    return 5;
+                                } else if(num>1&&num<=7){
+                                    return 4;
+                                } else if(num>7&&num<=12){
+                                    return 3;
+                                } else if(num==13&&player.countCards('h')<=2){
+                                    return 10;    
+                                } else {
+                                    return 0;
+                                }
+                            }).judge2=function(result){
+                                var num=get.number(result.card);
+                                if(num!=undefined) {
+                                    return result.bool=true; 
+                                } else { 
+                                    return result.bool=false; 
+                                }
+                            };
+                            "step 1"
+                            var num1=get.number(result.card);
+                            if(num1==1){
+                                player.draw(3);
+                                var card=target.getCards('hej').randomGet();
+                                player.gain(card,target,'giveAuto','bySelf');
+                                player.addTempSkill('Diuse_Zhongqu1',{player:'phaseBefore'});
+                            } else if(num1>1 && num1<=7){
+                                var card=target.getCards('hej').randomGet();
+                                player.gain(card,target,'giveAuto','bySelf');
+                                player.draw();
+                            } else if(num1>7 && num1<=12){
+                                player.draw(2);
+                            } else if(num1==13){
+                                player.turnOver();
+                            }    
                         },
                         ai:{
                             order:9,
@@ -2981,7 +3000,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            //Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Qingqing_Boss_Fankui','Qingqing_Boss_Langgu','Qingqing_Boss_Yuanlv','Qingqing_Boss_Guicai'],[]],
+            Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Qingqing_Boss_Fankui','Qingqing_Boss_Langgu','Qingqing_Boss_Yuanlv','Qingqing_Boss_Guicai'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -3227,7 +3246,7 @@ precontent:function (Diuse){
                 var dnum=0;
                 var dead=game.dead.slice(0);
                 for(var i=0;i<dead.length;i++){
-                    if(!dead[i].side&&dead[i].maxHp>0&&dead[i].parentNode==game.players[i].parentNode){
+                    if(!dead[i].side&&dead[i].maxHp>0/*&&dead[i].parentNode==game.players[i].parentNode*/){
                         if(game.bossName(dead[i].name,0)) continue;
                         dead[i].revive(dead[i].maxHp);
                         dnum++;
@@ -6145,9 +6164,20 @@ precontent:function (Diuse){
                 filter:function(event,player){return event.card.name=='sha'},
                 check:function(event,player){return true;},
                 content:function(){
+                    "step 0"
                     player.judge(function(card){
-                        if(get.color(card)=='red'){trigger.getParent().excluded.add(player)}
-                    });
+                        var color=get.color(card);
+                        if(color=='red') return 5;
+                        return 0;
+                    }).judge2=function(result){
+                        var color=get.color(result.card);
+                        if(color=='red') return result.bool=true;
+                        return result.bool=false;
+                    };
+                    "step 1"
+                    if(get.color(result.card)=='red'){
+                        trigger.getParent().excluded.add(player);
+                    } 
                 },
             },
             Boss_Shengxiao_Youji:{
@@ -6482,12 +6512,21 @@ precontent:function (Diuse){
                 check:function(event,player){return (get.attitude(player,event.player)<0);},
                 filter:function(event,player){return event.player!=player&&player.countCards('he')>=3;},
                 content:function(){
+                    "step 0"
                     player.chooseToDiscard(true,3,'he');
                     trigger.player.judge(function(card){
-                        if(card.suit!='heart'){
-                            trigger.player.skip('phaseUse');
-                        }
-                    });
+                        var suit=get.suit(card);
+                        if(suit=='heart') return -1;
+                        return 0;
+                    }).judge2=function(result){
+                        var suit=get.suit(result.card);
+                        if(suit=='heart') return result.bool=false;
+                        return result.bool=true;
+                    };
+                    "step 1"
+                    if(result.suit!='heart'){
+                        trigger.player.skip('phaseUse');
+                    }
                 },
             },
             Diuse_Xvni_Xiaole_Yuanli:{
@@ -6671,13 +6710,22 @@ precontent:function (Diuse){
                 trigger:{source:"damageAfter"},
                 forced:true,
                 content:function(){
+                    "step 0"
                     player.judge(function(card){
-                        if(get.color(card)=='black'){
-                            if(player.hp==player.maxHp){
-                                player.draw();
-                            } else { player.recover(); }
-                        }
-                    });
+                        var color=get.color(card);
+                        if(color=='black') return 1;
+                        return 0;
+                    }).judge2=function(result){
+                        var color=get.color(card);
+                        if(color!='black') return result.bool=false;
+                        return result.bool=true;
+                    };
+                    "step 1"
+                    if(get.color(result.card)='black'){
+                        if(player.hp==player.maxHp){
+                            player.draw();
+                        } else { player.recover(); }
+                    }
                 },
             },
             Xishou_Taoyuan:{
@@ -6963,22 +7011,31 @@ precontent:function (Diuse){
                     return (get.type(event.card)=='trick'&&event.card.isCard&&get.color(event.card)=='black');
                 },
                 content:function(){
+                    "step 0"
                     player.judge(function(card){
-                        if(get.color(card)=='red'){
-                            player.recover();
-                            player.gain(card,'gain2');
-                        } else {
-                            var playerFriend=[];
-                            for(var i=0;i<game.players.length;i++){
-                                if(game.players[i]==player) continue;
-                                if(!game.players[i].isFriendOf(player)) playerFriend.push(i);
-                            }
-                            if(playerFriend){
-                                var random=playerFriend.randomGet();
-                                game.players[random].damage();
-                            }
+                        var color=get.color(card);
+                        if(color=='red') return 1;
+                        return 0;
+                    }).judge2=function(result){
+                        var color=get.color(result.card);
+                        if(color=='red') return result.bool=true;
+                        return result.bool=false;
+                    };
+                    "step 1"
+                    if(get.color(result.card)=='red'){
+                        player.recover();
+                        player.gain(card,'gain2');
+                    } else {
+                        var playerFriend=[];
+                        for(var i=0;i<game.players.length;i++){
+                            if(game.players[i]==player) continue;
+                            if(!game.players[i].isFriendOf(player)) playerFriend.push(i);
                         }
-                    });
+                        if(playerFriend){
+                            var random=playerFriend.randomGet();
+                            game.players[random].damage();
+                        }
+                    }
                 },
                 ai:{
                     threaten:1.4,
@@ -7016,13 +7073,22 @@ precontent:function (Diuse){
                     return false;
                 },
                 content:function(){
+                    "step 0"
                     player.judge(function(card){
-                        if(get.color(card)=='red'){
-                            trigger.num++;
-                        } else {
-                            player.addTempSkill('Zhuogui_Boss_Wansha');
-                        }
-                    });
+                        var color=get.color(card);
+                        if(color=='red') return 1;
+                        return 0;
+                    }).judge2=function(result){
+                        var color=get.color(result.card);
+                        if(color!=undefined) return result.bool=true;
+                        return result.bool=false;
+                    };
+                    "step 1"
+                    if(get.color(result.card)=='red'){
+                        trigger.num++;
+                    } else {
+                        player.addTempSkill('Zhuogui_Boss_Wansha');
+                    }
                 },
             },
             Zhuogui_Boss_Wansha:{
@@ -7195,8 +7261,8 @@ precontent:function (Diuse){
                     next.set('selectButton',function(button){
                         return 2;
                     });
-                    next.set('ai',function(event,button){
-                        return get.value(button.link,_status.event.player);
+                    next.set('ai',function(button){
+                        return get.value(button.link,_status.event.source);
                     });
                     "step 2"
                     if(result.bool&&result.links){
@@ -7246,7 +7312,7 @@ precontent:function (Diuse){
                         return 2;
                     });
                     next.set('ai',function(button){
-                        return get.value(button.link,_status.event.player);
+                        return get.value(button.link,_status.event.source);
                     });
                     "step 4"
                     if(result.bool&&result.links){
@@ -7457,18 +7523,18 @@ precontent:function (Diuse){
                 trigger:{player:"phaseBegin"},
                 forced:true,
                 content:function(){
-                    'step 0'
-                    event.bool1=false;
+                    "step 0"
                     player.judge(function(card){
-                        if(get.color(card)=='red'){
-                            event.bool1=true;
-                        } else {
-                            game.playerHpMax(player).loseHp();
-                            event.finish();
-                        }
-                    });
-                    'step 1'
-                    if(event.bool1==true){
+                        var color=get.color(card);
+                        if(color=='red') return 2;
+                        return 1;
+                    }).judge2=function(result){
+                        var color=get.color(result.card);
+                        if(color!=undefined) return result.bool=true;
+                        return result.bool=false;
+                    };
+                    "step 1"
+                    if(get.color(result.card)=='red'){
                         event.name=game.playerCardMax(player);
                         var num=parseInt(event.name.countCards('h')/2);
                         event.name.chooseCard('h',true,'交给'+get.translation(player)+get.cnNumber(num)+'张牌',num).set('ai',function(card){
@@ -7479,6 +7545,9 @@ precontent:function (Diuse){
                             }
                             return 100-get.value(card);
                         });
+                    } else {
+                        game.playerHpMax(player).loseHp();
+                        event.finish();
                     }
                     'step 2'
                     if(result.bool){
@@ -7508,13 +7577,25 @@ precontent:function (Diuse){
                 trigger:{player:"damageAfter"},
                 forced:true,
                 content:function(){
+                    "step 0"
                     player.judge(function(card){
-                        if(get.suit(card)=='heart'){
-                            player.recover();
+                        var suit=get.suit(card);
+                        if(suit=='heart') return 2;
+                        return 0;
+                    }).judge2=function(result){
+                        var suit=get.suit(result.card);
+                        if(suit=='heart'){
+                            return result.bool=true;
                         } else {
-                            player.loseHp();
+                            return result.bool=false;
                         }
-                    });
+                    };
+                    "step 1"
+                    if(get.suit(result.card)=='heart'){
+                        player.recover();
+                    } else {
+                        player.loseHp();
+                    }
                 }
             },
             Zhuogui_Boss_Anchao:{
@@ -7793,13 +7874,22 @@ precontent:function (Diuse){
                 multitarget:true,
                 filter:function(event,player){if(event.player.isFriendOf(player)) return true;},
                 content:function(){
+                    "step 0"
                     trigger.player.judge(function(card){
-                        if(card.suit=='spade'){
-                            for(var i=0;i<trigger.targets.length;i++){
-                                trigger.targets[i].damage(player||'nosource','nocard');
-                            }
+                        var suit=get.suit(card);
+                        if(suit=='spade') return 2;
+                        return 0;
+                    }).judge2=function(result){
+                        var suit=get.suit(result.card);
+                        if(suit=='spade') return result.bool=true;
+                        return result.bool=false;
+                    };
+                    "step 1"
+                    if(get.suit(result.card)=='spade'){
+                        for(var i=0;i<trigger.targets.length;i++){
+                            trigger.targets[i].damage(player||'nosource','nocard');
                         }
-                    });
+                    }
                 },
             },
             Qingqing_Boss_Qvbu_Fucking:{
@@ -7809,13 +7899,22 @@ precontent:function (Diuse){
                 multitarget:true,
                 filter:function(event,player){if(event.player.isFriendOf(player)) return true;},
                 content:function(){
+                    "step 0"
                     trigger.player.judge(function(card){
-                        if(get.color(card)=='black'){
-                            for(var i=0;i<trigger.targets.length;i++){
-                                trigger.targets[i].damage(player||'nosource','nocard');
-                            }
+                        var color=get.color(card);
+                        if(color=='black') return 2;
+                        return 0;
+                    }).judge2=function(result){
+                        var color=get.color(result.card);
+                        if(color=='black') return result.bool=true;
+                        return result.bool=false;
+                    };
+                    "step 1"
+                    if(get.color(result.card)=='black'){
+                        for(var i=0;i<trigger.targets.length;i++){
+                            trigger.targets[i].damage(player||'nosource','nocard');
                         }
-                    });
+                    }
                 },
             },
             Qingqing_Boss_Yongsi:{
@@ -8348,13 +8447,22 @@ precontent:function (Diuse){
                 },
                 forced:true,
                 content:function(){
+                    "step 0"
                     player.judge(function(card){
-                        if(get.suit(card)=='spade'){
-                            trigger.source.randomDiscard();
-                        } else {
-                            player.addTempSkill('Qingqing_Boss_Langgu_No','phaseUseEnd');
-                        }
-                    });
+                        var suit=get.suit(card);
+                        if(suit=='spade') return 5;
+                        return 0;
+                    }).judge2=function(result){
+                        var suit=get.suit(result.card);
+                        if(suit=='spade') result.bool==true;
+                        return result.bool==false;
+                    };
+                    "step 1"
+                    if(result.suit=='spade'){
+                        trigger.source.randomDiscard();
+                    } else {
+                        player.addTempSkill('Qingqing_Boss_Langgu_No','phaseUseEnd');
+                    }
                 }
             },
             Qingqing_Boss_Langgu_Fucking:{
@@ -8371,13 +8479,22 @@ precontent:function (Diuse){
                 },
                 forced:true,
                 content:function(){
+                    "step 0"
                     player.judge(function(card){
-                        if(get.color(card)=='black'){
-                            trigger.source.randomDiscard();
-                        } else {
-                            player.addTempSkill('Qingqing_Boss_Langgu_No','phaseUseEnd');
-                        }
-                    });
+                        var color=get.color(card);
+                        if(color=='black') return 5;
+                        return 0;
+                    }).judge2=function(result){
+                        var suit=get.suit(result.card);
+                        if(suit=='spade') result.bool==true;
+                        return result.bool==false;
+                    };
+                    "step 1"
+                    if(get.color(result.card)=='black'){
+                        trigger.source.randomDiscard();
+                    } else {
+                        player.addTempSkill('Qingqing_Boss_Langgu_No','phaseUseEnd');
+                    }
                 }
             },
             Qingqing_Boss_Langgu_No:{}, //开关
@@ -8591,17 +8708,24 @@ precontent:function (Diuse){
                     var card=get.bottomCards()[0];
                     ui.cardPile.insertBefore(card,ui.cardPile.firstChild);
                     player.judge(function(card){
-                        if(get.color(card)=='red'){
-                            player.draw();
-                            if(trigger.source!=undefined) trigger.source.chooseToDiscard(1,true);
-                        }
-                    });
+                        if(get.color(card)=='red') return 2;
+                        return 0;
+                    }).judge2=function(result){
+                        var color=get.color(result.card);
+                        if(color=='red') return result.bool=true;
+                        return result.bool=false;
+                    };
                     "step 3"
+                    if(get.color(result.card)=='red'){
+                        player.draw();
+                        if(trigger.source!=undefined) trigger.source.chooseToDiscard(1,true);
+                    }
+                    "step 4"
                     if(event.ShenquNum>0){
                         player.chooseBool(get.prompt2('Tianshu_Boss_Shenqu')).set('frequentSkill','Tianshu_Boss_Shenqu');
                     }
                     else event.finish();
-                    "step 4"
+                    "step 5"
                     if(result.bool){
                         player.logSkill('Tianshu_Boss_Shenqu');
                         event.goto(1);
