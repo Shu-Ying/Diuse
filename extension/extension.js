@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.30');
+        game.saveConfig('Diuse_local_version','1.7.31');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -99,6 +99,7 @@ precontent:function (Diuse){
                     '使用属性杀：7<br>'+
                     '使用闪：6<br>'+
                     '使用普通杀：5<br>'+
+                    '使用普通锦囊：4<br>'+
                     '打出闪：5<br>'+
                     '造成伤害：5*伤害值<br>'+
                     '以及部分技能获取<br>'+
@@ -969,7 +970,7 @@ precontent:function (Diuse){
                                 forced:true,
                                 popup:false,
                                 filter:function(event,player){
-                                    return event.card.name=='sha'||event.card.name=='shan';
+                                    return event.card.name=='sha'||event.card.name=='shan'||get.type(event.card)=='trick';
                                 },
                                 content:function(){
                                     var name=trigger.name;
@@ -978,6 +979,8 @@ precontent:function (Diuse){
                                             player.addMark('Diuse_SP',7);
                                         } else if(trigger.card.name=='shan'){
                                             player.addMark('Diuse_SP',6);
+                                        } else if(get.type(event.card)=='trick'){
+                                            player.addMark('Diuse_SP',4);
                                         } else {
                                             player.addMark('Diuse_SP',5);
                                         }
@@ -2541,7 +2544,9 @@ precontent:function (Diuse){
                             if(result.bool){
                                 var target=result.targets[0];
                                 event.target=target;
-                                player.draw(target.hp);
+                                var num=target.hp
+                                if(num>5) num=5;
+                                player.draw(num);
                             }
                         },
                     },
@@ -2976,7 +2981,7 @@ precontent:function (Diuse){
                         },
                         content:function(){
                             'step 0'
-                            player.chooseTarget(get.prompt2('Diuse_Yishan'),function(card,player,target){
+                            player.chooseTarget(get.prompt2('Diuse_Qujian'),function(card,player,target){
                                 return target!=player;
                             }).set('ai',function(target){
                                 return 2-get.attitude(player,target);
@@ -2984,7 +2989,7 @@ precontent:function (Diuse){
                             'step 1'
                             if(result.bool){
                                 var target=result.targets[0];
-                                target.disableSkill(lib.character[target.name][3]);
+                                target.disableSkill('Diuse_Qujian',lib.character[target.name][3]);
                                 target.addSkill('Diuse_Shikong');
                                 target.addMark('Diuse_Shikong',1);
                                 player.addMark('Diuse_SP',35);
@@ -3004,7 +3009,7 @@ precontent:function (Diuse){
                                 content:function(){
                                     var markNum=trigger.player.countMark('Diuse_Shikong');
                                     var markNum2=markNum;
-                                    trigger.player.enableSkill();
+                                    trigger.player.enableSkill('Diuse_Qujian');
                                     trigger.player.removeMark('Diuse_Shikong',markNum2);
                                     trigger.player.removeSkill('Diuse_Shikong');
                                     markNum--;
@@ -3056,11 +3061,11 @@ precontent:function (Diuse){
                             var num=trigger.num;
                             player.addMark('Diuse_Yakong',num);
                         },
-                        group:['Diuse_Yakong_Use'],
+                        group:['Diuse_Yakong_Use'], //Use改成Zhunbei 名字不改
                         subSkill:{
                             Use:{
                                 audio:"ext:术樱:2",
-                                trigger:{player:"phaseUseBegin"},
+                                trigger:{player:"phaseZhunbeiBegin"},
                                 filter:function(event,player){
                                     if(player.hasSkill('Diuse_Yakong_Buff')) return false;
                                     return player.countMark('Diuse_Yakong')>=3;
@@ -3069,6 +3074,9 @@ precontent:function (Diuse){
                                     return true;
                                 },
                                 content:function(){
+                                    var num=player.hp-player.countCards('h');
+                                    if(num>5) num=5;
+                                    player.draw(num);
                                     player.addSkill('Diuse_Yakong_Buff');
                                 },
                             },
@@ -3206,7 +3214,7 @@ precontent:function (Diuse){
                     Diuse_Si:"四",
                     Diuse_Si_info:"你使用杀或普通锦囊后你可以多增加一个目标，如果取消则摸X张牌(X为你已损失的体力，如果为0则摸1)",
                     Diuse_Wu:"五",
-                    Diuse_Wu_info:"出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力)",
+                    Diuse_Wu_info:"出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力且最多为5)",
                     Diuse_Liu:"六",
                     Diuse_Liu_info:"你获得全部攻击距离技能。",
                     Diuse_Fanchen1:"凡尘",
@@ -3235,7 +3243,7 @@ precontent:function (Diuse){
                     Diuse_Qujian_info:"锁定技，你打出或使用【闪】后，若场上没有'时空'标记则选择一名其他角色令其获得1个'时空'标记。有标记的角色暂时失去其武将牌上的技能和无法使用或打出手牌，且受到伤害时改为获得等量'时空'标记，然后你回复35sp和1个'亚空'标记。其出牌阶段开始时移除标记并受到你造成的X点伤害（X为（标记数量-1）/2且向下取整）",
                     Diuse_Yakong:"亚空",
                     Diuse_Yakong_Buff:"亚空",
-                    Diuse_Yakong_info:"锁定技。你造成伤害后且不处于激活状态下则获得一个'空'标记。出牌阶段若标记不小于3则你可以激活技能，使用牌时根据类型执行以下效果：1，非攻击类型：你摸一张牌，2：攻击类型：该牌造成的伤害+1。然后你移除1个标记。",
+                    Diuse_Yakong_info:"锁定技。你造成伤害后且不处于激活状态下则获得一个'空'标记。准备阶段若标记不小于3则你可以激活技能并将手牌补至前体力(最多补至5)，使用牌时根据类型执行以下效果：1，非攻击类型：你摸一张牌，2：攻击类型：该牌造成的伤害+1。然后你移除1个标记。",
                     Diuse_Xujie:"虚界",
                     Diuse_Xujie_info:"SP技。出牌阶段，若你SP不小于125可以发动。扣除125点SP，然后你对除你之外的角色造成X点伤害（X为场上角色体力之和÷角色数量 且向下取整至少为1）然后你获得10个'亚空'标记。",
                 },
@@ -3259,7 +3267,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            //Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Longzhou_Boss_Tianqi'],[]],
+            Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Nianshou_Tanshi'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -7009,11 +7017,11 @@ precontent:function (Diuse){
                         return 0;
                     }).judge2=function(result){
                         var color=get.color(result.card);
-                        if(color!='black') return result.bool=false;
-                        return result.bool=true;
+                        if(color=='black') return result.bool=true;
+                        return result.bool=false;
                     };
                     "step 1"
-                    if(get.color(result.card)='black'){
+                    if(get.color(result.card)=='black'){
                         if(player.hp==player.maxHp){
                             player.draw();
                         } else { player.recover(); }
