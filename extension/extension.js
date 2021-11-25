@@ -3322,12 +3322,12 @@ precontent:function (Diuse){
             Tianshu_Boss_Shaohao_Difficulty:['male','shen',15,['Tianshu_Boss_Shenen','Tianshu_Boss_Baiyi'],['qun','hiddenboss','bossallowed']],
             Tianshu_Boss_Shaohao_Fucking:['male','shen',19,['Tianshu_Boss_Shenen','Tianshu_Boss_Baiyi_Fucking'],['qun','hiddenboss','bossallowed']],
 
-            Longzhou_Boss_Taoshen:['male','shen',10,['Longzhou_Boss_Tianqi','Longzhou_Boss_Nutao','Qingqing_Boss_Mashu'],['qun','hiddenboss','bossallowed']],
-            Longzhou_Boss_Taoshen_Difficulty:['male','shen',20,['Longzhou_Boss_Tianqi','Longzhou_Boss_Nutao_Difficulty','Qingqing_Boss_Mashu','Longzhou_Boss_Yingzi','Qingqing_Boss_Wushuang'],['qun','hiddenboss','bossallowed']],
-            Longzhou_Boss_Taoshen_Fucking:['male','shen',30,['Longzhou_Boss_Tianqi','Longzhou_Boss_Nutao_Fucking','Qingqing_Boss_Mashu','Longzhou_Boss_Xiongzi','Qingqing_Boss_Wushuang','Longzhou_Boss_Paoxiao'],['qun','hiddenboss','bossallowed']],
-            Longzhou_Boss_Caoe:['female','shen',10,['Longzhou_Boss_Tianqi','Longzhou_Boss_Shoujiang','Qingqing_Boss_Mashu'],['qun','hiddenboss','bossallowed']],
-            Longzhou_Boss_Caoe_Difficulty:['female','shen',20,['Longzhou_Boss_Tianqi','Longzhou_Boss_Shoujiang_Difficulty','Qingqing_Boss_Mashu','Longzhou_Boss_Luoshen','Longzhou_Boss_Biyue'],['qun','hiddenboss','bossallowed']],
-            Longzhou_Boss_Caoe_Fucking:['female','shen',30,['Longzhou_Boss_Tianqi','Longzhou_Boss_Shoujiang_Fucking','Qingqing_Boss_Mashu','Longzhou_Boss_Luoshen','Longzhou_Boss_Biyue','Longzhou_Boss_Jizhi'],['qun','hiddenboss','bossallowed']],
+            Longzhou_Boss_Taoshen:['male','shen',12,['Longzhou_Boss_Tianqi','Longzhou_Boss_Nutao','Qingqing_Boss_Mashu'],['qun','hiddenboss','bossallowed']],
+            Longzhou_Boss_Taoshen_Difficulty:['male','shen',15,['Longzhou_Boss_Tianqi','Longzhou_Boss_Nutao_Difficulty','Qingqing_Boss_Mashu','Longzhou_Boss_Yingzi','Qingqing_Boss_Wushuang'],['qun','hiddenboss','bossallowed']],
+            Longzhou_Boss_Taoshen_Fucking:['male','shen',20,['Longzhou_Boss_Tianqi','Longzhou_Boss_Nutao_Fucking','Qingqing_Boss_Mashu','Longzhou_Boss_Xiongzi','Qingqing_Boss_Wushuang','Longzhou_Boss_Paoxiao'],['qun','hiddenboss','bossallowed']],
+            Longzhou_Boss_Caoe:['female','shen',12,['Longzhou_Boss_Tianqi','Longzhou_Boss_Shoujiang','Qingqing_Boss_Mashu'],['qun','hiddenboss','bossallowed']],
+            Longzhou_Boss_Caoe_Difficulty:['female','shen',15,['Longzhou_Boss_Tianqi','Longzhou_Boss_Shoujiang_Difficulty','Qingqing_Boss_Mashu','Longzhou_Boss_Luoshen','Longzhou_Boss_Biyue'],['qun','hiddenboss','bossallowed']],
+            Longzhou_Boss_Caoe_Fucking:['female','shen',20,['Longzhou_Boss_Tianqi','Longzhou_Boss_Shoujiang_Fucking','Qingqing_Boss_Mashu','Longzhou_Boss_Luoshen','Longzhou_Boss_Biyue','Longzhou_Boss_Jizhi'],['qun','hiddenboss','bossallowed']],
 
             Xvni_Xiaosha:["female","qun",4,['Diuse_Xvni_Xiaosha_Guisha','Diuse_Xvni_Xiaosha_Zhuli','Diuse_Xvni_Xvxiang','checkPoint'],['qun','hiddenboss','bossallowed']],
             Xvni_Xiaoshan:["female","qun",4,['Diuse_Xvni_Xiaoshan_Shanwu','Diuse_Xvni_Xiaoshan_Xianli','Diuse_Xvni_Xvxiang','checkPoint'],['qun','hiddenboss','bossallowed']],
