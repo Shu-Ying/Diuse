@@ -993,8 +993,11 @@ precontent:function (Diuse){
                                     var countMarkNum=player.countMark('Diuse_SP');
                                     var randomNum=game.randomNum(100,0);
                                     var playerName=player.name;
-                                    if(randomNum>=50&&countMarkNum>=150&&playerName=='Diuse_Konglv'){
-                                        game.playAudio('..','extension\\术樱','Diuse_Caidan_Konglv');
+                                    if(!player.hasSkill('Diuse_caidan_End')){
+                                        if(randomNum>=50&&countMarkNum>=150&&playerName=='Diuse_Konglv'){
+                                            player.addTempSkill('Diuse_caidan_End');
+                                            game.playAudio('..','extension\\术樱','Diuse_Caidan_Konglv');
+                                        }
                                     }
                                 },
                             },
@@ -1009,13 +1012,17 @@ precontent:function (Diuse){
                                     var countMarkNum=player.countMark('Diuse_SP');
                                     var randomNum=game.randomNum(100,0);
                                     var playerName=player.name;
-                                    if(randomNum>=50&&countMarkNum>=150&&playerName=='Diuse_Konglv'){
-                                        game.playAudio('..','extension\\术樱','Diuse_Caidan_Konglv');
+                                    if(!player.hasSkill('Diuse_caidan_End')){
+                                        if(randomNum>=50&&countMarkNum>=150&&playerName=='Diuse_Konglv'){
+                                            player.addTempSkill('Diuse_caidan_End');
+                                            game.playAudio('..','extension\\术樱','Diuse_Caidan_Konglv');
+                                        }
                                     }
                                 }
                             },
                         },
                     },
+                    Diuse_caidan_End:{}, //防止重复播放彩蛋
                     Diuse_PlayerDie:{
                         trigger:{player:"dieAfter"},
                         forced:true,
