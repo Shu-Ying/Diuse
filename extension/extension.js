@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.31');
+        game.saveConfig('Diuse_local_version','1.7.32');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -772,7 +772,7 @@ precontent:function (Diuse){
                 });
             }
         };
-        var mode=lib.config.all.mode.slice(0);
+        /*var mode=lib.config.all.mode.slice(0);
         var pveBannedName=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji',
         'Shengxiao_Xvgou','Shengxiao_Haizhu','Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun','Zhuogui_Boss_Baowei','Zhuogui_Boss_Baowei_Difficulty',
         'Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang','Zhuogui_Boss_Heibaiwuchang_Difficulty','Qingqing_Boss_Dongzhuo','Zhuogui_Boss_Heibaiwuchang_Fucking','Qingqing_Boss_Dongzhuo_Difficulty','Qingqing_Boss_Dongzhuo_Fucking',
@@ -806,7 +806,7 @@ precontent:function (Diuse){
                 }
                 game.saveConfig(mode[i]+'_banned',bannedList);
             }
-        }
+        }*/
 
     	game.Diuse=function(英文名,翻译名,obj,扩展包名){
             var oobj=get.copy(obj);oobj.name=英文名;
@@ -963,6 +963,8 @@ precontent:function (Diuse){
                             },
                         },
                         locked:true,
+                        silent:true,
+                        unique:true,
                         group:['Diuse_SP_useCard','Diuse_SP_damage'], //useCard 使用   respond 打出
                         subSkill:{
                             useCard:{
@@ -1018,6 +1020,8 @@ precontent:function (Diuse){
                         trigger:{player:"dieAfter"},
                         forced:true,
                         popup:false,
+                        silent:true,
+                        unique:true,
                         filter:function(event,player){
                             var list=['Diuse_Xier','Diuse_Kalian','Diuse_Bachongying','Diuse_Fuhua','Diuse_Shangxian','Diuse_Buluoniya','Diuse_Shilv',
                             'Diuse_Yayi','Diuse_Yuexia','Diuse_Konglv'];
@@ -3267,7 +3271,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Nianshou_Tanshi'],[]],
+            //Diuse_Beta:["female","qun","9/10",['kagari_zongsi','Nianshou_Tanshi'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -3335,7 +3339,7 @@ precontent:function (Diuse){
             Longzhou_Boss_Taoshen_Fucking:['male','shen',20,['Longzhou_Boss_Tianqi','Longzhou_Boss_Nutao_Fucking','Qingqing_Boss_Mashu','Longzhou_Boss_Xiongzi','Qingqing_Boss_Wushuang','Longzhou_Boss_Paoxiao'],['qun','hiddenboss','bossallowed']],
             Longzhou_Boss_Caoe:['female','shen',12,['Longzhou_Boss_Tianqi','Longzhou_Boss_Shoujiang','Qingqing_Boss_Mashu'],['qun','hiddenboss','bossallowed']],
             Longzhou_Boss_Caoe_Difficulty:['female','shen',15,['Longzhou_Boss_Tianqi','Longzhou_Boss_Shoujiang_Difficulty','Qingqing_Boss_Mashu','Longzhou_Boss_Luoshen','Longzhou_Boss_Biyue'],['qun','hiddenboss','bossallowed']],
-            Longzhou_Boss_Caoe_Fucking:['female','shen',20,['Longzhou_Boss_Tianqi','Longzhou_Boss_Shoujiang_Fucking','Qingqing_Boss_Mashu','Longzhou_Boss_Luoshen','Longzhou_Boss_Biyue','Longzhou_Boss_Jizhi'],['qun','hiddenboss','bossallowed']],
+            Longzhou_Boss_Caoe_Fucking:['female','shen',20,['Longzhou_Boss_Shoujiang_Fucking','Qingqing_Boss_Mashu','Longzhou_Boss_Luoshen','Longzhou_Boss_Biyue','Longzhou_Boss_Jizhi','Longzhou_Boss_Tianqi'],['qun','hiddenboss','bossallowed']],
 
             Xvni_Xiaosha:["female","qun",4,['Diuse_Xvni_Xiaosha_Guisha','Diuse_Xvni_Xiaosha_Zhuli','Diuse_Xvni_Xvxiang','checkPoint'],['qun','hiddenboss','bossallowed']],
             Xvni_Xiaoshan:["female","qun",4,['Diuse_Xvni_Xiaoshan_Shanwu','Diuse_Xvni_Xiaoshan_Xianli','Diuse_Xvni_Xvxiang','checkPoint'],['qun','hiddenboss','bossallowed']],
@@ -8755,7 +8759,7 @@ precontent:function (Diuse){
                         return 0;
                     }).judge2=function(result){
                         var suit=get.suit(result.card);
-                        if(suit=='spade') result.bool=true;
+                        if(suit=='spade') return result.bool=true;
                         return result.bool=false;
                     };
                     "step 1"
@@ -8787,7 +8791,7 @@ precontent:function (Diuse){
                         return 0;
                     }).judge2=function(result){
                         var color=get.color(result.card);
-                        if(color=='black') result.bool=true;
+                        if(color=='black') return result.bool=true;
                         return result.bool=false;
                     };
                     "step 1"
@@ -9421,7 +9425,7 @@ precontent:function (Diuse){
                         },
                     },
                     Discard:{ //雷雨：敌方每次使用基本牌时，需要弃置一张手牌。
-                        trigger:{global:"useCardBegin"},
+                        trigger:{global:"useCardEnd"},
                         forced:true,
                         filter:function(event,player){
                             if(event.player==player) return false;
@@ -10020,7 +10024,7 @@ precontent:function (Diuse){
             Longzhou_Boss_Shoujiang:"守江",
             Longzhou_Boss_Shoujiang_info:"锁定技，每回合限一次，当你受到伤害时，若该伤害大于1点，则此伤害-1。",
             Longzhou_Boss_Shoujiang_Difficulty:"守江",
-            Longzhou_Boss_Shoujiang_info:"锁定技，每回合限一次，当你受到伤害时，若该伤害大于1点，则此伤害-1，然后你摸一张牌",
+            Longzhou_Boss_Shoujiang_info:"锁定技，每回合限一次，当你受到伤害时，若该伤害大于1点，则此伤害-1，然后你摸一张牌。",
             Longzhou_Boss_Shoujiang_Fucking:"守江",
             Longzhou_Boss_Shoujiang_info:"锁定技，每回合限一次，当你受到伤害时，若该伤害大于1点，则此伤害变为1点（防止多余的伤害），然后你摸三张牌。",
             Longzhou_Boss_Luoshen:"洛神",
