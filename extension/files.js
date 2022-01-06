@@ -327,4 +327,7 @@ Diuse_tianshu=[
     'Zhuogui_Boss_Niaozui.jpg',
     'Zhuogui_Boss_Niaozui_Difficulty.jpg',
     'Zhuogui_Boss_Niaozui_Fucking.jpg',
+    'Zhuogui_Boss_Niutoumamian.jpg',
+    'Zhuogui_Boss_Niutoumamian_Difficulty.jpg',
+    'Zhuogui_Boss_Niutoumamian_Fucking.jpg',
 ]
