@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.34');
+        game.saveConfig('Diuse_local_version','1.7.35');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -1218,6 +1218,9 @@ precontent:function (Diuse){
                             return false;
                         },
                         content:function(){
+                            var num=player.countMark('Diuse_Fuhe');
+                            var num1=player.countCards('h');
+                            if(num1<num+player.maxHp) player.draw(num+player.maxHp-num1);
                             player.removeMark('Diuse_SP',50);
                             player.storage.Fuhe_Buff=false;
                         },
@@ -1244,6 +1247,11 @@ precontent:function (Diuse){
                                     if(num<=0){
                                         player.storage.Fuhe_Buff=true;
                                     }
+                                    player.storage.Fuhe_Damage++;
+                                    if(player.storage.Fuhe_Damage>=5){
+                                        player.storage.Fuhe_Damage=0;
+                                        player.storage.Fuhe_Buff=true;
+                                    }
                                 }
                             },
                         },
@@ -1254,11 +1262,11 @@ precontent:function (Diuse){
                         audioname:["Diuse_Buluoniya"],
                         trigger:{source:"damageBegin"},
                         usable:1,
-                        check:function(event,player){
+                        check:function(event,player,target){
                             var num=event.num;
                             var num1=player.countMark('Diuse_Fuhe');
                             if(event.player.hp<=num) return false;
-                            if(get.attitude(player,target)<=0&&num<=1&&num1>=2) return true;
+                            if(get.attitude(player,event.player)<=0&&num<=1&&num1>=2) return true;
                             return false;
                         },
                         content:function(){
@@ -1321,7 +1329,7 @@ precontent:function (Diuse){
                         check:function(event,player,target){
                             var list=player.storage.Fuhe_List;
                             var num=player.countMark('Diuse_Fuhe');
-                            if(get.attitude(player,target)>0&&list.contains(target)) return false;
+                            if(get.attitude(player,event.player)>0&&list.contains(event.player)) return false;
                             if(num<=0) return false;
                             return true;
                         },
@@ -1334,7 +1342,7 @@ precontent:function (Diuse){
                             "step 0"
                             if(player.countCards('he')>=2){
                                 player.chooseControl('加伤','保护').set('prompt','请选择令其摸两张牌然后该伤害+1或你弃置两张牌并暂时将其视为保护目标').set('ai',function(){
-                                    if(get.attitude(player,target)<=0) return '加伤';
+                                    if(get.attitude(player,event.player)<=0) return '加伤';
                                     return '保护';
                                 });
                             } else {
@@ -1377,6 +1385,7 @@ precontent:function (Diuse){
                             player.storage.Fuhe_List=[]; //保护列表
                             player.storage.Fuhe_Hp=[];
                             player.storage.Fuhe_Buff=true; //SP技能 过载
+                            player.storage.Fuhe_Damage=0; //过载计数
                         },
                         subSkill:{
                             End:{
@@ -3263,11 +3272,11 @@ precontent:function (Diuse){
                     Diuse_Anhong:"暗洪",
                     "Diuse_Anhong_info":"觉醒技。当你受到伤害前你可以摸一张牌，如果你受到伤害后的体力低于2则恢复一点体力；失去该技能并获得技能血杀。",
                     Diuse_Guozai:"过载",
-                    "Diuse_Guozai_info":"SP技。消耗50SP开启过载状态，期间你每次造成伤害的值+1且你与保护单位恢复1点体力，然后扣10SP。若你的SP为0则关闭过载状态。",
+                    "Diuse_Guozai_info":"SP技。消耗50SP开启过载状态且立刻将手牌摸至体力上限+护盾值的数量(最多为10)，期间你每次造成伤害的值+1且你与保护单位恢复1点体力，然后扣10SP。若你的SP为0或使用超过50SP则关闭过载状态。",
                     Diuse_Chonggou:"重构",
                     "Diuse_Chonggou_info":"每回合限一次，当你造成伤害时，你可以选择：1：弃置X张牌并摸X张牌（X为当前护盾值）2：使其获得其防具区的牌直至其准备阶段；然后取消对其即将造成的伤害。",
                     Diuse_Yinmie:"湮灭",
-                    "Diuse_Yinmie_info":"每回合限一次，其他角色受到伤害前，你可以选择若其防具区没有牌择你可以选择：1：使其摸两张牌然后该伤害+1；2：你弃置两张牌并使其进入保护名单。",
+                    "Diuse_Yinmie_info":"每回合限一次，其他角色受到伤害前，若其防具区没有牌则你可以选择：1：使其摸两张牌然后该伤害+1；2：你弃置两张牌并使其进入保护名单。",
                     Diuse_Fuhe:"负荷",
                     "Diuse_Fuhe_info":"锁定技，游戏开始后，你获得当前体力值的物理护盾，你和保护单位受到物理伤害时优先扣除护盾；出牌阶段，若你的体力与上回合结束时无变化则将将护盾值充能至体力上限；回合结束时，你移除清空保护名单；你的手牌上限增加等量护盾值。",
                     Diuse_Wange:"挽歌",
@@ -3371,7 +3380,7 @@ precontent:function (Diuse){
             Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-            Diuse_Beta:["female","qun","5/10",['kagari_zongsi','Diuse_Chonggou'],[]],
+            //Diuse_Beta:["female","qun","5/10",['kagari_zongsi','Diuse_Chonggou'],[]],
 
             Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
             Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
