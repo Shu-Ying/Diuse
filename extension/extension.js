@@ -17,7 +17,7 @@ precontent:function (Diuse){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
 
-        game.saveConfig('Diuse_local_version','1.7.35');
+        game.saveConfig('Diuse_local_version','1.7.36');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -1342,7 +1342,7 @@ precontent:function (Diuse){
                             "step 0"
                             if(player.countCards('he')>=2){
                                 player.chooseControl('加伤','保护').set('prompt','请选择令其摸两张牌然后该伤害+1或你弃置两张牌并暂时将其视为保护目标').set('ai',function(){
-                                    if(get.attitude(player,event.player)<=0) return '加伤';
+                                    if(get.attitude(player,trigger.player)<=0) return '加伤';
                                     return '保护';
                                 });
                             } else {
@@ -1973,20 +1973,18 @@ precontent:function (Diuse){
                                 return str;
                             },
                         },
-                        group:['Diuse_Xirang_draw','Diuse_Xirang_use','Diuse_Xirang_lose'],
+                        group:['Diuse_Xirang_draw','Diuse_Xirang_use','Diuse_Xirang_lose','Diuse_Xirang_cancel'],
                         subSkill:{
                             draw:{
                                 audio:"ext:术樱:2",
                                 audioname:["Diuse_Fuhua"],
-                                trigger:{player:"phaseDrawBefore",},
+                                trigger:{player:['phaseDrawSkipped','phaseDrawCancelled']},
                                 forced:true,
                                 content:function(target,player,num)
                                 {
                                     'step 0'
-                                    trigger.cancel();
-                                    'step 1'
                                     player.chooseControl('从牌堆顶摸两张','从牌堆底摸两张').set('prompt','请选择从何处摸两张牌').set('ai',function(){return '从牌堆顶摸两张';});
-                                    'step 2'
+                                    'step 1'
                                     if(result.control=='从牌堆顶摸两张'){player.draw(2);player.draw(1,'bottom');} else {player.draw(2,'bottom');player.draw();}
                                 },
                             },
@@ -2030,6 +2028,16 @@ precontent:function (Diuse){
                                     player.chooseToDiscard('h',stoNum2,true);
                                     player.storage.Xirang=[];
                                 }
+                            },
+                            cancel:{
+                                audio:false,
+                                trigger:{player:"phaseDrawBefore"},
+                                forced:true,
+                                popup:false,
+                                log:false,
+                                content:function(){
+                                    trigger.cancel();
+                                },
                             },
                         },
                     },
@@ -3297,7 +3305,7 @@ precontent:function (Diuse){
                     Diuse_Shanbeng:"山崩",
                     "Diuse_Shanbeng_info":"当你使用杀指定唯一目标后，你可以弃置至多三张标记牌然后获得相应效果。",
                     Diuse_Xirang:"息壤",
-                    "Diuse_Xirang_info":"你始终跳过摸牌阶段，然后选择从牌堆顶摸两张或从牌堆底摸两张，当你选择后从相反方向摸一张牌；当你使用【杀】【闪】【桃】【酒】时，若你没有对应标记则摸一张牌并获得相应标记；弃牌阶段开始时，若你的当前手牌小于等于当前体力值且有标记则可以摸X张牌再弃置X/2张牌和移除标记（X为标记【杀】【闪】【桃】【酒】的数量；X向下取整且最少为1）",
+                    "Diuse_Xirang_info":"锁定技，你始终跳过摸牌阶段；若你的摸牌阶段被跳过则你选择从牌堆顶摸两张或从牌堆底摸两张，然后从相反方向摸一张牌；当你使用【杀】【闪】【桃】【酒】时，若你没有对应标记则摸一张牌并获得相应标记；弃牌阶段开始时，若你的当前手牌小于等于当前体力值且有标记则可以摸X张牌再弃置X/2张牌和移除标记（X为标记【杀】【闪】【桃】【酒】的数量；X向下取整且最少为1）",
                     Diuse_Xunxin:"迅心",
                     "Diuse_Xunxin_info":"锁定技。当你受到一点伤害后你摸一张牌并选择一张手牌弃置；你的牌因弃置而进入弃牌堆的【杀】【闪】【桃】【酒】会放置‘岚’中。",
                     Diuse_Xianfa:"仙法",
