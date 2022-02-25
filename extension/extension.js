@@ -23,7 +23,7 @@ precontent:function (Diuse){
         if(lib.config.extension_术樱_yuanshenoff==undefined) game.saveConfig('extension_术樱_yuanshenoff',true);
         if(lib.config.show_splash!='off') game.saveConfig('show_splash','off');
 
-        game.saveConfig('Diuse_local_version','1.7.38');
+        game.saveConfig('Diuse_local_version','1.7.39');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -11378,7 +11378,7 @@ precontent:function (Diuse){
                                 trigger.untrigger();
                                 trigger.trigger('useCardBefore');
 
-                                if(trigger.card.name=='sha'){ player.getStat().card.sha++; } //限制出杀次数
+                                //if(trigger.card.name=='sha'){ player.getStat().card.sha++; } //限制出杀次数
                             }
                         },
                         Diuse_Shashengying:{
