@@ -14,6 +14,10 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
 //重新缩进 防止后续缩进过长
 editable:false,
 precontent:function (Diuse){
+
+    var layoutPath = lib.assetURL + 'extension/术樱';
+	lib.init.css(layoutPath, 'extension');
+
     if(Diuse.enable){
         var url=lib.assetURL+'extension/术樱'
         var Diuse_Button=true;
@@ -22,8 +26,10 @@ precontent:function (Diuse){
         if(lib.config.extension_术樱_tianshuoff==undefined) game.saveConfig('extension_术樱_tianshuoff',true);
         if(lib.config.extension_术樱_yuanshenoff==undefined) game.saveConfig('extension_术樱_yuanshenoff',true);
         if(lib.config.show_splash!='off') game.saveConfig('show_splash','off');
+        if(lib.config.extension_术樱_tianshu_new==undefined) game.saveConfig('extension_术樱_tianshu_new',4);
+        if(lib.config.extension_术樱_tianshu_add_list==undefined) game.saveConfig('extension_术樱_tianshu_list','');
 
-        game.saveConfig('Diuse_local_version','1.7.39');
+        game.saveConfig('Diuse_local_version','1.7.40');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -122,7 +128,7 @@ precontent:function (Diuse){
                     '<br>三张重复'+
                     '<br>【桃】 恢复两点体力并摸三张牌'+
                     '<br>【闪】 此杀必须两张闪响应 然后你摸两张牌'+
-                    '<br>【杀】 此杀不可被响应 出杀次数+2'+
+                    '<br>【杀】 此杀不可被响应 出杀次数上限+2'+
                     '<br>【酒】 此杀伤害+3<br>'+
                     '<br>两张重复'+
                     '<br>【桃】 恢复一点体力并摸两张牌'+
@@ -132,7 +138,7 @@ precontent:function (Diuse){
                     '<br>一张'+
                     '<br>【桃】 命中后恢复一点体力'+
                     '<br>【闪】 命中后摸一张牌'+
-                    '<br>【杀】 出杀次数+1'+
+                    '<br>【杀】 出杀次数上限+1'+
                     '<br>【酒】 此杀伤害+1'+
                     '</font></div>');
                     this.parentNode.insertBefore(more,this.nextSibling);
@@ -314,19 +320,19 @@ precontent:function (Diuse){
                         break;
                     }
                     case '空之律者':{
-                        if(confirm('是否下载月下初拥的动态皮肤[约为19.35MB]')){
+                        if(confirm('是否下载空之律者的动态皮肤[约为19.35MB]')){
                             download_dynamic('Diuse_Konglv.jpg');
                         }
                         break;
                     }
                     case '彼岸双生':{
-                        if(confirm('是否下载月下初拥的动态皮肤[约为12.6MB]')){
+                        if(confirm('是否下载彼岸双生的动态皮肤[约为12.6MB]')){
                             download_dynamic('Diuse_Heixi.jpg');
                         }
                         break;
                     }
                     case '八重神子':{
-                        if(confirm('是否下载月下初拥的动态皮肤[约为17.8MB]')){
+                        if(confirm('是否下载八重神子的动态皮肤[约为17.8MB]')){
                             download_dynamic('Diuse_Bachongshenzi.jpg');
                         }
                         break;
@@ -419,7 +425,7 @@ precontent:function (Diuse){
             "init":true,
             "intro":"关闭后，关闭崩坏3武将包。"
         };
-        lib.extensionMenu.extension_术樱.yuanshenff={
+        lib.extensionMenu.extension_术樱.yuanshenoff={
             "name":"原神开关",
             "init":true,
             "intro":"关闭后，关闭原神武将包。"
@@ -429,6 +435,75 @@ precontent:function (Diuse){
             "init":true,
             "intro":"关闭后，关闭天书乱斗模式（在非挑战模式下自动关闭）"
         };
+        lib.extensionMenu.extension_术樱.tianshuskill={
+            "name":'天书技能选择',
+            "init":'OFF',
+            "item":{
+                OFF:'关闭',
+                Zhiheng:'标制衡',
+                Wusheng:'界武圣',
+                Rende:'界仁德',
+                Yingzi:'界英姿',
+                Random:'随机',
+            },
+            "intro":"选择后每次过关就会出现你选择的技能。",
+            visualMenu:function(node){
+                node.className='button character controlbutton';
+                node.style.backgroundSize='';
+            },
+            onclick:function(layout){
+                game.saveConfig('extension_术樱_tianshu_skill',layout);
+            },
+        };
+        lib.extensionMenu.extension_术樱.tianshuaddoff={
+            "name":"天书自定义关卡(需重启",
+            "init":false,
+            "intro":"关闭后，击败天书乱斗模式下第四关则通关(需重启"
+        };
+
+        if(lib.config.extension_术樱_tianshuaddoff){
+            lib.extensionMenu.extension_术樱.tianshunew={
+                "name":"关卡总数",
+                "item":{
+                    5:'5',
+                    10:'10',
+                    15:'15',
+                    20:'20',
+                    25:'25',
+                    30:'30',
+                    35:'35',
+                    40:'40',
+                    45:'45',
+                    50:'50',
+                    55:'55',
+                    60:'60',
+                    65:'65',
+                    70:'70',
+                    75:'75',
+                    80:'80',
+                    85:'85',
+                    90:'90',
+                    95:'95',
+                    100:'100',
+                },
+                visualMenu:function(node){
+                    node.className='button character controlbutton';
+                    node.style.backgroundSize='';
+                },
+                onclick:function(layout){
+                    game.saveConfig('extension_术樱_tianshu_new',layout);
+                },
+            };
+        }
+        if(lib.config.extension_术樱_tianshuaddoff){
+            lib.extensionMenu.extension_术樱.tianshubutton={
+                "name":"自定义关卡",
+                "clear":true,
+                onclick:function(){
+                    newTianShuBossList();
+                },
+            }
+        }
         lib.extensionMenu.extension_术樱.Log={
             "name":"<span style='text-decoration: underline'>反馈BUG</span>",
             "clear":true,
@@ -437,18 +512,226 @@ precontent:function (Diuse){
             },
         };
         lib.extensionMenu.extension_术樱.thank={
-            "name":"最后感谢极光大佬和其他网络上的文献，还有反馈BUG的玩家。谢谢！",
+            "name":"最后感谢极光大佬和其他大佬网络上的文献，还有反馈BUG的玩家。谢谢！",
             "clear":true,
             "nopointer":true,
         };
 
+        newTianShuBossList=function(){
+            var buttonNode; //用于判断输入框回车之后响应事件
+            var manual = ui.create.div('.manual', manual);
+			var menu = ui.create.div('.menu', manual);
+			var input = menu.appendChild(document.createElement('input'));
+			input.onkeydown=function(e){
+                if(e&&e.keyCode==13){
+                    if(buttonNode==2){
+                        deleteNewBossList(dialog,manual,input.value);
+                    } else {
+                        addNewBossList(dialog,manual,input.value);
+                    }
+                }
+			};
+            
+			var addNewBoss = ui.create.div('.addNewBoss',menu); //加入新boss
+            var newBossList = ui.create.div('.newBossList',menu);
+            var deleteNewBossAllList = ui.create.div('.deleteNewBossAllList',menu);
+            var deleteNewBoss = ui.create.div('.deleteNewBoss',menu);
+            var playerList = ui.create.div('.playerList',menu);
+
+			var close = ui.create.div('.close', menu);
+			var oldDialog=_status.event.dialog;
+			var dialog=ui.create.dialog();
+			dialog.noImage=true;
+			dialog.style.backgroundImage="";
+
+			var content = manual.appendChild(dialog);	
+			content.classList.remove('nobutton');
+			content.classList.add('content');
+			content.style.transform = '';
+			content.style.opacity = '';
+			content.style.height = '';
+
+            newBossList.innerHTML = '列表';
+			newBossList.addEventListener('click', function(){
+                newBossShow(dialog,manual);
+			});
+
+            deleteNewBossAllList.innerHTML = '清除';
+			deleteNewBossAllList.addEventListener('click', function(){
+                if(confirm('点击确定清除全部自定义Boss')){
+                    game.saveConfig('extension_术樱_tianshu_add_list','');
+                    newBossShow(dialog,manual);
+                    alert('清除完毕!');
+                }
+			});
+
+			addNewBoss.innerHTML = '加入';
+			addNewBoss.addEventListener('click', function(){
+                addNewBossList(dialog,manual,input.value);
+                buttonNode=1;
+			});
+
+            deleteNewBoss.innerHTML = '删除';
+			deleteNewBoss.addEventListener('click', function(){
+                deleteNewBossList(dialog,manual,input.value);
+                buttonNode=2;
+			});
+			
+            playerList.innerHTML = '排行榜';
+			playerList.addEventListener('click', function(){
+                alert('暂未开放');
+			});
+
+            dialog.addText("使用说明: 点击列表查看自定义BOSS列表<br><br>点击清空按钮清空自定义BOSS列表中全部Boss<br><br>点击删除并在输入框内输入武将名称即可单独从BOSS列表单独删除<br><br>点击加入并在输入框内输入武将名称即可加入至BOSS列表<br>***需要注意的是，在加入列表时若有武将名重复，则会导致同时加入多个武将。后续修复...***");
+
+            // close1.addEventListener('click', function(){
+			// 	alert(close1.value);
+			// 	//game.tujianBegin(content , close , input.value , manual);
+			// 	//input.value="";
+			// });
+
+			close.innerHTML = '关闭';
+			close.addEventListener('click', function(){
+				manual.remove();
+				ui.arena.show();
+				ui.system.show();
+				//ui.menuContainer.show();
+				_status.event.dialog=oldDialog;
+				_status.event.dialog.show();
+			});
+			
+			//_status.paused = true;
+			ui.arena.classList.remove('menupaused');
+			ui.arena.hide();
+			ui.system.hide();
+			ui.menuContainer.hide();
+			ui.window.appendChild(manual);
+        },
+
+        newBossShow=function(dialog,manual){
+            dialog=ui.create.dialog();
+            dialog.noImage=true;
+            dialog.style.backgroundImage="";
+            
+            var content = manual.appendChild(dialog);	
+            content.classList.remove('nobutton');
+            content.classList.add('content');
+            content.style.transform = '';
+            content.style.opacity = '';
+            content.style.height = '';
+
+            var list=lib.config.extension_术樱_tianshu_add_list.split(",");
+
+            for(var i=0;i<list.length;i++){
+                for (var j in lib.character) {
+                    if (j==list[i]) {
+                        dialog.addSmall([[j], 'character']);	
+                    } 
+                }
+            }
+
+        },
+
+        addNewBossList=function(dialog,manual,val){
+            dialog=ui.create.dialog();
+            dialog.noImage=true;
+            dialog.style.backgroundImage="";
+            
+            var content = manual.appendChild(dialog);	
+            content.classList.remove('nobutton');
+            content.classList.add('content');
+            content.style.transform = '';
+            content.style.opacity = '';
+            content.style.height = '';
+
+            var result=val;
+
+            if (result == "" || result == null) {
+                result = "你没有输入名称";
+                alert(result);	
+                return;
+            }
+
+            var value = false;
+
+            for (var a in lib.character) {
+                if (lib.translate[a] == result) {
+                    dialog.addSmall([[a], 'character']); 
+                    if(confirm('已找到'+ result +'武将，点击确定加入自定义Boss列表。')){
+                        if(lib.config.extension_术樱_tianshu_add_list==undefined||lib.config.extension_术樱_tianshu_add_list==''){
+                            game.saveConfig('extension_术樱_tianshu_add_list',a);
+                        } else {
+                            game.saveConfig('extension_术樱_tianshu_add_list',lib.config.extension_术樱_tianshu_add_list+','+a);
+                        }
+                    }
+                    value = true;
+                }
+            }
+
+            if (value == false) {
+                alert('找不到名为' + result + '的武将!');
+            }
+
+        },
+
+        deleteNewBossList=function(dialog,manual,val){
+            dialog=ui.create.dialog();
+            dialog.noImage=true;
+            dialog.style.backgroundImage="";
+            
+            var content = manual.appendChild(dialog);	
+            content.classList.remove('nobutton');
+            content.classList.add('content');
+            content.style.transform = '';
+            content.style.opacity = '';
+            content.style.height = '';
+
+            var result=val;
+
+            if (result == "" || result == null) {
+                result = "你没有输入名称";
+                alert(result);	
+                return;
+            }
+
+            var list=lib.config.extension_术樱_tianshu_add_list.split(",");
+            var value = false;
+
+            for (var i=0;i<list.length;i++) {
+                for (var a in lib.character) {
+                    if (lib.translate[a] == result) {
+                        if(lib.translate[a]==list[i]){
+                            dialog.addSmall([[a], 'character']); 
+                            if(confirm('已找到'+ result +'武将，点击确定移除自定义Boss列表。')){
+                                if(list.length==1) {
+                                    game.saveConfig('extension_术樱_tianshu_add_list','');
+                                    break;
+                                }
+                                if(!i){
+                                    game.saveConfig('extension_术樱_tianshu_add_list',list[i]);
+                                } else {
+                                    game.saveConfig('extension_术樱_tianshu_add_list',lib.config.extension_术樱_tianshu_add_list+','+list[i]);
+                                }
+                            }
+                            value = true;
+                        }
+                    } 
+                }
+            }
+
+            if (value == false) {
+                alert('找不到名为' + result + '的武将或者武将不存在自定义Boss列表中。');
+            }
+        },
+
+
         download_filter=function(){
             lib.init.js(url,'files',function(){
-                var tianshu_list=Diuse_tianshu,mp3_list=Diuse_mp3,static_list=Diuse_static;
+                var tianshu_list=Diuse_tianshu,mp3_list=Diuse_mp3,static_list=Diuse_static,css_list=Diuse_css;
                 var url_beta='extension/术樱/';
                 var num=0;
-                var num1=tianshu_list.length,num2=mp3_list.length,num3=static_list.length;
-                var listnum=num1+num2+num3;
+                var num1=tianshu_list.length,num2=mp3_list.length,num3=static_list.length,num4=css_list.length;
+                var listnum=num1+num2+num3+num4;
                 document.body.appendChild(Diuse_Text);
                 var download1=function(){
                     var url_search=url_beta+tianshu_list[0];
@@ -507,13 +790,47 @@ precontent:function (Diuse){
                     });
                 }
                 var download3=function(){
+                    var url_search=url_beta+css_list[0];
+                    game.readFile(url_search,function(){
+                        num++;
+                        css_list.remove(css_list[0]);
+                        if(css_list.length>0){
+                            Diuse_Text.innerHTML='正在查漏补缺（'+num+'/'+listnum+'）';
+                            download3();
+                        }else{
+                            Diuse_Text.innerHTML='查漏补缺完毕';
+                            Diuse_Button=true;
+                            alert('查漏补缺完毕!');
+                            document.body.removeChild(Diuse_Text);
+                        };
+                    },function(){
+                        game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/css/'+css_list[0],'extension/术樱/'+css_list[0],function(){
+                            num++;
+                            css_list.remove(css_list[0]);
+                            if(css_list.length>0){
+                                Diuse_Text.innerHTML='正在查漏补缺（'+num+'/'+listnum+'）';
+                                download3();
+                            }else{
+                                Diuse_Text.innerHTML='查漏补缺完毕';
+                                Diuse_Button=true;
+                                alert('查漏补缺完毕!');
+                                document.body.removeChild(Diuse_Text);
+                            };
+                        },function(){
+                            if(confirm('下载'+css_list[0]+'失败，是否继续下载？')){
+                                download3();
+                            }
+                        });
+                    });
+                }
+                var download4=function(){
                     var url_search=url_beta+static_list[0];
                     game.readFile(url_search,function(){
                         num++;
                         static_list.remove(static_list[0]);
                         if(static_list.length>0){
                             Diuse_Text.innerHTML='正在查漏补缺（'+num+'/'+listnum+'）';
-                            download3();
+                            download4();
                         }else{
                             Diuse_Text.innerHTML='查漏补缺完毕';
                             Diuse_Button=true;
@@ -526,7 +843,7 @@ precontent:function (Diuse){
                             static_list.remove(static_list[0]);
                             if(static_list.length>0){
                                 Diuse_Text.innerHTML='正在查漏补缺（'+num+'/'+listnum+'）';
-                                download3();
+                                download4();
                             }else{
                                 Diuse_Text.innerHTML='查漏补缺完毕';
                                 Diuse_Button=true;
@@ -535,11 +852,12 @@ precontent:function (Diuse){
                             };
                         },function(){
                             if(confirm('下载'+static_list[0]+'失败，是否继续下载？')){
-                                download3();
+                                download4();
                             }
                         });
                     });
                 }
+                
                 download1();
             },function(){
                 Diuse_Button=true;
@@ -784,12 +1102,12 @@ precontent:function (Diuse){
         RepairBug=function(){
             lib.init.js(url,'files',function(){
                 lib.init.js(url,'version',function(){RepairBugGo();},function(){
-                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){alert('version资源修复成功！');Diuse_Button=true;},function(){alert('version资源修复成功！');Diuse_Button=true;});
+                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){alert('version资源修复成功！');Diuse_Button=true;},function(){alert('version资源修复失败！');Diuse_Button=true;});
                 });
             },function(){
                 game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/files.js','extension/术樱/files.js',function(){alert('files资源修复成功！');Diuse_Button=true;},function(){alert('files资源修复失败！');Diuse_Button=true;});
                 lib.init.js(url,'version',function(){},function(){
-                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){alert('version资源修复成功！');Diuse_Button=true;},function(){alert('version资源修复成功！');Diuse_Button=true;});
+                    game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){alert('version资源修复成功！');Diuse_Button=true;},function(){alert('version资源修复失败！');Diuse_Button=true;});
                 });
             });
         };
@@ -876,12 +1194,12 @@ precontent:function (Diuse){
                         Diuse_Bachongying:["female","qun",4,["Diuse_Luoying","Diuse_Yishan","Diuse_Renfan","Diuse_PlayerDie"],[]],
                         Diuse_Kalian:["female","qun",4,["Diuse_Wange","Diuse_Sangzhong","Diuse_Zhongqu","Diuse_PlayerDie"],[]],
                         Diuse_Xier:["female","qun",4,["Diuse_Anhong","Diuse_Diewu","Diuse_PlayerDie"],[]],
-                        Diuse_Buluoniya:["female","qun",3,['Diuse_SP',"Diuse_Guozai","Diuse_Chonggou","Diuse_Fuhe","Diuse_Yinmie","Diuse_PlayerDie"],[]],
+                        Diuse_Buluoniya:["female","qun",3,["Diuse_Guozai","Diuse_Chonggou","Diuse_Fuhe","Diuse_Yinmie","Diuse_PlayerDie"],[]],
                         Diuse_Shilv:["female","qun",4,["Diuse_Bingren","Diuse_Fanchen","Diuse_Zhejian","Diuse_PlayerDie"],[]],
                         Diuse_Yayi:["female","qun",4,["Diuse_Kongzhan","Diuse_Dianci","Diuse_Yvlei","Diuse_PlayerDie"],[]],
                         Diuse_Yuexia:["female","qun","1/4",['Diuse_Xueqi','Diuse_Shenshi','Diuse_Shoulie',"Diuse_PlayerDie"],[]],
-                        Diuse_Konglv:["female","qun",5,['Diuse_SP','Diuse_Qujian','Diuse_Yakong','Diuse_Xujie',"Diuse_PlayerDie"],[]],
-                        Diuse_Heixi:["female","qun",4,['Diuse_SP','Diuse_Mingan','Diuse_Baihei','Diuse_Danzhong'],[]],
+                        Diuse_Konglv:["female","qun",5,['Diuse_Qujian','Diuse_Yakong','Diuse_Xujie',"Diuse_PlayerDie"],[]],
+                        Diuse_Heixi:["female","qun",4,['Diuse_Mingan','Diuse_Baihei','Diuse_Danzhong',"Diuse_PlayerDie"],[]],
                         //,'kagari_zongsi'
                     },
                     translate:{
@@ -1009,6 +1327,7 @@ precontent:function (Diuse){
                                     firstDo:true,
                                     frequent:true,
                                     popup:false,
+                                    audio:false,
                                     filter:function(event,player){
                                         return event.card.name=='sha'||event.card.name=='shan'||get.type(event.card)=='trick';
                                     },
@@ -1217,7 +1536,7 @@ precontent:function (Diuse){
                                     content:function (){
                                         player.loseMaxHp();
                                         player.recover();
-                                        game.log(player,'获得了技能','#g【血杀】')
+                                        game.log(player,'获得了技能','#g【血杀】');
                                         player.addSkill("Diuse_Xuesha");
                                         player.awakenSkill('Diuse_Anhong');
                                     },
@@ -1273,7 +1592,7 @@ precontent:function (Diuse){
                                 player.removeMark('Diuse_SP',50);
                                 player.storage.Fuhe_Buff=false;
                             },
-                            group:['Diuse_Guozai_Buff'],
+                            group:['Diuse_SP_useCard','Diuse_SP_damage','Diuse_Guozai_Buff'],
                             subSkill:{
                                 Buff:{
                                     trigger:{source:"damageBegin"},
@@ -1378,6 +1697,7 @@ precontent:function (Diuse){
                             check:function(event,player,target){
                                 var list=player.storage.Fuhe_List;
                                 var num=player.countMark('Diuse_Fuhe');
+                                if(!list) return false;
                                 if(get.attitude(player,event.player)>0&&list.contains(event.player)) return false;
                                 if(num<=0) return false;
                                 return true;
@@ -2067,7 +2387,7 @@ precontent:function (Diuse){
                                     trigger:{player:"phaseDiscardBefore"},
                                     prompt:'是否移除标记并摸牌',
                                     filter:function(event,player){
-                                        if(player.countCards('h')<=player.hp&&player.storage.Xirang.length) return true;
+                                        if(player.countCards('h')<=player.hp&&player.storage.Xirang) return true;
                                     },
                                     content:function(){
                                         var stoNum=player.storage.Xirang.length;
@@ -2240,7 +2560,7 @@ precontent:function (Diuse){
                                                 game.players[i].removeSkill('Diuse_Yifa');
                                             }
                                         }
-                                        game.log(player,'移除全场“相引”。')
+                                        game.log(player,'移除全场“相引”。');
                                     },
                                 },
                             },
@@ -2396,6 +2716,13 @@ precontent:function (Diuse){
                             mod:{
                                 cardUsable:function(card,player,num){if(player.isEmpty(1)&&card.name=='sha') return num+1;},
                                 maxHandcardBase:function(player,num){if(player.isEmpty(1)&&player.isEmpty(2)) return num+2;},
+                            },
+                            ai:{
+                                effect:{
+                                    player:function(player,card){
+                                        if(get.subtype(card)=='equip1'||get.subtype(card)=='equip2') return -1;
+                                    },
+                                },
                             },
                             group:["Diuse_Tiandi_Jieshu","Diuse_Tiandi_Dying"],
                             subSkill:{
@@ -3310,13 +3637,26 @@ precontent:function (Diuse){
                                 
                                 if(player.hasSkill('Diuse_Caidan_End')&&player.countMark('Diuse_SP')<150) player.removeSkill('Diuse_Caidan_End');  //移除彩蛋;
                             },
+                            ai:{
+                                order:9,
+                                result:{
+                                    target:function (player,target){
+                                        var numj=target.countCards('j');
+                                        var numhe=target.countCards('he');
+                                        if(numhe==0) return numj>0?6:-6;
+                                        return -6-(numj+1)/numhe;
+                                    },
+                                },
+                                threaten:1.1,
+                            },
+                            group:['Diuse_SP_useCard','Diuse_SP_damage'],
                         },
+                        Diuse_Mingan_End:{},
                         Diuse_Mingan:{
                             audio:false,
                             enable:"phaseUse",
-                            usable:1,
                             filter:function(event,player){
-                                return player.countCards('h');
+                                return player.countCards('h')&&!player.hasSkill('Diuse_Mingan_End');
                             },
                             content:function(){
                                 'step 0'
@@ -3357,6 +3697,17 @@ precontent:function (Diuse){
                                 } else {
                                     player.chooseUseTarget({name:'sha'},'是否视为使用一张【杀】？',true);
                                 }
+                                'step 3'
+                                player.addTempSkill('Diuse_Mingan_End','phaseUseEnd');
+                            },
+                            ai:{
+                                order:5,
+                                threaten:0.5,
+                                result:{
+                                    player:function (player,target){
+                                        return 1;
+                                    },
+                                },
                             },
                         },
                         Diuse_Baihei:{
@@ -3398,29 +3749,41 @@ precontent:function (Diuse){
                                         game.playAudio('..','extension\\术樱','Diuse_Bai3');
                                     }
                                 }
-
+                                'step 1'
                                 if(trigger.player.countMark('Diuse_Bai')){
                                     if(trigger.player.countCards('h')){
                                         trigger.player.chooseControl('弃一张','摸一张').set('prompt','请选择弃1张手牌或令'+get.translation(player)+'摸1张牌').set('ai',function(){
                                             return '弃一张';
                                         });
+                                        event.baiBool=true;
+                                        trigger.player.removeMark('Diuse_Bai',1);
                                     } else {
                                         trigger.player.chooseControl('摸一张').set('prompt','请选择弃1张手牌或令'+get.translation(player)+'摸1张牌').set('ai',function(){
                                             return '摸一张';
                                         });
+                                        event.baiBool=true;
+                                        trigger.player.removeMark('Diuse_Bai',1);
                                     }
-                                    trigger.player.removeMark('Diuse_Bai',1);
                                 } else if(trigger.player.countMark('Diuse_Hei')){
                                     player.draw();
                                     trigger.player.removeMark('Diuse_Hei',1);
                                 } else {
                                     trigger.player.addMark('Diuse_Bai');
                                 }
-                                'step 1'
+                                'step 2'
                                 if(result.control=='弃一张'){
+                                    game.log(trigger.player,'发动','#g【白昼】','，弃置一张手牌');
+                                    player.line(trigger.player);
                                     trigger.player.chooseToDiscard('h',1,true);
-                                } else if(result.control=='摸一张'){
+                                }
+                                if(result.control=='摸一张'){
+                                    trigger.player.line(player);
                                     player.draw();
+                                }
+                                'step 3'
+                                if(trigger.player.isEmpty(2)&&event.baiBool){
+                                    player.moveCard(true);
+                                    event.baiBool=false;
                                 }
                             },
                         },
@@ -3455,6 +3818,7 @@ precontent:function (Diuse){
 
                                 if(trigger.player.countMark('Diuse_Bai')){
                                     player.draw();
+                                    trigger.player.removeMark('Diuse_Bai',1);
                                 } else if(trigger.player.countMark('Diuse_Hei')){
                                     if(trigger.player.countCards('h')){
                                         player.chooseControl('弃一张','摸一张').set('prompt','请选择摸1张牌或令'+get.translation(trigger.player)+'弃1张牌').set('ai',function(){
@@ -3465,7 +3829,10 @@ precontent:function (Diuse){
                                             return '摸一张';
                                         });
                                     }
-                                    trigger.player.removeMark('Diuse_Bai',1);
+                                    if(!trigger.player.isEmpty(2)){
+                                        player.getStat().card.sha--;
+                                    }
+                                    trigger.player.removeMark('Diuse_Hei',1);
                                 } else {
                                     trigger.player.addMark('Diuse_Hei');
                                 }
@@ -3483,6 +3850,7 @@ precontent:function (Diuse){
                                 return player.countMark('Diuse_SP')>=100;
                             },
                             content:function(){
+                                if(player.hasSkill('Diuse_Mingan_End')) player.removeSkill('Diuse_Mingan_End');
                                 if(player.storage.renge==undefined||player.storage.renge){
                                     game.playAudio('..','extension\\术樱','Diuse_Danzhong1');
                                     player.storage.renge=false;
@@ -3502,13 +3870,22 @@ precontent:function (Diuse){
                                     for(var i=0;i<game.players.length;i++){
                                         game.players[i].draw();
                                     }
-                                }
+                                } 
                             },
-                            group:['Diuse_Danzhong_Biao','Diuse_Danzhong_Li','Diuse_Danzhong_Jieshu'],
+                            ai:{
+                                order:3,
+                                threaten:0.5,
+                                result:{
+                                    player:function (player,target){
+                                        return 1;
+                                    },
+                                },
+                            },
+                            group:['Diuse_SP_useCard','Diuse_SP_damage','Diuse_Danzhong_Biao','Diuse_Danzhong_Li','Diuse_Danzhong_Jieshu'],
                             subSkill:{
                                 Biao:{
                                     audio:false,
-                                    trigger:{player:"phaseAfter"},
+                                    trigger:{player:"phaseUseAfter"},
                                     forced:true,
                                     filter:function(event,player){
                                         return player.storage.biaoBool;
@@ -3517,7 +3894,7 @@ precontent:function (Diuse){
                                         player.storage.biaoBool=false;
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i]==player) continue;
-                                            if(game.players[i].countCards('h')>game.players[i].hp) game.players[i].damage();
+                                            if(game.players[i].countCards('h')>game.players[i].hp) game.players[i].damage(1);
                                         }
                                     },
                                 },
@@ -3601,7 +3978,7 @@ precontent:function (Diuse){
                         Diuse_Tiandi:"天地",
                         Diuse_Tiandi_A:"天地",
                         Diuse_Tiandi_B:"天地",
-                        "Diuse_Tiandi_info":"准备阶段。若你的武器区为空或防具区为空则你可以多使用一张杀或摸一张牌，若两个均为空则额外手牌上限+2；结束阶段。你可以将本回合的天地效果给一名其他角色；锁定技，进入濒死后限一次，你将体力回复至1点并修改仙法：出牌阶段开始时不会再移除全场‘相引’",
+                        "Diuse_Tiandi_info":"锁定技，若你的武器区为空则出杀次数上限+1，若两个均为空则手牌上限+2，进入濒死后限一次，你将体力回复至1点并修改仙法：出牌阶段开始时不会再移除全场‘相引’；准备阶段，若你的防具区为空或武器区与防具区均不为空则你可以摸一张牌；结束阶段。你可以将本回合的天地效果给一名其他角色。",
                         Diuse_Yifa:"相引",//原仪法
                         //"Diuse_Yifa_info":"每轮限一次。你选择一名角色随机临时获得崩坏包的一个角色的技能，如果目标不是自己则摸两张牌。主公技，限定技，觉醒技除外。",
                         //"Diuse_Yinyang1":"阴",
@@ -3652,15 +4029,15 @@ precontent:function (Diuse){
                         Diuse_Yakong_Buff:"亚空",
                         Diuse_Yakong_info:"锁定技。你造成伤害后且不处于激活状态下则获得一个'空'标记。准备阶段若标记不小于3则你可以激活技能并将手牌补至前体力(最多补至5)，使用牌时根据类型执行以下效果：1，非攻击类型：你摸一张牌，2：攻击类型：该牌造成的伤害+1。然后你移除1个标记。",
                         Diuse_Xujie:"虚界",
-                        Diuse_Xujie_info:"SP技。出牌阶段，若你SP不小于125可以发动。扣除125点SP，然后你对除你之外的角色造成X点伤害（X为场上角色体力之和÷角色数量 且向下取整至少为1）然后你获得10个'亚空'标记。",
+                        Diuse_Xujie_info:"SP技。出牌阶段，你可以消耗125SP。你对除你之外的角色造成X点伤害（X为场上角色体力之和÷角色数量 且向下取整至少为1）然后你获得10个'亚空'标记。",
                         Diuse_Mingan:"明光/暗影",
                         Diuse_Mingan_info:"出牌阶段限一次，你可以将一张手牌放置牌堆底并摸一张牌(若你没有手牌则改为摸两张)然后执行以下效果：表人格：回复1点体力；里人格：视为打出一张杀",
                         Diuse_Baihei:"白昼/黑夜",
                         Diuse_Bai:"白昼",
                         Diuse_Hei:"黑夜",
-                        Diuse_Baihei_info:"锁定技，你对其他角色造成伤害后若其没有标记则其获得一个标记，若有标记则执行以下效果：若当前形态与标记不相对则你摸一张牌；表标记: 其选择你摸一张牌或其弃置一张手牌, 若其防具区没有牌则你移动场上的一张牌里标记: 你选择你摸一张牌或其弃置一张手牌, 若其防具区有牌则你可以多使用一张杀。表人格手牌上限+2 里人格体力上限+1",
+                        Diuse_Baihei_info:"锁定技，你对其他角色造成伤害后若其没有标记则其获得一个标记，若有标记则执行以下效果：若当前形态与标记不相对则你摸一张牌；表标记: 其选择你摸一张牌或其弃置一张手牌, 若其防具区没有牌则你移动场上的一张牌  里标记: 你选择你摸一张牌或其弃置一张手牌, 若其防具区有牌则你出杀次数上限+1。表人格手牌上限+2 里人格体力上限+1",
                         Diuse_Danzhong:"诞生/终末",
-                        Diuse_Danzhong_info:"SP技，出牌阶段，你可以消耗100SP来转换表/里人格并造成不同的效果：转换里人格时：对全场其他角色造成1点伤害，若有角色在此回合内阵亡，则场上角色回复1点体力。转换表人格时：全场角色摸1张牌，此回合结束时 若有其他角色手牌数大于当前体力值，则你对其造成1点伤害"
+                        Diuse_Danzhong_info:"SP技，出牌阶段，你可以消耗100SP，重置【明光/暗影】技能次数并转换表/里人格并造成不同的效果：转换里人格时：对全场其他角色造成1点伤害，若有角色在此回合内阵亡，则场上角色回复1点体力。转换表人格时：全场角色摸1张牌，此回合结束时 若有其他角色手牌数大于当前体力值，则你对其造成1点伤害"
                     },
                 },
             },"术樱");
@@ -3694,18 +4071,18 @@ precontent:function (Diuse){
                     character:{
                         Boss_Diuse_Tianshu:["male","",0,["Boss_Tianshu_Go","Boss_Diuse_Tianshu_intro1","Boss_Diuse_Tianshu_intro2","Boss_Diuse_Tianshu_intro3","Boss_Diuse_Tianshu_intro4","Boss_Diuse_Tianshu_intro5"],["boss"],"qun"],
                         
-                        Boss_Ordinary_Hankui:['female','shen',10,['boss_shenyi','Tianshu_Boss_Ordinary_Chiyan','Tianshu_Boss_Ordinary_Fali','Tianshu_Ordinary_Hankui_Die'],['qun','hiddenboss','bossallowed']],
-                        Boss_Difficulty_Hankui:['female','shen',13,['boss_shenyi','Tianshu_Boss_Difficulty_Chiyan','Tianshu_Boss_Difficulty_Fali','Tianshu_Difficulty_Hankui_Die'],['qun','hiddenboss','bossallowed']],
-                        Boss_Fucking_Hankui:['female','shen',15,['boss_shenyi','Tianshu_Boss_Chiyan','Tianshu_Boss_Fali','Tianshu_Boss_Shangshi','Tianshu_Fucking_Hankui_Die'],['qun','hiddenboss','bossallowed']],
-                        Boss_Ordinary_Baiqi:['male','shen',13,['boss_shenyi','boss_zhue','Tianshu_Boss_Tusha','Tianshu_Ordinary_Baiqi_Die'],['qun','hiddenboss','bossallowed']],
-                        Boss_Difficulty_Baiqi:['male','shen',16,['boss_shenyi','boss_zhue','Tianshu_Boss_Shangshi','Tianshu_Boss_Rentu_1','Tianshu_Boss_Tusha','Tianshu_Difficulty_Baiqi_Die'],['qun','hiddenboss','bossallowed']],
-                        Boss_Fucking_Baiqi:['male','shen',18,['boss_shenyi','boss_zhue','Tianshu_Boss_Shangshi','Tianshu_Boss_Tusha','Tianshu_Boss_Rentu','Tianshu_Fucking_Baiqi_Die'],['qun','hiddenboss','bossallowed']],
-                        Boss_Ordinary_WangshenBaiqi:['male','shen',3,['boss_shenyi','Tianshu_Boss_Tusha','Tianshu_Boss_Wangshen','Tianshu_Boss_Ordinary_Bumie','Tianshu_Ordinary_WangshenBaiqi_Die'],['qun','hiddenboss','bossallowed']],
-                        Boss_Difficulty_WangshenBaiqi:['male','shen',4,['boss_shenyi','Tianshu_Boss_Shangshi','Tianshu_Boss_Difficulty_Shashen','Tianshu_Boss_Difficulty_Bumie','Tianshu_Difficulty_WangshenBaiqi_Die'],['qun','hiddenboss','bossallowed']],
-                        Boss_Fucking_WangshenBaiqi:['male','shen',5,['boss_shenyi','Tianshu_Boss_Shangshi','Tianshu_Boss_Tusha','Tianshu_Boss_Wangshen','Tianshu_Boss_Fucking_Bumie','Tianshu_Fucking_WangshenBaiqi_Die','Tianshu_Boss_Fucking_Shashen'],['qun','hiddenboss','bossallowed']],
-                        Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-                        Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
-                        Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Ordinary_Hankui:['female','shen',10,['boss_shenyi','Tianshu_Boss_Ordinary_Chiyan','Tianshu_Boss_Ordinary_Fali','Tianshu_Ordinary_Hankui_Die'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Difficulty_Hankui:['female','shen',13,['boss_shenyi','Tianshu_Boss_Difficulty_Chiyan','Tianshu_Boss_Difficulty_Fali','Tianshu_Difficulty_Hankui_Die'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Fucking_Hankui:['female','shen',15,['boss_shenyi','Tianshu_Boss_Chiyan','Tianshu_Boss_Fali','Tianshu_Boss_Shangshi','Tianshu_Fucking_Hankui_Die'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Ordinary_Baiqi:['male','shen',13,['boss_shenyi','boss_zhue','Tianshu_Boss_Tusha','Tianshu_Ordinary_Baiqi_Die'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Difficulty_Baiqi:['male','shen',16,['boss_shenyi','boss_zhue','Tianshu_Boss_Shangshi','Tianshu_Boss_Rentu_1','Tianshu_Boss_Tusha','Tianshu_Difficulty_Baiqi_Die'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Fucking_Baiqi:['male','shen',18,['boss_shenyi','boss_zhue','Tianshu_Boss_Shangshi','Tianshu_Boss_Tusha','Tianshu_Boss_Rentu','Tianshu_Fucking_Baiqi_Die'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Ordinary_WangshenBaiqi:['male','shen',3,['boss_shenyi','Tianshu_Boss_Tusha','Tianshu_Boss_Wangshen','Tianshu_Boss_Ordinary_Bumie','Tianshu_Ordinary_WangshenBaiqi_Die'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Difficulty_WangshenBaiqi:['male','shen',4,['boss_shenyi','Tianshu_Boss_Shangshi','Tianshu_Boss_Difficulty_Shashen','Tianshu_Boss_Difficulty_Bumie','Tianshu_Difficulty_WangshenBaiqi_Die'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Fucking_WangshenBaiqi:['male','shen',5,['boss_shenyi','Tianshu_Boss_Shangshi','Tianshu_Boss_Tusha','Tianshu_Boss_Wangshen','Tianshu_Boss_Fucking_Bumie','Tianshu_Fucking_WangshenBaiqi_Die','Tianshu_Boss_Fucking_Shashen'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Ordinary_Guiyanwang:['male','shen',8,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Difficulty_Guiyanwang:['male','shen',16,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
+                        // Boss_Fucking_Guiyanwang:['male','shen',25,['boss_shenyi','Tianshu_Boss_Difu','Tianshu_Boss_Tiemian'],['qun','hiddenboss','bossallowed']],
             
                         Shengxiao_Zishu:['male','qun',5,['Boss_Shengxiao_Zishu'],['qun','hiddenboss','bossallowed']],
                         Shengxiao_Chouniu:['male','qun',9,['Boss_Shengxiao_Chouniu'],['qun','hiddenboss','bossallowed']],
@@ -4076,6 +4453,10 @@ precontent:function (Diuse){
                         var FourFuckingList=['Tianshu_Boss_Xuannv_Fucking','Tianshu_Boss_Hanba_Fucking','Zhuigui_Boss_Yanluowang_Fucking','Tianshu_Boss_Shaohao_Fucking','Longzhou_Boss_Taoshen_Fucking',
                         'Longzhou_Boss_Caoe_Fucking','Tianshu_Boss_Shuishengonggong_Fucking'];
                         var Longzhoulist=['Longzhou_Boss_Taoshen','Longzhou_Boss_Taoshen_Difficulty','Longzhou_Boss_Taoshen_Fucking','Longzhou_Boss_Caoe','Longzhou_Boss_Caoe_Difficulty','Longzhou_Boss_Caoe_Fucking'];
+                        var Newlist;
+                        if(lib.config.extension_术樱_tianshuaddoff){
+                            Newlist=lib.config.extension_术樱_tianshu_add_list.split(",");
+                        }
                         switch(num){
                             case 0:{
                                 for(var i=0;i<liveList.length;i++){
@@ -4144,10 +4525,12 @@ precontent:function (Diuse){
                                 }
                             }
                             case 5:{
-                                var newLive=liveList.randomGet();
-                                return newLive
+                                for(var i=0;i<Newlist.length;i++){
+                                    if(name==Newlist[i]) return true;
+                                }
+                                return false;
                             }
-                            case 6:{
+                            case 255:{
                                 for(var i=0;i<Longzhoulist.length;i++){
                                     if(name==Longzhoulist[i]) return true;
                                 }
@@ -4252,6 +4635,16 @@ precontent:function (Diuse){
                                     }
                                     return newBoss;
                                 }
+                            }
+                            case -5:{
+                                var newBoss=Newlist.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=Newlist.randomGet();
+                                        i=0;
+                                    }
+                                }
+                                return newBoss;
                             }
                             default:{return false}
                         }
@@ -4543,10 +4936,11 @@ precontent:function (Diuse){
                                 if(event.Diuse_Player==undefined) event.Diuse_Player = 0;
                                 var newSeat=5;
                                 if(game.me==game.boss) newSeat=6;
+                                var num3=lib.config.extension_术樱_tianshu_new;
                                 'step 0'
                                 var num=player.countMark('checkPoint');
                                 var num2=player.countMark('livePlayer');
-                                if(num==undefined||num==0){
+                                if(num==undefined||num==0){ //开始时召唤BOSS
                                     player.addMark('checkPoint',1);　
                                     for(var i=0;i<game.players.length;i++){
                                         if(game.players[i]==game.boss){　
@@ -4558,25 +4952,25 @@ precontent:function (Diuse){
                                     }
                                     var name1=game.bossName(0,-1);
                                     game.addBossFellow(newSeat,name1);
-                                } else if(num==1){
-                                    var nextCheckPoint1=game.bossName(trigger.player.name,num,num2);
-                                    if(nextCheckPoint1){
-                                        trigger.player.hide();
+                                } else if(num==1){ //第一关阵亡判断
+                                    var nextCheckPoint1=game.bossName(trigger.player.name,num,num2); //判断阵亡BOSS是否属于BOSS列表
+                                    if(nextCheckPoint1){ //如果是
+                                        trigger.player.hide(); //隐藏 和 奖励
                                         if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
-                                        var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
-                                        if(gameBoss==false){
+                                        var gameBoss=game.gameBossDie(trigger.player.name,num,num2); //判断关卡BOSS是否阵亡
+                                        if(gameBoss==false){ //如果返回False 说明阵亡
                                             player.addMark('nextCheckPoint',1);
                                             player.addMark('checkPoint',1);
                                         } 
-                                    } else if(nextCheckPoint1==false){
+                                    } else if(nextCheckPoint1==false){ //如果不是
                                         var gamePlayerNum=0;
-                                        for(var i=0;i<game.players.length;i++){
+                                        for(var i=0;i<game.players.length;i++){ //循环判断场上角色是否还有存活玩家
                                             if(game.players[i]==trigger.player) continue;
                                             if(!game.bossName(game.players[i].name,num,num2)&&!game.bossName(game.players[i].name,0,num2)){
                                                 gamePlayerNum++;
                                             }
                                         }
-                                        if(gamePlayerNum==0){
+                                        if(gamePlayerNum==0){ //如果场上角色都是BOSS或虚拟偶像 则游戏结束
                                             if(game.me==game.boss){
                                                 game.over(true);
                                             } else {
@@ -4584,22 +4978,22 @@ precontent:function (Diuse){
                                             }
                                         } 
                                     }
-                                } else if(num==2){
-                                    if(player.countMark('nextCheckPoint')){
-                                        trigger.player.die();
+                                } else if(num==2){ //进入第二关 和 阵亡判断
+                                    if(player.countMark('nextCheckPoint')){ //进入
+                                        trigger.player.die(); //因为过关要停止事件 洗牌等 会将BOSS阵亡事件停止
                                         player.removeMark('nextCheckPoint',player.countMark('nextCheckPoint'));
                                         var name1=game.bossName(0,-2,num2);
-                                        game.addBossFellow(newSeat,name1);
+                                        game.addBossFellow(newSeat,name1); //召唤4号位第二关Boss num2是难度
                                         var name2=game.bossName(0,-2,num2);
-                                        game.changeBoss(name2);
-                                        game.tianshuNewBoss(_status.currentPhase.next,num,num2);
+                                        game.changeBoss(name2); //6号位Boss
+                                        game.tianshuNewBoss(_status.currentPhase.next,num,num2); //重置回合 和判断 将回合控制权给谁
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i].name==name1||game.players[i].name==name2){
                                                 if(num2==1){game.players[i].draw(1);} else if(num2==2){game.players[i].draw(2);} else {game.players[i].draw(3);}
                                             }
                                         }
                                     }
-                                    var nextCheckPoint2=game.bossName(trigger.player.name,num,num2);
+                                    var nextCheckPoint2=game.bossName(trigger.player.name,num,num2); //阵亡判断 同第一关
                                     if(nextCheckPoint2){
                                         trigger.player.hide();
                                         if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
@@ -4685,7 +5079,8 @@ precontent:function (Diuse){
                                         if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
                                         var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
                                         if(gameBoss==false){
-                                            game.over(true);
+                                            player.addMark('nextCheckPoint',1);
+                                            player.addMark('checkPoint',1);
                                         } 
                                     } else if(nextCheckPoint4==false){
                                         var gamePlayerNum=0;
@@ -4703,7 +5098,68 @@ precontent:function (Diuse){
                                             }
                                         } 
                                     }
-                                } else if(num>=5){
+                                } else if(player.countMark('checkPoint')<num3){
+                                    if(player.countMark('nextCheckPoint')){
+                                        trigger.player.die();
+                                        player.removeMark('nextCheckPoint',player.countMark('nextCheckPoint'));
+                                        var name1=game.bossName(0,-5,num2);
+                                        game.addBossFellow(newSeat,name1);
+                                        var name2=game.bossName(0,-5,num2);
+                                        game.changeBoss(name2);
+                                        game.tianshuNewBoss(_status.currentPhase.next,num,num2);
+                                        for(var i=0;i<game.players.length;i++){
+                                            if(game.players[i].name==name1||game.players[i].name==name2&&!game.players[i].isFriendOf(player)){
+                                                if(num2==1){
+                                                    game.players[i].draw((5+parseInt((markNum-3)/10)));
+                                                    if(game.players[i].maxHp<18) game.players[i].gainMaxHp(18-game.players[i].maxHp); game.players[i].recover(18-game.players[i].maxHp);
+                                                    if(player.countMark('checkPoint')>5){
+                                                        var markNum=player.countMark('checkPoint');
+                                                        if(parseInt((markNum-5)/5)) game.players[i].gainMaxHp(parseInt((markNum-5)/5)); game.players[i].recover(parseInt((markNum-5)/5));
+                                                    }
+                                                } else if(num2==2){
+                                                    game.players[i].draw((5+parseInt((markNum-4)/10)));
+                                                    if(game.players[i].maxHp<19) game.players[i].gainMaxHp(18-game.players[i].maxHp); game.players[i].recover(19-game.players[i].maxHp);
+                                                    if(player.countMark('checkPoint')>5){
+                                                        var markNum=player.countMark('checkPoint');
+                                                        if(parseInt((markNum-5)/5)) game.players[i].gainMaxHp(parseInt((markNum-5)/5)); game.players[i].recover(parseInt((markNum-5)/5));
+                                                    }
+                                                } else {
+                                                    game.players[i].draw((5+parseInt((markNum-5)/10)));
+                                                    if(game.players[i].maxHp<20) game.players[i].gainMaxHp(18-game.players[i].maxHp); game.players[i].recover(20-game.players[i].maxHp);
+                                                    if(player.countMark('checkPoint')>5){
+                                                        var markNum=player.countMark('checkPoint');
+                                                        if(parseInt((markNum-5)/5)) game.players[i].gainMaxHp(parseInt((markNum-5)/5)); game.players[i].recover(parseInt((markNum-5)/5));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    var nextCheckPoint5=game.bossName(trigger.player.name,5,num2);
+                                    if(nextCheckPoint5){
+                                        trigger.player.hide();
+                                        if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
+                                        var gameBoss=game.gameBossDie(trigger.player.name,5,num2);
+                                        if(gameBoss==false){
+                                            player.addMark('nextCheckPoint',1);
+                                            player.addMark('checkPoint',1);
+                                        } 
+                                    } else if(nextCheckPoint5==false){
+                                        var gamePlayerNum=0;
+                                        for(var i=0;i<game.players.length;i++){
+                                            if(game.players[i]==trigger.player) continue;
+                                            if(!game.bossName(game.players[i].name,5,num2)&&!game.bossName(game.players[i].name,0,num2)){
+                                                gamePlayerNum++;
+                                            }
+                                        }
+                                        if(gamePlayerNum==0){
+                                            if(game.me==game.boss){
+                                                game.over(true);
+                                            } else {
+                                                game.over(false);
+                                            }
+                                        } 
+                                    }
+                                } else {
                                     if(game.me==game.boss){
                                         game.over(false);
                                     } else {
@@ -4730,7 +5186,19 @@ precontent:function (Diuse){
                                     if(list.length==5) break;
                                 }
                                 if(!list.length){event.finish();return;}
-                                //list.push('刷新');
+                                switch(lib.config.extension_术樱_tianshu_skill){
+                                    case 'Zhiheng':{ list.push('标制衡'); break;}
+                                    case 'Wusheng':{ list.push('界武圣'); break;}
+                                    case 'Rende':{ list.push('界仁德'); break;}
+                                    case 'Yingzi':{ list.push('界英姿'); break;}
+                                    case 'Random':{
+                                        var num=[0,1,2,3].randomGet();
+                                        if(num==0){ list.push('标制衡'); } else if(num==1){ list.push('界武圣'); } else if(num==2){
+                                            list.push('界仁德'); } else { list.push('界英姿'); 
+                                        }
+                                    }
+                                }
+                                //list.push('刷新'); goto()
                                 event.list=list;
                                 var name=get.translation(game.players[event.Diuse_Player]);
                                 var buttonGiveAiSkills=lib.config.extension_术樱_giveaiskill;
@@ -4745,14 +5213,24 @@ precontent:function (Diuse){
                                     }).dialog=dialog;
                                 }
                                 'step 5'
-                                // if(result.control=='刷新'){
-                                //     event.goto(3);
-                                //     return;
-                                // }
-                                event.skill=result.control
-                                game.log(game.players[event.Diuse_Player].name,'获得了【',event.skill,'】技能');
-                                game.players[event.Diuse_Player].addSkill(event.skill);
-                                event.list=[]
+                                if(result.control=='标制衡'){ 
+                                    game.log(game.players[event.Diuse_Player].name,'获得了【标制衡】技能');
+                                    game.players[event.Diuse_Player].addSkill('zhiheng');
+                                } else if(result.control=='界武圣'){
+                                    game.log(game.players[event.Diuse_Player].name,'获得了【界武圣】技能');
+                                    game.players[event.Diuse_Player].addSkill('new_rewusheng');
+                                } else if(result.control=='界仁德'){
+                                    game.log(game.players[event.Diuse_Player].name,'获得了【界仁德】技能');
+                                    game.players[event.Diuse_Player].addSkill('rerende');
+                                } else if(result.control=='界英姿'){
+                                    game.log(game.players[event.Diuse_Player].name,'获得了【界英姿】技能');
+                                    game.players[event.Diuse_Player].addSkill('reyingzi');
+                                } else {
+                                    event.skill=result.control
+                                    game.log(game.players[event.Diuse_Player].name,'获得了【',event.skill,'】技能');
+                                    game.players[event.Diuse_Player].addSkill(event.skill);
+                                    event.list=[]
+                                }
                                 'step 6'
                                 if(event.Diuse_Player+1<game.players.length){
                                     event.Diuse_Player++;
@@ -4775,7 +5253,6 @@ precontent:function (Diuse){
                                         return true;
                                     },
                                     content:function(){
-                                        game.log(trigger.parent.name)
                                         if(game.me==game.boss){
                                             game.over(true);
                                         } else {
@@ -10505,7 +10982,7 @@ precontent:function (Diuse){
                                         if(event.player==undefined) return false;
                                         if(player.storage.Boss_Tianqi==undefined) return false;
                                         var stor=player.storage.Boss_Tianqi[0];
-                                        var name=game.bossName(event.player.name,6,0);
+                                        var name=game.bossName(event.player.name,255,0);
                                         if(stor==4&&name) return true;
                                         return false;
                                     },
@@ -10571,7 +11048,7 @@ precontent:function (Diuse){
                                     forced:true,
                                     filter:function(event,player){
                                         if(player.storage.Boss_Tianqi==undefined) return false;
-                                        var name=game.bossName(event.player.name,6,0);
+                                        var name=game.bossName(event.player.name,255,0);
                                         var stor=player.storage.Boss_Tianqi[0];
                                         if(stor==8&&name) return true;
                                         if(event.player.isFriendOf(player)) return false;
@@ -10607,9 +11084,9 @@ precontent:function (Diuse){
                                     popup:false,
                                     content:function(){
                                         for(var i=0;i<game.players.length;i++){
-                                            if(game.players[i].hasSkill('Longzhou_Boss_Tianqi_Mark')) {
-                                                game.players[i].removeSkill('Longzhou_Boss_Tianqi_Mark');
-                                            }
+                                            if(game.players[i].hasSkill('Longzhou_Boss_Tianqi_Mark')) game.players[i].removeSkill('Longzhou_Boss_Tianqi_Mark');
+                                            if(game.players[i].hasSkill('Longzhou_Boss_Tianqi_Buff2')) game.players[i].addSkill('Longzhou_Boss_Tianqi_Buff2');
+                                            if(game.players[i].hasSkill('Longzhou_Boss_Tianqi_Buff1')) game.players[i].addSkill('Longzhou_Boss_Tianqi_Buff1');
                                         }
                                     },
                                 },
@@ -10925,6 +11402,12 @@ precontent:function (Diuse){
                         livePlayer:"难度",
                         Tianshu_Protect:"保护",
                         Tianshu_Protect_info:'锁定技。无敌一次伤害，随后移除该技能。',
+
+                        标制衡_info:'出牌阶段限一次，你可以弃置任意张牌并摸等量的牌。',
+                        界武圣_info:'你可以将一张红色牌当做【杀】使用或打出。你使用的方片杀没有距离限制。',
+                        界仁德_info:'出牌阶段，你可以将至少一张手牌交给其他角色，然后你于此阶段内不能再以此法交给该角色牌；若你于此阶段内给出的牌首次达到两张，你可以视为使用一张基本牌',
+                        界英姿_info:'锁定技，摸牌阶段摸牌时，你额外摸一张牌；你的手牌上限为你的体力上限。',
+
                         Tianshu_Boss_Ordinary_Chiyan:'赤炎',
                         Tianshu_Boss_Ordinary_Chiyan_info:'锁定技，摸牌阶段你跳过摸牌；其他角色在出牌阶段获得X张牌后你摸X张。',
                         Tianshu_Boss_Ordinary_Fali:'乏力',
@@ -11301,7 +11784,7 @@ precontent:function (Diuse){
                 connect:true,
                 character:{
                     character:{
-                        Diuse_Bachongshenzi:["female","qun",3,["Diuse_Shizuishi","Diuse_Shashengying","Diuse_Tianhuxianzhen"],[]],
+                        Diuse_Bachongshenzi:["female","qun",3,["Diuse_Shizuishi","Diuse_Shashengying","Diuse_Tianhuxianzhen","Diuse_PlayerDie"],[]],
                         //,'kagari_zongsi'
                     },
                     translate:{
@@ -11364,27 +11847,41 @@ precontent:function (Diuse){
                             trigger:{player:"useCardBefore"},
                             forced:true,
                             filter:function(event,player){
+                                if(event.player!=player&&event.player.hasSkill('Diuse_Shizuishi')) return false;
                                 return event.player==player&&event.card.isCard;
                             },
                             content:function(){
-                                var num,bool=true;
+                                var num,bool=true,sBool=false;
+                                var i=0;
                                 while(bool){
+                                    i++;
                                     num=game.randomNum(game.players.length-1,0);
-                                    if(game.players[num]!=player) bool=false;
+                                    if(game.players[num]!=player&&!game.players[num].hasSkill('Diuse_Shizuishi')) {
+                                        bool=false;
+                                        sBool=true;
+                                    }
+                                    if(i==game.players.length) bool=false;
                                 }
-                                game.sortCard();
-                                trigger.player=game.players[num];
-                                player.line(game.players[num]);
-                                trigger.untrigger();
-                                trigger.trigger('useCardBefore');
+                                if(sBool){
+                                    game.sortCard();
+                                    trigger.player=game.players[num];
+                                    player.line(game.players[num]);
+                                    trigger.untrigger();
+                                    trigger.trigger('useCardBefore');
+                                }
 
                                 //if(trigger.card.name=='sha'){ player.getStat().card.sha++; } //限制出杀次数
                             }
                         },
                         Diuse_Shashengying:{
                             audio:"ext:术樱:2",
-                            trigger:{target:"useCardToTarget",},
+                            trigger:{target:"useCardToTarget"},
                             usable:2,
+                            check:function(event,player,card){
+                                if(event.card.name=='shunshou'||event.card.name=='guohe'||event.card.name=='zhujinqiyuan'&&event.player.isFriendOf(player)&&player.countCards('j')) return false
+                                if(get.type(event.card)=='equip'||event.targets.length==game.players.length) return false;
+                                return true;
+                            },
                             filter:function(event,player){
                                 var suit1=event.card.suit;
                                 return player.countCards('h',function(card){
@@ -11395,7 +11892,31 @@ precontent:function (Diuse){
                                 var suit1=trigger.card.suit;
                                 'step 0'
                                 player.chooseControl('全部','一张','一张并选择一个目标').set('prompt','请选择并弃置'+get.translation(suit1)+'花色').set('ai',function(){
-                                    return '全部';
+                                    var suit1=trigger.card.suit;
+                                    var num=player.countCards('h',function(card){
+                                        return get.suit(card,player)==suit1;
+                                    })
+                                    var friend;
+
+                                    for(var i=0;i<game.players.length;i++){
+                                        if(game.players[i]==player) continue;
+                                        if(game.players[i].isFriendOf(player)){
+                                            break;
+                                            friend=true;
+                                        } 
+                                        if(i==game.players.length) friend=false;
+                                    }
+                                    
+                                    var trigger1=_status.event.getTrigger();
+                                    var card1=get.effect(player,trigger1.card,trigger1.player,_status.event.player);
+
+                                    if(get.type(trigger.card)=='delay'&&num==1) return '全部';
+                                    if(get.type(trigger.card)=='delay'&&num>1) return '一张';
+                                    if(card1<=1&&num==1) return '全部';
+                                    if(card1>=2&&num==1&&friend) return '一张并选择一个目标';
+                                    if(card1<=1&&num>1) return '一张';
+                                    if(card1>=2&&num>1&&friend) return '一张并选择一个目标';
+                                    if(card1>=2&&num>1&&friend==false) return '一张';
                                 });
                                 'step 1'
                                 if(result.control=='全部'){
@@ -11425,12 +11946,14 @@ precontent:function (Diuse){
                                         return (player.storage.skillBool&&event.card.name==player.storage.cardName&&event.player!=player&&get.itemtype(event.cards)=='cards'&&get.position(event.cards[0],true)=='o');
                                     },
                                     content:function(){
+                                        if(player.countCards('h')==0) player.draw(player.hp);
                                         player.gain(trigger.cards,'gain2');
                                         player.storage.skillBool=false;
+                                        player.storage.cardName='';
                                     }
                                 },
                                 Buff1:{
-                                    trigger:{target:"useCardToTarget",},
+                                    trigger:{target:"useCardToTargeted",},
                                     forced:true,
                                     popup:false,
                                     auido:false,
@@ -11480,13 +12003,29 @@ precontent:function (Diuse){
                             content:function(){
                                 'step 0'
                                 player.chooseControl('黑桃','梅花','方块','红桃').set('prompt','选择一种花色并展示牌堆底的一张牌，如果花色相同则你获得之并可以重复执行').set('ai',function(){
-                                    return '全部';
+                                    var randomNum=game.randomNum(100,0);
+                                    if(randomNum<=35){
+                                        var card=get.bottomCards()[0];
+                                        if(get.suit(card)=='spade'){
+                                            return '黑桃';
+                                        }else if(get.suit(card)=='club'){
+                                            return '梅花';
+                                        }else if(get.suit(card)=='diamond'){
+                                            return '方块';
+                                        }else {
+                                            return '红桃';
+                                        }
+                                    } else {
+                                        list=['黑桃','梅花','方块','红桃'].randomGet();
+                                        return list;
+                                    }
                                 });
                                 'step 1'
                                 if(result.control=='黑桃'){
                                     var card=get.bottomCards()[0];
                                     player.showCards(card);
                                     if(get.suit(card)=='spade'){
+                                        if(player.countCards('h')==0) player.draw();
                                         player.gain(card,'gain2');
                                         event.goto(0);
                                     } else {
@@ -11498,6 +12037,7 @@ precontent:function (Diuse){
                                     var card=get.bottomCards()[0];
                                     player.showCards(card);
                                     if(get.suit(card)=='club'){
+                                        if(player.countCards('h')==0) player.draw();
                                         player.gain(card,'gain2');
                                         event.goto(0);
                                     } else {
@@ -11509,6 +12049,7 @@ precontent:function (Diuse){
                                     var card=get.bottomCards()[0];
                                     player.showCards(card);
                                     if(get.suit(card)=='diamond'){
+                                        if(player.countCards('h')==0) player.draw();
                                         player.gain(card,'gain2');
                                         event.goto(0);
                                     } else {
@@ -11520,6 +12061,7 @@ precontent:function (Diuse){
                                     var card=get.bottomCards()[0];
                                     player.showCards(card);
                                     if(get.suit(card)=='heart'){
+                                        if(player.countCards('h')==0) player.draw();
                                         player.gain(card,'gain2');
                                         event.goto(0);
                                     } else {
@@ -11535,13 +12077,26 @@ precontent:function (Diuse){
                                     return num+num1;
                                 },
                             },
+                            ai:{
+                                order:10,
+                                threaten:0.5,
+                                result:{
+                                    player:function (player,target){
+                                        return 1;
+                                    },
+                                },
+                            },
                             group:'Diuse_Tianhuxianzhen_Buff',
                             subSkill:{
                                 Buff:{
                                     trigger:{player:"phaseJieshuBegin"},
                                     forced:true,
+                                    priority:100,
+                                    silent:true,
+                                    firstDo:true,
+                                    frequent:true,
                                     popup:false,
-                                    auido:false,
+                                    audio:false,
                                     filter:function(event,player){
                                         return player.countMark('Diuse_Tianhuxianzhen');
                                     },
@@ -11555,13 +12110,13 @@ precontent:function (Diuse){
                     },
                     translate:{
                         Diuse_Shizuishi:"食罪式",
-                        Diuse_Shizuishi_info:"锁定技，当你成为实体牌的使用者时，将使用者随机改为场上的其他角色。",
+                        Diuse_Shizuishi_info:"锁定技，当你成为实体牌的使用者时，将使用者随机改为场上的其他角色（此技能无法将使用者改为拥有该技能的角色）",
                         Diuse_Shashengying:"杀生樱",
                         Diuse_Shashengying_Buff:"杀生樱",
                         Diuse_Shashengying_Buff1:"杀生樱",
-                        Diuse_Shashengying_info:"每回合限两次。当你被使用牌指定后，若该牌花色与你手牌中花色有相同，则你可以选择：1:弃置全部该花色使该牌对你无效 并在该牌结算后你获得之 2:弃置一张该花色 使其对你无效之 3:弃置一张该花色并指定一名其他角色 令其也成为该牌的目标",
+                        Diuse_Shashengying_info:"每回合限两次。当你被使用牌指定后，若该牌花色与你手牌中花色有相同，则你可以选择：1:弃置全部该花色使该牌对你无效，并在该牌结算后你获得之，若你因此弃置全部手牌则你将手牌补充至当前体力 2:弃置一张该花色 使其对你无效之 3:弃置一张该花色并指定一名其他角色 令其也成为该牌的目标",
                         Diuse_Tianhuxianzhen:"天狐显真",
-                        Diuse_Tianhuxianzhen_info:"出牌阶段限两次，你选择一种花色并展示牌堆底的一张牌，如果花色相同则你获得之并可以重复执行；若不对则将该牌放置牌堆顶然后本回合手牌上限+1",
+                        Diuse_Tianhuxianzhen_info:"出牌阶段限两次，你选择一种花色并展示牌堆底的一张牌，如果花色相同则你获得之若在此之前你没有手牌则你从牌堆顶摸一张牌并重复执行该技能，如果不对则将该牌放置牌堆顶然后本回合手牌上限+1",
                     },
                 },
             },"术樱");
