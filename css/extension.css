@@ -53,7 +53,7 @@
     height: 30px;
     line-height: 30px;
     text-align: center;
-    background: rgba(200,200,100,0.5);
+    background: red;
 }
 
 .manual>.menu>.newBossList {
@@ -80,7 +80,7 @@
 
 .manual>.menu>.deleteNewBoss {
 	position: absolute;
-    left: calc(50% - 162x);
+    left: calc(50% - 163px);
     top: calc(50% - 15px);
     width: 60px;
     height: 30px;
@@ -88,6 +88,17 @@
     text-align: center;
     background: red;
 }
+.manual>.menu>.playerList {
+	position: absolute;
+    left: calc(80% - 15px);
+    top: calc(50% - 15px);
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: red;
+}
+
 
 .manual>.menu>.close {
 	position: absolute;
