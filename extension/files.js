@@ -356,4 +356,7 @@ Diuse_tianshu=[
     'Zhuogui_Boss_Niutoumamian.jpg',
     'Zhuogui_Boss_Niutoumamian_Difficulty.jpg',
     'Zhuogui_Boss_Niutoumamian_Fucking.jpg',
+],
+Diuse_css=[
+    'extension.css',
 ]
