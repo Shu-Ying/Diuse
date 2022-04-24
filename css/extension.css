@@ -23,7 +23,7 @@
 	left: 0;
     top: 50px;
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc(100% - 50px) !important;
     background: none;
 	overflow-y: auto;
 }
@@ -98,7 +98,6 @@
     text-align: center;
     background: red;
 }
-
 
 .manual>.menu>.close {
 	position: absolute;
