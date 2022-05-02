@@ -250,6 +250,8 @@ Diuse_static=[
     'Diuse_Konglv.jpg',
     'Diuse_Bachongshenzi.jpg',
     'Diuse_Heixi.jpg',
+    'Diuse_Diy_Zhonghui.jpg',
+    'Diuse_Diy_Caocao.jpg',
 ],
 Diuse_dynamic=[
     'Diuse_Bachongying.jpg',
