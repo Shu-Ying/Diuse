@@ -253,6 +253,8 @@ Diuse_static=[
     'Diuse_Diy_Zhonghui.jpg',
     'Diuse_Diy_Caocao.jpg',
     'Diuse_Diy_Zhugeshang.jpg',
+    'Diuse_Diy_Simazhao.jpg',
+    'Diuse_Diy_Lvbu.jpg',
 ],
 Diuse_dynamic=[
     'Diuse_Bachongying.jpg',
