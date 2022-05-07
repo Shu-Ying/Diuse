@@ -28,8 +28,11 @@ precontent:function (Diuse){
         if(lib.config.show_splash!='off') game.saveConfig('show_splash','off');
         if(lib.config.extension_术樱_tianshu_new==undefined) game.saveConfig('extension_术樱_tianshu_new',4);
         if(lib.config.extension_术樱_tianshu_add_list==undefined) game.saveConfig('extension_术樱_tianshu_list','');
+        if(lib.config.extension_术樱_kuangbaooff==undefined) game.saveConfig('extension_术樱_kuangbaooff',false);
+        if(lib.config.extension_术樱_baizhanoff==undefined) game.saveConfig('extension_术樱_baizhanoff',false);
+        if(lib.config.extension_术樱_skillsoff==undefined) game.saveConfig('extension_术樱_skillsoff',false);
 
-        game.saveConfig('Diuse_local_version','1.7.40');
+        game.saveConfig('Diuse_local_version','1.7.42');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -95,60 +98,6 @@ precontent:function (Diuse){
                     this.parentNode.removeChild(this.hth_more);
                     delete this.hth_more;
                     this.innerHTML='<div class="hth_menu">▶更新日志</div>';
-                };
-            },
-        };
-        lib.extensionMenu.extension_术樱.Benghuai={
-            "name":'<div class="hth_menu">▶崩坏3技能说明</div>',
-            "clear": true,
-            "onclick":function(){
-                if(this.hth_more==undefined){
-                    var more=ui.create.div('.hth_more',
-                    '<div style="text-align:left"><font size=3px>'+
-                    '-----< SP >-----'+
-                    '<br>SP用来释放角色的终极技能，每个角色所需的SP均不同。<br>'+
-                    'SP获取必须遵守以下规则：<br>'+
-                    '使用属性杀：7<br>'+
-                    '使用闪：6<br>'+
-                    '使用普通杀：5<br>'+
-                    '使用普通锦囊：4<br>'+
-                    '打出闪：5<br>'+
-                    '造成伤害：5*伤害值<br>'+
-                    '以及部分技能获取<br>'+
-                    '-----< 识之律者 >-----'+
-                    '<br>根据武器攻击距离获得相应技能<br>'+
-                    '一:当你于你的回合内使用一张牌后，你可以弃置一张手牌并摸一张牌。<br>'+
-                    '二:当你于回合内获得一张牌且不是因为此技能获得牌时，你摸一张牌。<br>'+
-                    '三:出牌阶段限两次。你造成伤害后你可以让场上的一名角色受到一点无伤害来源的伤害。<br>'+
-                    '四:你使用杀或普通锦囊后你可以多增加一个目标，如果取消则摸X张牌(X为你已损失的体力，如果为0则摸1)<br>'+
-                    '五:出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力)<br>'+
-                    '六:获得全部技能效果。<br>'+
-                    '<br>-----< 符华 >-----'+
-                    '<br>弃置的牌都必须遵循以下规则<br>'+
-                    '<br>三张重复'+
-                    '<br>【桃】 恢复两点体力并摸三张牌'+
-                    '<br>【闪】 此杀必须两张闪响应 然后你摸两张牌'+
-                    '<br>【杀】 此杀不可被响应 出杀次数上限+2'+
-                    '<br>【酒】 此杀伤害+3<br>'+
-                    '<br>两张重复'+
-                    '<br>【桃】 恢复一点体力并摸两张牌'+
-                    '<br>【闪】 此杀需要打出两张闪响应'+
-                    '<br>【杀】 不可以被响应'+
-                    '<br>【酒】 此杀伤害+2<br>'+
-                    '<br>一张'+
-                    '<br>【桃】 命中后恢复一点体力'+
-                    '<br>【闪】 命中后摸一张牌'+
-                    '<br>【杀】 出杀次数上限+1'+
-                    '<br>【酒】 此杀伤害+1'+
-                    '</font></div>');
-                    this.parentNode.insertBefore(more,this.nextSibling);
-                    this.hth_more=more;
-                    this.innerHTML='<div class="hth_menu">▼崩坏3技能说明</div>';
-                }
-                else{
-                    this.parentNode.removeChild(this.hth_more);
-                    delete this.hth_more;
-                    this.innerHTML='<div class="hth_menu">▶崩坏3技能说明</div>';
                 };
             },
         };
@@ -237,7 +186,7 @@ precontent:function (Diuse){
             },
         };
         lib.extensionMenu.extension_术樱.Filling={
-            "name":"查漏补缺&nbsp;<--补齐丢失资源",
+            "name":"查漏补缺&nbsp;<--补齐丢失资源 建议更新后必点",
             "clear":true,
             "onclick":function(){
                 if(confirm('点击确定会检测本地丢失资源，并开始修补；若是武将立绘则是静态，若需动态请手动下载（请注意流量使用情况！务必在WIFI状态下修补）')&&Diuse_Button){
@@ -396,6 +345,127 @@ precontent:function (Diuse){
                 }
             }
         };
+        lib.extensionMenu.extension_术樱.br1={
+            clear: true,
+            nopointer: true,
+            name: '--------------------',
+        },
+        lib.extensionMenu.extension_术樱.Benghuai={
+            "name":'<div class="hth_menu">▶崩坏3技能说明</div>',
+            "clear": true,
+            "onclick":function(){
+                if(this.hth_more==undefined){
+                    var more=ui.create.div('.hth_more',
+                    '<div style="text-align:left"><font size=3px>'+
+                    '-----< SP >-----'+
+                    '<br>SP用来释放角色的终极技能，每个角色所需的SP均不同。<br>'+
+                    'SP获取必须遵守以下规则：<br>'+
+                    '使用属性杀：7<br>'+
+                    '使用闪：6<br>'+
+                    '使用普通杀：5<br>'+
+                    '使用普通锦囊：4<br>'+
+                    '打出闪：5<br>'+
+                    '造成伤害：5*伤害值<br>'+
+                    '以及部分技能获取<br>'+
+                    '-----< 识之律者 >-----'+
+                    '<br>根据武器攻击距离获得相应技能<br>'+
+                    '一:当你于你的回合内使用一张牌后，你可以弃置一张手牌并摸一张牌。<br>'+
+                    '二:当你于回合内获得一张牌且不是因为此技能获得牌时，你摸一张牌。<br>'+
+                    '三:出牌阶段限两次。你造成伤害后你可以让场上的一名角色受到一点无伤害来源的伤害。<br>'+
+                    '四:你使用杀或普通锦囊后你可以多增加一个目标，如果取消则摸X张牌(X为你已损失的体力，如果为0则摸1)<br>'+
+                    '五:出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力)<br>'+
+                    '六:获得全部技能效果。<br>'+
+                    '<br>-----< 符华 >-----'+
+                    '<br>弃置的牌都必须遵循以下规则<br>'+
+                    '<br>三张重复'+
+                    '<br>【桃】 恢复两点体力并摸三张牌'+
+                    '<br>【闪】 此杀必须两张闪响应 然后你摸两张牌'+
+                    '<br>【杀】 此杀不可被响应 出杀次数上限+2'+
+                    '<br>【酒】 此杀伤害+3<br>'+
+                    '<br>两张重复'+
+                    '<br>【桃】 恢复一点体力并摸两张牌'+
+                    '<br>【闪】 此杀需要打出两张闪响应'+
+                    '<br>【杀】 不可以被响应'+
+                    '<br>【酒】 此杀伤害+2<br>'+
+                    '<br>一张'+
+                    '<br>【桃】 命中后恢复一点体力'+
+                    '<br>【闪】 命中后摸一张牌'+
+                    '<br>【杀】 出杀次数上限+1'+
+                    '<br>【酒】 此杀伤害+1'+
+                    '</font></div>');
+                    this.parentNode.insertBefore(more,this.nextSibling);
+                    this.hth_more=more;
+                    this.innerHTML='<div class="hth_menu">▼崩坏3技能说明</div>';
+                }
+                else{
+                    this.parentNode.removeChild(this.hth_more);
+                    delete this.hth_more;
+                    this.innerHTML='<div class="hth_menu">▶崩坏3技能说明</div>';
+                };
+            },
+        };
+        lib.extensionMenu.extension_术樱.benghuai3off={
+            "name":"崩坏3开关",
+            "init":true,
+            "intro":"关闭后，关闭崩坏3武将包。"
+        };
+        lib.extensionMenu.extension_术樱.br2={
+            clear: true,
+            nopointer: true,
+            name: '--------------------',
+        },
+        lib.extensionMenu.extension_术樱.yuanshenoff={
+            "name":"原神开关",
+            "init":true,
+            "intro":"关闭后，关闭原神武将包。"
+        };
+        lib.extensionMenu.extension_术樱.br3={
+            clear: true,
+            nopointer: true,
+            name: '--------------------',
+        },
+        lib.extensionMenu.extension_术樱.DIYplayer={
+            "name":'<div class="hth_menu">▶DIY将作者</div>',
+            "clear": true,
+            "onclick":function(){
+                if(this.hth_more==undefined){
+                    var more=ui.create.div('.hth_more',
+                    '<div style="text-align:left"><font size=3px>'+
+                    '晋·钟会 作者：红雨<br>'+
+                    '魏·曹操 作者：Sou177<br>'+
+                    '蜀·诸葛尚 作者：安徽阿斗<br>'+
+                    '</font></div>');
+                    this.parentNode.insertBefore(more,this.nextSibling);
+                    this.hth_more=more;
+                    this.innerHTML='<div class="hth_menu">▼DIY将作者</div>';
+                }
+                else{
+                    this.parentNode.removeChild(this.hth_more);
+                    delete this.hth_more;
+                    this.innerHTML='<div class="hth_menu">▶DIY将作者</div>';
+                };
+            },
+        };
+        lib.extensionMenu.extension_术樱.diyoff={
+            "name":"DIY开关",
+            "init":true,
+            "intro":"关闭后，关闭DIY武将包。"
+        };
+        lib.extensionMenu.extension_术樱.br4={
+            clear: true,
+            nopointer: true,
+            name: '--------------------',
+        },
+        lib.extensionMenu.extension_术樱.tianshuoff={
+            "name":"天书乱斗开关",
+            "init":true,
+            "intro":"关闭后，关闭天书乱斗模式（在非挑战模式下自动关闭）"
+        };
+        lib.extensionMenu.extension_术樱.giveaiskill={
+            "name":"单人控制AI技能",
+            "init":false,
+            "intro":"开启后，天书乱斗模式每次过关且处于单人控制规则下则玩家给AI选择技能。"
+        };
         lib.extensionMenu.extension_术樱.tianshu_xvni={
             "name":'虚拟偶像',
             "init":'random',
@@ -415,35 +485,15 @@ precontent:function (Diuse){
                 game.saveConfig('extension_术樱_tianshu_xvni',layout);
             }
         };
-        lib.extensionMenu.extension_术樱.giveaiskill={
-            "name":"单人控制AI技能",
-            "init":false,
-            "intro":"开启后，天书乱斗模式每次过关且处于单人控制规则下则玩家给AI选择技能。"
-        };
-        lib.extensionMenu.extension_术樱.benghuai3off={
-            "name":"崩坏3开关",
-            "init":true,
-            "intro":"关闭后，关闭崩坏3武将包。"
-        };
-        lib.extensionMenu.extension_术樱.yuanshenoff={
-            "name":"原神开关",
-            "init":true,
-            "intro":"关闭后，关闭原神武将包。"
-        };
-        lib.extensionMenu.extension_术樱.tianshuoff={
-            "name":"天书乱斗开关",
-            "init":true,
-            "intro":"关闭后，关闭天书乱斗模式（在非挑战模式下自动关闭）"
-        };
         lib.extensionMenu.extension_术樱.tianshuskill={
             "name":'天书技能选择',
             "init":'OFF',
             "item":{
                 OFF:'关闭',
-                Zhiheng:'标制衡',
-                Wusheng:'界武圣',
-                Rende:'界仁德',
-                Yingzi:'界英姿',
+                Zhiheng:'制衡',
+                Wusheng:'武圣',
+                Rende:'仁德',
+                Yingzi:'英姿',
                 Random:'随机',
             },
             "intro":"选择后每次过关就会出现你选择的技能。",
@@ -492,18 +542,43 @@ precontent:function (Diuse){
                 },
                 onclick:function(layout){
                     game.saveConfig('extension_术樱_tianshu_new',layout);
+                    //game.saveConfig('extension_术樱_tianshu_new',6);
                 },
             };
-        }
-        if(lib.config.extension_术樱_tianshuaddoff){
+
             lib.extensionMenu.extension_术樱.tianshubutton={
                 "name":"自定义关卡",
                 "clear":true,
                 onclick:function(){
                     newTianShuBossList();
                 },
-            }
+            };
+
+            lib.extensionMenu.extension_术樱.randomoff={
+                "name":"混合BOSS",
+                "init":false,
+                "intro":"开启后将自定义Boss和正常关卡Boss随机组合，关闭后若关卡超过5则自动用正常关卡BOSS随机组合"
+            };
+
+            // lib.extensionMenu.extension_术樱.baizhanoff={
+            //     "name":"百战天书增强BOSS公式",
+            //     "init":false,
+            //     "intro":"启用后若关卡大于5则会增强BOSS体力,伤害,摸牌等"
+            // };
+
+            lib.extensionMenu.extension_术樱.kuangbaooff={
+                "name":"狂暴机制",
+                "init":false,
+                "intro":"A.每关的第五轮开始时（只第五轮该机制才生效），所有角色玩家弃置各自区域里的所有牌。<br>"+"B.每关的第七轮起（第七轮开始之后的每轮该机制皆生效），玩家角色玩家在各自的回合开始时失去1点体力。"
+            };
+
+            lib.extensionMenu.extension_术樱.skillsoff={
+                "name":"百战天书技能奖励机制",
+                "init":false,
+                "intro":"每次选择技能数量+1，但主动技只能拥有一个。"
+            };
         }
+
         lib.extensionMenu.extension_术樱.Log={
             "name":"<span style='text-decoration: underline'>反馈BUG</span>",
             "clear":true,
@@ -512,19 +587,20 @@ precontent:function (Diuse){
             },
         };
         lib.extensionMenu.extension_术樱.thank={
-            "name":"最后感谢极光大佬和其他大佬网络上的文献，还有反馈BUG的玩家。谢谢！",
+            "name":"最后感谢极光佬，诗笺佬和其他大佬网络上的文献，还有反馈BUG的玩家。谢谢！",
             "clear":true,
             "nopointer":true,
         };
 
         newTianShuBossList=function(){
-            var buttonNode; //用于判断输入框回车之后响应事件
+            _status.buttonNode; //用于判断输入框回车之后响应事件
+            _status.nameList;
             var manual = ui.create.div('.manual', manual);
 			var menu = ui.create.div('.menu', manual);
 			var input = menu.appendChild(document.createElement('input'));
 			input.onkeydown=function(e){
                 if(e&&e.keyCode==13){
-                    if(buttonNode==2){
+                    if(_status.buttonNode==2){
                         deleteNewBossList(dialog,manual,input.value);
                     } else {
                         addNewBossList(dialog,manual,input.value);
@@ -539,7 +615,6 @@ precontent:function (Diuse){
             var playerList = ui.create.div('.playerList',menu);
 
 			var close = ui.create.div('.close', menu);
-			var oldDialog=_status.event.dialog;
 			var dialog=ui.create.dialog();
 			dialog.noImage=true;
 			dialog.style.backgroundImage="";
@@ -552,6 +627,7 @@ precontent:function (Diuse){
 			content.style.height = '';
 
             newBossList.innerHTML = '列表';
+            newBossList.id='newBossList';
 			newBossList.addEventListener('click', function(){
                 newBossShow(dialog,manual);
 			});
@@ -565,16 +641,19 @@ precontent:function (Diuse){
                 }
 			});
 
-			addNewBoss.innerHTML = '加入';
+			addNewBoss.innerHTML = '搜索';
 			addNewBoss.addEventListener('click', function(){
                 addNewBossList(dialog,manual,input.value);
-                buttonNode=1;
+                input.value="";
+                _status.buttonNode=1;
 			});
 
-            deleteNewBoss.innerHTML = '删除';
+            deleteNewBoss.innerHTML = '登陆'; //暂时弃用
 			deleteNewBoss.addEventListener('click', function(){
-                deleteNewBossList(dialog,manual,input.value);
-                buttonNode=2;
+                alert('暂未开放');
+                //deleteNewBossList(dialog,manual,input.value);
+                //input.value="";
+                //_status.buttonNode=2;
 			});
 			
             playerList.innerHTML = '排行榜';
@@ -582,7 +661,11 @@ precontent:function (Diuse){
                 alert('暂未开放');
 			});
 
-            dialog.addText("使用说明: 点击列表查看自定义BOSS列表<br><br>点击清空按钮清空自定义BOSS列表中全部Boss<br><br>点击删除并在输入框内输入武将名称即可单独从BOSS列表单独删除<br><br>点击加入并在输入框内输入武将名称即可加入至BOSS列表<br>***需要注意的是，在加入列表时若有武将名重复，则会导致同时加入多个武将。后续修复...***");
+            dialog.addText("使用说明: 点击列表查看自定义BOSS列表<br><br>"+
+            "点击清空按钮清空自定义BOSS列表中全部Boss<br><br>"+
+            "点击列表列举出Boss列表，并可以删除列表中的Boss<br><br>"+
+            "点击搜索并在输入框内输入武将名称即可罗列相似武将<br><br>"+
+            "需要注意的是，输入框需要输入武将名称而不是英文<br>一旦启用自定义Boss，那么必须保持不禁用武将和Boss列表大于1");
 
             // close1.addEventListener('click', function(){
 			// 	alert(close1.value);
@@ -595,9 +678,16 @@ precontent:function (Diuse){
 				manual.remove();
 				ui.arena.show();
 				ui.system.show();
+
+                game.resume2();
+                if(game.onresume2){
+                    game.onresume2();
+                }
+                ui.arena.classList.remove('menupaused');
+                ui.historybar.classList.remove('menupaused');
+                ui.window.classList.remove('touchinfohidden');
+                ui.config2.classList.remove('pressdown2');
 				//ui.menuContainer.show();
-				_status.event.dialog=oldDialog;
-				_status.event.dialog.show();
 			});
 			
 			//_status.paused = true;
@@ -612,7 +702,7 @@ precontent:function (Diuse){
             dialog=ui.create.dialog();
             dialog.noImage=true;
             dialog.style.backgroundImage="";
-            
+
             var content = manual.appendChild(dialog);	
             content.classList.remove('nobutton');
             content.classList.add('content');
@@ -620,16 +710,46 @@ precontent:function (Diuse){
             content.style.opacity = '';
             content.style.height = '';
 
-            var list=lib.config.extension_术樱_tianshu_add_list.split(",");
+            var list=lib.config.extension_术樱_tianshu_add_list;
+            if(list==undefined||list==''){
+                dialog.addText("无BOSS");
+            } else {
+                list=list.split(",");
 
-            for(var i=0;i<list.length;i++){
-                for (var j in lib.character) {
-                    if (j==list[i]) {
-                        dialog.addSmall([[j], 'character']);	
-                    } 
+                for(var i=0;i<list.length;i++){
+                    for (var j in lib.character) {
+                        if (j==list[i]) {
+                            dialog.addSmall([[j], 'character']);
+                            var del=ui.create.div('.shadowed.reduce_radius.pointerdiv.tdnode');
+                            del.link=i;
+                            del.innerHTML='<span>'+'删除'+'</span>';
+                            del.addEventListener(lib.config.touchscreen?'touchend':'click',function(){
+                                if(lib.config.extension_术樱_tianshu_add_list.length<=1){
+                                    game.saveConfig('extension_术樱_tianshu_add_list','');
+                                } else if(lib.config.extension_术樱_tianshu_add_list.length==2){
+                                    if(this.link!=1){
+                                        game.saveConfig('extension_术樱_tianshu_add_list',list[this.link]);
+                                    } else {
+                                        game.saveConfig('extension_术樱_tianshu_add_list',list[0]);
+                                    }
+                                } else {
+                                    game.saveConfig('extension_术樱_tianshu_add_list','');
+                                    for(var k=0;k<list.length;k++){
+                                        if(k==this.link) continue;
+                                        if(lib.config.extension_术樱_tianshu_add_list==undefined||lib.config.extension_术樱_tianshu_add_list==''){
+                                            game.saveConfig('extension_术樱_tianshu_add_list',list[k]);
+                                        } else {
+                                            game.saveConfig('extension_术樱_tianshu_add_list',lib.config.extension_术樱_tianshu_add_list+','+list[k]);
+                                        }
+                                    }
+                                    document.getElementById('newBossList').click(); //刷新列表
+                                }
+                            });
+                            dialog.addAuto(del);
+                        } 
+                    }
                 }
             }
-
         },
 
         addNewBossList=function(dialog,manual,val){
@@ -645,33 +765,42 @@ precontent:function (Diuse){
             content.style.height = '';
 
             var result=val;
+            var value = false;
+            var list=[];
 
             if (result == "" || result == null) {
-                result = "你没有输入名称";
+                result = "请输入武将名称";
                 alert(result);	
-                return;
-            }
-
-            var value = false;
-
-            for (var a in lib.character) {
-                if (lib.translate[a] == result) {
-                    dialog.addSmall([[a], 'character']); 
-                    if(confirm('已找到'+ result +'武将，点击确定加入自定义Boss列表。')){
-                        if(lib.config.extension_术樱_tianshu_add_list==undefined||lib.config.extension_术樱_tianshu_add_list==''){
-                            game.saveConfig('extension_术樱_tianshu_add_list',a);
-                        } else {
-                            game.saveConfig('extension_术樱_tianshu_add_list',lib.config.extension_术樱_tianshu_add_list+','+a);
-                        }
+            } else {
+                for (var a in lib.character) {
+                    if (lib.translate[a]&&lib.translate[a].indexOf(result)!=-1) {
+                        list.add(a);
+                        value = true;
                     }
-                    value = true;
                 }
+    
+                for(var i=0;i<list.length;i++){
+                    dialog.addSmall([[list[i]], 'character']); 
+                    var add=ui.create.div('.shadowed.reduce_radius.pointerdiv.tdnode');
+                    add.link=i;
+                    add.innerHTML='<span>'+'加入'+'</span>';
+                    add.addEventListener(lib.config.touchscreen?'touchend':'click',function(){
+                        if(lib.config.extension_术樱_tianshu_add_list==undefined||lib.config.extension_术樱_tianshu_add_list==''){
+                            game.saveConfig('extension_术樱_tianshu_add_list',list[this.link]);
+                        } else {
+                            game.saveConfig('extension_术樱_tianshu_add_list',lib.config.extension_术樱_tianshu_add_list+','+list[this.link]);
+                        }
+                        alert('成功加入至列表');
+                    });
+                    dialog.addAuto(add);
+                }
+                
+                _status.nameList=list;
+                
+                if (value == false) {
+                    alert('找不到名为' + result + '的武将!');
+                }    
             }
-
-            if (value == false) {
-                alert('找不到名为' + result + '的武将!');
-            }
-
         },
 
         deleteNewBossList=function(dialog,manual,val){
@@ -692,32 +821,33 @@ precontent:function (Diuse){
                 result = "你没有输入名称";
                 alert(result);	
                 return;
-            }
+            } 
 
             var list=lib.config.extension_术樱_tianshu_add_list.split(",");
             var value = false;
+            var newList=[];
 
             for (var i=0;i<list.length;i++) {
-                for (var a in lib.character) {
-                    if (lib.translate[a] == result) {
-                        if(lib.translate[a]==list[i]){
-                            dialog.addSmall([[a], 'character']); 
-                            if(confirm('已找到'+ result +'武将，点击确定移除自定义Boss列表。')){
-                                if(list.length==1) {
-                                    game.saveConfig('extension_术樱_tianshu_add_list','');
-                                    break;
-                                }
-                                if(!i){
-                                    game.saveConfig('extension_术樱_tianshu_add_list',list[i]);
-                                } else {
-                                    game.saveConfig('extension_术樱_tianshu_add_list',lib.config.extension_术樱_tianshu_add_list+','+list[i]);
-                                }
-                            }
-                            value = true;
-                        }
+            	var pushBool=true;
+                if (String(lib.translate[list[i]]) == String(result)) {
+                    if(confirm('已找到'+ result +'武将，点击确定移除自定义Boss列表。')){
+                        pushBool=false;
                     } 
+                    value=true;
+                }
+                if(pushBool) newList.push(list[i]);
+            }
+            if(newList){
+                game.saveConfig('extension_术樱_tianshu_add_list','');
+                for(var j=0;j<newList.length;j++){
+                    if(lib.config.extension_术樱_tianshu_add_list==undefined||lib.config.extension_术樱_tianshu_add_list==''){
+                        game.saveConfig('extension_术樱_tianshu_add_list',newList[j]);
+                    } else {
+                        game.saveConfig('extension_术樱_tianshu_add_list',lib.config.extension_术樱_tianshu_add_list+','+newList[j]);
+                    }
                 }
             }
+
 
             if (value == false) {
                 alert('找不到名为' + result + '的武将或者武将不存在自定义Boss列表中。');
@@ -798,10 +928,7 @@ precontent:function (Diuse){
                             Diuse_Text.innerHTML='正在查漏补缺（'+num+'/'+listnum+'）';
                             download3();
                         }else{
-                            Diuse_Text.innerHTML='查漏补缺完毕';
-                            Diuse_Button=true;
-                            alert('查漏补缺完毕!');
-                            document.body.removeChild(Diuse_Text);
+                            download4();
                         };
                     },function(){
                         game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/css/'+css_list[0],'extension/术樱/'+css_list[0],function(){
@@ -811,10 +938,7 @@ precontent:function (Diuse){
                                 Diuse_Text.innerHTML='正在查漏补缺（'+num+'/'+listnum+'）';
                                 download3();
                             }else{
-                                Diuse_Text.innerHTML='查漏补缺完毕';
-                                Diuse_Button=true;
-                                alert('查漏补缺完毕!');
-                                document.body.removeChild(Diuse_Text);
+                                download4();
                             };
                         },function(){
                             if(confirm('下载'+css_list[0]+'失败，是否继续下载？')){
@@ -1328,6 +1452,7 @@ precontent:function (Diuse){
                                     frequent:true,
                                     popup:false,
                                     audio:false,
+                                    sub:true,
                                     filter:function(event,player){
                                         return event.card.name=='sha'||event.card.name=='shan'||get.type(event.card)=='trick';
                                     },
@@ -1370,6 +1495,7 @@ precontent:function (Diuse){
                                     firstDo:true,
                                     frequent:true,
                                     popup:false,
+                                    sub:true,
                                     content:function(){
                                         var num=trigger.num;
                                         player.addMark('Diuse_SP',num*5);
@@ -1454,7 +1580,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Xuesha:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Xier"],
                             trigger:{
                                 source:"damageSource",
                             },
@@ -1477,7 +1602,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Diewu:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Xier"],
                             enable:"phaseUse",
                             usable:1,
                             position:"he",
@@ -1522,11 +1646,11 @@ precontent:function (Diuse){
                             subSkill:{
                                 Juexing:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Xier"],
                                     juexingji:true,
                                     skillAnimation:true,
                                     forced:true,
                                     unique:true,
+                                    sub:true,
                                     trigger:{
                                         player:"damageSource",
                                     },
@@ -1557,10 +1681,10 @@ precontent:function (Diuse){
                                 },
                                 Mopai:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Xier"],
                                     trigger:{
                                         player:"damageBefore",
                                     },
+                                    sub:true,
                                     priority:1,
                                     frequent:true,
                                     forced:true,
@@ -1573,7 +1697,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Guozai:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Buluoniya"],
                             enable:"phaseUse",
                             filter:function(event,player){
                                 var num=player.countMark('Diuse_SP');
@@ -1597,6 +1720,7 @@ precontent:function (Diuse){
                                 Buff:{
                                     trigger:{source:"damageBegin"},
                                     forced:true,
+                                    sub:true,
                                     frequent:true,
                                     filter:function(event,player){
                                         if(player.storage.Fuhe_Buff==false) return true;
@@ -1627,7 +1751,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Chonggou:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Buluoniya"],
                             trigger:{source:"damageBegin"},
                             usable:1,
                             check:function(event,player,target){
@@ -1672,8 +1795,9 @@ precontent:function (Diuse){
                             group:['Diuse_Chonggou_Phase'],
                             subSkill:{
                                 Phase:{
-                                    trigger:{global:"phaseZhunbei"},
+                                    trigger:{global:"phaseZhunbeiBegin"},
                                     forced:true,
+                                    sub:true,
                                     popup:false,
                                     filter:function(event,player){
                                         return event.player.getCards('h',function(card){
@@ -1691,7 +1815,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Yinmie:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Buluoniya"],
                             trigger:{global:"damageBefore"},
                             usable:1,
                             check:function(event,player,target){
@@ -1761,6 +1884,7 @@ precontent:function (Diuse){
                                     audio:false,
                                     trigger:{player:"phaseUseAfter"},
                                     forced:true,
+                                    sub:true,
                                     popup:false,
                                     content:function(){
                                         player.storage.Fuhe_List=[]; 
@@ -1771,6 +1895,7 @@ precontent:function (Diuse){
                                     audio:"Diuse_Fuhe",
                                     trigger:{player:"phaseUseBegin"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         var hp=player.storage.Fuhe_Hp;
                                         var num=player.countMark('Diuse_Fuhe');
@@ -1786,6 +1911,7 @@ precontent:function (Diuse){
                                     audio:"Diuse_Fuhe",
                                     trigger:{global:"damageBegin"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         var str=player.storage.Fuhe_List;
                                         var num=player.countMark('Diuse_Fuhe');
@@ -1831,10 +1957,10 @@ precontent:function (Diuse){
                             subSkill:{
                                 Jieduan:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Kalian"],
                                     trigger:{
                                         player:"phaseBegin",
                                     },
+                                    sub:true,
                                     forced:true,
                                     content:function (){
                                         'step 0'
@@ -1854,11 +1980,11 @@ precontent:function (Diuse){
                                 },
                                 Jineng:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Kalian"],
-                                    forced:true,
                                     trigger:{
                                         player:"turnOverBefore",
                                     },
+                                    forced:true,
+                                    sub:true,
                                     content:function (){
                                         'step 0'
                                         player.chooseControl('获得技能','摸牌并恢复体力').set('prompt','选择');
@@ -1877,7 +2003,6 @@ precontent:function (Diuse){
                         Diuse_Sangzhong:{
                             forced:true,
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Kalian"],
                             trigger:{
                                 player:"damageEnd",
                             },
@@ -1928,7 +2053,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Zhongqu:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Kalian"],
                             enable:"phaseUse",
                             usable:1,
                             position:"he",
@@ -1992,7 +2116,6 @@ precontent:function (Diuse){
                         },
                         "Diuse_Zhongqu1":{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Kalian"],
                             trigger:{
                                 source:"damageBegin1",
                             },
@@ -2018,7 +2141,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Luoying:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Bachongying"],
                             usable:2,
                             trigger:{
                                 player:"useCardToPlayered",
@@ -2099,7 +2221,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Yishan:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Bachongying"],
                             trigger:{
                                 player:["useCard","respond"],
                             },
@@ -2131,7 +2252,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Renfan:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Bachongying"],
                             trigger:{
                                 player:["useCard","respond"],
                             },
@@ -2183,27 +2303,32 @@ precontent:function (Diuse){
                         },
                         Diuse_Shanbeng:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Fuhua"],
                             trigger:{player:"useCardToPlayered"},
                             filter:function(event,player){
-                                return event.card.name=='sha'&&!event.getParent().directHit.contains(event.target)&&player.storage.Diuse_Xunxin.length>0&&player.storage.Diuse_Xunxin;
+                                return event.card.name=='sha'&&event.targets.length==1&&player.getExpansions('Diuse_Xunxin').length>0;
                             },
                             content:function (){
                                 'step 0'
-                                if(player.storage.Diuse_Xunxin.length==1){
+                                if(player.getExpansions('Diuse_Xunxin').length==1){
                                     player.chooseControl('一').set('prompt','请选择弃置的标记数量').set('ai',function(){return '一';});
-                                } else if(player.storage.Diuse_Xunxin.length<=2){
-                                    player.chooseControl('一','二').set('prompt','请选择弃置的标记数量').set('ai',function(){return '一';});
+                                } else if(player.getExpansions('Diuse_Xunxin').length<=2){
+                                    player.chooseControl('一','二').set('prompt','请选择弃置的标记数量').set('ai',function(){
+                                        var list=['一','二'].randomGet();
+                                        return list;
+                                    });
                                 } else {
-                                    player.chooseControl('一','二','三').set('prompt','请选择弃置的标记数量').set('ai',function(){return '一';});
+                                    player.chooseControl('一','二','三').set('prompt','请选择弃置的标记数量').set('ai',function(){
+                                        var list=['一','二','三'].randomGet();
+                                        return list;
+                                    });
                                 }
                                 "step 1"
                                 if(result.control=='一'){
-                                    player.chooseCardButton('弃置一个标记',1,player.storage.Diuse_Xunxin,true);
+                                    player.chooseCardButton('弃置一个标记',1,player.getExpansions('Diuse_Xunxin'),true);
                                 } else if(result.control=='二'){
-                                    player.chooseCardButton('弃置两个标记',2,player.storage.Diuse_Xunxin,true);
+                                    player.chooseCardButton('弃置两个标记',2,player.getExpansions('Diuse_Xunxin'),true);
                                 } else if(result.control=='三'){
-                                    player.chooseCardButton('弃置三个标记',3,player.storage.Diuse_Xunxin,true);
+                                    player.chooseCardButton('弃置三个标记',3,player.getExpansions('Diuse_Xunxin'),true);
                                 }
                                 "step 2"
                                 if(result.links.length==3){
@@ -2235,9 +2360,12 @@ precontent:function (Diuse){
                                 } else {
                                     game.shanbeng_same(1,result.links[0].name,player.name);
                                 }
-                                for(var i=0;i<result.links.length;i++){player.storage.Diuse_Xunxin.remove(result.links[i]);}
-                                game.addVideo('storage',player,['Diuse_Xunxin',get.cardsInfo(player.storage.Diuse_Xunxin),'cards']);
-                                game.cardsDiscard(result.links);
+                                'step 3'
+                                var list=[];
+                                for(var i=0;i<result.links.length;i++){
+                                    list.push(result.links[i]);
+                                }
+                                if(list.length>=1){player.loseToDiscardpile(list);}
                             },
                         },
                         Shanbeng_same_2_sha:{
@@ -2346,9 +2474,9 @@ precontent:function (Diuse){
                             subSkill:{
                                 draw:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Fuhua"],
                                     trigger:{player:['phaseDrawSkipped','phaseDrawCancelled']},
                                     forced:true,
+                                    sub:true,
                                     content:function(target,player,num)
                                     {
                                         'step 0'
@@ -2359,8 +2487,8 @@ precontent:function (Diuse){
                                 },
                                 use:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Fuhua"],
                                     trigger:{player:"useCardAfter"},
+                                    sub:true,
                                     prompt:'是否获得标记并摸牌',
                                     filter:function(event,player){
                                         var cardList=['sha','shan','tao','jiu'],cardSto=player.storage.Xirang
@@ -2383,8 +2511,8 @@ precontent:function (Diuse){
                                 },
                                 lose:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Fuhua"],
                                     trigger:{player:"phaseDiscardBefore"},
+                                    sub:true,
                                     prompt:'是否移除标记并摸牌',
                                     filter:function(event,player){
                                         if(player.countCards('h')<=player.hp&&player.storage.Xirang) return true;
@@ -2399,8 +2527,9 @@ precontent:function (Diuse){
                                     }
                                 },
                                 cancel:{
-                                    audio:false,
                                     trigger:{player:"phaseDrawBefore"},
+                                    audio:false,                                    
+                                    sub:true,
                                     forced:true,
                                     popup:false,
                                     log:false,
@@ -2413,24 +2542,21 @@ precontent:function (Diuse){
                         Diuse_Xunxin:{
                             marktext:"岚",
                             intro:{
-                                content:'cards',
-                                onunmark:function(storage,player){
-                                    if(storage&&storage.length){
-                                        player.$throw(storage,1000);
-                                        game.cardsDiscard(storage);
-                                        game.log(storage,'被置入了弃牌堆');
-                                    storage.length=0;
-                                    }
-                                },
+                                content:'expansion',
+                                markcount:'expansion',
+                            },
+                            onremove:function(player,skill){
+                                var cards=player.getExpansions(skill);
+                                if(cards.length) player.loseToDiscardpile(cards);
                             },
                             group:['Diuse_Xunxin_AtkDamage','Diuse_Xunxin_Lose'],
                             subSkill:{
                                 AtkDamage:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Fuhua"],
                                     trigger:{
                                         player:'damageEnd'
                                     },
+                                    sub:true,
                                     frequent:true,
                                     locked:false,
                                     notemp:true,
@@ -2478,8 +2604,8 @@ precontent:function (Diuse){
                                 },
                                 Lose:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Fuhua"],
                                     trigger:{player:'loseAfter'},
+                                    sub:true,
                                     init:function(player){
                                         if(!player.storage.Diuse_Xunxin) player.storage.Diuse_Xunxin=[];
                                     },
@@ -2495,29 +2621,26 @@ precontent:function (Diuse){
                                     direct:true,
                                     content:function(event){
                                         'step 0'
+                                        var list=[];
                                         for(var i=0;i<trigger.cards2.length;i++){
                                             if(get.position(trigger.cards2[i],true)=='d'&&trigger.cards2[i].name=='sha'||trigger.cards2[i].name=='jiu'||trigger.cards2[i].name=='tao'||trigger.cards2[i].name=='shan'){
-                                                game.cardsGotoSpecial(trigger.cards2[i],'toStorage');
-                                                player.storage.Diuse_Xunxin=player.storage.Diuse_Xunxin.concat(trigger.cards2[i]);
-                                                player.syncStorage('Diuse_Xunxin');
-                                                player.markSkill('Diuse_Xunxin');
-                                                game.log(player,'将',trigger.cards2[i],'置于武将牌上作为“岚”');
+                                                list.push(trigger.cards2[i]);
                                             }
                                         }
-                                        'step 1'
-                                        player.markSkill('Diuse_Xunxin');
+                                        if(list.length>=1){
+                                            player.addToExpansion(list,'giveAuto',player).gaintag.add('Diuse_Xunxin');
+                                        }
                                     },
                                 },
                             },
                         },
                         Diuse_Xianfa:{
                             audio:"ext:术樱:2",
-                            audioname:["shangxian"],
                             marktext:"仙法",
                             mark:true,
                             intro:{
                                 content:function (storage,player,skill){
-                                    if(player.countMark('Diuse_Xianfa')==undefined||player.countMark('Diuse_Xianfa')==0) return '未触发“天地”';
+                                    if(!player.countMark('Diuse_Xianfa')) return '未触发“天地”';
                                     return '已经修改仙法，且不能再次触发“天地”。';
                                 },
                             },
@@ -2545,9 +2668,9 @@ precontent:function (Diuse){
                             subSkill:{
                                 Use:{
                                     audio:"Diuse_Xianfa",
-                                    audioname:["shangxian"],
                                     trigger:{player:"phaseUseBefore",},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(player.countMark('Diuse_Xianfa')) return false;
                                         for(var i=0;i<game.players.length;i++){
@@ -2566,7 +2689,6 @@ precontent:function (Diuse){
                             },
                         },
                         Diuse_Yifa:{//改名但懒得换名字了
-                            audioname:["shangxian"],
                             marktext:"相引",
                             mark:true,
                             intro:{
@@ -2591,6 +2713,7 @@ precontent:function (Diuse){
                                 Lose:{
                                     trigger:{player:["loseHpEnd"]},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i]==player) continue;
@@ -2605,6 +2728,7 @@ precontent:function (Diuse){
                                 Recover:{
                                     trigger:{player:["recoverEnd"]},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i]==player) continue;
@@ -2619,6 +2743,7 @@ precontent:function (Diuse){
                                 Max:{
                                     trigger:{player:["gainMaxHpEnd"]},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i]==player) continue;
@@ -2633,6 +2758,7 @@ precontent:function (Diuse){
                                 loseMax:{
                                     trigger:{player:["loseMaxHpEnd"]},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i]==player) continue;
@@ -2648,9 +2774,12 @@ precontent:function (Diuse){
                         },
                         Diuse_Yinyang:{
                             audio:"ext:术樱:2",
-                            audioname:["shangxian"],
                             trigger:{player:"useCardToPlayered"},
                             usable:1,
+                            check:function(){
+                                if(get.attitude(player,event.player)>0) return false;
+                                return true;
+                            },
                             filter:function(event,player){
                                 if(event.target==undefined) return false;
                                 if(event.target==player||event.targets.length!=1) return false;
@@ -2695,7 +2824,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Tiandi:{
                             audio:"ext:术樱:2",
-                            audioname:["shangxian"],
                             trigger:{player:"phaseZhunbeiBegin"},
                             filter:function(event,player){
                                 if(player.storage.Tiandi_Buff==undefined) player.storage.Tiandi_Buff=[];
@@ -2729,6 +2857,7 @@ precontent:function (Diuse){
                                 Jieshu:{
                                     audio:"ext:术樱:2",
                                     trigger:{player:"phaseJieshuBegin"},
+                                    sub:true,
                                     filter:function(event,player){
                                         if(player.storage.Tiandi_Go==undefined||player.storage.Tiandi_Go!=true) return false;
                                         if(player.storage.Tiandi_Buff==undefined) {
@@ -2767,8 +2896,9 @@ precontent:function (Diuse){
                                     audio:"Diuse_Tiandi_Jieshu",
                                     trigger:{player:"dyingBegin"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
-                                        if(player.countMark('Diuse_Xianfa')==undefined||player.countMark('Diuse_Xianfa')==0) return true;
+                                        if(!player.countMark('Diuse_Xianfa')) return true;
                                         return false;
                                     },
                                     content:function(){
@@ -2805,7 +2935,6 @@ precontent:function (Diuse){
                             subSkill:{
                                 equip:{
                                     audio:"ext:崩坏3:2",
-                                    audioname:["Diuse_Shilv"],
                                     trigger:{
                                         player:"equipAfter",
                                     },
@@ -2813,6 +2942,7 @@ precontent:function (Diuse){
                                         return get.subtype(event.card)=='equip1';
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function (){
                                         var Br1=player.getAttackRange();
                                         if (Br1==1){
@@ -2837,6 +2967,7 @@ precontent:function (Diuse){
                                         player:"loseAfter",
                                         global:["equipAfter","addJudgeAfter","gainAfter","loseAsyncAfter"],
                                     },
+                                    sub:true,
                                     filter:function(event,player){
                                         if(player.hasSkill('Diuse_Yi')||player.hasSkill('Diuse_Er')||player.hasSkill('Diuse_San')||player.hasSkill('Diuse_Si')||player.hasSkill('Diuse_Wu')){
                                             if(player.isEmpty(1)) {
@@ -2869,11 +3000,11 @@ precontent:function (Diuse){
                                     },
                                     locked:true,
                                     audio:"ext:术樱:4",
-                                    audioname:["Diuse_Shilv"],
                                     trigger:{
                                         player:"useCardToPlayered",
                                     }, 
                                     frequent:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(!event.targets) return false;
                                         if(!event.isFirstTarget) return false;
@@ -2895,11 +3026,11 @@ precontent:function (Diuse){
                                 },
                                 Draw1:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Shilv"],
                                     trigger:{
                                         player:"phaseAfter",
                                     },
                                     frequent:true,
+                                    sub:true,
                                     filter:function (event,player){
                                         var Diuse_Draw1=event.player.countMark('Diuse_Yi_Use1')
                                         if(Diuse_Draw1>=1) return true;
@@ -2919,7 +3050,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Er:{
                             audio:"ext:术樱:3",
-                            audioname:["Diuse_Shilv"],
                             forced:true,
                             trigger:{
                                 player:"gainAfter",
@@ -2934,7 +3064,6 @@ precontent:function (Diuse){
                         },
                         Diuse_San:{
                             audio:"ext:术樱:3",
-                            audioname:["Diuse_Shilv"],
                             forced:true,
                             usable:2,
                             trigger:{
@@ -2964,7 +3093,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Si:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Shilv"],
                             forced:true,
                             trigger:{
                                 player:"useCard2",
@@ -3019,7 +3147,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Wu:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Shilv"],
                             usable:1,
                             trigger:{
                                 player:"useCardToPlayered",
@@ -3050,7 +3177,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Fanchen:{
                             audio:"ext:术樱:3",
-                            audioname:["Diuse_Shilv"],
                             usable:1,
                             trigger:{
                                 player:"damageEnd",
@@ -3094,7 +3220,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Fanchen1:{
                             audio:"ext:术樱:3",
-                            audioname:["Diuse_Shilv"],
                             trigger:{
                                 global:"phaseJieshuAfter",
                             },
@@ -3125,7 +3250,6 @@ precontent:function (Diuse){
                         },
                         Diuse_Kongzhan:{
                             audio:"ext:术樱:2",
-                            audioname:["Diuse_Yayi"],
                             trigger:{
                                 player:"shaBegin",
                             },
@@ -3194,11 +3318,11 @@ precontent:function (Diuse){
                                     },
                                     locked:true,
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Yayi"],
                                     trigger:{
                                         player:"useCardToPlayered",
                                     },
                                     frequent:true,
+                                    sub:true,
                                     filter:function (event,player){
                                         if(event.getParent().triggeredTargets3.length>1) return false;
                                         if(!player.isPhaseUsing()) return false;
@@ -3214,6 +3338,8 @@ precontent:function (Diuse){
                                     trigger:{
                                         player:'useCardAfter',
                                     },
+                                    sub:true,
+                                    direct:true,
                                     filter:function(event,player){
                                         if(player.hasSkill('Diuse_DianciY')||!player.countCards('h')) return false;
                                         if(!event.targets||!event.targets.length||!event.isPhaseUsing(player)) return false;
@@ -3227,7 +3353,6 @@ precontent:function (Diuse){
                                         }
                                         return false;
                                     },
-                                    direct:true,
                                     content:function(){
                                         var targets=player.getLastUsed(1).targets;
                                         var next=player.chooseToUse();
@@ -3268,6 +3393,7 @@ precontent:function (Diuse){
                             subSkill:{
                                 Draw:{
                                     trigger:{player:'phaseBegin'},
+                                    sub:true,
                                     filter:function(event,player){
                                         var Yvlei1 = event.player.countMark('Diuse_Dianci_Mark');
                                         if(Yvlei1 >= 3) return true;
@@ -3301,10 +3427,11 @@ precontent:function (Diuse){
                                 },
                                 Move:{
                                     trigger:{player:'damageBegin4'},
+                                    forced:true,
+                                    sub:true,
                                     filter:function(event){
                                         return event.nature=='thunder';
                                     },
-                                    forced:true,
                                     content:function(){
                                         trigger.cancel();
                                     },
@@ -3364,9 +3491,9 @@ precontent:function (Diuse){
                             subSkill:{
                                 Gamego:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Yuexia"],
                                     trigger:{global:"gameDrawAfter"},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i]==player){
@@ -3379,9 +3506,9 @@ precontent:function (Diuse){
                                 },
                                 Damage:{
                                     audio:"ext:术樱:3",
-                                    audioname:["Diuse_Yuexia"],
                                     trigger:{player:['changeHp','loseMaxHpAfter','gainMaxHpAfter']},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         if(player.countCards('h')==0){
                                             player.draw(Math.abs(trigger.num)+1);
@@ -3398,6 +3525,7 @@ precontent:function (Diuse){
                             group:['Diuse_Shenshi_H','Diuse_Shenshi_Die'],
                             subSkill:{
                                 H:{
+                                    sub:true,
                                     mod:{
                                         maxHandcardBase:function(player,num){
                                             var Marknum=0
@@ -3410,9 +3538,9 @@ precontent:function (Diuse){
                                 },
                                 Die:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Yuexia"],
                                     trigger:{player:"dyingBegin"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         var bool=game.hasPlayer(function(current){
                                             return current.hasMark('Diuse_Xueqi_Mark');
@@ -3441,9 +3569,9 @@ precontent:function (Diuse){
                             subSkill:{
                                 Damage:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Yuexia"],
                                     trigger:{source:'damageBefore'},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         trigger.player.addMark('Diuse_Xueqi_Mark',trigger.num);
                                         trigger.cancel();
@@ -3451,12 +3579,12 @@ precontent:function (Diuse){
                                 },
                                 Draw:{
                                     audio:"ext:术樱:2",
-                                    audioname:["Diuse_Yuexia"],
                                     trigger:{global:'phaseUseBefore'},
                                     filter:function(event,player){
                                         return event.player.countMark('Diuse_Xueqi_Mark')>1;
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         var Marknum=trigger.player.countMark('Diuse_Xueqi_Mark');
                                         trigger.player.loseHp(Marknum-1);
@@ -3490,32 +3618,14 @@ precontent:function (Diuse){
                                     target.disableSkill('Diuse_Qujian',lib.character[target.name][3]);
                                     target.addSkill('Diuse_Shikong');
                                     target.addMark('Diuse_Shikong',1);
+                                    target.storage.Qujian=player;
                                     player.addMark('Diuse_SP',35);
                                     player.addMark('Diuse_Yakong',1);
                                 }
                             },
-                            group:['Diuse_Qujian_Use'],
                             subSkill:{
-                                Use:{
-                                    audio:"ext:术樱:2",
-                                    trigger:{global:"phaseUseBegin"},
-                                    forced:true,
-                                    filter:function(event,player){
-                                        if(!event.player.countMark('Diuse_Shikong')) return false;
-                                        return true;
-                                    },
-                                    content:function(){
-                                        var markNum=trigger.player.countMark('Diuse_Shikong');
-                                        var markNum2=markNum;
-                                        trigger.player.enableSkill('Diuse_Qujian');
-                                        trigger.player.removeMark('Diuse_Shikong',markNum2);
-                                        trigger.player.removeSkill('Diuse_Shikong');
-                                        markNum--;
-                                        trigger.player.damage(Math.floor(markNum/2));
-                                    }
-                                },
+                                Use:{audio:"ext:术樱:2",},
                             },
-    
                         },
                         Diuse_Shikong:{
                             marktext:"时空",
@@ -3537,6 +3647,30 @@ precontent:function (Diuse){
                             mod:{
                                 cardEnabled2:function(card,player){
                                     return false;
+                                },
+                            },
+                            group:['Diuse_Shikong_Use'],
+                            subSkill:{
+                                Use:{
+                                    audio:"Diuse_Qujian_Use",
+                                    trigger:{player:"phaseUseBegin"},
+                                    forced:true,
+                                    sub:true,
+                                    filter:function(event,player){
+                                        return player.countMark('Diuse_Shikong');
+                                    },
+                                    content:function(){
+                                        var markNum=player.countMark('Diuse_Shikong');
+                                        var sto=player.storage.Qujian;
+                                        var markNum2=markNum;
+                                        if(!sto) event.finish();
+
+                                        player.enableSkill('Diuse_Qujian');
+                                        player.removeMark('Diuse_Shikong',markNum2);
+                                        player.removeSkill('Diuse_Shikong');
+                                        markNum--;
+                                        player.damage(Math.floor(markNum/2),sto);
+                                    }
                                 },
                             },
                         },
@@ -3564,6 +3698,7 @@ precontent:function (Diuse){
                                 Use:{
                                     audio:"ext:术樱:2",
                                     trigger:{player:"phaseZhunbeiBegin"},
+                                    sub:true,
                                     filter:function(event,player){
                                         if(player.hasSkill('Diuse_Yakong_Buff')) return false;
                                         return player.countMark('Diuse_Yakong')>=3;
@@ -3690,7 +3825,7 @@ precontent:function (Diuse){
                                         player.draw();
                                     }
                                 }
-                                game.log(player,'将一张牌置于牌堆底');
+                                game.log(player,'将一张手牌置于牌堆底');
 
                                 if(player.storage.renge==undefined||player.storage.renge){
                                     player.recover();
@@ -3712,12 +3847,25 @@ precontent:function (Diuse){
                         },
                         Diuse_Baihei:{
                             auido:false,
-                            group:['Diuse_Bai','Diuse_Hei'],
-                            preHidden:['Diuse_Bai','Diuse_Hei'],
+                            group:['Diuse_Bai','Diuse_Hei','Diuse_Heixi_PhaseBefore'],
+                            preHidden:['Diuse_Bai','Diuse_Hei','Diuse_Heixi_PhaseBefore'],
                             mod:{
                                 maxHandcardBase:function(player,num){
                                     if(player.storage.renge==undefined||player.storage.renge) return num+2;
                                 },
+                                cardUsable:function(card,player,num){
+                                    var num1=player.storage.Diuse_Hei;
+                                    if(card.name=='sha') return num+num1;
+                                },
+                            },
+                        },
+                        Diuse_Heixi_PhaseBefore:{
+                            auido:false,
+                            forced:true,
+                            popup:false,
+                            trigger:{player:"phaseUseBefore"},
+                            content:function(){
+                                player.storage.Diuse_Hei=0;
                             },
                         },
                         Diuse_Bai:{
@@ -3753,6 +3901,7 @@ precontent:function (Diuse){
                                 if(trigger.player.countMark('Diuse_Bai')){
                                     if(trigger.player.countCards('h')){
                                         trigger.player.chooseControl('弃一张','摸一张').set('prompt','请选择弃1张手牌或令'+get.translation(player)+'摸1张牌').set('ai',function(){
+                                            if(get.attitude(trigger.player,player)>=2) return '摸一张';
                                             return '弃一张';
                                         });
                                         event.baiBool=true;
@@ -3830,7 +3979,7 @@ precontent:function (Diuse){
                                         });
                                     }
                                     if(!trigger.player.isEmpty(2)){
-                                        player.getStat().card.sha--;
+                                        player.storage.Diuse_Hei++;
                                     }
                                     trigger.player.removeMark('Diuse_Hei',1);
                                 } else {
@@ -3887,6 +4036,7 @@ precontent:function (Diuse){
                                     audio:false,
                                     trigger:{player:"phaseUseAfter"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return player.storage.biaoBool;
                                     },
@@ -3902,6 +4052,7 @@ precontent:function (Diuse){
                                     audio:false,
                                     trigger:{global:"dieAfter"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return player.storage.liBool;
                                     },
@@ -3914,6 +4065,8 @@ precontent:function (Diuse){
                                 },
                                 Jieshu:{
                                     trigger:{player:"phaseJieshuBegin"},
+                                    silent:true,
+                                    sub:true,
                                     forced:true,
                                     popup:false,
                                     audio:false,
@@ -3943,7 +4096,7 @@ precontent:function (Diuse){
                         Diuse_Anhong:"暗洪",
                         "Diuse_Anhong_info":"觉醒技。当你受到伤害前你可以摸一张牌，如果你受到伤害后的体力低于2则恢复一点体力；失去该技能并获得技能血杀。",
                         Diuse_Guozai:"过载",
-                        "Diuse_Guozai_info":"SP技。消耗50SP开启过载状态且立刻将手牌摸至体力上限+护盾值的数量(最多为10)，期间你每次造成伤害的值+1且你与保护单位恢复1点体力，然后扣10SP。若你的SP为0或使用超过50SP则关闭过载状态。",
+                        "Diuse_Guozai_info":"SP技。出牌阶段消耗50SP开启过载状态且立刻将手牌摸至体力上限+护盾值的数量(最多为10)，期间你每次造成伤害的值+1且你与保护单位恢复1点体力，然后扣10SP。若你的SP为0或使用超过50SP则关闭过载状态。",
                         Diuse_Chonggou:"重构",
                         "Diuse_Chonggou_info":"每回合限一次，当你造成伤害时，你可以选择：1：弃置X张牌并摸X张牌（X为当前护盾值）2：使其获得其防具区的牌直至其准备阶段；然后取消对其即将造成的伤害。",
                         Diuse_Yinmie:"湮灭",
@@ -4071,6 +4224,9 @@ precontent:function (Diuse){
                     character:{
                         Boss_Diuse_Tianshu:["male","",0,["Boss_Tianshu_Go","Boss_Diuse_Tianshu_intro1","Boss_Diuse_Tianshu_intro2","Boss_Diuse_Tianshu_intro3","Boss_Diuse_Tianshu_intro4","Boss_Diuse_Tianshu_intro5"],["boss"],"qun"],
                         
+
+                        //beta:['male','qun',7,['Xingfa','Miaoping'],['qun']],
+
                         // Boss_Ordinary_Hankui:['female','shen',10,['boss_shenyi','Tianshu_Boss_Ordinary_Chiyan','Tianshu_Boss_Ordinary_Fali','Tianshu_Ordinary_Hankui_Die'],['qun','hiddenboss','bossallowed']],
                         // Boss_Difficulty_Hankui:['female','shen',13,['boss_shenyi','Tianshu_Boss_Difficulty_Chiyan','Tianshu_Boss_Difficulty_Fali','Tianshu_Difficulty_Hankui_Die'],['qun','hiddenboss','bossallowed']],
                         // Boss_Fucking_Hankui:['female','shen',15,['boss_shenyi','Tianshu_Boss_Chiyan','Tianshu_Boss_Fali','Tianshu_Boss_Shangshi','Tianshu_Fucking_Hankui_Die'],['qun','hiddenboss','bossallowed']],
@@ -4159,7 +4315,17 @@ precontent:function (Diuse){
                         Tianshu_Boss_Shuishengonggong:['male','shen',9,['Tianshu_Boss_Juehong'],['qun','hiddenboss','bossallowed']],
                         Tianshu_Boss_Shuishengonggong_Difficulty:['male','shen',11,['Tianshu_Boss_Juehong'],['qun','hiddenboss','bossallowed']],
                         Tianshu_Boss_Shuishengonggong_Fucking:['male','shen',13,['Tianshu_Boss_Juehong_Fucking'],['qun','hiddenboss','bossallowed']],
-            
+                        Tianshu_Boss_Baiqi:['male','shen',9,['Tianshu_Boss_Wuan','Tianshu_Boss_Changsheng'],['qun','hiddenboss','bossallowed']],
+                        Tianshu_Boss_Baiqi_Difficulty:['male','shen',11,['Tianshu_Boss_Wuan','Tianshu_Boss_Changsheng','Tianshu_Boss_Shashen'],['qun','hiddenboss','bossallowed']],
+                        Tianshu_Boss_Baiqi_Fucking:['male','shen',13,['Tianshu_Boss_Wuan_Fucking','Tianshu_Boss_Changsheng','Tianshu_Boss_Shashen_Fucking'],['qun','hiddenboss','bossallowed']],
+                        Tianshu_Boss_Kuafu:['male','shen',12,['Tianshu_Boss_Zhuri','Tianshu_Boss_Yinjiang'],['qun','hiddenboss','bossallowed']],
+                        Tianshu_Boss_Kuafu_Difficulty:['male','shen',15,['Tianshu_Boss_Zhuri','Tianshu_Boss_Yinjiang','Tianshu_Boss_Lieben'],['qun','hiddenboss','bossallowed']],
+                        Tianshu_Boss_Kuafu_Fucking:['male','shen',19,['Tianshu_Boss_Zhuri','Tianshu_Boss_Yinjiang','Tianshu_Boss_Lieben','Tianshu_Boss_Shenqu_Kuafu'],['qun','hiddenboss','bossallowed']],
+                        Tianshu_Boss_Huoshenzhurong:['male','shen',9,['Tianshu_Boss_Xingxia'],['qun','hiddenboss','bossallowed']],
+                        Tianshu_Boss_Huoshenzhurong_Difficulty:['male','shen',11,['Tianshu_Boss_Xingxia'],['qun','hiddenboss','bossallowed']],
+                        Tianshu_Boss_Huoshenzhurong_Fucking:['male','shen',13,['Tianshu_Boss_Xingxia_Fucking'],['qun','hiddenboss','bossallowed']],
+
+
                         Longzhou_Boss_Taoshen:['male','shen',12,['Longzhou_Boss_Tianqi','Longzhou_Boss_Nutao','Qingqing_Boss_Mashu'],['qun','hiddenboss','bossallowed']],
                         Longzhou_Boss_Taoshen_Difficulty:['male','shen',15,['Longzhou_Boss_Tianqi','Longzhou_Boss_Nutao_Difficulty','Qingqing_Boss_Mashu','Longzhou_Boss_Yingzi','Qingqing_Boss_Wushuang'],['qun','hiddenboss','bossallowed']],
                         Longzhou_Boss_Taoshen_Fucking:['male','shen',20,['Longzhou_Boss_Tianqi','Longzhou_Boss_Nutao_Fucking','Qingqing_Boss_Mashu','Longzhou_Boss_Xiongzi','Qingqing_Boss_Wushuang','Longzhou_Boss_Paoxiao'],['qun','hiddenboss','bossallowed']],
@@ -4178,6 +4344,8 @@ precontent:function (Diuse){
                     translate:{
                         Boss_Diuse_Tianshu:"天书乱斗",
             
+                        beta:"测试将",
+
                         Shengxiao_Zishu:"子鼠",
                         Shengxiao_Chouniu:"丑牛",
                         Shengxiao_Yinhu:"寅虎",
@@ -4252,7 +4420,16 @@ precontent:function (Diuse){
                         Tianshu_Boss_Shuishengonggong:"水神共工",
                         Tianshu_Boss_Shuishengonggong_Difficulty:"水神共工",
                         Tianshu_Boss_Shuishengonggong_Fucking:"水神共工",
-            
+                        Tianshu_Boss_Huoshenzhurong:"火神祝融",
+                        Tianshu_Boss_Huoshenzhurong_Difficulty:"火神祝融",
+                        Tianshu_Boss_Huoshenzhurong_Fucking:"火神祝融",
+                        Tianshu_Boss_Baiqi:"白起",
+                        Tianshu_Boss_Baiqi_Difficulty:"白起",
+                        Tianshu_Boss_Baiqi_Fucking:"白起",
+                        Tianshu_Boss_Kuafu:"夸父",
+                        Tianshu_Boss_Kuafu_Difficulty:"夸父",
+                        Tianshu_Boss_Kuafu_Fucking:"夸父",
+
                         Longzhou_Boss_Taoshen:"涛神",
                         Longzhou_Boss_Taoshen_Difficulty:"涛神",
                         Longzhou_Boss_Taoshen_Fucking:"涛神",
@@ -4301,7 +4478,7 @@ precontent:function (Diuse){
                         dialog.addText(' <br> ');
                         return dialog;
                     },
-                    skillsList:function(){ //技能
+                    skillsList:function(){ //普通技能
                         var skills=[];
                         var banned=[
                             'huoxin','jueqing','qinqing','beige','huashen','drlt_zhiti','olzhiti'
@@ -4329,6 +4506,72 @@ precontent:function (Diuse){
                                 if(skills.contains(list[j])||banned.contains(list[j])) continue;
                                 var info=get.info(list[j]);
                                 if(!info||info.charlotte||(info.unique&&!info.gainable)||info.juexingji||info.limited||info.zhuSkill||info.hiddenSkill||info.dutySkill) continue;
+                                skills.push(list[j]);
+                            }
+                        }
+                        _status.skillsList=skills;
+                    },
+                    zhuSkillsList:function(){ //主动技能
+                        var skills=[];
+                        var banned=[
+                            'huoxin','jueqing','qinqing','beige','huashen','drlt_zhiti','olzhiti'
+                        ];
+                        var characters=[];
+                        for(var name in lib.character){
+                            if(!lib.character[name]) continue;
+                            if(lib.filter.characterDisabled(name)) continue;
+                            if(name.indexOf('boss_')==0) continue;
+                            var skillsx=lib.character[name][3];
+                            if(lib.character[name][4]) lib.character[name][4].remove('hiddenSkill');
+                            characters.push(name);
+                            var list=skillsx;
+                            for(var j=0;j<skillsx.length;j++){
+                                var info=get.info(skillsx[j]);
+                                if(!info){
+                                    skillsx.splice(j,1);
+                                    list.splice(j--,1);
+                                    continue;
+                                }
+                                if(typeof info.derivation=='string') list.push(info.derivation);
+                                else if(Array.isArray(info.derivation)) list.addArray(info.derivation);
+                            }
+                            for(var j=0;j<list.length;j++){
+                                if(skills.contains(list[j])||banned.contains(list[j])) continue;
+                                var info=get.info(list[j]);
+                                if(!info||!info.enable||info.viewAs||info.limited||info.juexingji||info.zhuanhuanji||info.hiddenSkill||info.dutySkill) continue;
+                                skills.push(list[j]);
+                            }
+                        }
+                        _status.skillsList=skills;
+                    },
+                    beiSkillsList:function(){ //被动技能
+                        var skills=[];
+                        var banned=[
+                            'huoxin','jueqing','qinqing','beige','huashen','drlt_zhiti','olzhiti'
+                        ];
+                        var characters=[];
+                        for(var name in lib.character){
+                            if(!lib.character[name]) continue;
+                            if(lib.filter.characterDisabled(name)) continue;
+                            if(name.indexOf('boss_')==0) continue;
+                            var skillsx=lib.character[name][3];
+                            if(lib.character[name][4]) lib.character[name][4].remove('hiddenSkill');
+                            characters.push(name);
+                            var list=skillsx;
+                            for(var j=0;j<skillsx.length;j++){
+                                var info=get.info(skillsx[j]);
+                                if(!info){
+                                    skillsx.splice(j,1);
+                                    list.splice(j--,1);
+                                    continue;
+                                }
+                                if(typeof info.derivation=='string') list.push(info.derivation);
+                                else if(Array.isArray(info.derivation)) list.addArray(info.derivation);
+                            }
+                            for(var j=0;j<list.length;j++){
+                                if(skills.contains(list[j])||banned.contains(list[j])) continue;
+                                var info=get.info(list[j]);
+                                if(!info||info.enable||info.charlotte||(info.unique&&!info.gainable)||info.juexingji||info.limited||info.zhuSkill||info.hiddenSkill||info.dutySkill) continue;
                                 skills.push(list[j]);
                             }
                         }
@@ -4411,6 +4654,16 @@ precontent:function (Diuse){
                         game.roundNumber=0;
                         return 0;
                     },
+                    changeSeatNew:function(){
+                        if(game.me==game.boss){
+                            game.boss.changeSeat(0);
+                            game.boss.nextSeat.changeSeat(2);
+                            game.boss.nextSeat.nextSeat.changeSeat(3);
+                            game.boss.nextSeat.nextSeat.nextSeat.changeSeat(4);
+                            game.boss.previousSeat.changeSeat(7);
+                            game.boss.previousSeat.previousSeat.changeSeat(6);
+                        }
+                    },
                     showPop:function(){ //九子真言 全局函数 现没有用
                         SkillList=['Boss_Diuse_Nine_Lin','Boss_Diuse_Nine_Bing','Boss_Diuse_Nine_Dou','Boss_Diuse_Nine_Zhe','Boss_Diuse_Nine_Jie','Boss_Diuse_Nine_Zhen','Boss_Diuse_Nine_Lie','Boss_Diuse_Nine_Qian','Boss_Diuse_Nine_Xing'];
                         for(var i=0;i<game.players.length;i++){
@@ -4446,17 +4699,24 @@ precontent:function (Diuse){
                         var threeOrdinaryList=['Qingqing_Boss_Dongzhuo','Qingqing_Boss_Yuanshu','Qingqing_Boss_Lvbu','Qingqing_Boss_Simayi','Qingqing_Boss_Caocao','Qingqing_Boss_Zhangjiao'];
                         var threeDifficultyList=['Qingqing_Boss_Dongzhuo_Difficulty','Qingqing_Boss_Yuanshu_Difficulty','Qingqing_Boss_Lvbu_Difficulty','Qingqing_Boss_Simayi_Difficulty','Qingqing_Boss_Caocao_Difficulty','Qingqing_Boss_Zhangjiao_Difficulty'];
                         var threeFuckingList=['Qingqing_Boss_Dongzhuo_Fucking','Qingqing_Boss_Yuanshu_Fucking','Qingqing_Boss_Lvbu_Fucking','Qingqing_Boss_Simayi_Fucking','Qingqing_Boss_Caocao_Fucking','Qingqing_Boss_Zhangjiao_Fucking'];
-                        var FourOrdinaryList=['Tianshu_Boss_Xuannv','Tianshu_Boss_Hanba','Zhuigui_Boss_Yanluowang','Tianshu_Boss_Shaohao','Longzhou_Boss_Taoshen',
-                        'Longzhou_Boss_Caoe','Tianshu_Boss_Shuishengonggong'];
-                        var FourDifficultyList=['Tianshu_Boss_Xuannv_Difficulty','Tianshu_Boss_Hanba_Difficulty','Zhuigui_Boss_Yanluowang_Difficulty','Tianshu_Boss_Shaohao_Difficulty',
-                        'Longzhou_Boss_Taoshen_Difficulty','Longzhou_Boss_Caoe_Difficulty','Tianshu_Boss_Shuishengonggong_Difficulty'];
-                        var FourFuckingList=['Tianshu_Boss_Xuannv_Fucking','Tianshu_Boss_Hanba_Fucking','Zhuigui_Boss_Yanluowang_Fucking','Tianshu_Boss_Shaohao_Fucking','Longzhou_Boss_Taoshen_Fucking',
-                        'Longzhou_Boss_Caoe_Fucking','Tianshu_Boss_Shuishengonggong_Fucking'];
+                        var fourOrdinaryList=['Tianshu_Boss_Xuannv','Tianshu_Boss_Hanba','Zhuigui_Boss_Yanluowang','Tianshu_Boss_Shaohao','Longzhou_Boss_Taoshen',
+                        'Longzhou_Boss_Caoe','Tianshu_Boss_Shuishengonggong','Tianshu_Boss_Huoshenzhurong','Tianshu_Boss_Kuafu','Tianshu_Boss_Baiqi'];
+                        var fourDifficultyList=['Tianshu_Boss_Xuannv_Difficulty','Tianshu_Boss_Hanba_Difficulty','Zhuigui_Boss_Yanluowang_Difficulty','Tianshu_Boss_Shaohao_Difficulty',
+                        'Longzhou_Boss_Taoshen_Difficulty','Longzhou_Boss_Caoe_Difficulty','Tianshu_Boss_Shuishengonggong_Difficulty','Tianshu_Boss_Huoshenzhurong_Difficulty','Tianshu_Boss_Kuafu_Difficulty','Tianshu_Boss_Baiqi_Difficulty'];
+                        var fourFuckingList=['Tianshu_Boss_Xuannv_Fucking','Tianshu_Boss_Hanba_Fucking','Zhuigui_Boss_Yanluowang_Fucking','Tianshu_Boss_Shaohao_Fucking','Longzhou_Boss_Taoshen_Fucking',
+                        'Longzhou_Boss_Caoe_Fucking','Tianshu_Boss_Shuishengonggong_Fucking','Tianshu_Boss_Huoshenzhurong_Fucking','Tianshu_Boss_Kuafu_Fucking','Tianshu_Boss_Baiqi_Fucking'];
                         var Longzhoulist=['Longzhou_Boss_Taoshen','Longzhou_Boss_Taoshen_Difficulty','Longzhou_Boss_Taoshen_Fucking','Longzhou_Boss_Caoe','Longzhou_Boss_Caoe_Difficulty','Longzhou_Boss_Caoe_Fucking'];
                         var Newlist;
-                        if(lib.config.extension_术樱_tianshuaddoff){
+                        
+                        if(lib.config.extension_术樱_tianshuaddoff&&lib.config.extension_术樱_tianshu_add_list!=undefined&&lib.config.extension_术樱_tianshu_add_list!=''){
                             Newlist=lib.config.extension_术樱_tianshu_add_list.split(",");
                         }
+
+                        if(_status.Diuse_NewBoss){
+                            num=[-2,-3,-4].randomGet();
+                        }
+
+
                         switch(num){
                             case 0:{
                                 for(var i=0;i<liveList.length;i++){
@@ -4508,23 +4768,24 @@ precontent:function (Diuse){
                             }
                             case 4:{
                                 if(a==1){
-                                    for(var i=0;i<FourOrdinaryList.length;i++){
-                                        if(name==FourOrdinaryList[i]) return true;
+                                    for(var i=0;i<fourOrdinaryList.length;i++){
+                                        if(name==fourOrdinaryList[i]) return true;
                                     }
                                     return false;
                                 } else if(a==2){
-                                    for(var i=0;i<FourDifficultyList.length;i++){
-                                        if(name==FourDifficultyList[i]) return true;
+                                    for(var i=0;i<fourDifficultyList.length;i++){
+                                        if(name==fourDifficultyList[i]) return true;
                                     }
                                     return false;
                                 } else {
-                                    for(var i=0;i<FourFuckingList.length;i++){
-                                        if(name==FourFuckingList[i]) return true;
+                                    for(var i=0;i<fourFuckingList.length;i++){
+                                        if(name==fourFuckingList[i]) return true;
                                     }
                                     return false;
                                 }
                             }
                             case 5:{
+                                if(Newlist==''||Newlist==undefined) return false;
                                 for(var i=0;i<Newlist.length;i++){
                                     if(name==Newlist[i]) return true;
                                 }
@@ -4608,28 +4869,28 @@ precontent:function (Diuse){
                             }
                             case -4:{
                                 if(a==1){
-                                    var newBoss=FourOrdinaryList.randomGet();
+                                    var newBoss=fourOrdinaryList.randomGet();
                                     for(var i=0;i<game.players.length;i++){
                                         if(newBoss==game.players[i].name){
-                                            newBoss=FourOrdinaryList.randomGet();
+                                            newBoss=fourOrdinaryList.randomGet();
                                             i=0;
                                         }
                                     }
                                     return newBoss;
                                 } else if(a==2){
-                                    var newBoss=FourDifficultyList.randomGet();
+                                    var newBoss=fourDifficultyList.randomGet();
                                     for(var i=0;i<game.players.length;i++){
                                         if(newBoss==game.players[i].name){
-                                            newBoss=FourDifficultyList.randomGet();
+                                            newBoss=fourDifficultyList.randomGet();
                                             i=0;
                                         }
                                     }
                                     return newBoss;
                                 } else {
-                                    var newBoss=FourFuckingList.randomGet();
+                                    var newBoss=fourFuckingList.randomGet();
                                     for(var i=0;i<game.players.length;i++){
                                         if(newBoss==game.players[i].name){
-                                            newBoss=FourFuckingList.randomGet();
+                                            newBoss=fourFuckingList.randomGet();
                                             i=0;
                                         }
                                     }
@@ -4637,6 +4898,12 @@ precontent:function (Diuse){
                                 }
                             }
                             case -5:{
+                                if(Newlist==''||Newlist==undefined||Newlist.length==1){
+                                    alert('请检查Boss列表或只有一位Boss，即将重启');
+                                    setTimeout(function(){
+                                        setTimeout(game.reload,1500);
+                                    }, 1500);
+                                }
                                 var newBoss=Newlist.randomGet();
                                 for(var i=0;i<game.players.length;i++){
                                     if(newBoss==game.players[i].name){
@@ -4645,19 +4912,41 @@ precontent:function (Diuse){
                                     }
                                 }
                                 return newBoss;
+                                // if(lib.config.extension_术樱_randomoff){
+                                //     if(Newlist==''||Newlist==undefined||Newlist.length==1){
+                                //         _status.Diuse_NewBoss=true;
+                                //         game.bossName(0,0,a);
+                                //     }
+                                //     var newBoss=Newlist.randomGet();
+                                //     for(var i=0;i<game.players.length;i++){
+                                //         if(newBoss==game.players[i].name){
+                                //             newBoss=Newlist.randomGet();
+                                //             i=0;
+                                //         }
+                                //     }
+                                    
+                                // } else {
+
+                                // }
                             }
                             default:{return false}
                         }
                     },
-                    gameBossDie:function(name,num,num2){ //判断天书相应关卡boss是否死亡
+                    gameBossDie:function(name,num,num2,num3){ //判断天书相应关卡boss是否阵亡和转移Boss控制权
                         for(var i=0;i<game.players.length;i++){
                             if(game.players[i].name==name) continue;
                             var nextBoss=game.bossName(game.players[i].name,num,num2);
-                            if(nextBoss) return true;
+                            if(nextBoss) {
+                                if(num3) {
+                                    _status.gameMe=true;
+                                    game.players[i]._trueMe=game.me;
+                                }
+                                return true;
+                            }
                         }
                         return false;
                     },
-                    playerHpMax:function(){ //判断玩家最大体力的角色
+                    playerHpMax:function(){ //判断敌对最大体力的角色
                         var listHp=[],listName=[];
                         var player=_status.event.player;
                         for(var i=0;i<game.players.length;i++){
@@ -4679,7 +4968,7 @@ precontent:function (Diuse){
                         }
                         return listName[0];
                     },
-                    playerCardMax:function(){ //判断玩家最多手牌的角色
+                    playerCardMax:function(){ //判断敌对最多手牌的角色
                         var listName=[],listCard=[];
                         var player=_status.event.player;
                         for(var i=0;i<game.players.length;i++){
@@ -4720,7 +5009,17 @@ precontent:function (Diuse){
                             }
                         }
                     },
-        
+                    playerRandom:function(){ //随机一名敌对角色
+                        var listName=[];
+                        var player=_status.event.player;
+                        for(var i=0;i<game.players.length;i++){
+                            if(game.players[i]==player) continue;
+                            if(!game.players[i].isFriendOf(player)){
+                                listName.push(game.players[i]);
+                            }
+                        }
+                        return listName.randomGet();
+                    }
                 },
                 boss:{
                     Boss_Diuse_Tianshu:{
@@ -4735,17 +5034,13 @@ precontent:function (Diuse){
                             lib.inpile.remove('fulei');
                             lib.inpile.remove('lebu');
                             lib.inpile.remove('bingliang');
-                            lib.inpile.sort(lib.sort.card);
                             for(var i=0;i<ui.cardPile.childElementCount;i++){
                                 var node=ui.cardPile.childNodes[i];
-                                if(node.name=='shandian'){
-                                    node.classList.remove('fullskin');
-                                    node.classList.remove('thunder');
-                                }
-                                else if(['huoshan','hongshui','fulei','lebu','bingliang'].contains(node.name)){
+                                if(['huoshan','hongshui','fulei','lebu','bingliang','shandian'].contains(node.name)){
                                     node.remove();
                                 }
                             }
+                            lib.inpile.sort(lib.sort.card);
                         },
                         loopFirst:function(){
                             return game.boss.nextSeat;
@@ -4961,6 +5256,8 @@ precontent:function (Diuse){
                                         if(gameBoss==false){ //如果返回False 说明阵亡
                                             player.addMark('nextCheckPoint',1);
                                             player.addMark('checkPoint',1);
+                                        }  else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
+                                            game.gameBossDie(trigger.player.name,num,num2,1);
                                         } 
                                     } else if(nextCheckPoint1==false){ //如果不是
                                         var gamePlayerNum=0;
@@ -4992,6 +5289,10 @@ precontent:function (Diuse){
                                                 if(num2==1){game.players[i].draw(1);} else if(num2==2){game.players[i].draw(2);} else {game.players[i].draw(3);}
                                             }
                                         }
+                                        if(_status.gameMe){
+                                            game.boss._trueMe=game.me;
+                                            _status.gameMe=false;
+                                        }
                                     }
                                     var nextCheckPoint2=game.bossName(trigger.player.name,num,num2); //阵亡判断 同第一关
                                     if(nextCheckPoint2){
@@ -5001,6 +5302,8 @@ precontent:function (Diuse){
                                         if(gameBoss==false){
                                             player.addMark('nextCheckPoint',1);
                                             player.addMark('checkPoint',1);
+                                        } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
+                                            game.gameBossDie(trigger.player.name,num,num2,1);
                                         } 
                                     } else if(nextCheckPoint2==false){
                                         var gamePlayerNum=0;
@@ -5032,6 +5335,10 @@ precontent:function (Diuse){
                                                 if(num2==1){game.players[i].draw(2);} else if(num2==2){game.players[i].draw(3);} else {game.players[i].draw(4);}
                                             }
                                         }
+                                        if(_status.gameMe){
+                                            game.boss._trueMe=game.me;
+                                            _status.gameMe=false;
+                                        }
                                     }
                                     var nextCheckPoint3=game.bossName(trigger.player.name,num,num2);
                                     if(nextCheckPoint3){
@@ -5041,6 +5348,8 @@ precontent:function (Diuse){
                                         if(gameBoss==false){
                                             player.addMark('nextCheckPoint',1);
                                             player.addMark('checkPoint',1);
+                                        } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
+                                            game.gameBossDie(trigger.player.name,num,num2,1);
                                         } 
                                     } else if(nextCheckPoint3==false){
                                         var gamePlayerNum=0;
@@ -5072,6 +5381,10 @@ precontent:function (Diuse){
                                                 if(num2==1){game.players[i].draw(3);} else if(num2==2){game.players[i].draw(4);} else {game.players[i].draw(5);}
                                             }
                                         }
+                                        if(_status.gameMe){
+                                            game.boss._trueMe=game.me;
+                                            _status.gameMe=false;
+                                        }
                                     }
                                     var nextCheckPoint4=game.bossName(trigger.player.name,num,num2);
                                     if(nextCheckPoint4){
@@ -5081,6 +5394,8 @@ precontent:function (Diuse){
                                         if(gameBoss==false){
                                             player.addMark('nextCheckPoint',1);
                                             player.addMark('checkPoint',1);
+                                        } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
+                                            game.gameBossDie(trigger.player.name,num,num2,1);
                                         } 
                                     } else if(nextCheckPoint4==false){
                                         var gamePlayerNum=0;
@@ -5098,7 +5413,7 @@ precontent:function (Diuse){
                                             }
                                         } 
                                     }
-                                } else if(player.countMark('checkPoint')<num3){
+                                } else if(player.countMark('checkPoint')<=num3){
                                     if(player.countMark('nextCheckPoint')){
                                         trigger.player.die();
                                         player.removeMark('nextCheckPoint',player.countMark('nextCheckPoint'));
@@ -5133,6 +5448,10 @@ precontent:function (Diuse){
                                                 }
                                             }
                                         }
+                                        if(_status.gameMe){
+                                            game.boss._trueMe=game.me;
+                                            _status.gameMe=false;
+                                        }
                                     }
                                     var nextCheckPoint5=game.bossName(trigger.player.name,5,num2);
                                     if(nextCheckPoint5){
@@ -5140,8 +5459,14 @@ precontent:function (Diuse){
                                         if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
                                         var gameBoss=game.gameBossDie(trigger.player.name,5,num2);
                                         if(gameBoss==false){
-                                            player.addMark('nextCheckPoint',1);
-                                            player.addMark('checkPoint',1);
+                                                player.addMark('checkPoint',1);
+                                            if(player.countMark('checkPoint')<=num3) {
+                                                player.addMark('nextCheckPoint',1);
+                                            } else {
+                                                event.goto(0);
+                                            }
+                                        } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
+                                            game.gameBossDie(trigger.player.name,num,num2,1);
                                         } 
                                     } else if(nextCheckPoint5==false){
                                         var gamePlayerNum=0;
@@ -5173,31 +5498,48 @@ precontent:function (Diuse){
                                 'step 2'
                                 game.delay();
                                 game.cardsNumberUpDate();
-                                game.hpAndH(1,2);
+                                if(player.countMark('checkPoint')<=5) game.hpAndH(1,2);
                                 'step 3'
                                 if(game.players[event.Diuse_Player]==game.boss||game.bossName(game.players[event.Diuse_Player].name,0)) event.goto(6);
+                                if(player.countMark('checkPoint')>5) if(parseInt(player.countMark('checkPoint')%5)!=0) event.goto(0);
                                 'step 4'
+                                var off;
                                 if(!_status.skillsList){
-                                    game.skillsList();
+                                    if(lib.config.extension_术樱_skillsoff){
+                                        game.beiSkillsList();
+                                        off=4;
+                                    } else {
+                                        game.skillsList();
+                                        off=5;
+                                    }
                                 }
+
                                 for(var A=0;A<6;A++){
                                     var Diuse_Not = _status.skillsList.randomGet();
                                     list.push(Diuse_Not);
-                                    if(list.length==5) break;
+                                    if(list.length==off) break;
                                 }
+
                                 if(!list.length){event.finish();return;}
                                 switch(lib.config.extension_术樱_tianshu_skill){
-                                    case 'Zhiheng':{ list.push('标制衡'); break;}
-                                    case 'Wusheng':{ list.push('界武圣'); break;}
-                                    case 'Rende':{ list.push('界仁德'); break;}
-                                    case 'Yingzi':{ list.push('界英姿'); break;}
+                                    case 'Zhiheng':{ list.push('制衡'); break;}
+                                    case 'Wusheng':{ list.push('武圣'); break;}
+                                    case 'Rende':{ list.push('仁德'); break;}
+                                    case 'Yingzi':{ list.push('英姿'); break;}
                                     case 'Random':{
                                         var num=[0,1,2,3].randomGet();
-                                        if(num==0){ list.push('标制衡'); } else if(num==1){ list.push('界武圣'); } else if(num==2){
-                                            list.push('界仁德'); } else { list.push('界英姿'); 
+                                        if(num==0){ list.push('制衡'); } else if(num==1){ list.push('武圣'); } else if(num==2){
+                                            list.push('仁德'); } else { list.push('英姿'); 
                                         }
                                     }
                                 }
+
+                                if(lib.config.extension_术樱_skillsoff){
+                                    game.zhuSkillsList();
+                                    var Diuse_Not = _status.skillsList.randomGet();
+                                    list.push(Diuse_Not);    
+                                }
+
                                 //list.push('刷新'); goto()
                                 event.list=list;
                                 var name=get.translation(game.players[event.Diuse_Player]);
@@ -5213,24 +5555,33 @@ precontent:function (Diuse){
                                     }).dialog=dialog;
                                 }
                                 'step 5'
-                                if(result.control=='标制衡'){ 
-                                    game.log(game.players[event.Diuse_Player].name,'获得了【标制衡】技能');
+                                if(result.control=='制衡'){ 
+                                    game.log(game.players[event.Diuse_Player].name,'获得了【制衡】技能');
                                     game.players[event.Diuse_Player].addSkill('zhiheng');
-                                } else if(result.control=='界武圣'){
-                                    game.log(game.players[event.Diuse_Player].name,'获得了【界武圣】技能');
+                                } else if(result.control=='武圣'){
+                                    game.log(game.players[event.Diuse_Player].name,'获得了【武圣】技能');
                                     game.players[event.Diuse_Player].addSkill('new_rewusheng');
-                                } else if(result.control=='界仁德'){
-                                    game.log(game.players[event.Diuse_Player].name,'获得了【界仁德】技能');
+                                } else if(result.control=='仁德'){
+                                    game.log(game.players[event.Diuse_Player].name,'获得了【仁德】技能');
                                     game.players[event.Diuse_Player].addSkill('rerende');
-                                } else if(result.control=='界英姿'){
-                                    game.log(game.players[event.Diuse_Player].name,'获得了【界英姿】技能');
+                                } else if(result.control=='英姿'){
+                                    game.log(game.players[event.Diuse_Player].name,'获得了【英姿】技能');
                                     game.players[event.Diuse_Player].addSkill('reyingzi');
                                 } else {
                                     event.skill=result.control
                                     game.log(game.players[event.Diuse_Player].name,'获得了【',event.skill,'】技能');
                                     game.players[event.Diuse_Player].addSkill(event.skill);
-                                    event.list=[]
+                                    if(event.skill==event.list[event.list.length-1]){
+                                        if(game.players[event.Diuse_Player].storage.TianshuSkill==undefined){
+                                            game.players[event.Diuse_Player].storage.TianshuSkill=event.skill;
+                                        } else {
+                                            game.players[event.Diuse_Player].removeSkill(game.players[event.Diuse_Player].storage.TianshuSkill);
+                                            game.log(game.players[event.Diuse_Player].name,'失去了【',game.players[event.Diuse_Player].storage.TianshuSkill,'】技能');
+                                        }
+                                    }
+                                    event.list=[];
                                 }
+                                _status.skillsList='';
                                 'step 6'
                                 if(event.Diuse_Player+1<game.players.length){
                                     event.Diuse_Player++;
@@ -5239,7 +5590,7 @@ precontent:function (Diuse){
                                 'step 7'
                                 event.goto(0);
                             },
-                            group:['checkPoint_Die'],
+                            group:['checkPoint_Die','checkPoint_Kuangbao','checkPoint_Use'],
                             subSkill:{
                                 Die:{
                                     locked:true,
@@ -5248,6 +5599,7 @@ precontent:function (Diuse){
                                     popup:false,
                                     fixed:true,
                                     unique:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(event.parent.name=='Boss_Tianshu_Go') return false;
                                         return true;
@@ -5259,6 +5611,39 @@ precontent:function (Diuse){
                                             game.over(false);
                                         }
                                     }
+                                },
+                                Kuangbao:{
+                                    trigger:{global:"roundStart"},
+                                    forced:true,
+                                    sub:true,
+                                    audio:false,
+                                    filter:function(event,player){
+                                        return game.roundNumber==5&&lib.config.extension_术樱_kuangbaooff;
+                                    },
+                                    content:function(){
+                                        for(var i=0;i<game.players.length;i++){
+                                            if(game.players[i].isFriendOf(player)){
+                                                var num=game.players[i].countCards('hej');
+                                                game.players[i].chooseToDiscard(true,'hej',num);
+                                            } else { continue; }
+                                        }
+                                    }
+                                },
+                                Use:{
+                                    trigger:{global:"phaseUseBegin"},
+                                    forced:true,
+                                    audio:false,
+                                    sub:true,
+                                    popup:false,
+                                    filter:function(event,player){
+                                        game.changeSeatNew(); //修正座位
+
+                                        if(event.player.isFriendOf(player)&&game.roundNumber>=7&&lib.config.extension_术樱_kuangbaooff) return true;
+                                        return false;
+                                    },
+                                    content:function(){
+                                        trigger.player.loseHp();
+                                    },
                                 },
                             },
                         },
@@ -5312,6 +5697,7 @@ precontent:function (Diuse){
                                         player:"phaseDrawBefore",
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function (target,player,num)
                                     {
                                         trigger.cancel();
@@ -5322,6 +5708,7 @@ precontent:function (Diuse){
                                         global:"gainAfter",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return(event.player.isAlive()&&event.player!=player&&event.player.isPhaseUsing()&&event.player.countCards('h')>event.player.maxHp)
                                     },
@@ -5373,6 +5760,7 @@ precontent:function (Diuse){
                                 IsC:{
                                     trigger:{global:"useCard"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(!event.card.isCard){
                                             if(event.player!=player) return true;
@@ -5387,6 +5775,7 @@ precontent:function (Diuse){
                                 Ma:{
                                     trigger:{global:"phaseUseBefore"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return (event.player!=player&&event.player.countCards('h')>=1&&event.player.countCards('h')>event.player.maxHp)
                                     },
@@ -5443,6 +5832,7 @@ precontent:function (Diuse){
                                     locked:true,
                                     trigger:{player:'damageBegin4'},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         if(trigger.num>=2) trigger.num=1;
             
@@ -5465,6 +5855,7 @@ precontent:function (Diuse){
                                     locked:true,
                                     trigger:{player:'phaseBefore'},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         var D_Fmark = player.countMark('Tianshu_Boss_Fali');
                                         if(D_Fmark<=0) return false;
@@ -5493,6 +5884,7 @@ precontent:function (Diuse){
                                         source:"damageBegin1",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return player.isMaxHandcard(true);
                                     },
@@ -5505,6 +5897,7 @@ precontent:function (Diuse){
                                         global:"phaseUseBegin",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return event.player!=player&&event.player.countCards('h')>event.player.maxHp;
                                     },
@@ -5518,6 +5911,7 @@ precontent:function (Diuse){
                                         global:"gainAfter",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return event.player!=player;
                                     },
@@ -5541,6 +5935,7 @@ precontent:function (Diuse){
                                         global:"phaseAfter",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return event.player!=player&&player.countMark('Tianshu_Boss_Rentu')>=1;
                                     },
@@ -5567,6 +5962,7 @@ precontent:function (Diuse){
                                         source:"damageBegin1",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return player.isMaxHandcard(true);
                                     },
@@ -5579,6 +5975,7 @@ precontent:function (Diuse){
                                         global:"gainAfter",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return event.player!=player;
                                     },
@@ -5664,6 +6061,7 @@ precontent:function (Diuse){
                                         global:"gainAfter",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return event.player!=player&&event.player.countCards('h')>event.player.maxHp;
                                     },
@@ -5677,6 +6075,7 @@ precontent:function (Diuse){
                                         player:"damageAfter",
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         var evt=_status.event.getParent('phaseUse');
                                         if(evt&&evt.name=='phaseUse'){
@@ -5707,6 +6106,7 @@ precontent:function (Diuse){
                                         global:"dyingBefore",
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         player.draw(3);
                                         if(player.hp<=0){
@@ -5732,6 +6132,7 @@ precontent:function (Diuse){
                                         player:"phaseBefore",
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         var numMark=0;
                                         var taskOver=0;
@@ -5772,6 +6173,7 @@ precontent:function (Diuse){
                                         player:"loseMaxHpAfter",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function (event,player){
                                         if(player.countMark('Tianshu_Boss_Ordinary_Bumie')!=player.maxHp) return true;
                                     },
@@ -5783,6 +6185,7 @@ precontent:function (Diuse){
                                 Die:{
                                     trigger:{player:'dieBefore'},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         if(player.countMark('Tianshu_Boss_Ordinary_Bumie')>=1){
                                             trigger.cancel();
@@ -5811,6 +6214,7 @@ precontent:function (Diuse){
                                         global:"dyingBefore",
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         player.draw(3);
                                         if(player.hp<=0){
@@ -5836,6 +6240,7 @@ precontent:function (Diuse){
                                         player:"phaseBefore",
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         var numMark=0;
                                         var taskOver=0;
@@ -5876,6 +6281,7 @@ precontent:function (Diuse){
                                         player:"loseMaxHpAfter",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function (event,player){
                                         if(player.countMark('Tianshu_Boss_Difficulty_Bumie')!=player.maxHp) return true;
                                     },
@@ -5887,6 +6293,7 @@ precontent:function (Diuse){
                                 Die:{
                                     trigger:{player:'dieBefore'},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         if(player.countMark('Tianshu_Boss_Difficulty_Bumie')>=1){
                                             trigger.cancel();
@@ -5915,6 +6322,7 @@ precontent:function (Diuse){
                                         global:"dyingBefore",
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         player.draw(3);
                                         if(player.hp<=0){
@@ -5940,6 +6348,7 @@ precontent:function (Diuse){
                                         player:"phaseBefore",
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         var numMark=0;
                                         var taskOver=0;
@@ -5980,6 +6389,7 @@ precontent:function (Diuse){
                                         player:"loseMaxHpAfter",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function (event,player){
                                         if(player.countMark('Tianshu_Boss_Fucking_Bumie')!=player.maxHp) return true;
                                     },
@@ -5991,6 +6401,7 @@ precontent:function (Diuse){
                                 Die:{
                                     trigger:{player:'dieBefore'},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         if(player.countMark('Tianshu_Boss_Fucking_Bumie')>=1){
                                             trigger.cancel();
@@ -6102,6 +6513,7 @@ precontent:function (Diuse){
                                         player:"phaseUseBefore",
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         var hNum = player.countCards('h')
                                         var eNum = player.countCards('e')
@@ -6119,6 +6531,7 @@ precontent:function (Diuse){
                                         source:"damageBefore",
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         var damageNum = player.countMark('Tianshu_Boss_Shashen');
                                         trigger.num+=damageNum;
@@ -6129,6 +6542,7 @@ precontent:function (Diuse){
                                         player:"phaseAfter",
                                     },
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return player.countMark('Tianshu_Boss_Shashen')>=1;
                                     },
@@ -6226,6 +6640,7 @@ precontent:function (Diuse){
                                 Dam:{
                                     trigger:{global:'damageBefore'},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         if(trigger.player==player && game.numRandom()<=50){
                                             player.judge(function(card){
@@ -6301,6 +6716,7 @@ precontent:function (Diuse){
                                 A:{
                                     trigger:{player:'phaseDrawAfter'},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         if(game.numRandom()<=50) player.draw(2);
                                         game.log('鬼阎王成功额外摸两张牌');
@@ -7022,12 +7438,14 @@ precontent:function (Diuse){
                                 Damage:{
                                     trigger:{player:'damageBefore'},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){if(get.type(event.card,'trick')!='trick')return true},
                                     content:function(){trigger.num--;}
                                 },
                                 Discard:{
                                     trigger:{player:'phaseDiscardBefore'},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){if(player.countCards('h')<player.hp) return true;},
                                     content:function(){player.chooseToDiscard(1,true);},
                                 },
@@ -7048,6 +7466,7 @@ precontent:function (Diuse){
                                 Damage:{
                                     trigger:{player:'damageBefore'},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(event.card&&event.card.name!='sha') return true;
                                     },
@@ -7056,6 +7475,7 @@ precontent:function (Diuse){
                                 Draw:{
                                     trigger:{player:'phaseDiscardAfter'},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){if(player.countCards('h')<player.hp) return true;},
                                     content:function(){player.draw();},
                                 },
@@ -7068,11 +7488,13 @@ precontent:function (Diuse){
                                 Damage:{
                                     trigger:{player:'damageBefore'},
                                     forced:true,
+                                    sub:true,
                                     content:function(){trigger.num++;}
                                 },
                                 Use:{
                                     trigger:{player:'phaseUseEnd'},
                                     forced:true,
+                                    sub:true,
                                     round:1,
                                     filter:function(event,player){if(player.hp!=player.maxHp) return true;},
                                     content:function(){
@@ -7226,6 +7648,7 @@ precontent:function (Diuse){
                                     audio:"ext:术樱:2",
                                     enable:"phaseUse",
                                     position:"he",
+                                    sub:true,
                                     usable:4,
                                     selectCard:1,
                                     selectTarget:1,
@@ -7280,6 +7703,7 @@ precontent:function (Diuse){
                                         }
                                     },
                                     forced:true,
+                                    sub:true,
                                     trigger:{global:"dieAfter"},
                                     filter:function(event,player){
                                         return event.player!=player;
@@ -7300,6 +7724,8 @@ precontent:function (Diuse){
                                     forced:true,
                                     popup:false,
                                     trigger:{player:"phaseJieshuBegin"},
+                                    silent:true,
+                                    sub:true,
                                     filter:function(event,player){return player.countMark("Boss_Shengxiao_Maotu_a")},
                                     content:function(event,player){
                                         player.removeMark("Boss_Shengxiao_Maotu_a",player.countMark("Boss_Shengxiao_Maotu_a"));
@@ -7316,6 +7742,7 @@ precontent:function (Diuse){
                                     enable:"phaseUse",
                                     mark:true,
                                     limited:true,
+                                    sub:true,
                                     unique:true,
                                     skillAnimation:true,
                                     animationStr:"辰龙",
@@ -7382,8 +7809,9 @@ precontent:function (Diuse){
                                     },
                                 },
                                 b:{
-                                    forced:true,
                                     trigger:{player:"dying"},
+                                    forced:true,
+                                    sub:true,
                                     check:function(event,player){return true;},
                                     filter:function(event,player){
                                         return event.getParent(2).name=='Boss_Shengxiao_Chenlong_a'&&_status.currentPhase==player;
@@ -7413,6 +7841,7 @@ precontent:function (Diuse){
                                     audio:"ext:术樱:2",
                                     trigger:{target:"useCardToTargeted"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){return get.type(event.card)=='trick'},
                                     content:function(){player.draw()},
                                 },
@@ -7421,6 +7850,7 @@ precontent:function (Diuse){
                                     trigger:{player:'turnOverBefore'},
                                     priority:20,
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return !player.isTurnedOver();
                                     },
@@ -7433,6 +7863,7 @@ precontent:function (Diuse){
                                     audio:"ext:术樱:2",
                                     trigger:{player:["phaseUseSkipped","PhaseUseCancelled"]},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         var next=player.phaseUse();
                                         event.next.remove(next);
@@ -7520,6 +7951,7 @@ precontent:function (Diuse){
                                     audio:"ext:术樱:2",
                                     trigger:{target:"useCardToTargeted"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){return event.card.name=='sha'&&get.color(event.card)=='red'},
                                     content:function(){trigger.getParent().excluded.add(player)},
                                     ai:{
@@ -7537,6 +7969,7 @@ precontent:function (Diuse){
                                         return event.card&&event.card.name=='sha'&&get.color(event.card)=='red'&&event.notLink();
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function (){
                                         trigger.num++;
                                     },
@@ -7547,10 +7980,10 @@ precontent:function (Diuse){
                             },
                             mod:{
                                 cardUsable:function(card,player){
-                                    if(get.color(card)=='red') return Infinity;
+                                    if(get.color(card)=='red'&&card.name=='sha') return Infinity;
                                 },
                                 targetInRange:function(card,player){
-                                    if(get.color(card)=='red') return true;
+                                    if(get.color(card)=='red'&&card.name=='sha') return true;
                                 }
                             },
                             onremove:true,
@@ -7563,6 +7996,7 @@ precontent:function (Diuse){
                                     audio:"ext:术樱:2",
                                     trigger:{global:"loseAfter"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(event.type!='discard') return false;
                                         if(event.player==player) return false;
@@ -7587,6 +8021,7 @@ precontent:function (Diuse){
                                     audio:"ext:术樱:2",
                                     trigger:{player:"phaseBefore"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         for(var s=0;s<game.players.length;s++){
                                             if(game.players[s]==player) continue;
@@ -7718,8 +8153,9 @@ precontent:function (Diuse){
                             group:['Diuse_Xvni_Xiaojiu_Meiniang_Jieshu'],
                             subSkill:{
                                 Jieshu:{
-                                    trigger:{global:"phaseJieshu"},
+                                    trigger:{global:"phaseJieshuBegin"},
                                     forced:true,
+                                    sub:true,
                                     popup:false,
                                     content:function(){
                                         player.storage.Xiaojiu_Meiniang=[];
@@ -8003,6 +8439,7 @@ precontent:function (Diuse){
                                 ZhunBei:{
                                     trigger:{player:"phaseZhunbeiBegin"},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         var num=[1,2].randomGet();
                                         if(num==1){
@@ -8015,6 +8452,7 @@ precontent:function (Diuse){
                                 End:{
                                     trigger:{player:"phaseJieshuAfter"},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         var num=[1,2].randomGet();
                                         if(num==1){
@@ -8125,6 +8563,7 @@ precontent:function (Diuse){
                             subSkill:{
                                 Sha:{
                                     trigger:{player:"useCardAfter"},
+                                    sub:true,
                                     usable:1,
                                     filter:function(event,player){return event.card.name=='sha';},
                                     content:function(){
@@ -8297,6 +8736,7 @@ precontent:function (Diuse){
                                 A:{
                                     trigger:{target:"useCardToBefore",},
                                     forced:true,
+                                    sub:true,
                                     priority:15,
                                     filter:function(event,player){
                                         return (event.card.name=='nanman');
@@ -8308,6 +8748,7 @@ precontent:function (Diuse){
                                 B:{
                                     trigger:{global:"useCardAfter",},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return (event.card.name=='nanman'&&event.player!=player&&get.itemtype(event.cards)=='cards'&&get.position(event.cards[0],true)=='o');
                                     },
@@ -8454,6 +8895,7 @@ precontent:function (Diuse){
                                     audio:"Zhuogui_Boss_Guimei",
                                     trigger:{player:["phaseUseSkipped","PhaseUseCancelled"]},
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         player.addTempSkill('Zhuogui_Boss_Guimei_Buff');
                                     },   
@@ -8463,6 +8905,7 @@ precontent:function (Diuse){
                                     trigger:{player:'turnOverBefore'},
                                     priority:20,
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return !player.isTurnedOver();
                                     },
@@ -8486,6 +8929,7 @@ precontent:function (Diuse){
                                 Use:{
                                     audio:"Zhuogui_Boss_Guimei_Female",
                                     trigger:{player:["phaseUseSkipped","PhaseUseCancelled"]},
+                                    sub:true,
                                     forced:true,
                                     content:function(){
                                         player.addTempSkill('Zhuogui_Boss_Guimei_Buff');
@@ -8496,6 +8940,7 @@ precontent:function (Diuse){
                                     trigger:{player:'turnOverBefore'},
                                     priority:20,
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return !player.isTurnedOver();
                                     },
@@ -8953,6 +9398,7 @@ precontent:function (Diuse){
                                 Draw:{
                                     trigger:{global:"phaseDrawBegin"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         var numMark=event.player.countMark('Zhuogui_Boss_Anchao');
                                         if(event.player==player&&numMark) return true;
@@ -8966,6 +9412,7 @@ precontent:function (Diuse){
                                 },
                                 Damage:{
                                     trigger:{global:'damageBegin1'},
+                                    sub:true,
                                     filter:function(event,player){
                                         if(event.source==undefined) return false;
                                         if(!event.source.isFriendOf(player)) return false;
@@ -9523,6 +9970,7 @@ precontent:function (Diuse){
                                     trigger:{player:"damageAfter"},
                                     forced:true,
                                     popup:false,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(event.source!=undefined&&event.source==_status.currentPhase) return true;
                                         return false;
@@ -9537,6 +9985,7 @@ precontent:function (Diuse){
                                     trigger:{global:"phaseZhunbeiBegin"},
                                     forced:true,
                                     popup:false,
+                                    sub:true,
                                     content:function(){player.storage.Wangzun_Damage=[];},
                                 },
                             },
@@ -9570,6 +10019,7 @@ precontent:function (Diuse){
                                 Damage:{
                                     trigger:{player:"damageAfter"},
                                     forced:true,
+                                    sub:true,
                                     popup:false,
                                     filter:function(event,player){
                                         if(player.storage.Wangzun_Damage==undefined) player.storage.Wangzun_Damage=[];
@@ -9798,6 +10248,7 @@ precontent:function (Diuse){
                                         target:"useCardToTargeted",
                                     },
                                     forced:true,
+                                    sub:true,
                                     logTarget:function(trigger,player){
                                         return player==trigger.player?trigger.target:trigger.player
                                     },
@@ -9836,12 +10287,14 @@ precontent:function (Diuse){
                             subSkill:{
                                 Draw:{
                                     trigger:{player:"phaseDrawBefore"},
+                                    sub:true,
                                     content:function(){
                                         trigger.num+=2;
                                     },
                                 },
                                 Use:{
                                     trigger:{player:"phaseUseBefore"},
+                                    sub:true,
                                     content:function(){
                                         player.addTempSkill('Qingqing_Boss_Shenji_Buff');
                                     },
@@ -9856,7 +10309,7 @@ precontent:function (Diuse){
                             },
                         },
                         Qingqing_Boss_Shenji_Fucking:{
-                            trigger:{player:"phaseZhunbei"},
+                            trigger:{player:"phaseZhunbeiBegin"},
                             filter:function(event,player){
                                 return player.countCards('h')>=2&&player.countCards('j')>=1;
                             },
@@ -9868,12 +10321,14 @@ precontent:function (Diuse){
                             subSkill:{
                                 Draw:{
                                     trigger:{player:"phaseDrawBegin"},
+                                    sub:true,
                                     content:function(){
                                         trigger.num+=2;
                                     },
                                 },
                                 Use:{
                                     trigger:{player:"phaseUseBefore"},
+                                    sub:true,
                                     content:function(){
                                         player.addTempSkill('Qingqing_Boss_Shenji_Buff_Fucking');
                                     },
@@ -10475,6 +10930,7 @@ precontent:function (Diuse){
                                 Targets:{
                                     trigger:{global:"useCardAfter"},
                                     forced:true,
+                                    sub:true,
                                     popup:false,
                                     filter:function(event,player){
                                         if(player.storage.DishiTarget==undefined||player.storage.DishiTarget=='') return false;
@@ -10489,7 +10945,7 @@ precontent:function (Diuse){
                         Tianshu_Boss_Jiutian:{
                             mode:["boss"],
                             audio:"ext:术樱:2",
-                            trigger:{player:"phaseZhunbei"},
+                            trigger:{player:"phaseZhunbeiBegin"},
                             filter:function(event,player){
                                 for(var i=0;i<game.players.length;i++){
                                     if(game.players[i]==player) continue;
@@ -10567,6 +11023,7 @@ precontent:function (Diuse){
                                 Jieshu:{
                                     trigger:{player:"phaseJieshuAfter"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player,source){
                                         if(player.storage.Tianshu_Boss_Xuanlie==''||player.storage.Tianshu_Boss_Xuanlie==undefined) player.storage.Tianshu_Boss_Xuanlie=[]
                                         return true;
@@ -10618,6 +11075,47 @@ precontent:function (Diuse){
                                     player.logSkill('Tianshu_Boss_Shenqu');
                                     event.goto(1);
                                 }
+                                game.updateRoundNumber();
+                            },
+                        },
+                        Tianshu_Boss_Shenqu_Kuafu:{
+                            mode:["boss"],
+                            audio:"ext:术樱:2",
+                            trigger:{player:"damageAfter"},
+                            forced:true,
+                            filter:function(event,player){return true;},
+                            content:function(){
+                                "step 0"
+                                event.ShenquNum=trigger.num;
+                                "step 1"
+                                event.ShenquNum--;
+                                "step 2"
+                                var card=get.bottomCards()[0];
+                                ui.cardPile.insertBefore(card,ui.cardPile.firstChild);
+                                player.judge(function(card){
+                                    if(get.color(card)=='red') return 2;
+                                    return 0;
+                                }).judge2=function(result){
+                                    var color=get.color(result.card);
+                                    if(color=='red') return result.bool=true;
+                                    return result.bool=false;
+                                };
+                                "step 3"
+                                if(get.color(result.card)=='red'){
+                                    player.draw();
+                                    if(trigger.source!=undefined) trigger.source.chooseToDiscard(1,true);
+                                }
+                                "step 4"
+                                if(event.ShenquNum>0){
+                                    player.chooseBool(get.prompt2('Tianshu_Boss_Shenqu')).set('frequentSkill','Tianshu_Boss_Shenqu');
+                                }
+                                else event.finish();
+                                "step 5"
+                                if(result.bool){
+                                    player.logSkill('Tianshu_Boss_Shenqu');
+                                    event.goto(1);
+                                }
+                                game.updateRoundNumber();
                             },
                         },
                         Tianshu_Boss_Fenshi:{
@@ -10725,6 +11223,7 @@ precontent:function (Diuse){
                                 Draw:{
                                     trigger:{global:'phaseDrawBegin'},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return game.roundNumber<3&&event.player.isEnemyOf(player);
                                     },
@@ -10738,6 +11237,7 @@ precontent:function (Diuse){
                                         return event.nature=='thunder'&&game.roundNumber<7;
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         trigger.num--;
                                     },
@@ -10777,6 +11277,7 @@ precontent:function (Diuse){
                                 Draw:{
                                     trigger:{global:'phaseDrawBegin'},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return game.roundNumber<3&&event.player.isEnemyOf(player);
                                     },
@@ -10790,6 +11291,7 @@ precontent:function (Diuse){
                                         return event.nature=='thunder'&&game.roundNumber<7;
                                     },
                                     forced:true,
+                                    sub:true,
                                     content:function(){
                                         trigger.cancel();
                                     },
@@ -10963,6 +11465,7 @@ precontent:function (Diuse){
                                 Damage:{ //狂风：敌方受到伤害时，此伤害+1。
                                     trigger:{global:"damageBegin"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(player.storage.Boss_Tianqi==undefined) return false;
                                         if(event.player==undefined) return false;
@@ -10978,6 +11481,7 @@ precontent:function (Diuse){
                                 PlayerDamage:{ //阴天：涛神或曹娥受到伤害后，其进行判定，若结果为红桃，回复1点体力。
                                     trigger:{global:"damageAfter"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(event.player==undefined) return false;
                                         if(player.storage.Boss_Tianqi==undefined) return false;
@@ -11006,6 +11510,7 @@ precontent:function (Diuse){
                                 Use:{ //雷电：敌方每名角色的回合开始时，除非该角色弃置一张装备区里的牌，否则横置。
                                     trigger:{global:"phaseUseBegin"}, 
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(player.storage.Boss_Tianqi==undefined) return false;
                                         if(event.player==player) return false;
@@ -11046,6 +11551,7 @@ precontent:function (Diuse){
                                 Draw:{ //大雨：敌方摸牌阶段摸牌数-1，涛神或曹娥摸牌阶段摸牌数+2。
                                     trigger:{global:"phaseDrawBegin"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(player.storage.Boss_Tianqi==undefined) return false;
                                         var name=game.bossName(event.player.name,255,0);
@@ -11065,6 +11571,7 @@ precontent:function (Diuse){
                                 Discard:{ //雷雨：敌方每次使用基本牌时，需要弃置一张手牌。
                                     trigger:{global:"useCardEnd"},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         if(event.player==player) return false;
                                         if(event.player.isFriendOf(player)) return false;
@@ -11081,12 +11588,13 @@ precontent:function (Diuse){
                                 Die:{
                                     trigger:{player:"dieBegin"},
                                     forced:true,
+                                    sub:true,
                                     popup:false,
                                     content:function(){
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i].hasSkill('Longzhou_Boss_Tianqi_Mark')) game.players[i].removeSkill('Longzhou_Boss_Tianqi_Mark');
-                                            if(game.players[i].hasSkill('Longzhou_Boss_Tianqi_Buff2')) game.players[i].addSkill('Longzhou_Boss_Tianqi_Buff2');
-                                            if(game.players[i].hasSkill('Longzhou_Boss_Tianqi_Buff1')) game.players[i].addSkill('Longzhou_Boss_Tianqi_Buff1');
+                                            if(game.players[i].hasSkill('Longzhou_Boss_Tianqi_Buff2')) game.players[i].removeSkill('Longzhou_Boss_Tianqi_Buff2');
+                                            if(game.players[i].hasSkill('Longzhou_Boss_Tianqi_Buff1')) game.players[i].removeSkill('Longzhou_Boss_Tianqi_Buff1');
                                         }
                                     },
                                 },
@@ -11251,6 +11759,7 @@ precontent:function (Diuse){
                                         target:"useCardToTargeted",
                                     },
                                     forced:true,
+                                    sub:true,
                                     logTarget:function(trigger,player){
                                         return player==trigger.player?trigger.target:trigger.player
                                     },
@@ -11394,19 +11903,364 @@ precontent:function (Diuse){
                                 noautowuxie:true,
                             },
                         },
+                        Tianshu_Boss_Zhuri:{
+                            mode:["boss"],
+                            audio:"ext:术樱:2",
+                            trigger:{player:"phaseZhunbeiBegin"},
+                            forced:true,
+                            content:function(){
+                                "step 0"
+                                player.judge(function(card){
+                                    return true;
+                                }).judge2=function(result){
+                                    return result.bool=true;
+                                };
+                                "step 1"
+                                if(get.color(result.card)=='red'){
+                                    player.storage.Zhuri='red';
+                                } else {
+                                    player.storage.Zhuri='black';
+                                }
+                            },
+                            group:['Tianshu_Boss_Zhuri_Red','Tianshu_Boss_Zhuri_Black','Tianshu_Boss_Zhuri_Jieshu'],
+                            subSkill:{
+                                Red:{
+                                    trigger:{
+                                        player:["useCardAfter"],
+                                        target:"useCardToTargeted",
+                                    },
+                                    forced:true,
+                                    sub:true,
+                                    filter:function(event,player,name){
+                                        if(player.storage.Zhuri!='red') return false;
+                                        if(name=='useCardToTargeted'&&('equip'!=get.type(event.card)||event.player!=player)) return false;
+                                        if(name=='useCardAfter'&&['equip','delay'].contains(get.type(event.card))) return false;
+                                        if(get.color(event.card)=='red') return true;
+                                        return false;
+                                    },
+                                    content:function(){
+                                        "step 0"
+                                        event.cards=trigger.cards.filterInD();
+                                        if(event.cards.length>1){
+                                            var next=player.chooseToMove('逐日：将牌按顺序置于牌堆底');
+                                            next.set('list',[['牌堆底',event.cards]]);
+                                            next.set('reverse',((_status.currentPhase&&_status.currentPhase.next)?get.attitude(player,_status.currentPhase.next)>0:false));
+                                            next.set('processAI',function(list){
+                                                var cards=list[0][1].slice(0);
+                                                cards.sort(function(a,b){
+                                                    return (_status.event.reverse?1:-1)*(get.value(b)-get.value(a));
+                                                });
+                                                return [cards];
+                                            });
+                                        }
+                                        "step 1"
+                                        if(result.bool&&result.moved&&result.moved[0].length) cards=result.moved[0].slice(0);
+                                        while(cards.length){
+                                            var card=cards.pop();
+                                            if(get.position(card,true)=='o'){
+                                                card.fix();
+                                                ui.cardPile.appendChild(card,ui.cardPile.firstChild);
+                                                game.log(player,'将',card,'置于牌堆底');
+                                            }
+                                        }
+                                        game.updateRoundNumber();
+                                    }
+                                },
+                                Black:{
+                                    trigger:{player:["useCardBegin"]},
+                                    forced:true,
+                                    sub:true,
+                                    filter:function(event,player,name){
+                                        if(player.storage.Zhuri!='black') return false;
+                                        if(get.color(event.card)=='black') return true;
+                                        return false;
+                                    },
+                                    content:function(){
+                                        player.draw();
+                                    }
+                                },
+                                Jieshu:{
+                                    trigger:{player:"phaseJieshuBegin"},
+                                    silent:true,
+                                    sub:true,
+                                    forced:true,
+                                    audio:false,
+                                    popup:false,
+                                    content:function(){
+                                        player.storage.Zhuri='';
+                                    }
+                                },
+                            },
+                        },
+                        Tianshu_Boss_Yinjiang:{
+                            mode:["boss"],
+                            trigger:{player:"gainAfter"},
+                            forced:true,
+                            filter:function (event,player){
+                                if(!player.isPhaseUsing()) return false;
+                                return event.getParent().name=='draw'&&event.getParent(2).name!='Tianshu_Boss_Yinjiang';
+                            },
+                            content:function (){
+                                player.draw(1,'bottom');
+                            },
+                            group:['Tianshu_Boss_Yinjiang_Buff'],
+                            subSkill:{
+                                Buff:{
+                                    trigger:{player:"gainAfter"},
+                                    forced:true,
+                                    popup:false,
+                                    sub:true,
+                                    audio:false,
+                                    filter:function (event,player){
+                                        if(!player.isPhaseUsing()) return false;
+                                        return event.getParent().name=='draw'&&event.getParent(2).name=='Tianshu_Boss_Yinjiang';
+                                    },
+                                    content:function (){
+                                        if(get.color(trigger.cards[0])=='red'){
+                                            game.playerRandom().damage();
+                                        }
+                                    },
+                                },
+                            },
+                        },
+                        Tianshu_Boss_Lieben:{
+                            mode:["boss"],
+                            trigger:{player:"shaBegin"},
+                            forced:true,
+                            content:function(){
+                                "step 0"
+                                var card=get.bottomCards()[0];
+                                ui.cardPile.insertBefore(card,ui.cardPile.firstChild);
+                                player.judge(function(card){
+                                    if(get.color(card)=='red') return 2;
+                                    return 0;
+                                }).judge2=function(result){
+                                    var color=get.color(result.card);
+                                    if(color=='red') return result.bool=true;
+                                    return result.bool=false;
+                                };
+                                "step 1"
+                                if(get.color(result.card)=='red'){
+                                    trigger.player.getStat().card.sha--;
+                                    trigger.baseDamage+=1;
+                                }
+                                game.updateRoundNumber();
+                            }
+                        },
+                        Tianshu_Boss_Wuan:{
+                            mode:["boss"],
+                            trigger:{source:"damageBegin"},
+                            forced:true,
+                            content:function(){
+                                trigger.num++;
+                            },
+                            mod:{
+                                cardUsable:function(card,player,num){
+                                    if(card.name=='sha') return num+1;
+                                },
+                            },
+                        },
+                        Tianshu_Boss_Wuan_Fucking:{
+                            mode:["boss"],
+                            trigger:{source:"damageBegin"},
+                            forced:true,
+                            content:function(){
+                                trigger.num++;
+                            },
+                            mod:{
+                                cardUsable:function(card,player,num){
+                                    if(card.name=='sha') return num+2;
+                                },
+                            },
+                        },
+                        Tianshu_Boss_Changsheng:{
+                            mode:["boss"],
+                            mod:{
+                                targetInRange:function(card,player){
+                                    if(get.color(card)=='red'&&card.name=='sha') return true;
+                                }
+                            },
+                        },
+                        Tianshu_Boss_Shashen:{
+                            mode:["boss"],
+                            locked:false,
+                            enable:["chooseToRespond","chooseToUse"],
+                            position:"h",
+                            viewAs:{name:"sha"},
+                            prompt:"将一张手牌当杀使用或打出",
+                            filterCard:function(card,player){
+                                return true;
+                            },
+                            check:function(card){
+                                return 4-get.value(card);
+                            },
+                            group:["Tianshu_Boss_Shashen_Buff","Tianshu_Boss_Shashen_Buff1"],
+                            subSkill:{
+                                Buff:{
+                                    trigger:{player:"useCardToPlayered"},
+                                    forced:true,
+                                    sub:true,
+                                    filter:function(event,player){
+                                        if(player.storage.ShashenBool) return false;
+                                        return event.card.name=='sha';
+                                    },
+                                    content:function(){
+                                        player.storage.Shashen=true;
+                                        player.storage.ShashenBool=true;
+                                    },
+                                },
+                                Buff1:{
+                                    trigger:{source:"damageBegin"},
+                                    forced:true,
+                                    sub:true,
+                                    filter:function(event,player){
+                                        return player.storage.Shashen;
+                                    },
+                                    content:function(){
+                                        player.draw();
+                                        player.storage.Shashen=false;
+                                    },
+                                },
+                            },
+                        },
+                        Tianshu_Boss_Shashen_Fucking:{
+                            mode:["boss"],
+                            locked:false,
+                            enable:["chooseToRespond","chooseToUse"],
+                            position:"h",
+                            viewAs:{name:"sha"},
+                            prompt:"将一张手牌当杀使用或打出",
+                            filterCard:function(card,player){
+                                return true;
+                            },
+                            check:function(card){
+                                return 4-get.value(card);
+                            },
+                            group:["Tianshu_Boss_Shashen_Buff","Tianshu_Boss_Shashen_Buff1"],
+                            subSkill:{
+                                Buff:{
+                                    trigger:{player:"useCardToPlayered"},
+                                    forced:true,
+                                    sub:true,
+                                    filter:function(event,player){
+                                        if(player.storage.ShashenBool) return false;
+                                        return event.card.name=='sha';
+                                    },
+                                    content:function(){
+                                        player.storage.Shashen=true;
+                                        player.storage.ShashenBool=true;
+                                    },
+                                },
+                                Buff1:{
+                                    trigger:{source:"damageBegin"},
+                                    forced:true,
+                                    sub:true,
+                                    filter:function(event,player){
+                                        return player.storage.Shashen;
+                                    },
+                                    content:function(){
+                                        player.draw(2);
+                                        player.storage.Shashen=false;
+                                    },
+                                },
+                            },
+                        },
+                        Tianshu_Boss_Xingxia:{
+                            mode:['boss'],
+                            trigger:{player:"phaseUseBegin"},
+                            forced:true,
+                            round:1,
+                            content:function(){
+                                'step 0'
+                                event.list=[];
+                                var bool=true;
+                                for(var i=0;i<game.players.length;i++){
+                                    if(game.players[i]==player) continue;
+                                    if(game.players[i].isFriendOf(player)){
+                                        if(bool){
+                                            game.players[i].damage(2,'fire');
+                                            bool=false
+                                        }
+                                    } else {
+                                        event.list.push(i);
+                                    }
+                                }
+                                'step 1'
+                                if(!event.list) event.finish();
+                                'step 2'
+                                event.target=game.players[event.list[0]];
+                                game.log(game.players[event.list[0]])
+                                player.line(event.target,'fire');
+                                event.target.chooseToDiscard('he',{color:'red'},'弃置一张红色牌或受到一点火焰伤害').ai=function(card){
+                                    var player=_status.event.player;
+                                    var source=_status.event.parent.player;
+                                    if(get.damageEffect(player,source,player,'fire')>=0) return 0;
+                                    return 5-get.value(card);
+                                }
+                                'step 3'
+                                if(!result.bool){
+                                    event.target.damage('fire');
+                                }
+                                event.list.shift();
+                                'step 4'
+                                if(event.list.length>=1) event.goto(2);
+                            },
+                        },
+                        Tianshu_Boss_Xingxia_Fucking:{
+                            mode:['boss'],
+                            trigger:{player:"phaseUseBegin"},
+                            forced:true,
+                            content:function(){
+                                'step 0'
+                                event.list=[];
+                                var bool=true;
+                                for(var i=0;i<game.players.length;i++){
+                                    if(game.players[i]==player) continue;
+                                    if(game.players[i].isFriendOf(player)){
+                                        if(bool){
+                                            game.players[i].damage(2,'fire');
+                                            bool=false
+                                        }
+                                    } else {
+                                        event.list.push(i);
+                                    }
+                                }
+                                'step 1'
+                                if(!event.list) event.finish();
+                                'step 2'
+                                event.target=game.players[event.list[0]];
+                                game.log(game.players[event.list[0]])
+                                player.line(event.target,'fire');
+                                event.target.chooseToDiscard(2,'he',{color:'red'},'弃置两张红色牌或受到两点火焰伤害').ai=function(card){
+                                    var player=_status.event.player;
+                                    var source=_status.event.parent.player;
+                                    if(get.damageEffect(player,source,player,'fire')>=0) return 0;
+                                    return 5-get.value(card);
+                                }
+                                'step 3'
+                                if(!result.bool){
+                                    event.target.damage(2,'fire');
+                                }
+                                event.list.shift();
+                                'step 4'
+                                if(event.list.length>=1) event.goto(2);
+                            },
+                        },
                     },
                     translate:{
                         Tianshu_Skill:"天书",
                         nextCheckPoint:"下一关",
                         checkPoint:"关卡",
+                        checkPoint_Kuangbao:"狂暴",
+                        checkPoint_Use:"狂暴",
                         livePlayer:"难度",
                         Tianshu_Protect:"保护",
                         Tianshu_Protect_info:'锁定技。无敌一次伤害，随后移除该技能。',
 
-                        标制衡_info:'出牌阶段限一次，你可以弃置任意张牌并摸等量的牌。',
-                        界武圣_info:'你可以将一张红色牌当做【杀】使用或打出。你使用的方片杀没有距离限制。',
-                        界仁德_info:'出牌阶段，你可以将至少一张手牌交给其他角色，然后你于此阶段内不能再以此法交给该角色牌；若你于此阶段内给出的牌首次达到两张，你可以视为使用一张基本牌',
-                        界英姿_info:'锁定技，摸牌阶段摸牌时，你额外摸一张牌；你的手牌上限为你的体力上限。',
+                        制衡_info:'出牌阶段限一次，你可以弃置任意张牌并摸等量的牌。',
+                        武圣_info:'你可以将一张红色牌当做【杀】使用或打出。你使用的方片杀没有距离限制。',
+                        仁德_info:'出牌阶段，你可以将至少一张手牌交给其他角色，然后你于此阶段内不能再以此法交给该角色牌；若你于此阶段内给出的牌首次达到两张，你可以视为使用一张基本牌',
+                        英姿_info:'锁定技，摸牌阶段摸牌时，你额外摸一张牌；你的手牌上限为你的体力上限。',
 
                         Tianshu_Boss_Ordinary_Chiyan:'赤炎',
                         Tianshu_Boss_Ordinary_Chiyan_info:'锁定技，摸牌阶段你跳过摸牌；其他角色在出牌阶段获得X张牌后你摸X张。',
@@ -11571,6 +12425,7 @@ precontent:function (Diuse){
                         Zhuogui_Boss_Bingyi_info:"锁定技，每回合限一次，当你失去最后的手牌时，你摸六张牌。",
                         Zhuogui_Boss_Suoxue:"索穴",
                         Zhuogui_Boss_Suoxue_info:"你使用【杀】指定单一目标后，若其手牌数大于你，你可将手牌摸至与该角色相同；若其手牌数小于你，你可弃置一张手牌令此【杀】不能抵消。",
+                        
                         Qingqing_Boss_Jiuchi:"酒池",
                         Qingqing_Boss_Jiuchi_info:"你可以将一张黑桃手牌当【酒】使用。",
                         Qingqing_Boss_Roulin:"肉林",
@@ -11648,6 +12503,8 @@ precontent:function (Diuse){
                         Tianshu_Boss_Xuanlie_info:"锁定技，回合结束时，对所有本回合你获得过其牌的敌方角色依次造成1点伤害。",
                         Tianshu_Boss_Shenqu:"神躯",
                         Tianshu_Boss_Shenqu_info:"锁定技，当你受到1点伤害后，使用牌堆底的牌进行一次判定：若判定结果为红色，你摸一张牌，伤害来源弃置一张牌。",
+                        Tianshu_Boss_Shenqu_Kuafu:"神躯",
+                        Tianshu_Boss_Shenqu_Kuafu_info:"锁定技，当你受到1点伤害后，使用牌堆底的牌进行一次判定：若判定结果为红色，你摸一张牌，伤害来源弃置一张牌。",
                         Tianshu_Boss_Fenshi:"焚世",
                         Tianshu_Boss_Fenshi_info:"锁定技，准备阶段，若你的手牌数小于体力值，则将手牌摸至于体力值相等；若你的手牌数大于体力值，则你对敌方角色造成共计X点伤害，点数随机分配（X为手牌数减体力值）。",
                         Tianshu_Boss_Zhiri:"炙日",
@@ -11666,7 +12523,26 @@ precontent:function (Diuse){
                         Tianshu_Boss_Juehong_info:"锁定技，准备阶段，你令所有敌方角色自己弃置自己的装备区内的所有牌，若其装备区内没有牌，则改为随机弃置一张手牌。",
                         Tianshu_Boss_Juehong_Fucking:"决洪",
                         Tianshu_Boss_Juehong_Fucking_info:"锁定技，准备阶段，你令所有敌方角色自己弃置自己的装备区内的所有牌，若其装备区内没有牌，则改为随机弃置两张手牌。",
-            
+                        Tianshu_Boss_Zhuri:"逐日",
+                        Tianshu_Boss_Zhuri_info:"锁定技，准备阶段，你进行一次判定：若判定结果为红色，本回合你使用红色牌结算完毕后将该牌放置在牌堆底;若判定结果为黑色，本回合你使用黑色牌时，你摸一张牌。",
+                        Tianshu_Boss_Yinjiang:"饮江",
+                        Tianshu_Boss_Yinjiang_info:"锁定技，当你在出牌阶段摸牌后，额外从牌堆底获得一张牌，如果该牌是红色，则随机对一名敌方角色造成1点伤害。",
+                        Tianshu_Boss_Lieben:"烈奔",
+                        Tianshu_Boss_Lieben_info:"锁定技，当你使用【杀】指定目标后，使用牌堆底的牌进行一次判定：若判定结果为红色，则此杀不计入出牌阶段使用次数且伤害+1。",
+                        Tianshu_Boss_Wuan:"武安",
+                        Tianshu_Boss_Wuan_info:"锁定技，你可使用的杀的次数+1，杀造成的伤害+1。",
+                        Tianshu_Boss_Wuan_Fucking:"武安",
+                        Tianshu_Boss_Wuan_Fucking_info:"锁定技，你可使用的杀的次数+2，杀造成的伤害+1。",
+                        Tianshu_Boss_Changsheng:"常胜",
+                        Tianshu_Boss_Changsheng_info:"锁定技，你使用杀无距离",
+                        Tianshu_Boss_Shashen:"杀神",
+                        Tianshu_Boss_Shashen_info:"你可以将手牌中的任意牌当杀使用或打出。每回合你使用的第一张杀造成伤害后，摸一张牌。",
+                        Tianshu_Boss_Shashen_Fucking:"杀神",
+                        Tianshu_Boss_Shashen_Fucking_info:"你可以将手牌中的任意牌当杀使用或打出。每回合你使用的第一张杀造成伤害后，摸两张牌。",
+                        Tianshu_Boss_Xingxia:"行夏",
+                        Tianshu_Boss_Xingxia_info:"	锁定技，每轮限一次，出牌阶段开始时，你对一名其他友方角色造成1点火焰伤害，然后令所有敌方角色选择一项：1.弃置一张红色牌；2.受到你造成的1点火焰伤害。",
+                        Tianshu_Boss_Xingxia_Fucking:"行夏",
+                        Tianshu_Boss_Xingxia_Fucking_info:"	锁定技，每轮限一次，出牌阶段开始时，你对一名其他友方角色造成1点火焰伤害，然后令所有敌方角色选择一项：1.弃置两张红色牌；2.受到你造成的2点火焰伤害。",
                         Diuse_Xvni_Xvxiang:"虚像",
                         Diuse_Xvni_Xvxiang_info:"锁定技，当你受到伤害或体力流失时，防止该伤害；若你阵亡或三名友军阵亡则游戏失败。",
                         Diuse_Xvni_Xiaosha_Guisha:"瑰杀",
@@ -11942,6 +12818,7 @@ precontent:function (Diuse){
                                     auido:false,
                                     trigger:{global:'useCardAfter'},
                                     forced:true,
+                                    sub:true,
                                     filter:function(event,player){
                                         return (player.storage.skillBool&&event.card.name==player.storage.cardName&&event.player!=player&&get.itemtype(event.cards)=='cards'&&get.position(event.cards[0],true)=='o');
                                     },
@@ -11957,6 +12834,7 @@ precontent:function (Diuse){
                                     forced:true,
                                     popup:false,
                                     auido:false,
+                                    sub:true,
                                     filter:function(event,player){
                                         return player.storage.skillBool2;
                                     },
@@ -12070,6 +12948,7 @@ precontent:function (Diuse){
                                         ui.cardPile.insertBefore(card,ui.cardPile.firstChild);
                                     }
                                 }
+                                game.updateRoundNumber();
                             },
                             mod:{
                                 maxHandcardBase:function(player,num){
@@ -12093,6 +12972,7 @@ precontent:function (Diuse){
                                     forced:true,
                                     priority:100,
                                     silent:true,
+                                    sub:true,
                                     firstDo:true,
                                     frequent:true,
                                     popup:false,
@@ -12110,7 +12990,7 @@ precontent:function (Diuse){
                     },
                     translate:{
                         Diuse_Shizuishi:"食罪式",
-                        Diuse_Shizuishi_info:"锁定技，当你成为实体牌的使用者时，将使用者随机改为场上的其他角色（此技能无法将使用者改为拥有该技能的角色）",
+                        Diuse_Shizuishi_info:"锁定技，当你使用非转化牌指定目标后，将使用者随机改为场上的其他角色（此技能无法将使用者改为拥有该技能的角色）",
                         Diuse_Shashengying:"杀生樱",
                         Diuse_Shashengying_Buff:"杀生樱",
                         Diuse_Shashengying_Buff1:"杀生樱",
@@ -12120,7 +13000,710 @@ precontent:function (Diuse){
                     },
                 },
             },"术樱");
+        }
+        if(lib.config.extension_术樱_diyoff){
+            game.Diy=function(英文名,翻译名,obj,扩展包名){
+                var oobj=get.copy(obj);oobj.name=英文名;
+                oobj.character=obj.character.character;
+                oobj.skill=obj.skill.skill;oobj.translate=Object.assign({},obj.character.translate,obj.skill.translate);
+                game.import('character',function(){
+                    if(lib.device||lib.node){
+                        for(var i in oobj.character){
+                            oobj.character[i][4].push('ext:'+扩展包名+'/'+i+'.jpg');
+                        }
+                    }else{
+                        for(var i in oobj.character){
+                            oobj.character[i][4].push('db:extension-'+扩展包名+':'+i+'.jpg');
+                        }
+                    }return oobj;
+                });
+                lib.config.all.characters.push(英文名);
+                if(!lib.config.characters.contains(英文名)){
+                    lib.config.characters.push(英文名);
+                }
+                lib.translate[英文名+'_character_config'] = 翻译名;
+            };
 
+            game.Diy("Diy","DIY",{
+                connect:true,
+                character:{
+                    character:{
+                        Diuse_Diy_Zhonghui:["male","jin",4,["Diuse_Diy_Xingfa","Diuse_Diy_Miaopin"],[]],
+                        Diuse_Diy_Caocao:["male","wei",4,["jianxiong","Diuse_Diy_Huibian","hujia"],[]],
+                        Diuse_Diy_Zhugeshang:["male","shu",4,["Diuse_DIY_Juesi","Diuse_DIY_Xunzhong"],[]],
+                        Diuse_Diy_Simazhao:["male","wei",4,["Diuse_DIY_Zhaoquan",'Diuse_DIY_Zhengtong'],[]],
+                        Diuse_Diy_Lvbu:["male","qun",5,["Diuse_DIY_Baifu",'Diuse_DIY_Zixiao','wushuang'],[]],
+                        //,'kagari_zongsi'
+                    },
+                    translate:{
+                        Diuse_Diy_Zhonghui:"钟会",
+                        Diuse_Diy_Caocao:"曹操",
+                        Diuse_Diy_Zhugeshang:"诸葛尚",
+                        Diuse_Diy_Simazhao:"司马昭",
+                        Diuse_Diy_Lvbu:"吕布",
+                    },
+                },
+                perfectPair:{},
+                characterTitle:{},
+                characterReplace:{}, //切换版本
+                game:{ //普通自定义函数
+                },
+                skill:{
+                    skill:{
+                        Diuse_Diy_Xingfa:{
+                            enable:"phaseUse",
+                            usable:1,
+                            content:function(){
+                                'step 0'
+                                var bool=game.hasPlayer(function(target){
+                                    if(player.inRange(target)&&target!=player&&player.canUse('sha',target)){
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                });
+                                if(bool){
+                                    player.chooseControl('摸一张牌','使用杀').set('prompt','请选择').set('ai',function(){
+                                        return '使用杀';
+                                    });
+                                }
+                                'step 1'
+                                if(result.control=='使用杀'){
+                                    player.chooseUseTarget({name:'sha',nature:'fire'},'是否视为使用一张无视距离的火【杀】？',false,'nodistance');
+                                    event.prom='使用火杀';
+                                } else {
+                                    player.draw();
+                                    event.prom='摸一张牌';
+                                }
+                                'step 2'
+                                player.chooseTarget(1,('选择一个目标，令其也可以'+event.prom),function(card,player,target){
+                                    return target!=player;
+                                }).set('ai',function(target){
+                                    if(get.attitude(player,target)>0){ return true; }
+                                    return false;
+                                });
+                                'step 3'
+                                if(result.bool){
+                                    event.targets=result.targets[0];
+                                    event.targets.chooseControl('是','否').set('prompt','请选择是否'+event.prom).set('ai',function(){
+                                        list=['是','否'].randomGet();
+                                        if(get.attitude(player,target)>0) return '是';
+                                        return list;
+                                    });
+                                } else {
+                                    event.finish();
+                                }
+                                'step 4'
+                                if(result.control=='是'){
+                                    if(event.prom=='使用火杀'){
+                                        event.targets.chooseUseTarget({name:'sha',nature:'fire'},'是否视为使用一张无视距离的火【杀】？',false,'nodistance');
+                                    } else {
+                                        event.targets.draw();
+                                    }
+                                } else {
+                                    if(event.prom=='使用火杀'){
+                                        player.draw();
+                                    } else {
+                                        player.chooseUseTarget({name:'sha',nature:'fire'},'是否视为使用一张无视距离的火【杀】？',false,'nodistance');
+                                    }
+                                }
+                            },
+                            ai:{
+                                order:10,
+                                threaten:0.5,
+                                result:{
+                                    player:function (player,target){
+                                        return 1;
+                                    },
+                                },
+                            },
+                        },
+                        Diuse_Diy_Miaopin:{
+                            trigger:{player:"gainAfter"},
+                            forced:true,
+                            filter:function(event,player){
+                                if(event.parent.parent.name=='phaseDraw') return false;
+                                if(event.getParent(2).name=='Diuse_Diy_Miaopin') return false;
+                                return true;
+                            },
+                            content:function(){player.draw('visible')},
+                            group:['Diuse_Diy_Miaopin_Gain','Diuse_Diy_Miaopin_Buff','Diuse_Diy_Miaopin_DeBuff'],
+                            subSkill:{
+                                Gain:{
+                                    trigger:{player:"gainBegin"},
+                                    forced:true,
+                                    popup:false,
+                                    audio:false,
+                                    sub:true,
+                                    filter:function (event,player){
+                                        return event.getParent().name=='draw'&&event.getParent(2).name=='Diuse_Diy_Miaopin'&&get.type(event.cards[0])!='equip'&&get.type(event.cards[0])!='delay';
+                                    },
+                                    content:function(){
+                                        trigger.gaintag.add('Diuse_Diy_Miaopin');
+                                    },
+                                },
+                                Buff:{
+                                    sub:true,
+                                    enable:"chooseToUse",
+                                    hiddenCard:function(player,name){
+                                        var cards=player.getCards('h',function(card){
+                                            return card.hasGaintag('Diuse_Diy_Miaopin'); 
+                                        });
+                                        for(var i=0;i<cards.length;i++){
+                                            if(get.type(cards[i])=='trick'&&get.name(cards[i])!='wuxie'&&name=='wuxie'&&player.storage.Diuse_Diy_Miaopin) return true;
+                                            if(get.type(cards[i])=='basic'&&get.name(cards[i])!='tao'&&name=='tao'&&player.storage.Diuse_Diy_Miaopin) return true;
+                                        }
+                                    },
+                                    filter:function(event,player){
+                                        var cards=player.getCards('h',function(card){
+                                            return card.hasGaintag('Diuse_Diy_Miaopin');
+                                        });
+                                        if(!player.storage.Diuse_Diy_Miaopin) return false;
+                                        var mod2=game.checkMod(cards[0],player,'unchanged','cardEnabled2',player);
+                                        if(mod2===false) return false;
+
+                                        if(player.getCards('h',function(card){
+                                            return card.hasGaintag('Diuse_Diy_Miaopin'); 
+                                        }).length<=0) return false;
+
+                                        for(var i of lib.inpile) if(event.filterCard({name:i,cards:cards,},player,event)) return true;
+                                    },
+                                    chooseButton:{
+                                        dialog:function(event,player){
+                                            var cards=player.getCards('h',function(card){
+                                                return card.hasGaintag('Diuse_Diy_Miaopin');
+                                            });
+                                            var list=[];
+                                            for(var i of lib.inpile){
+                                                if(i=='shan'&&event.getParent('phaseUse').player==player) continue;
+                                                if(get.type(i)=='basic'||get.type(i)=='trick'&&event.filterCard({
+                                                    name:i,
+                                                    cards:cards,
+                                                },player,event)){
+                                                    if(event.filterCard({name:'wuxie',cards:cards,},player,event)){
+                                                        list.push(['锦囊','','wuxie']);
+                                                        break;
+                                                    }
+                                                    for(var j=0;j<cards.length;j++){
+                                                        if(get.name(cards[j])!=i&&get.type(cards[j])==get.type(i)){
+                                                            if(get.type(i)=='basic'){
+                                                                list.push(['基本','',i]);
+                                                            } else {
+                                                                list.push(['锦囊','',i]);
+                                                            }
+                                                            break;  
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            return ui.create.dialog('妙品',[list,'vcard'],'hidden');
+                                        },
+                                        check:function(button){
+                                            var player=_status.event.player;
+                                            return player.getUseValue({name:button.link[2]})+1;
+                                        },
+                                        backup:function(links,player){
+                                            return {
+                                                popname:true,
+                                                filterCard:function(card){
+                                                    return card.hasGaintag('Diuse_Diy_Miaopin')&&get.type(card)==get.type(links[0][2])&&get.name(card)!=links[0][2];
+                                                },
+                                                selectCard:1,
+                                                position:'h',
+                                                viewAs:{
+                                                    name:links[0][2],
+                                                },
+                                                sub:true,
+                                                onuse:function(links,player){
+                                                    player.storage.Diuse_Diy_Miaopin=false;
+                                                },
+                                            }
+                                        },
+                                        prompt:function(links,player){
+                                            return '将手牌中的一张牌牌当做'+get.translation(links[0][2])+'使用';
+                                        },
+                                    },
+                                    ai:{
+                                        save:true,
+                                        fireAttack:true,
+                                        order:10,
+                                        result:{
+                                            player:function (player,target){
+                                                return 1;
+                                            },
+                                        },
+                                    },
+                                },
+                                DeBuff:{
+                                    trigger:{global:['phaseUseBefore','phaseUseAfter']},
+                                    forced:true,
+                                    popup:false,
+                                    sub:true,
+                                    audio:false,
+                                    content:function(){
+                                        player.storage.Diuse_Diy_Miaopin=true;
+                                    },
+                                },
+                            },
+                        },
+                        Diuse_Diy_Huibian:{
+                            audio:"rejianxiong",
+                            enable:'phaseUse',
+                            usable:1,
+                            filter:function(event,player){
+                                return game.countPlayer(function(current){
+                                    return true;
+                                })>1&&game.hasPlayer(function(current){
+                                    return current.isDamaged();
+                                });
+                            },
+                            filterTarget:function(card,player,target){
+                                if(ui.selected.targets.length) return target.isDamaged();
+                                return true;
+                            },
+                            selectTarget:2,
+                            multitarget:true,
+                            targetprompt:['受到伤害</br>然后摸牌','回复体力'],
+                            content:function(){
+                                'step 0'
+                                targets[0].damage(player);
+                                'step 1'
+                                if(targets[0].isAlive()) targets[0].draw(2);
+                                targets[1].recover();
+                            },
+                            ai:{
+                                threaten:1.2,
+                                order:9,
+                                result:{
+                                    target:function(player,target){
+                                        if(ui.selected.targets.length) return 1;
+                                        if(get.damageEffect(target,player,player)>0) return 2;
+                                        if(target.hp>2) return 1;
+                                        if(target.hp==1) return -1;
+                                        return 0.1;
+                                    }
+                                },
+                            }
+                        },
+                        Diuse_DIY_Juesi:{
+                            marktext:"决",
+                            mark:true,
+                            locked:true,
+                            intro:{
+                                content:function(storage,player,skill){
+                                    var num=player.countMark('Diuse_DIY_Juesi');
+                                    return '出杀次数上限+'+num;
+                                }
+                            },
+                            enable:"phaseUse",
+                            filterTarget:function(card,player,target){
+                                return player.canCompare(target);
+                            },
+                            filter:function(event,player){
+                                return player.countCards('h')>0;
+                            },
+                            content:function(){
+                                "step 0"
+                                player.chooseToCompare(target).set('small',true);
+                                "step 1"
+                                if(result.bool){
+                                    player.addMark('Diuse_DIY_Juesi');
+                                }
+                            },
+                            ai:{
+                                order:function(name,player){
+                                    var cards=player.getCards('h');
+                                    var num=player.countMark('Diuse_DIY_Juesi');
+                                    if(num>=2) return 0;
+                                    if(player.countCards('h','sha')==0){
+                                        return 1;
+                                    }
+                                    for(var i=0;i<cards.length;i++){
+                                        if(cards[i].name!='sha'&&cards[i].number>11&&get.value(cards[i])<7){
+                                            return 9;
+                                        }
+                                    }
+                                    return get.order({name:'sha'})-1;
+                                },
+                                result:{
+                                    player:function(player){
+                                        if(player.countCards('h','sha')>0){
+                                            if(player.countMark('Diuse_DIY_Juesi')==2){
+                                                return 0.1;
+                                            } else if(player.countMark('Diuse_DIY_Juesi')>=3){
+                                                return -9;
+                                            } else {
+                                                return 0.6;
+                                            }
+                                        } 
+                                        var num=player.countCards('h');
+                                        if(num>player.hp) return 0;
+                                        if(num==1) return -2;
+                                        if(num==2) return -1;
+                                        return -0.8;
+                                    },
+                                    target:function(player,target){
+                                        var num=target.countCards('h');
+                                        if(num==1) return -1;
+                                        if(num==2) return -0.7;
+                                        return -0.6;
+                                    },
+                                },
+                                threaten:1.3
+                            },
+                            mod:{
+                                cardUsable:function(card,player,num){
+                                    var num1=player.countMark('Diuse_DIY_Juesi');
+                                    if(card.name=='sha') return num+num1;
+                                },
+                            },
+                        },
+                        Diuse_DIY_Xunzhong:{
+                            trigger:{player:'compare',target:'compare'},
+                            forced:true,
+                            content:function(){
+                                var targets=player==trigger.player?(trigger.targets?trigger.targets.slice(0):[trigger.target]):[trigger.player];
+                                for(var i=0;i<targets.length;i++){
+                                    player.storage.xunzhong_diy++;
+                                    if(player.storage.xunzhong_diy==2){
+                                        player.storage.xunzhong_buff=targets;
+                                    } else if(player.storage.xunzhong_diy==3){
+                                        player.loseHp();
+                                    } else if(player.storage.xunzhong_diy>=4){
+                                        player.loseMaxHp();
+                                    }
+                                }
+                            },
+                            mod:{
+                                globalFrom:function(from,to,distance){
+                                    if(from.storage.xunzhong_buff.contains(to)){
+                                        return -Infinity;
+                                    }
+                                },
+                            },
+                            group:["Diuse_DIY_Xunzhong_Stor"],
+                            subSkill:{
+                                Stor:{
+                                    trigger:{player:["phaseZhunbeiBegin","phaseJieshuAfter"]},
+                                    forced:true,
+                                    firstDo:true,
+                                    popup:false,
+                                    audio:false,
+                                    sub:true,
+                                    content:function(){
+                                        player.storage.xunzhong_diy=0;
+                                        player.storage.xunzhong_buff=[];
+                                    },
+                                },
+                            },
+                        },
+                        Diuse_DIY_Zhaoquan:{
+                            enable:"phaseUse",
+                            usable:1,
+                            filterTarget:function(card,player,target){return target!=player;},
+                            content:function(){
+                                'step 0'
+                                var hs=targets[0].getCards('h');
+                                var list=[];
+                                for(var i=0;i<hs.length;i++){
+                                    var chosen=hs[i];
+                                    if(targets[0].hasUseTarget(chosen)&&!get.info(chosen).multitarget){
+                                        var ls=game.filterPlayer(function(current){
+                                            return lib.filter.targetEnabled2(chosen,target,current);
+                                        });
+                                        if(ls.length){
+                                            list.push(hs[i]);
+                                        }
+                                    }
+                                }
+                                targets[0].chooseToUse({
+                                    prompt:get.prompt('Diuse_DIY_Zhaoquan'),
+                                    prompt2:"请选择使用一张牌，否则失去一点体力",
+                                    filterCard:function(card,player){
+                                        return list.contains(card);
+                                    },
+                                    position:'h',
+                                    filterTarget:function(card,player,target){
+                                        return targets[0].canUse(card,target,true);
+                                    },
+                                    ai2:function(){
+                                        return get.effect_use.apply(this,arguments)+0.01;
+                                    },
+                                });
+                                'step 1'
+                                if(!result.bool) targets[0].loseHp();
+                            },
+                            ai:{
+                                order:10,
+                                result:{
+                                    target:function(player,target){
+                                        if(!target.countCards('h')) return 0;
+                                        return -1;
+                                    },
+                                },
+                            },
+                        },
+                        Diuse_DIY_Zhengtong:{
+                            trigger:{player:"damageAfter"},
+                            filter:function(event,player){
+                                return game.countPlayer(function(current){
+                                    return current!=player&&current.group=='wei';
+                                })&&game.hasPlayer(function(current){
+                                    return current!=player&&current.group=='wei';
+                                });
+                            },
+                            check:function(event,player,target){
+                                return true;
+                            },
+                            content:function(){
+                                'step 0'
+                                player.chooseTarget(1,'选择一个魏势力角色',function(event,player,target){
+                                    return target!=player&&target.group=='wei';
+                                });
+                                'step 1'
+                                if(result.bool){
+                                    event.tar=result.targets[0];
+                                }
+                                'step 2'
+                                if(event.cardNum==undefined) event.cardNum=1;
+                                if(event.cardNum<=0){event.cardNum=1;}else if(event.cardNum>event.tar.countCards('h')){event.cardNum=event.tar.countCards('h')}
+                                if(event.tar.countCards('he')>=11){
+                                    player.chooseControl('最大','+1','+5','+10','-1','-5','-10','一半','确定').set('prompt','请选择令'+get.translation(event.tar)+'交给你'+event.cardNum+'张牌').set('ai',function(){
+                                        return '一半';
+                                    });
+                                } else if(event.tar.countCards('he')>=6){
+                                    player.chooseControl('最大','+1','+5','-1','-5','一半','确定').set('prompt','请选择令'+get.translation(event.tar)+'交给你'+event.cardNum+'张牌').set('ai',function(){
+                                        return '一半';
+                                    });
+                                } else {
+                                    player.chooseControl('最大','+1','-1','一半','确定').set('prompt','请选择令'+get.translation(event.tar)+'交给你'+event.cardNum+'张牌').set('ai',function(){
+                                        return '一半';
+                                    });
+                                }
+                                'step 3'
+                                switch(result.control){
+                                    case '最大':{
+                                        event.cardNum=event.tar.countCards('h');
+                                        event.tar.chooseCard('he','请交给'+get.translation(player)+event.cardNum+'张牌',event.cardNum,true).set('ai',function(card){
+                                            return 7-get.value(card);
+                                        });
+                                        break;
+                                    }
+                                    case '一半':{
+                                        event.cardNum=parseInt(event.tar.countCards('h')/2);
+                                        event.tar.chooseCard('he','请交给'+get.translation(player)+event.cardNum+'张牌',event.cardNum,true).set('ai',function(card){
+                                            return 7-get.value(card);
+                                        });
+                                        break;
+                                    }
+                                    case '确定':{
+                                        event.tar.chooseCard('he','请交给'+get.translation(player)+event.cardNum+'张牌',event.cardNum,true).set('ai',function(card){
+                                            return 7-get.value(card);
+                                        });
+                                        break;
+                                    }
+                                    case '-1':{
+                                        event.cardNum--;
+                                        event.goto(2);
+                                        break;
+                                    }
+                                    case '-5':{
+                                        event.cardNum-=5;
+                                        event.goto(2);
+                                        break;
+                                    }
+                                    case '-10':{
+                                        event.cardNum-=10;
+                                        event.goto(2);
+                                        break;
+                                    }
+                                    case '+1':{
+                                        event.cardNum++;
+                                        event.goto(2);
+                                        break;
+                                    }
+                                    case '+5':{
+                                        event.cardNum+=5;
+                                        event.goto(2);
+                                        break;
+                                    }
+                                    case '+10':{
+                                        event.cardNum+=10;
+                                        event.goto(2);
+                                        break;
+                                    }
+                                    default:{
+                                        event.finish();
+                                        break;
+                                    }
+                                }
+                                'step 4'
+                                if(result.bool){
+                                    event.tar.give(result.cards,player);
+                                    event.tar.draw(result.cards.length);
+                                    event.finish();
+                                }
+                            },
+                        },
+                        Diuse_DIY_Baifu:{
+                            trigger:{player:"phaseZhunbeiBegin"},
+                            skillAnimation:true,
+                            animationColor:"gray",
+                            init:function(player){
+                                player.storage.Diuse_DIY_Baifu=false;
+                            },  
+                            filter:function(event,player){
+                                if(!player.storage.Diuse_DIY_Baifu) return true;
+                                return false;
+                            },             
+                            filterTarget:function(event,player,target){return target!=player},
+                            content:function(){
+                                'step 0'
+                                player.chooseTarget(get.prompt2('Diuse_DIY_Baifu'),function(event,player,target){
+                                    return player!=target&&target.hasSex('male');
+                                }).set('ai',function(target){
+                                    return get.attitude(player,target)<=0;
+                                });
+                                'step 1'
+                                if(result.bool){
+                                    player.awakenSkill('Diuse_DIY_Baifu');
+                                    player.storage.Diuse_DIY_Baifu=true;
+                                    result.targets[0].addSkill('Diuse_DIY_Fuci');
+                                    player.addSkill('Diuse_DIY_Baifu_Buff');
+                                }
+                            },
+                        },
+                        Diuse_DIY_Baifu_Buff:{}, //用于判断父慈技能
+                        Diuse_DIY_Fuci:{
+                            mark:true,
+                            marktext:"父",
+                            intro:{
+                                content:"吾儿奉先",
+                            },
+                            trigger:{player:"phaseZhunbeiBegin"},
+                            forced:true,
+                            filter:function(event,player){
+                                return player.countCards('h')>0&&game.hasPlayer(function(current){
+                                    return current!=player&&current.hasSkill('Diuse_DIY_Baifu_Buff');
+                                });
+                            },
+                            content:function(){
+                                'step 0'
+                                var targets=game.filterPlayer(function(current){
+                                    return current!=player&&current.hasSkill('Diuse_DIY_Baifu_Buff');
+                                });
+                                if(targets.length==1){
+                                    event.target=targets[0];
+                                    player.chooseCard('h',[1,Infinity],true,'父慈：将任意张手牌交给'+get.translation(targets)).set('ai',function(card){
+                                        return 8-get.value(card);
+                                    });
+                                }
+                                else player.chooseCardTarget({
+                                    prompt:'父慈：将任意张手牌交给'+get.translation(targets)+'中的一名角色',
+                                    filterCard:true,
+                                    position:'h',
+                                    targets:targets,
+                                    forced:true,
+                                    filterTarget:function(card,player,target){
+                                        return _status.event.targets.contains(target);
+                                    },
+                                    ai:function(card){
+                                        return 8-get.value(card);
+                                    },
+                                });
+                                'step 1'
+                                if(result.bool){
+                                    if(!target) target=result.targets[0];
+                                    event.tar=target;
+                                    player.line(target);
+                                    target.gain(result.cards,player,'giveAuto');
+                                    if(result.cards.length>=2){
+                                        event.bool=true;
+                                    } 
+                                }
+                                'step 2'
+                                if(event.bool){
+                                    var targets=event.tar
+                                    player.chooseTarget('请选择一名角色，视为义子：'+get.translation(targets)+'对其使用【决斗】',function(event,player,target){
+                                        return target!=targets;
+                                    }).set('ai',function(target){
+                                        return get.attitude(player,target)<=0;
+                                    });
+                                } else { event.finish(); }
+                                'step 3'
+                                if(result.bool){
+                                    event.tar.useCard({name:'juedou',isCard:true},result.targets[0],'noai').animate=false;
+                                    game.delay(0.5);
+                                }
+                            },
+                        },
+                        Diuse_DIY_Zixiao:{
+                            trigger:{source:"damageBegin"},
+                            forced:true,
+                            filter:function(event,player,target){
+                                return event.card&&event.card.name=='sha'||event.card.name=='juedou'&&event.player.hasSkill('Diuse_DIY_Fuci');
+                            },
+                            content:function(){
+                                trigger.num++;
+                            },
+                            group:["Diuse_DIY_Zixiao_Filter","Diuse_DIY_Zixiao_Buff"],
+                            subSkill:{
+                                Filter:{
+                                    trigger:{global:"dying"},
+                                    forced:true,
+                                    popup:false,
+                                    sub:true,
+                                    filter:function(event,player){
+                                        if(player.storage.Diuse_DIY_Zixiao_Buff==undefined) player.storage.Diuse_DIY_Zixiao_Buff=[];
+                                        return event.player!=player&&event.player.hasSkill('Diuse_DIY_Fuci');
+                                    },
+                                    content:function(){
+                                        player.storage.Diuse_DIY_Zixiao_Buff.push(trigger.player);
+                                    },
+                                },
+                                Buff:{
+                                    trigger:{source:"die"},
+                                    forced:true,
+                                    sub:true,
+                                    filter:function(event,player){
+                                        if(player.storage.Diuse_DIY_Zixiao_Buff==undefined) player.storage.Diuse_DIY_Zixiao_Buff=[];
+                                        return player.storage.Diuse_DIY_Zixiao_Buff.contains(event.player);
+                                    },
+                                    content:function(){
+                                        player.gainMaxHp();
+                                        player.recover();
+                                        player.restoreSkill('Diuse_DIY_Baifu');
+                                        player.storage.Diuse_DIY_Zixiao_Buff=[];
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    translate:{
+                        Diuse_Diy_Xingfa:"兴伐",
+                        Diuse_Diy_Xingfa_info:"出牌阶段限一次，你可以摸一张牌/视为对一名你以外的角色使用一张不限距离的火【杀】。然后你可令一名其他角色也如此做，否则你视为执行另一项",
+                        Diuse_Diy_Miaopin:"妙品",
+                        Diuse_Diy_Miaopin_info:"你于摸牌阶段外获得牌后，可摸一张牌并展示之，若此牌非装备牌、延迟锦囊牌，你可将此牌当作非此牌名的同类牌使用（每回合限使用一次）",
+                        Diuse_Diy_Huibian:"挥鞭",
+                        Diuse_Diy_Huibian_info:"出牌阶段限一次，你可以选择一名角色和另一名已受伤的角色，你对前者造成1点伤害并令其摸两张牌，然后令后者回复1点体力。",
+                        Diuse_DIY_Juesi:"决死",
+                        Diuse_DIY_Juesi_info:"你的出牌阶段，可以与一名其他角色拼点，若你赢，杀的使用次数额外+1直到回合结束。",
+                        Diuse_DIY_Xunzhong:"殉忠",
+                        Diuse_DIY_Xunzhong_info:"锁定技，回合内你的拼点次数没有限制且拼点次数达到：2次，你与目标计算距离时始终为1直到回合结束；3次，你流失一点体力；4次或更多，你减一点体力上限。",
+                        Diuse_DIY_Zhaoquan:"昭权",
+                        Diuse_DIY_Zhaoquan_info:"出牌阶段限一次，你可令一名其他角色选择一项：1.使用一张牌；2.失去一点体力",
+                        Diuse_DIY_Zhengtong:"政通",
+                        Diuse_DIY_Zhengtong_info:"受到伤害后，你可令一名其他魏势力角色交给你X张牌并摸等量牌（X至多为其手牌总数）",
+                        Diuse_DIY_Baifu:"拜父",
+                        Diuse_DIY_Baifu_info:"限定技，准备阶段，若场上没有义父，你可以指定一名其他男性角色，其成为你的义父并获得“父慈”（父慈：锁定技，准备阶段，你需要交给义子任意张手牌，若此法给出的牌不小于两张，你指定一名角色，视为义子对其使用【决斗】）",
+                        Diuse_DIY_Baifu_Buff:"拜父",
+                        Diuse_DIY_Fuci:"父慈",
+                        Diuse_DIY_Fuci_info:"锁定技，准备阶段，你需要交给义子任意张手牌，若此法给出的牌不小于两张，你指定一名角色，视为义子对其使用【决斗】",
+                        Diuse_DIY_Zixiao:"子孝",
+                        Diuse_DIY_Zixiao_info:"锁定技，你使用【杀】或【决斗】造成伤害时，若目标为义父，则伤害+1。你杀死义父后，增加1点体力上限并回复一点体力，然后“拜父”视为未发动。",
+                    },
+                },
+            },"术樱");
         }
 
     	// game.导入card=function(英文名,翻译名,obj){var oobj=get.copy(obj);oobj.list=obj.card.list;oobj.card=obj.card.card;oobj.skill=obj.skill.skill;oobj.translate=Object.assign({},obj.card.translate,obj.skill.translate);game.import('card',function(){return oobj});lib.config.all.cards.push(英文名);if(!lib.config.cards.contains(英文名))lib.config.cards.push(英文名);lib.translate[英文名+'_card_config']=翻译名;};
