@@ -13546,6 +13546,7 @@ precontent:function (Diuse){
                             },
                         },
                         Diuse_DIY_Baifu:{
+                            audio:"ext:术樱:2",
                             trigger:{player:"phaseZhunbeiBegin"},
                             skillAnimation:true,
                             animationColor:"gray",
@@ -13638,6 +13639,7 @@ precontent:function (Diuse){
                             },
                         },
                         Diuse_DIY_Zixiao:{
+                            audio:"ext:术樱:1",
                             trigger:{source:"damageBegin"},
                             forced:true,
                             filter:function(event,player,target){
@@ -13662,6 +13664,7 @@ precontent:function (Diuse){
                                     },
                                 },
                                 Buff:{
+                                    audio:"Diuse_DIY_Zixiao",
                                     trigger:{source:"die"},
                                     forced:true,
                                     sub:true,
