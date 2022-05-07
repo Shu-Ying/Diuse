@@ -236,6 +236,9 @@ Diuse_mp3=[
     'Tianshu_Boss_Yinjiang1.mp3',
     'Tianshu_Boss_Shenqu_Kuafu1.mp3',
     'Tianshu_Boss_Lieben1.mp3',
+    'Diuse_DIY_Baifu1.mp3',
+    'Diuse_DIY_Baifu2.mp3',
+    'Diuse_DIY_Zixiao1.mp3',
 ],
 Diuse_static=[
     'Diuse_Bachongying.jpg',
