@@ -15,6 +15,19 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
 editable:false,
 precontent:function (Diuse){
 
+    lib.skill._diuse_dieAudio={ //阵亡语音
+        trigger:{player:'dieBegin'},
+        forced:true,
+        charlotte:true,
+        popup:false,
+        lastDo:true,
+        unique: true,
+        forceDie:true,
+        content:function(){
+            game.playAudio('..','extension\\术樱',trigger.player.name+'_Die');
+        }
+    };
+
     var layoutPath = lib.assetURL + 'extension/术樱';
 	lib.init.css(layoutPath, 'extension');
 
@@ -32,7 +45,7 @@ precontent:function (Diuse){
         if(lib.config.extension_术樱_baizhanoff==undefined) game.saveConfig('extension_术樱_baizhanoff',false);
         if(lib.config.extension_术樱_skillsoff==undefined) game.saveConfig('extension_术樱_skillsoff',false);
 
-        game.saveConfig('Diuse_local_version','1.7.42');
+        game.saveConfig('Diuse_local_version','1.7.43');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -432,7 +445,12 @@ precontent:function (Diuse){
                     var more=ui.create.div('.hth_more',
                     '<div style="text-align:left"><font size=3px>'+
                     '晋·钟会 作者：红雨<br>'+
+                    '魏·司马昭 作者：红雨<br>'+
+                    '魏·司马师 作者：红雨<br>'+
+                    '魏·庞会 作者：红雨<br>'+
+                    '魏·曹髦 作者：红雨<br>'+
                     '魏·曹操 作者：Sou177<br>'+
+                    '群·吕布 作者：Sou177<br>'+
                     '蜀·诸葛尚 作者：安徽阿斗<br>'+
                     '</font></div>');
                     this.parentNode.insertBefore(more,this.nextSibling);
@@ -1307,23 +1325,32 @@ precontent:function (Diuse){
                     lib.config.characters.push(英文名);
                 }
                 lib.translate[英文名+'_character_config'] = 翻译名;
+
+                lib.element.player.shanbeng_same=function(same,card_name){
+                    switch(card_name){
+                        case 'sha':{if(same==1){this.getStat().card.sha--;} else if(same==2){this.addTempSkill('Shanbeng_same_2_sha','shaAfter')} else {this.addTempSkill('Shanbeng_same_3_sha','shaAfter')};break;}
+                        case 'shan':{if(same==1){this.addTempSkill('Shanbeng_same_1_shan','shaAfter')}else if(same==2){this.addTempSkill('Shanbeng_same_2_shan','shaAfter')}else{this.addTempSkill('Shanbeng_same_3_shan','shaAfter')};break;}
+                        case 'tao':{if(same==1){this.addTempSkill('Shanbeng_same_1_tao','shaAfter')}else if(same==2){this.addTempSkill('Shanbeng_same_2_tao','shaAfter')}else{this.addTempSkill('Shanbeng_same_3_tao','shaAfter')};break;}
+                        case 'jiu':{if(same==1){this.addTempSkill('Shanbeng_same_1_jiu','shaAfter')}else if(same==2){this.addTempSkill('Shanbeng_same_2_jiu','shaAfter')}else{this.addTempSkill('Shanbeng_same_3_jiu','shaAfter')};break;}
+                    }
+                };
             };
 
             game.Benghuai3("Benghuai3","崩坏3",{
                 connect:true,
                 character:{
                     character:{
-                        Diuse_Shangxian:["female","qun",4,["Diuse_Xianfa","Diuse_Yinyang","Diuse_Tiandi","Diuse_PlayerDie"],[]],
-                        Diuse_Fuhua:["female","qun",4,["Diuse_Shanbeng","Diuse_Xirang","Diuse_Xunxin","Diuse_PlayerDie"],[]],
-                        Diuse_Bachongying:["female","qun",4,["Diuse_Luoying","Diuse_Yishan","Diuse_Renfan","Diuse_PlayerDie"],[]],
-                        Diuse_Kalian:["female","qun",4,["Diuse_Wange","Diuse_Sangzhong","Diuse_Zhongqu","Diuse_PlayerDie"],[]],
-                        Diuse_Xier:["female","qun",4,["Diuse_Anhong","Diuse_Diewu","Diuse_PlayerDie"],[]],
-                        Diuse_Buluoniya:["female","qun",3,["Diuse_Guozai","Diuse_Chonggou","Diuse_Fuhe","Diuse_Yinmie","Diuse_PlayerDie"],[]],
-                        Diuse_Shilv:["female","qun",4,["Diuse_Bingren","Diuse_Fanchen","Diuse_Zhejian","Diuse_PlayerDie"],[]],
-                        Diuse_Yayi:["female","qun",4,["Diuse_Kongzhan","Diuse_Dianci","Diuse_Yvlei","Diuse_PlayerDie"],[]],
-                        Diuse_Yuexia:["female","qun","1/4",['Diuse_Xueqi','Diuse_Shenshi','Diuse_Shoulie',"Diuse_PlayerDie"],[]],
-                        Diuse_Konglv:["female","qun",5,['Diuse_Qujian','Diuse_Yakong','Diuse_Xujie',"Diuse_PlayerDie"],[]],
-                        Diuse_Heixi:["female","qun",4,['Diuse_Mingan','Diuse_Baihei','Diuse_Danzhong',"Diuse_PlayerDie"],[]],
+                        Diuse_Shangxian:["female","qun",4,["Diuse_Xianfa","Diuse_Yinyang","Diuse_Tiandi"],[]],
+                        Diuse_Fuhua:["female","qun",4,["Diuse_Shanbeng","Diuse_Xirang","Diuse_Xunxin"],[]],
+                        Diuse_Bachongying:["female","qun",4,["Diuse_Luoying","Diuse_Yishan","Diuse_Renfan"],[]],
+                        Diuse_Kalian:["female","qun",4,["Diuse_Wange","Diuse_Sangzhong","Diuse_Zhongqu"],[]],
+                        Diuse_Xier:["female","qun",4,["Diuse_Anhong","Diuse_Diewu"],[]],
+                        Diuse_Buluoniya:["female","qun",3,["Diuse_Guozai","Diuse_Chonggou","Diuse_Fuhe","Diuse_Yinmie"],[]],
+                        Diuse_Shilv:["female","qun",4,["Diuse_Bingren","Diuse_Fanchen","Diuse_Zhejian"],[]],
+                        Diuse_Yayi:["female","qun",4,["Diuse_Kongzhan","Diuse_Dianci","Diuse_Yvlei"],[]],
+                        Diuse_Yuexia:["female","qun","1/4",['Diuse_Xueqi','Diuse_Shenshi','Diuse_Shoulie'],[]],
+                        Diuse_Konglv:["female","qun",5,['Diuse_Qujian','Diuse_Yakong','Diuse_Xujie'],[]],
+                        Diuse_Heixi:["female","qun",4,['Diuse_Mingan','Diuse_Baihei','Diuse_Danzhong'],[]],
                         //,'kagari_zongsi'
                     },
                     translate:{
@@ -1347,20 +1374,6 @@ precontent:function (Diuse){
                 characterTitle:{},
                 characterReplace:{}, //切换版本
                 game:{ //普通自定义函数
-                    shanbeng_same:function(same,card_name,player_name){
-                        for(var i=0;i<game.players.length;i++){ //好懒啊 , 做到这里居然要调用game的player 自己弄个吧
-                            if(game.players[i].hasSkill('Diuse_Shanbeng')&&game.players[i].name==player_name){ //防止其他角色拿到技能无法使用
-                                var player=game.players[i]
-                                break;
-                            }
-                        }
-                        switch(card_name){
-                            case 'sha':{if(same==1){player.getStat().card.sha--;} else if(same==2){player.addTempSkill('Shanbeng_same_2_sha','shaAfter')} else {player.addTempSkill('Shanbeng_same_3_sha','shaAfter')};break;}
-                            case 'shan':{if(same==1){player.addTempSkill('Shanbeng_same_1_shan','shaAfter')}else if(same==2){player.addTempSkill('Shanbeng_same_2_shan','shaAfter')}else{player.addTempSkill('Shanbeng_same_3_shan','shaAfter')};break;}
-                            case 'tao':{if(same==1){player.addTempSkill('Shanbeng_same_1_tao','shaAfter')}else if(same==2){player.addTempSkill('Shanbeng_same_2_tao','shaAfter')}else{player.addTempSkill('Shanbeng_same_3_tao','shaAfter')};break;}
-                            case 'jiu':{if(same==1){player.addTempSkill('Shanbeng_same_1_jiu','shaAfter')}else if(same==2){player.addTempSkill('Shanbeng_same_2_jiu','shaAfter')}else{player.addTempSkill('Shanbeng_same_3_jiu','shaAfter')};break;}
-                        }
-                    },
                     randomNum:function(num1,num2){
                         var num = Math.floor(Math.random() * (num1 - num2)) + 1;
                         return num;
@@ -1518,66 +1531,6 @@ precontent:function (Diuse){
                             },
                         },
                         Diuse_Caidan_End:{}, //防止重复播放彩蛋
-                        Diuse_PlayerDie:{
-                            trigger:{player:'dieBegin'},
-                            forced:true,
-                            unique:true,
-                            popup:false,
-                            dutySkill:true, //防止左慈 和 天书 拿技能
-                            filter:function(event,player){
-                                var list=['Diuse_Xier','Diuse_Kalian','Diuse_Bachongying','Diuse_Fuhua','Diuse_Shangxian','Diuse_Buluoniya','Diuse_Shilv',
-                                'Diuse_Yayi','Diuse_Yuexia','Diuse_Konglv'];
-    
-                                for(var i=0;i<list.length;i++){
-                                    if(event.player.name==list[i]) return true;
-                                }
-                                return false;
-                            },
-                            content:function(){  
-                                var name=player.name;
-                                switch(name){                 
-                                    case 'Diuse_Xier':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Xier_Die');
-                                        break;
-                                    }
-                                    case 'Diuse_Kalian':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Kalian_Die');
-                                        break;}
-                                    case 'Diuse_Bachongying':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Bachongying_Die');
-                                        break;
-                                    }
-                                    case 'Diuse_Fuhua':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Fuhua_Die');
-                                        break;
-                                    }
-                                    case 'Diuse_Shangxian':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Shangxian_Die');
-                                        break;
-                                    }
-                                    case 'Diuse_Buluoniya':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Buluoniya_Die');
-                                        break;
-                                    }
-                                    case 'Diuse_Shilv':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Shilv_Die');
-                                        break;
-                                    }
-                                    case 'Diuse_Yayi':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Yayi_Die');
-                                        break;
-                                    }
-                                    case 'Diuse_Yuexia':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Yuexia_Die');
-                                        break;
-                                    }
-                                    case 'Diuse_Konglv':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Konglv_Die');
-                                        break;
-                                    }
-                                }
-                            },
-                        },
                         Diuse_Xuesha:{
                             audio:"ext:术樱:2",
                             trigger:{
@@ -2334,31 +2287,31 @@ precontent:function (Diuse){
                                 if(result.links.length==3){
                                     if(result.links[result.links.length-1].name==result.links[result.links.length-2].name){ //第三个和第二个比
                                         if(result.links[result.links.length-1].name==result.links[result.links.length-3].name){ //如果三个全部相等
-                                            game.shanbeng_same(3,result.links[result.links.length-1].name,player.name);
+                                            player.shanbeng_same(3,result.links[result.links.length-1].name);
                                         } else { //两个相同
-                                            game.shanbeng_same(2,result.links[result.links.length-1].name,player.name);
-                                            game.shanbeng_same(1,result.links[result.links.length-3].name,player.name);
+                                            player.shanbeng_same(2,result.links[result.links.length-1].name);
+                                            player.shanbeng_same(1,result.links[result.links.length-3].name);
                                         }
                                     } else if(result.links[result.links.length-1].name==result.links[result.links.length-3].name){ //第三个和第一个比
-                                        game.shanbeng_same(2,result.links[result.links.length-1].name,player.name);
-                                        game.shanbeng_same(1,result.links[result.links.length-2].name,player.name);
+                                        player.shanbeng_same(2,result.links[result.links.length-1].name);
+                                        player.shanbeng_same(1,result.links[result.links.length-2].name);
                                     } else if(result.links[result.links.length-2].name==result.links[result.links.length-3].name){ //第二个和第一个比
-                                        game.shanbeng_same(2,result.links[result.links.length-2].name,player.name);
-                                        game.shanbeng_same(1,result.links[result.links.length-1].name,player.name);
+                                        player.shanbeng_same(2,result.links[result.links.length-2].name);
+                                        player.shanbeng_same(1,result.links[result.links.length-1].name);
                                     } else { //都不相同
-                                        game.shanbeng_same(1,result.links[result.links.length-1].name,player.name);
-                                        game.shanbeng_same(1,result.links[result.links.length-2].name,player.name);
-                                        game.shanbeng_same(1,result.links[result.links.length-3].name,player.name);
+                                        player.shanbeng_same(1,result.links[result.links.length-1].name);
+                                        player.shanbeng_same(1,result.links[result.links.length-2].name);
+                                        player.shanbeng_same(1,result.links[result.links.length-3].name);
                                     }
                                 } else if(result.links.length==2){
                                     if(result.links[result.links.length-1].name==result.links[result.links.length-2].name){
-                                        game.shanbeng_same(2,result.links[result.links.length-1].name,player.name);
+                                        player.shanbeng_same(2,result.links[result.links.length-1].name);
                                     } else {
-                                        game.shanbeng_same(1,result.links[result.links.length-1].name,player.name);
-                                        game.shanbeng_same(1,result.links[result.links.length-2].name,player.name);
+                                        player.shanbeng_same(1,result.links[result.links.length-1].name);
+                                        player.shanbeng_same(1,result.links[result.links.length-2].name);
                                     }
                                 } else {
-                                    game.shanbeng_same(1,result.links[0].name,player.name);
+                                    player.shanbeng_same(1,result.links[0].name);
                                 }
                                 'step 3'
                                 var list=[];
@@ -4217,6 +4170,346 @@ precontent:function (Diuse){
                     lib.config.characters.push(英文名);
                 }
                 lib.translate[英文名+'_character_config'] = 翻译名;
+
+                lib.element.player.playerHpMax=function(){ //判断敌对最大体力的角色但不是唯一
+                    var listHp=[],listName=[];
+                    for(var i=0;i<game.players.length;i++){
+                        if(game.players[i].isOut()||game.players[i]==this) continue;
+                        if(!game.players[i].isFriendOf(this)){
+                            listName.push(game.players[i]);
+                            listHp.push(game.players[i].hp);
+                        }
+                    }
+                    if(listName.length==1) return listName[0];
+                    for(var i=listHp.length-1;i>0;i--){
+                        if(listHp[0]<listHp[i]){
+                            var num=listHp[0];
+                            listHp[0]=listHp[i];
+                            listHp[i]=num;
+                            var num1=listName[0];
+                            listName[0]=listName[i];
+                            listName[i]=num1;
+                        }
+                    }
+                    return listName[0];
+                };
+
+                lib.element.player.playerCardMax=function(){ //判断敌对最多手牌的角色但不是唯一
+                    var listName=[],listCard=[];
+                    for(var i=0;i<game.players.length;i++){
+                        if(game.players[i].isOut()||game.players[i]==this) continue;
+                        if(!game.players[i].isFriendOf(this)){
+                            listName.push(game.players[i]);
+                            listCard.push(game.players[i].countCards('h'));
+                        }
+                    }
+                    if(listName.length==1) return listName[0];
+                    for(var i=listCard.length-1;i>0;i--){
+                        if(listCard[0]<listCard[i]){
+                            var num=listCard[0];
+                            listCard[0]=listCard[i];
+                            listCard[i]=num;
+                            var num1=listName[0];
+                            listName[0]=listName[i];
+                            listName[i]=num1;
+                        }
+                    }
+                    return listName[0];
+                };
+
+                lib.element.player.damagePlayerHp=function(hp,mission){ //对体力值 大于 或 等于 你的角色造成hp点伤害 mission难度
+                    var player=_status.event.player;
+                    if(hp==undefined){hp=1;} //防止忘填写 或 默认1
+                    for(var i=0;i<game.players.length;i++){
+                        if(game.players[i].isOut()||game.players[i]==this) continue;
+                        if(!game.players[i].isFriendOf(this)){
+                            if(mission==3){
+                                if(game.players[i].hp>=player.hp){
+                                    game.players[i].damage(hp);
+                                    break;
+                                }
+                            } else {
+                                if(game.players[i].hp>player.hp){
+                                    game.players[i].damage(hp);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                };
+
+                lib.element.player.playerRandom=function(){ //随机一名敌对角色
+                    var listName=[];
+                    for(var i=0;i<game.players.length;i++){
+                        if(game.players[i].isOut()||game.players[i]==this) continue;
+                        if(!game.players[i].isFriendOf(this)){
+                            listName.push(game.players[i]);
+                        }
+                    }
+                    return listName.randomGet();
+                }
+
+                lib.element.player.gameBossDie=function(num,num2,num3){ //判断天书相应关卡boss是否阵亡和转移Boss控制权
+                    for(var i=0;i<game.players.length;i++){
+                        if(game.players[i]==this) continue;
+                        var nextBoss=game.players[i].bossName(num,num2);
+                        if(nextBoss) {
+                            if(num3) {
+                                _status.gameMe=true;
+                                game.players[i]._trueMe=game.me;
+                            }
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+
+                lib.element.player.bossName=function(num,a){ //全部boss 可以用于调用和匹配boss
+                    if(a==undefined) a=-99;
+                    var liveList=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'];
+                    /*var oneList=['Shengxiao_Zishu','Zhuogui_Boss_Heibaiwuchang'];*/
+                    var oneList=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
+                'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun'];
+                    var twoOrdinaryList=['Zhuogui_Boss_Baowei','Zhuogui_Boss_Heibaiwuchang','Zhuigui_Boss_Huangfeng','Zhuogui_Boss_Yvsai','Zhuogui_Boss_Niutoumamian','Zhuogui_Boss_Niaozui'];
+                    var twoDifficultyList=['Zhuogui_Boss_Baowei_Difficulty','Zhuogui_Boss_Heibaiwuchang_Difficulty','Zhuigui_Boss_Huangfeng_Difficulty','Zhuogui_Boss_Yvsai_Difficulty','Zhuogui_Boss_Niutoumamian_Difficulty','Zhuogui_Boss_Niaozui_Difficulty'];
+                    var twoFuckingList=['Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang_Fucking','Zhuigui_Boss_Huangfeng_Fucking','Zhuogui_Boss_Yvsai_Fucking','Zhuogui_Boss_Niutoumamian_Fucking','Zhuogui_Boss_Niaozui_Fucking'];
+                    var threeOrdinaryList=['Qingqing_Boss_Dongzhuo','Qingqing_Boss_Yuanshu','Qingqing_Boss_Lvbu','Qingqing_Boss_Simayi','Qingqing_Boss_Caocao','Qingqing_Boss_Zhangjiao'];
+                    var threeDifficultyList=['Qingqing_Boss_Dongzhuo_Difficulty','Qingqing_Boss_Yuanshu_Difficulty','Qingqing_Boss_Lvbu_Difficulty','Qingqing_Boss_Simayi_Difficulty','Qingqing_Boss_Caocao_Difficulty','Qingqing_Boss_Zhangjiao_Difficulty'];
+                    var threeFuckingList=['Qingqing_Boss_Dongzhuo_Fucking','Qingqing_Boss_Yuanshu_Fucking','Qingqing_Boss_Lvbu_Fucking','Qingqing_Boss_Simayi_Fucking','Qingqing_Boss_Caocao_Fucking','Qingqing_Boss_Zhangjiao_Fucking'];
+                    var fourOrdinaryList=['Tianshu_Boss_Xuannv','Tianshu_Boss_Hanba','Zhuigui_Boss_Yanluowang','Tianshu_Boss_Shaohao','Longzhou_Boss_Taoshen',
+                    'Longzhou_Boss_Caoe','Tianshu_Boss_Shuishengonggong','Tianshu_Boss_Huoshenzhurong','Tianshu_Boss_Kuafu','Tianshu_Boss_Baiqi'];
+                    var fourDifficultyList=['Tianshu_Boss_Xuannv_Difficulty','Tianshu_Boss_Hanba_Difficulty','Zhuigui_Boss_Yanluowang_Difficulty','Tianshu_Boss_Shaohao_Difficulty',
+                    'Longzhou_Boss_Taoshen_Difficulty','Longzhou_Boss_Caoe_Difficulty','Tianshu_Boss_Shuishengonggong_Difficulty','Tianshu_Boss_Huoshenzhurong_Difficulty','Tianshu_Boss_Kuafu_Difficulty','Tianshu_Boss_Baiqi_Difficulty'];
+                    var fourFuckingList=['Tianshu_Boss_Xuannv_Fucking','Tianshu_Boss_Hanba_Fucking','Zhuigui_Boss_Yanluowang_Fucking','Tianshu_Boss_Shaohao_Fucking','Longzhou_Boss_Taoshen_Fucking',
+                    'Longzhou_Boss_Caoe_Fucking','Tianshu_Boss_Shuishengonggong_Fucking','Tianshu_Boss_Huoshenzhurong_Fucking','Tianshu_Boss_Kuafu_Fucking','Tianshu_Boss_Baiqi_Fucking'];
+                    var Longzhoulist=['Longzhou_Boss_Taoshen','Longzhou_Boss_Taoshen_Difficulty','Longzhou_Boss_Taoshen_Fucking','Longzhou_Boss_Caoe','Longzhou_Boss_Caoe_Difficulty','Longzhou_Boss_Caoe_Fucking'];
+                    var Newlist;
+                    
+                    if(lib.config.extension_术樱_tianshuaddoff&&lib.config.extension_术樱_tianshu_add_list!=undefined&&lib.config.extension_术樱_tianshu_add_list!=''){
+                        Newlist=lib.config.extension_术樱_tianshu_add_list.split(",");
+                    }
+
+                    if(_status.Diuse_NewBoss){
+                        num=[-2,-3,-4].randomGet();
+                    }
+
+
+                    switch(num){
+                        case 0:{
+                            for(var i=0;i<liveList.length;i++){
+                                if(this.name==liveList[i]) return true;
+                            }
+                            return false;
+                        }
+                        case 1:{
+                            for(var i=0;i<oneList.length;i++){
+                                if(this.name==oneList[i]) return true;
+                            }
+                            return false;
+                        }
+                        case 2:{
+                            if(a==1){
+                                for(var i=0;i<twoOrdinaryList.length;i++){
+                                    if(this.name==twoOrdinaryList[i]) return true;
+                                }
+                                return false;
+                            } else if(a==2){
+                                for(var i=0;i<twoDifficultyList.length;i++){
+                                    if(this.name==twoDifficultyList[i]) return true;
+                                }
+                                return false;
+                            } else {
+                                for(var i=0;i<twoFuckingList.length;i++){
+                                    if(this.name==twoFuckingList[i]) return true;
+                                }
+                                return false;
+                            }
+                        }
+                        case 3:{
+                            if(a==1){
+                                for(var i=0;i<threeOrdinaryList.length;i++){
+                                    if(this.name==threeOrdinaryList[i]) return true;
+                                }
+                                return false;
+                            } else if(a==2){
+                                for(var i=0;i<threeDifficultyList.length;i++){
+                                    if(this.name==threeDifficultyList[i]) return true;
+                                }
+                                return false;
+                            } else {
+                                for(var i=0;i<threeFuckingList.length;i++){
+                                    if(this.name==threeFuckingList[i]) return true;
+                                }
+                                return false;
+                            }
+                        }
+                        case 4:{
+                            if(a==1){
+                                for(var i=0;i<fourOrdinaryList.length;i++){
+                                    if(this.name==fourOrdinaryList[i]) return true;
+                                }
+                                return false;
+                            } else if(a==2){
+                                for(var i=0;i<fourDifficultyList.length;i++){
+                                    if(this.name==fourDifficultyList[i]) return true;
+                                }
+                                return false;
+                            } else {
+                                for(var i=0;i<fourFuckingList.length;i++){
+                                    if(this.name==fourFuckingList[i]) return true;
+                                }
+                                return false;
+                            }
+                        }
+                        case 5:{
+                            if(Newlist==''||Newlist==undefined) return false;
+                            for(var i=0;i<Newlist.length;i++){
+                                if(this.name==Newlist[i]) return true;
+                            }
+                            return false;
+                        }
+                        case 255:{
+                            for(var i=0;i<Longzhoulist.length;i++){
+                                if(this.name==Longzhoulist[i]) return true;
+                            }
+                            return false;
+                        }
+                        case -1:{
+                            var newBoss=oneList.randomGet();
+                            for(var i=0;i<game.players.length;i++){
+                                if(newBoss==game.players[i].name){
+                                    newBoss=oneList.randomGet();
+                                    i=0;
+                                }
+                            }
+                            return newBoss;
+                        }
+                        case -2:{
+                            if(a==1){
+                                var newBoss=twoOrdinaryList.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=twoOrdinaryList.randomGet();
+                                        i=0;    
+                                    }
+                                }
+                                return newBoss;
+                            } else if(a==2){
+                                var newBoss=twoDifficultyList.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=twoDifficultyList.randomGet();
+                                        i=0;
+                                    }
+                                }
+                                return newBoss;
+                            } else {
+                                var newBoss=twoFuckingList.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=twoFuckingList.randomGet();
+                                        i=0;
+                                    }
+                                }
+                                return newBoss;
+                            }
+                        }
+                        case -3:{
+                            if(a==1){
+                                var newBoss=threeOrdinaryList.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=threeOrdinaryList.randomGet();
+                                        i=0;
+                                    }
+                                }
+                                return newBoss;
+                            } else if(a==2){
+                                var newBoss=threeDifficultyList.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=threeDifficultyList.randomGet();
+                                        i=0;
+                                    }
+                                }
+                                return newBoss;
+                            } else {
+                                var newBoss=threeFuckingList.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=threeFuckingList.randomGet();
+                                        i=0;
+                                    }
+                                }
+                                return newBoss;
+                            }
+                        }
+                        case -4:{
+                            if(a==1){
+                                var newBoss=fourOrdinaryList.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=fourOrdinaryList.randomGet();
+                                        i=0;
+                                    }
+                                }
+                                return newBoss;
+                            } else if(a==2){
+                                var newBoss=fourDifficultyList.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=fourDifficultyList.randomGet();
+                                        i=0;
+                                    }
+                                }
+                                return newBoss;
+                            } else {
+                                var newBoss=fourFuckingList.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=fourFuckingList.randomGet();
+                                        i=0;
+                                    }
+                                }
+                                return newBoss;
+                            }
+                        }
+                        case -5:{
+                            if(Newlist==''||Newlist==undefined||Newlist.length==1){
+                                alert('请检查Boss列表或只有一位Boss，即将重启');
+                                setTimeout(function(){
+                                    setTimeout(game.reload,1500);
+                                }, 1500);
+                            }
+                            var newBoss=Newlist.randomGet();
+                            for(var i=0;i<game.players.length;i++){
+                                if(newBoss==game.players[i].name){
+                                    newBoss=Newlist.randomGet();
+                                    i=0;
+                                }
+                            }
+                            return newBoss;
+                            // if(lib.config.extension_术樱_randomoff){
+                            //     if(Newlist==''||Newlist==undefined||Newlist.length==1){
+                            //         _status.Diuse_NewBoss=true;
+                            //         game.bossName(0,0,a);
+                            //     }
+                            //     var newBoss=Newlist.randomGet();
+                            //     for(var i=0;i<game.players.length;i++){
+                            //         if(newBoss==game.players[i].name){
+                            //             newBoss=Newlist.randomGet();
+                            //             i=0;
+                            //         }
+                            //     }
+                                
+                            // } else {
+
+                            // }
+                        }
+                        default:{return false}
+                    }
+                };
+
             };
 
             game.Tianshu("Tianshu","天书乱斗",{
@@ -4582,7 +4875,7 @@ precontent:function (Diuse){
                         var dead=game.dead.slice(0);
                         for(var i=0;i<dead.length;i++){
                             if(!dead[i].side&&dead[i].maxHp>0/*&&dead[i].parentNode==game.players[i].parentNode*/){
-                                if(game.bossName(dead[i].name,0)) continue;
+                                if(dead[i].bossName(0)) continue;
                                 dead[i].revive(dead[i].maxHp);
                                 dnum++;
                             }
@@ -4643,8 +4936,8 @@ precontent:function (Diuse){
                         while(_status.event.name!='phaseLoop'){
                             _status.event=_status.event.parent;
                         }
-                        if(game.bossName(nextName.name,0,0)) nextName=game.boss;
-                        if(game.bossName(nextName.name,checkPoint,livePlayer)) nextName=game.boss;
+                        if(nextName.bossName(0,0)) nextName=game.boss;
+                        if(nextName.bossName(checkPoint,livePlayer)) nextName=game.boss;
                         game.resetSkills();
                         _status.paused=false;
                         _status.event.player=nextName;
@@ -4654,7 +4947,7 @@ precontent:function (Diuse){
                         game.roundNumber=0;
                         return 0;
                     },
-                    changeSeatNew:function(){
+                    changeSeatNew:function(){ //BETA
                         if(game.me==game.boss){
                             game.boss.changeSeat(0);
                             game.boss.nextSeat.changeSeat(2);
@@ -4688,338 +4981,6 @@ precontent:function (Diuse){
                             }
                         }
                     },
-                    bossName:function(name,num,a){ //全部boss 可以用于调用和匹配boss
-                        if(a==undefined) a=-99;
-                        var liveList=['Xvni_Xiaotao','Xvni_Xiaosha','Xvni_Xiaojiu','Xvni_Xiaoshan','Xvni_Xiaole'];
-                        var oneList=['Shengxiao_Zishu','Shengxiao_Chouniu','Shengxiao_Yinhu','Shengxiao_Maotu','Shengxiao_Chenlong','Shengxiao_Sishe','Shengxiao_Wuma','Shengxiao_Weiyang','Shengxiao_Shenhou','Shengxiao_Youji','Shengxiao_Xvgou','Shengxiao_Haizhu',
-                    'Nianshou_Dawei','Nianshou_Dashu','Nianshou_Dawu','Nianshou_Daqun','Xishou_Dawei','Xishou_Dashu','Xishou_Dawu','Xishou_Daqun'];
-                        var twoOrdinaryList=['Zhuogui_Boss_Baowei','Zhuogui_Boss_Heibaiwuchang','Zhuigui_Boss_Huangfeng','Zhuogui_Boss_Yvsai','Zhuogui_Boss_Niutoumamian','Zhuogui_Boss_Niaozui'];
-                        var twoDifficultyList=['Zhuogui_Boss_Baowei_Difficulty','Zhuogui_Boss_Heibaiwuchang_Difficulty','Zhuigui_Boss_Huangfeng_Difficulty','Zhuogui_Boss_Yvsai_Difficulty','Zhuogui_Boss_Niutoumamian_Difficulty','Zhuogui_Boss_Niaozui_Difficulty'];
-                        var twoFuckingList=['Zhuogui_Boss_Baowei_Fucking','Zhuogui_Boss_Heibaiwuchang_Fucking','Zhuigui_Boss_Huangfeng_Fucking','Zhuogui_Boss_Yvsai_Fucking','Zhuogui_Boss_Niutoumamian_Fucking','Zhuogui_Boss_Niaozui_Fucking'];
-                        var threeOrdinaryList=['Qingqing_Boss_Dongzhuo','Qingqing_Boss_Yuanshu','Qingqing_Boss_Lvbu','Qingqing_Boss_Simayi','Qingqing_Boss_Caocao','Qingqing_Boss_Zhangjiao'];
-                        var threeDifficultyList=['Qingqing_Boss_Dongzhuo_Difficulty','Qingqing_Boss_Yuanshu_Difficulty','Qingqing_Boss_Lvbu_Difficulty','Qingqing_Boss_Simayi_Difficulty','Qingqing_Boss_Caocao_Difficulty','Qingqing_Boss_Zhangjiao_Difficulty'];
-                        var threeFuckingList=['Qingqing_Boss_Dongzhuo_Fucking','Qingqing_Boss_Yuanshu_Fucking','Qingqing_Boss_Lvbu_Fucking','Qingqing_Boss_Simayi_Fucking','Qingqing_Boss_Caocao_Fucking','Qingqing_Boss_Zhangjiao_Fucking'];
-                        var fourOrdinaryList=['Tianshu_Boss_Xuannv','Tianshu_Boss_Hanba','Zhuigui_Boss_Yanluowang','Tianshu_Boss_Shaohao','Longzhou_Boss_Taoshen',
-                        'Longzhou_Boss_Caoe','Tianshu_Boss_Shuishengonggong','Tianshu_Boss_Huoshenzhurong','Tianshu_Boss_Kuafu','Tianshu_Boss_Baiqi'];
-                        var fourDifficultyList=['Tianshu_Boss_Xuannv_Difficulty','Tianshu_Boss_Hanba_Difficulty','Zhuigui_Boss_Yanluowang_Difficulty','Tianshu_Boss_Shaohao_Difficulty',
-                        'Longzhou_Boss_Taoshen_Difficulty','Longzhou_Boss_Caoe_Difficulty','Tianshu_Boss_Shuishengonggong_Difficulty','Tianshu_Boss_Huoshenzhurong_Difficulty','Tianshu_Boss_Kuafu_Difficulty','Tianshu_Boss_Baiqi_Difficulty'];
-                        var fourFuckingList=['Tianshu_Boss_Xuannv_Fucking','Tianshu_Boss_Hanba_Fucking','Zhuigui_Boss_Yanluowang_Fucking','Tianshu_Boss_Shaohao_Fucking','Longzhou_Boss_Taoshen_Fucking',
-                        'Longzhou_Boss_Caoe_Fucking','Tianshu_Boss_Shuishengonggong_Fucking','Tianshu_Boss_Huoshenzhurong_Fucking','Tianshu_Boss_Kuafu_Fucking','Tianshu_Boss_Baiqi_Fucking'];
-                        var Longzhoulist=['Longzhou_Boss_Taoshen','Longzhou_Boss_Taoshen_Difficulty','Longzhou_Boss_Taoshen_Fucking','Longzhou_Boss_Caoe','Longzhou_Boss_Caoe_Difficulty','Longzhou_Boss_Caoe_Fucking'];
-                        var Newlist;
-                        
-                        if(lib.config.extension_术樱_tianshuaddoff&&lib.config.extension_术樱_tianshu_add_list!=undefined&&lib.config.extension_术樱_tianshu_add_list!=''){
-                            Newlist=lib.config.extension_术樱_tianshu_add_list.split(",");
-                        }
-
-                        if(_status.Diuse_NewBoss){
-                            num=[-2,-3,-4].randomGet();
-                        }
-
-
-                        switch(num){
-                            case 0:{
-                                for(var i=0;i<liveList.length;i++){
-                                    if(name==liveList[i]) return true;
-                                }
-                                return false;
-                            }
-                            case 1:{
-                                for(var i=0;i<oneList.length;i++){
-                                    if(name==oneList[i]) return true;
-                                }
-                                return false;
-                            }
-                            case 2:{
-                                if(a==1){
-                                    for(var i=0;i<twoOrdinaryList.length;i++){
-                                        if(name==twoOrdinaryList[i]) return true;
-                                    }
-                                    return false;
-                                } else if(a==2){
-                                    for(var i=0;i<twoDifficultyList.length;i++){
-                                        if(name==twoDifficultyList[i]) return true;
-                                    }
-                                    return false;
-                                } else {
-                                    for(var i=0;i<twoFuckingList.length;i++){
-                                        if(name==twoFuckingList[i]) return true;
-                                    }
-                                    return false;
-                                }
-                            }
-                            case 3:{
-                                if(a==1){
-                                    for(var i=0;i<threeOrdinaryList.length;i++){
-                                        if(name==threeOrdinaryList[i]) return true;
-                                    }
-                                    return false;
-                                } else if(a==2){
-                                    for(var i=0;i<threeDifficultyList.length;i++){
-                                        if(name==threeDifficultyList[i]) return true;
-                                    }
-                                    return false;
-                                } else {
-                                    for(var i=0;i<threeFuckingList.length;i++){
-                                        if(name==threeFuckingList[i]) return true;
-                                    }
-                                    return false;
-                                }
-                            }
-                            case 4:{
-                                if(a==1){
-                                    for(var i=0;i<fourOrdinaryList.length;i++){
-                                        if(name==fourOrdinaryList[i]) return true;
-                                    }
-                                    return false;
-                                } else if(a==2){
-                                    for(var i=0;i<fourDifficultyList.length;i++){
-                                        if(name==fourDifficultyList[i]) return true;
-                                    }
-                                    return false;
-                                } else {
-                                    for(var i=0;i<fourFuckingList.length;i++){
-                                        if(name==fourFuckingList[i]) return true;
-                                    }
-                                    return false;
-                                }
-                            }
-                            case 5:{
-                                if(Newlist==''||Newlist==undefined) return false;
-                                for(var i=0;i<Newlist.length;i++){
-                                    if(name==Newlist[i]) return true;
-                                }
-                                return false;
-                            }
-                            case 255:{
-                                for(var i=0;i<Longzhoulist.length;i++){
-                                    if(name==Longzhoulist[i]) return true;
-                                }
-                                return false;
-                            }
-                            case -1:{
-                                var newBoss=oneList.randomGet();
-                                for(var i=0;i<game.players.length;i++){
-                                    if(newBoss==game.players[i].name){
-                                        newBoss=oneList.randomGet();
-                                        i=0;
-                                    }
-                                }
-                                return newBoss;
-                            }
-                            case -2:{
-                                if(a==1){
-                                    var newBoss=twoOrdinaryList.randomGet();
-                                    for(var i=0;i<game.players.length;i++){
-                                        if(newBoss==game.players[i].name){
-                                            newBoss=twoOrdinaryList.randomGet();
-                                            i=0;    
-                                        }
-                                    }
-                                    return newBoss;
-                                } else if(a==2){
-                                    var newBoss=twoDifficultyList.randomGet();
-                                    for(var i=0;i<game.players.length;i++){
-                                        if(newBoss==game.players[i].name){
-                                            newBoss=twoDifficultyList.randomGet();
-                                            i=0;
-                                        }
-                                    }
-                                    return newBoss;
-                                } else {
-                                    var newBoss=twoFuckingList.randomGet();
-                                    for(var i=0;i<game.players.length;i++){
-                                        if(newBoss==game.players[i].name){
-                                            newBoss=twoFuckingList.randomGet();
-                                            i=0;
-                                        }
-                                    }
-                                    return newBoss;
-                                }
-                            }
-                            case -3:{
-                                if(a==1){
-                                    var newBoss=threeOrdinaryList.randomGet();
-                                    for(var i=0;i<game.players.length;i++){
-                                        if(newBoss==game.players[i].name){
-                                            newBoss=threeOrdinaryList.randomGet();
-                                            i=0;
-                                        }
-                                    }
-                                    return newBoss;
-                                } else if(a==2){
-                                    var newBoss=threeDifficultyList.randomGet();
-                                    for(var i=0;i<game.players.length;i++){
-                                        if(newBoss==game.players[i].name){
-                                            newBoss=threeDifficultyList.randomGet();
-                                            i=0;
-                                        }
-                                    }
-                                    return newBoss;
-                                } else {
-                                    var newBoss=threeFuckingList.randomGet();
-                                    for(var i=0;i<game.players.length;i++){
-                                        if(newBoss==game.players[i].name){
-                                            newBoss=threeFuckingList.randomGet();
-                                            i=0;
-                                        }
-                                    }
-                                    return newBoss;
-                                }
-                            }
-                            case -4:{
-                                if(a==1){
-                                    var newBoss=fourOrdinaryList.randomGet();
-                                    for(var i=0;i<game.players.length;i++){
-                                        if(newBoss==game.players[i].name){
-                                            newBoss=fourOrdinaryList.randomGet();
-                                            i=0;
-                                        }
-                                    }
-                                    return newBoss;
-                                } else if(a==2){
-                                    var newBoss=fourDifficultyList.randomGet();
-                                    for(var i=0;i<game.players.length;i++){
-                                        if(newBoss==game.players[i].name){
-                                            newBoss=fourDifficultyList.randomGet();
-                                            i=0;
-                                        }
-                                    }
-                                    return newBoss;
-                                } else {
-                                    var newBoss=fourFuckingList.randomGet();
-                                    for(var i=0;i<game.players.length;i++){
-                                        if(newBoss==game.players[i].name){
-                                            newBoss=fourFuckingList.randomGet();
-                                            i=0;
-                                        }
-                                    }
-                                    return newBoss;
-                                }
-                            }
-                            case -5:{
-                                if(Newlist==''||Newlist==undefined||Newlist.length==1){
-                                    alert('请检查Boss列表或只有一位Boss，即将重启');
-                                    setTimeout(function(){
-                                        setTimeout(game.reload,1500);
-                                    }, 1500);
-                                }
-                                var newBoss=Newlist.randomGet();
-                                for(var i=0;i<game.players.length;i++){
-                                    if(newBoss==game.players[i].name){
-                                        newBoss=Newlist.randomGet();
-                                        i=0;
-                                    }
-                                }
-                                return newBoss;
-                                // if(lib.config.extension_术樱_randomoff){
-                                //     if(Newlist==''||Newlist==undefined||Newlist.length==1){
-                                //         _status.Diuse_NewBoss=true;
-                                //         game.bossName(0,0,a);
-                                //     }
-                                //     var newBoss=Newlist.randomGet();
-                                //     for(var i=0;i<game.players.length;i++){
-                                //         if(newBoss==game.players[i].name){
-                                //             newBoss=Newlist.randomGet();
-                                //             i=0;
-                                //         }
-                                //     }
-                                    
-                                // } else {
-
-                                // }
-                            }
-                            default:{return false}
-                        }
-                    },
-                    gameBossDie:function(name,num,num2,num3){ //判断天书相应关卡boss是否阵亡和转移Boss控制权
-                        for(var i=0;i<game.players.length;i++){
-                            if(game.players[i].name==name) continue;
-                            var nextBoss=game.bossName(game.players[i].name,num,num2);
-                            if(nextBoss) {
-                                if(num3) {
-                                    _status.gameMe=true;
-                                    game.players[i]._trueMe=game.me;
-                                }
-                                return true;
-                            }
-                        }
-                        return false;
-                    },
-                    playerHpMax:function(){ //判断敌对最大体力的角色
-                        var listHp=[],listName=[];
-                        var player=_status.event.player;
-                        for(var i=0;i<game.players.length;i++){
-                            if(!game.players[i].isFriendOf(player)){
-                                listName.push(game.players[i]);
-                                listHp.push(game.players[i].hp);
-                            }
-                        }
-                        if(listName.length==1) return listName[0];
-                        for(var i=listHp.length-1;i>0;i--){
-                            if(listHp[0]<listHp[i]){
-                                var num=listHp[0];
-                                listHp[0]=listHp[i];
-                                listHp[i]=num;
-                                var num1=listName[0];
-                                listName[0]=listName[i];
-                                listName[i]=num1;
-                            }
-                        }
-                        return listName[0];
-                    },
-                    playerCardMax:function(){ //判断敌对最多手牌的角色
-                        var listName=[],listCard=[];
-                        var player=_status.event.player;
-                        for(var i=0;i<game.players.length;i++){
-                            if(!game.players[i].isFriendOf(player)){
-                                listName.push(game.players[i]);
-                                listCard.push(game.players[i].countCards('h'));
-                            }
-                        }
-                        if(listName.length==1) return listName[0];
-                        for(var i=listCard.length-1;i>0;i--){
-                            if(listCard[0]<listCard[i]){
-                                var num=listCard[0];
-                                listCard[0]=listCard[i];
-                                listCard[i]=num;
-                                var num1=listName[0];
-                                listName[0]=listName[i];
-                                listName[i]=num1;
-                            }
-                        }
-                        return listName[0];
-                    },
-                    damagePlayerHp:function(hp,mission){ //对体力值 大于 或 等于 你的角色造成hp点伤害 mission难度
-                        var player=_status.event.player;
-                        if(hp==undefined){hp=1;} //防止忘填写 或 默认1
-                        for(var i=0;i<game.players.length;i++){
-                            if(!game.players[i].isFriendOf(player)){
-                                if(mission==3){
-                                    if(game.players[i].hp>=player.hp){
-                                        game.players[i].damage(hp);
-                                        break;
-                                    }
-                                } else {
-                                    if(game.players[i].hp>player.hp){
-                                        game.players[i].damage(hp);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    playerRandom:function(){ //随机一名敌对角色
-                        var listName=[];
-                        var player=_status.event.player;
-                        for(var i=0;i<game.players.length;i++){
-                            if(game.players[i]==player) continue;
-                            if(!game.players[i].isFriendOf(player)){
-                                listName.push(game.players[i]);
-                            }
-                        }
-                        return listName.randomGet();
-                    }
                 },
                 boss:{
                     Boss_Diuse_Tianshu:{
@@ -5131,7 +5092,7 @@ precontent:function (Diuse){
                                 if(game.me==game.boss){
                                     //game.boss.changeSeat(2);
                                     game.boss.nextSeat.nextSeat.changeSeat(3);
-                                    if(game.bossName(game.boss.previousSeat.name,0)){ 
+                                    if(game.boss.previousSeat.bossName(0)){ 
                                         game.boss.previousSeat.previousSeat.changeSeat(4);
                                     } else {
                                         game.boss.previousSeat.changeSeat(4);
@@ -5216,8 +5177,8 @@ precontent:function (Diuse){
                             fixed:true,
                             unique:true,
                             filter:function(event,player){
-                                if(!game.bossName(player.name,0,0)) return false;
-                                if(game.bossName(event.player.name,0)) return false;
+                                if(!player.bossName(0,0)) return false;
+                                if(event.player.bossName(0)) return false;
                                 if(player.countMark('checkPoint')==undefined||player.countMark('checkPoint')==0){
                                     return true;
                                 } else if(player.countMark('checkPoint')&&player.countMark('livePlayer')){
@@ -5239,31 +5200,31 @@ precontent:function (Diuse){
                                     player.addMark('checkPoint',1);　
                                     for(var i=0;i<game.players.length;i++){
                                         if(game.players[i]==game.boss){　
-                                            var name=game.bossName(0,-1);
+                                            var name=player.bossName(-1);
                                             game.players[i].init(name);
                                         } else {
                                             game.players[i].addSkill('Tianshu_Protect');
                                         }
                                     }
-                                    var name1=game.bossName(0,-1);
+                                    var name1=player.bossName(-1);
                                     game.addBossFellow(newSeat,name1);
                                 } else if(num==1){ //第一关阵亡判断
-                                    var nextCheckPoint1=game.bossName(trigger.player.name,num,num2); //判断阵亡BOSS是否属于BOSS列表
+                                    var nextCheckPoint1=trigger.player.bossName(num,num2); //判断阵亡BOSS是否属于BOSS列表
                                     if(nextCheckPoint1){ //如果是
                                         trigger.player.hide(); //隐藏 和 奖励
                                         if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
-                                        var gameBoss=game.gameBossDie(trigger.player.name,num,num2); //判断关卡BOSS是否阵亡
+                                        var gameBoss=trigger.player.gameBossDie(num,num2); //判断关卡BOSS是否阵亡
                                         if(gameBoss==false){ //如果返回False 说明阵亡
                                             player.addMark('nextCheckPoint',1);
                                             player.addMark('checkPoint',1);
                                         }  else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
-                                            game.gameBossDie(trigger.player.name,num,num2,1);
+                                            trigger.player.gameBossDie(num,num2,1);
                                         } 
                                     } else if(nextCheckPoint1==false){ //如果不是
                                         var gamePlayerNum=0;
                                         for(var i=0;i<game.players.length;i++){ //循环判断场上角色是否还有存活玩家
                                             if(game.players[i]==trigger.player) continue;
-                                            if(!game.bossName(game.players[i].name,num,num2)&&!game.bossName(game.players[i].name,0,num2)){
+                                            if(!game.players[i].bossName(num,num2)&&!game.players[i].bossName(0,num2)){
                                                 gamePlayerNum++;
                                             }
                                         }
@@ -5279,9 +5240,9 @@ precontent:function (Diuse){
                                     if(player.countMark('nextCheckPoint')){ //进入
                                         trigger.player.die(); //因为过关要停止事件 洗牌等 会将BOSS阵亡事件停止
                                         player.removeMark('nextCheckPoint',player.countMark('nextCheckPoint'));
-                                        var name1=game.bossName(0,-2,num2);
+                                        var name1=player.bossName(-2,num2);
                                         game.addBossFellow(newSeat,name1); //召唤4号位第二关Boss num2是难度
-                                        var name2=game.bossName(0,-2,num2);
+                                        var name2=player.bossName(-2,num2);
                                         game.changeBoss(name2); //6号位Boss
                                         game.tianshuNewBoss(_status.currentPhase.next,num,num2); //重置回合 和判断 将回合控制权给谁
                                         for(var i=0;i<game.players.length;i++){
@@ -5294,22 +5255,22 @@ precontent:function (Diuse){
                                             _status.gameMe=false;
                                         }
                                     }
-                                    var nextCheckPoint2=game.bossName(trigger.player.name,num,num2); //阵亡判断 同第一关
+                                    var nextCheckPoint2=trigger.player.bossName(num,num2); //阵亡判断 同第一关
                                     if(nextCheckPoint2){
                                         trigger.player.hide();
                                         if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
-                                        var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
+                                        var gameBoss=trigger.player.gameBossDie(num,num2);
                                         if(gameBoss==false){
                                             player.addMark('nextCheckPoint',1);
                                             player.addMark('checkPoint',1);
                                         } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
-                                            game.gameBossDie(trigger.player.name,num,num2,1);
+                                            trigger.player.gameBossDie(num,num2,1);
                                         } 
                                     } else if(nextCheckPoint2==false){
                                         var gamePlayerNum=0;
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i]==trigger.player) continue;
-                                            if(!game.bossName(game.players[i].name,num,num2)&&!game.bossName(game.players[i].name,0,num2)){
+                                            if(!game.players[i].bossName(num,num2)&&!game.players[i].bossName(0,num2)){
                                                 gamePlayerNum++;
                                             }
                                         }
@@ -5325,9 +5286,9 @@ precontent:function (Diuse){
                                     if(player.countMark('nextCheckPoint')){
                                         trigger.player.die();
                                         player.removeMark('nextCheckPoint',player.countMark('nextCheckPoint'));
-                                        var name1=game.bossName(0,-3,num2);
+                                        var name1=player.bossName(-3,num2);
                                         game.addBossFellow(newSeat,name1);
-                                        var name2=game.bossName(0,-3,num2);
+                                        var name2=player.bossName(-3,num2);
                                         game.changeBoss(name2);
                                         game.tianshuNewBoss(_status.currentPhase.next,num,num2);
                                         for(var i=0;i<game.players.length;i++){
@@ -5340,22 +5301,22 @@ precontent:function (Diuse){
                                             _status.gameMe=false;
                                         }
                                     }
-                                    var nextCheckPoint3=game.bossName(trigger.player.name,num,num2);
+                                    var nextCheckPoint3=trigger.player.bossName(num,num2);
                                     if(nextCheckPoint3){
                                         trigger.player.hide();
                                         if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
-                                        var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
+                                        var gameBoss=trigger.player.gameBossDie(num,num2);
                                         if(gameBoss==false){
                                             player.addMark('nextCheckPoint',1);
                                             player.addMark('checkPoint',1);
                                         } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
-                                            game.gameBossDie(trigger.player.name,num,num2,1);
+                                            trigger.player.gameBossDie(num,num2,1);
                                         } 
                                     } else if(nextCheckPoint3==false){
                                         var gamePlayerNum=0;
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i]==trigger.player) continue;
-                                            if(!game.bossName(game.players[i].name,num,num2)&&!game.bossName(game.players[i].name,0,num2)){
+                                            if(!game.players[i].bossName(num,num2)&&!game.players[i].bossName(0,num2)){
                                                 gamePlayerNum++;
                                             }
                                         }
@@ -5371,9 +5332,9 @@ precontent:function (Diuse){
                                     if(player.countMark('nextCheckPoint')){
                                         trigger.player.die();
                                         player.removeMark('nextCheckPoint',player.countMark('nextCheckPoint'));
-                                        var name1=game.bossName(0,-4,num2);
+                                        var name1=player.bossName(-4,num2);
                                         game.addBossFellow(newSeat,name1);
-                                        var name2=game.bossName(0,-4,num2);
+                                        var name2=player.bossName(-4,num2);
                                         game.changeBoss(name2);
                                         game.tianshuNewBoss(_status.currentPhase.next,num,num2);
                                         for(var i=0;i<game.players.length;i++){
@@ -5386,22 +5347,22 @@ precontent:function (Diuse){
                                             _status.gameMe=false;
                                         }
                                     }
-                                    var nextCheckPoint4=game.bossName(trigger.player.name,num,num2);
+                                    var nextCheckPoint4=trigger.player.bossName(num,num2);
                                     if(nextCheckPoint4){
                                         trigger.player.hide();
                                         if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
-                                        var gameBoss=game.gameBossDie(trigger.player.name,num,num2);
+                                        var gameBoss=trigger.player.gameBossDie(num,num2);
                                         if(gameBoss==false){
                                             player.addMark('nextCheckPoint',1);
                                             player.addMark('checkPoint',1);
                                         } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
-                                            game.gameBossDie(trigger.player.name,num,num2,1);
+                                            trigger.player.gameBossDie(num,num2,1);
                                         } 
                                     } else if(nextCheckPoint4==false){
                                         var gamePlayerNum=0;
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i]==trigger.player) continue;
-                                            if(!game.bossName(game.players[i].name,num,num2)&&!game.bossName(game.players[i].name,0,num2)){
+                                            if(!game.players[i].bossName(num,num2)&&!game.players[i].bossName(0,num2)){
                                                 gamePlayerNum++;
                                             }
                                         }
@@ -5413,13 +5374,13 @@ precontent:function (Diuse){
                                             }
                                         } 
                                     }
-                                } else if(player.countMark('checkPoint')<=num3){
+                                } else if(lib.config.extension_术樱_tianshuaddoff&&player.countMark('checkPoint')<=num3){
                                     if(player.countMark('nextCheckPoint')){
                                         trigger.player.die();
                                         player.removeMark('nextCheckPoint',player.countMark('nextCheckPoint'));
-                                        var name1=game.bossName(0,-5,num2);
+                                        var name1=player.bossName(-5,num2);
                                         game.addBossFellow(newSeat,name1);
-                                        var name2=game.bossName(0,-5,num2);
+                                        var name2=player.bossName(-5,num2);
                                         game.changeBoss(name2);
                                         game.tianshuNewBoss(_status.currentPhase.next,num,num2);
                                         for(var i=0;i<game.players.length;i++){
@@ -5453,26 +5414,26 @@ precontent:function (Diuse){
                                             _status.gameMe=false;
                                         }
                                     }
-                                    var nextCheckPoint5=game.bossName(trigger.player.name,5,num2);
+                                    var nextCheckPoint5=trigger.player.bossName(5,num2);
                                     if(nextCheckPoint5){
                                         trigger.player.hide();
                                         if(trigger.source!=undefined&&trigger.source.hp!=trigger.source.maxHp){trigger.source.recover();}else if(trigger.source!=undefined){trigger.source.draw(2);}
-                                        var gameBoss=game.gameBossDie(trigger.player.name,5,num2);
+                                        var gameBoss=trigger.player.gameBossDie(5,num2);
                                         if(gameBoss==false){
                                                 player.addMark('checkPoint',1);
-                                            if(player.countMark('checkPoint')<=num3) {
+                                            if(player.countMark('checkPoint')<=num3&&lib.config.extension_术樱_tianshuaddoff) {
                                                 player.addMark('nextCheckPoint',1);
                                             } else {
                                                 event.goto(0);
                                             }
                                         } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
-                                            game.gameBossDie(trigger.player.name,num,num2,1);
+                                            trigger.player.gameBossDie(num,num2,1);
                                         } 
                                     } else if(nextCheckPoint5==false){
                                         var gamePlayerNum=0;
                                         for(var i=0;i<game.players.length;i++){
                                             if(game.players[i]==trigger.player) continue;
-                                            if(!game.bossName(game.players[i].name,5,num2)&&!game.bossName(game.players[i].name,0,num2)){
+                                            if(!game.players[i].bossName(5,num2)&&!game.players[i].bossName(0,num2)){
                                                 gamePlayerNum++;
                                             }
                                         }
@@ -5500,7 +5461,7 @@ precontent:function (Diuse){
                                 game.cardsNumberUpDate();
                                 if(player.countMark('checkPoint')<=5) game.hpAndH(1,2);
                                 'step 3'
-                                if(game.players[event.Diuse_Player]==game.boss||game.bossName(game.players[event.Diuse_Player].name,0)) event.goto(6);
+                                if(game.players[event.Diuse_Player]==game.boss||game.players[event.Diuse_Player].bossName(0)) event.goto(6);
                                 if(player.countMark('checkPoint')>5) if(parseInt(player.countMark('checkPoint')%5)!=0) event.goto(0);
                                 'step 4'
                                 var off;
@@ -5657,7 +5618,7 @@ precontent:function (Diuse){
                             content:function(){
                                 'step 0' 
                                 for(var i=0;i<game.players.length;i++){ //删必崩 我也不知道为什么
-                                    if(game.bossName(game.players[i].name,0)){
+                                    if(game.players[i].bossName(0)){
                                         game.players[i].hide();
                                         game.players[i].die();
                                     }
@@ -8330,7 +8291,7 @@ precontent:function (Diuse){
                                 for(var i=0;i<trigger.targets.length;i++){
                                     trigger.targets[i].damage();
                                 }
-                                player.addTempSkill('Nianshou_Siyao_Buff');
+                                player.addTempSkill('Nianshou_Siyao_Buff','shaAfter');
                             },
                         },
                         Nianshou_Siyao_Buff:{
@@ -8377,7 +8338,7 @@ precontent:function (Diuse){
                             trigger:{player:"phaseDrawBefore"},
                             content:function(){
                                 'step 0'
-                                trigger.cancel();
+                                trigger.changeToZero();
                                 event.cards=[]; 
                                 event.num=0;
                                 'step 1'
@@ -8964,8 +8925,7 @@ precontent:function (Diuse){
                             trigger:{player:"phaseZhunbeiBegin"},
                             forced:true,
                             content:function(){
-                                var bossPlayer=game.playerHpMax();
-                                bossPlayer.damage(1,'thunder');
+                                player.playerHpMax().damage(1,'thunder');
                                 player.recover();
                             },
                         },
@@ -8976,8 +8936,7 @@ precontent:function (Diuse){
                             forced:true,
                             content:function(){
                                 var num=[1,2].randomGet();
-                                var bossPlayer=game.playerHpMax();
-                                bossPlayer.damage(num,'thunder');
+                                player.playerHpMax().damage(num,'thunder');
                                 player.recover();
                             },
                         },
@@ -9302,7 +9261,7 @@ precontent:function (Diuse){
                                 };
                                 "step 1"
                                 if(get.color(result.card)=='red'){
-                                    event.name=game.playerCardMax();
+                                    event.name=player.playerCardMax();
                                     var num=parseInt(event.name.countCards('h')/2);
                                     event.name.chooseCard('h',true,'交给'+get.translation(player)+get.cnNumber(num)+'张牌',num).set('ai',function(card){
                                         var evt=_status.event.getParent();
@@ -9313,7 +9272,7 @@ precontent:function (Diuse){
                                         return 100-get.value(card);
                                     });
                                 } else {
-                                    game.playerHpMax().loseHp();
+                                    player.playerHpMax().loseHp();
                                     event.finish();
                                 }
                                 'step 2'
@@ -9499,7 +9458,7 @@ precontent:function (Diuse){
                                 return false;
                             },
                             content:function(){
-                                game.damagePlayerHp(1);
+                                player.damagePlayerHp(1);
                             },
                         },
                         Zhuogui_Boss_Xiaoshou_Difficulty:{
@@ -9516,7 +9475,7 @@ precontent:function (Diuse){
                                 return false;
                             },
                             content:function(){
-                                game.damagePlayerHp(2);
+                                player.damagePlayerHp(2);
                             },
                         },
                         Zhuogui_Boss_Xiaoshou_Fucking:{
@@ -9533,7 +9492,7 @@ precontent:function (Diuse){
                                 return false;
                             },
                             content:function(){
-                                game.damagePlayerHp(2,3);
+                                player.damagePlayerHp(2,3);
                             },
                         },
                         Zhuogui_Boss_Manji:{
@@ -9601,7 +9560,7 @@ precontent:function (Diuse){
                             trigger:{player:"phaseDrawBefore"},
                             content:function(){
                                 'step 0'
-                                trigger.cancel();
+                                trigger.changeToZero();
                                 event.cards=[]; 
                                 event.num=0;
                                 'step 1'
@@ -11486,7 +11445,7 @@ precontent:function (Diuse){
                                         if(event.player==undefined) return false;
                                         if(player.storage.Boss_Tianqi==undefined) return false;
                                         var stor=player.storage.Boss_Tianqi[0];
-                                        var name=game.bossName(event.player.name,255,0);
+                                        var name=event.player.bossName(255,0);
                                         if(stor==4&&name) return true;
                                         return false;
                                     },
@@ -11554,7 +11513,7 @@ precontent:function (Diuse){
                                     sub:true,
                                     filter:function(event,player){
                                         if(player.storage.Boss_Tianqi==undefined) return false;
-                                        var name=game.bossName(event.player.name,255,0);
+                                        var name=event.player.bossName(255,0);
                                         var stor=player.storage.Boss_Tianqi[0];
                                         if(stor==8&&name) return true;
                                         if(event.player.isFriendOf(player)) return false;
@@ -11620,8 +11579,7 @@ precontent:function (Diuse){
                             trigger:{player:"phaseUseBegin"},
                             forced:true,
                             content:function(){
-                                var bossPlayer=game.playerHpMax();
-                                bossPlayer.damage(1,'thunder');
+                                player.playerHpMax().damage(1,'thunder');
                             },
                         },
                         Longzhou_Boss_Nutao_Difficulty:{
@@ -12017,7 +11975,7 @@ precontent:function (Diuse){
                                     },
                                     content:function (){
                                         if(get.color(trigger.cards[0])=='red'){
-                                            game.playerRandom().damage();
+                                            player.playerRandom().damage();
                                         }
                                     },
                                 },
@@ -12331,7 +12289,6 @@ precontent:function (Diuse){
                         Nianshou_Fange:"反戈",
                         Nianshou_Fange_info:"当你受到伤害后，你可以摸两张牌，然后若这两张牌点数之差大于等于你当前体力值，你对伤害来源造成1点伤害（对己方角色无效）。",
                         Nianshou_Siyao:"撕咬",
-                        Nianshou_Siyao_Buff:"撕咬",
                         Nianshou_Siyao_info:"你使用【杀】指定目标后，你可以对此【杀】目标中的敌方角色各造成1点伤害。然后此杀造成伤害后，受伤角色随机弃置一张牌。",
                         Nianshou_Hengsao:"横扫",
                         Nianshou_Hengsao_Buff:"横扫",
@@ -12660,7 +12617,7 @@ precontent:function (Diuse){
                 connect:true,
                 character:{
                     character:{
-                        Diuse_Bachongshenzi:["female","qun",3,["Diuse_Shizuishi","Diuse_Shashengying","Diuse_Tianhuxianzhen","Diuse_PlayerDie"],[]],
+                        Diuse_Bachongshenzi:["female","qun",3,["Diuse_Shizuishi","Diuse_Shashengying","Diuse_Tianhuxianzhen"],[]],
                         //,'kagari_zongsi'
                     },
                     translate:{
@@ -12694,30 +12651,6 @@ precontent:function (Diuse){
                 },
                 skill:{
                     skill:{
-                        Diuse_PlayerDie:{
-                            trigger:{player:'dieBegin'},
-                            forced:true,
-                            unique:true,
-                            popup:false,
-                            dutySkill:true, //防止左慈 和 天书 拿技能
-                            filter:function(event,player){
-                                var list=['Diuse_Bachongshenzi'];
-    
-                                for(var i=0;i<list.length;i++){
-                                    if(event.player.name==list[i]) return true;
-                                }
-                                return false;
-                            },
-                            content:function(){  
-                                var name=player.name;
-                                switch(name){                 
-                                    case 'Diuse_Bachongshenzi':{
-                                        game.playAudio('..','extension\\术樱','Diuse_Bachongshenzi_Die');
-                                        break;
-                                    }
-                                }
-                            },
-                        },
                         Diuse_Shizuishi:{
                             audio:"ext:术樱:4",
                             trigger:{player:"useCardBefore"},
@@ -13022,6 +12955,30 @@ precontent:function (Diuse){
                     lib.config.characters.push(英文名);
                 }
                 lib.translate[英文名+'_character_config'] = 翻译名;
+
+                lib.element.player.isMaxAttackRange=function(equal){ //攻击距离最大
+                    for(var i=0;i<game.players.length;i++){
+                        if(game.players[i].isOut()||game.players[i]==this) continue;
+                        if(equal){
+                            if(game.players[i].getAttackRange()>=this.getAttackRange()) return false;
+                        } else {
+                            if(game.players[i].getAttackRange()>this.getAttackRange()) return false;
+                        }
+                    }
+                    return true;
+                }
+
+                lib.element.player.isMinAttackRange=function(equal){ //攻击距离最小
+                    for(var i=0;i<game.players.length;i++){
+                        if(game.players[i].isOut()||game.players[i]==this) continue;
+                        if(equal){
+                            if(game.players[i].getAttackRange()<=this.getAttackRange()) return false;
+                        } else {
+                            if(game.players[i].getAttackRange()<this.getAttackRange()) return false;
+                        }
+                    }
+                    return true;
+                }
             };
 
             game.Diy("Diy","DIY",{
@@ -13033,6 +12990,9 @@ precontent:function (Diuse){
                         Diuse_Diy_Zhugeshang:["male","shu",4,["Diuse_DIY_Juesi","Diuse_DIY_Xunzhong"],[]],
                         Diuse_Diy_Simazhao:["male","wei",4,["Diuse_DIY_Zhaoquan",'Diuse_DIY_Zhengtong'],[]],
                         Diuse_Diy_Lvbu:["male","qun",5,["Diuse_DIY_Baifu",'Diuse_DIY_Zixiao','wushuang'],[]],
+                        Diuse_Diy_Simashi:["male","wei",4,["Diuse_DIY_Suzheng",'Diuse_DIY_Zhangbing'],[]],
+                        Diuse_Diy_Panghui:["male","wei",4,["Diuse_DIY_Shichou",'Diuse_DIY_Yonglie'],[]],
+                        Diuse_Diy_Caomao:["male","wei",4,["Diuse_DIY_Kuiye",'Diuse_DIY_Sucai','Diuse_DIY_Kuidi'],[]],
                         //,'kagari_zongsi'
                     },
                     translate:{
@@ -13041,13 +13001,14 @@ precontent:function (Diuse){
                         Diuse_Diy_Zhugeshang:"诸葛尚",
                         Diuse_Diy_Simazhao:"司马昭",
                         Diuse_Diy_Lvbu:"吕布",
+                        Diuse_Diy_Simashi:"司马师",
+                        Diuse_Diy_Panghui:"庞会",
+                        Diuse_Diy_Caomao:"曹髦",
                     },
                 },
                 perfectPair:{},
                 characterTitle:{},
                 characterReplace:{}, //切换版本
-                game:{ //普通自定义函数
-                },
                 skill:{
                     skill:{
                         Diuse_Diy_Xingfa:{
@@ -13064,7 +13025,8 @@ precontent:function (Diuse){
                                 });
                                 if(bool){
                                     player.chooseControl('摸一张牌','使用杀').set('prompt','请选择').set('ai',function(){
-                                        return '使用杀';
+                                        list=['摸一张牌','使用杀'].randomGet();
+                                        return list;
                                     });
                                 }
                                 'step 1'
@@ -13153,6 +13115,7 @@ precontent:function (Diuse){
                                             if(get.type(cards[i])=='trick'&&get.name(cards[i])!='wuxie'&&name=='wuxie'&&player.storage.Diuse_Diy_Miaopin) return true;
                                             if(get.type(cards[i])=='basic'&&get.name(cards[i])!='tao'&&name=='tao'&&player.storage.Diuse_Diy_Miaopin) return true;
                                         }
+                                        return false;
                                     },
                                     filter:function(event,player){
                                         var cards=player.getCards('h',function(card){
@@ -13184,8 +13147,23 @@ precontent:function (Diuse){
                                                         list.push(['锦囊','','wuxie']);
                                                         break;
                                                     }
+                                                    if(event.parent.name=='_save'&&event.player==player){
+                                                        if(event.filterCard({name:'tao',cards:cards,},player,event)){
+                                                            list.push(['基本','','tao']);
+                                                            if(event.filterCard({name:'jiu',cards:cards,},player,event)){
+                                                                list.push(['基本','','jiu']);
+                                                                break;
+                                                            }
+                                                            break;
+                                                        }
+                                                    }
+                                                    if(event.parent.name=='_save'&&event.filterCard({name:'tao',cards:cards,},player,event)){
+                                                        list.push(['基本','','tao']);
+                                                        break;
+                                                    }
                                                     for(var j=0;j<cards.length;j++){
                                                         if(get.name(cards[j])!=i&&get.type(cards[j])==get.type(i)){
+                                                            if(i=='tao'&&player.hp==player.maxHp) continue;
                                                             if(get.type(i)=='basic'){
                                                                 list.push(['基本','',i]);
                                                             } else {
@@ -13560,7 +13538,7 @@ precontent:function (Diuse){
                             filterTarget:function(event,player,target){return target!=player},
                             content:function(){
                                 'step 0'
-                                player.chooseTarget(get.prompt2('Diuse_DIY_Baifu'),function(event,player,target){
+                                player.chooseTarget(true,get.prompt2('Diuse_DIY_Baifu'),function(event,player,target){
                                     return player!=target&&target.hasSex('male');
                                 }).set('ai',function(target){
                                     return get.attitude(player,target)<=0;
@@ -13643,7 +13621,8 @@ precontent:function (Diuse){
                             trigger:{source:"damageBegin"},
                             forced:true,
                             filter:function(event,player,target){
-                                return event.card&&event.card.name=='sha'||event.card.name=='juedou'&&event.player.hasSkill('Diuse_DIY_Fuci');
+                                if(!event.player.hasSkill('Diuse_DIY_Fuci')) return false;
+                                return event.card&&event.card.name=='sha'||event.card.name=='juedou';
                             },
                             content:function(){
                                 trigger.num++;
@@ -13681,6 +13660,269 @@ precontent:function (Diuse){
                                 },
                             },
                         },
+                        Diuse_DIY_Suzheng:{
+                            enable:"phaseUse",
+                            usable:1,
+                            position:'h',
+                            selectCard:1,
+                            filterCard:function(card){
+                                return get.suit(card)=='heart'||get.suit(card)=='spade';
+                            },
+                            filter:function(event,player){
+                                return player.getEquip(1);
+                            },
+                            filterTarget:function(event,player,target){
+                                var suit=get.suit(ui.selected.cards[0]);
+                                if(suit=='heart'){
+                                    return target!=player&&player.inRange(target);
+                                } else {
+                                    return target!=player&&!player.inRange(target);
+                                }
+                            },
+                            content:function(){
+                                targets[0].damage();
+                            }
+                        },
+                        Diuse_DIY_Zhangbing:{
+                            trigger:{player:"phaseDrawBegin"},
+                            forced:true,
+                            filter:function(event,player){
+                                return player.isMinAttackRange();
+                            },
+                            content:function(){
+                                trigger.num++;
+                            },
+                            group:"Diuse_DIY_Zhangbing_Buff",
+                            subSkill:{
+                                Buff:{
+                                    trigger:{source:"damageBegin"},
+                                    forced:true,
+                                    filter:function(event,player){
+                                        return player.isMaxAttackRange();
+                                    },
+                                    content:function(){
+                                        trigger.num++;
+                                    },
+                                },
+                            },
+                        },
+                        Diuse_DIY_Shichou:{
+                            trigger:{target:"useCardToBefore"},
+                            forced:true,
+                            filter:function(event,player,target){
+                                return event.card&&get.color(event.card)=='red';
+                            },
+                            content:function(){
+                                trigger.cancel();
+                            }
+                        },
+                        Diuse_DIY_Yonglie:{
+                            trigger:{player:"useCardToPlayered"},
+                            init:function(player){
+                                player.storage.Diuse_DIY_Yonglie=[];
+                            },
+                            filter:function(event,player){
+                                if(!event.targets) return false;
+                                if(!event.isFirstTarget) return false;
+                                return event.card&&get.color(event.card)=='black'&&player!=event.target;
+                            },
+                            content:function(){
+                                'step 0'
+                                var list=[];
+                                player.storage.Diuse_DIY_Yonglie.add(trigger.card);
+                                for(var i=0;i<trigger.targets.length;i++){
+                                    trigger.targets[i].countCards('e',function(card){
+                                        if(get.color(card)=='black'){
+                                            list.add(trigger.targets[i]);
+                                        }
+                                    });
+                                }
+
+                                if(list.length){
+                                    player.chooseTarget('请选择想要弃置的一名角色',function(event,player,target){
+                                        return target!=player&&list.contains(target);
+                                    }).set('ai',function(event,player,target){
+                                        return get.attitude(player,trigger.target)<=0;
+                                    });
+                                } else {
+                                    event.finish();
+                                }
+                                'step 1'
+                                if(result.bool){
+                                    player.discardPlayerCard(result.targets[0],true,'e').set('filterButton',function(card){
+                                        return get.color(card)=='black';
+                                    });
+                                }
+                            },
+                            group:['Diuse_DIY_Yonglie_End','Diuse_DIY_Yonglie_Damage'],
+                            subSkill:{
+                                End:{
+                                    trigger:{player:'useCardAfter'},
+                                    silent:true,
+                                    sub:true,
+                                    filter:function(event,player){
+                                        return player==_status.currentPhase&&player.storage.Diuse_DIY_Yonglie!=undefined;
+                                    },
+                                    content:function(){
+                                        player.storage.Diuse_DIY_Yonglie.remove(event.card);
+                                    },
+                                },
+                                Damage:{
+                                    trigger:{global:'damageBegin'},
+                                    sub:true,
+                                    forced:true,
+                                    filter:function(event,player){
+                                        return event.card&&player.storage.Diuse_DIY_Yonglie.contains(event.card);
+                                    },
+                                    content:function(){
+                                        var card=get.cardPile2(function(card){
+                                            return get.color(card,false)=='red';
+                                        });
+                                        if(card) player.gain(card,'gain2');
+                                        game.updateRoundNumber();
+                                    },
+                                },
+                            },
+                        },
+                        Diuse_DIY_Kuiye:{
+                            trigger:{target:"useCardToTargeted"},
+                            forced:true,
+                            filter:function(event,player){
+                                if(get.tag(event.card,'damage')) return true;
+                                return false;
+                            },
+                            content:function(){
+                                'step 0'
+                                player.chooseToDiscard([1,2],'he','重铸至多两张牌并展示，若你以此法获得了两张牌且类型不同，你弃置其一').set('ai',function(card){
+                                    return 10-get.value(card);
+                                });
+                                'step 1'
+                                if(result.bool){
+                                    player.draw(result.cards.length);
+                                }
+                            },
+                            group:['Diuse_DIY_Kuiye_Gain'],
+                            subSkill:{
+                                Gain:{
+                                    trigger:{player:"gainAfter"},
+                                    forced:true,
+                                    popup:false,
+                                    audio:false,
+                                    sub:true,
+                                    filter:function (event,player){
+                                        return event.getParent().name=='draw'&&event.getParent(2).name=='Diuse_DIY_Kuiye';
+                                    },
+                                    content:function(){
+                                        'step 0'
+                                        event.bool=false
+                                        player.showCards(trigger.cards);
+                                        if(trigger.cards.length>=2){
+                                            for(var i=0;i<trigger.cards.length;i++){
+                                                for(var j=0;j<i;j++){
+                                                    if(get.type(trigger.cards[i])!=get.type(trigger.cards[j])){
+                                                        event.bool=true;
+                                                        break;
+                                                    } 
+                                                }
+                                                if(event.bool) break;
+                                            }
+                                        }
+                                        'step 1'
+                                        if(event.bool){
+                                            player.chooseToDiscard(true,'h',function(card){
+                                                game.log(trigger.cards,card,trigger.cards.contains(card));
+                                                return trigger.cards.contains(card);
+                                            }).set('ai',function(card){
+                                                return 10-get.value(card);
+                                            });
+                                        } else {event.finish();}
+                                    },
+                                },
+                            },
+                        },
+                        Diuse_DIY_Sucai:{
+                            marktext:"夙",
+                            mark:true,
+                            locked:true,
+                            intro:{
+                                content:function(event,player){
+                                    var num=player.countMark('Diuse_DIY_Sucai');
+                                    if(num==undefined) num=0;
+                                    return "共有"+num+'个标记';
+                                }
+                            },
+                            trigger:{player:"gainAfter"},
+                            forced:true,
+                            firstDo:true,
+                            filter:function(event,player){
+                                if(event.parent.parent.name=='phaseDraw') return false;
+                                if(event.getParent(2).name=='Diuse_DIY_Sucai') return false;
+                                return true;
+                            },
+                            content:function(){
+                                player.addMark('Diuse_DIY_Sucai');
+                                player.draw();
+                                if(player.countMark('Diuse_DIY_Sucai')==13){
+                                    player.gainMaxHp();
+                                    player.loseHp();
+                                }
+                            },
+                        },
+                        Diuse_DIY_Kuidi:{
+                            trigger:{player:"damageBegin3"},
+                            zhuSkill:true,
+                            init:function(player){
+                                player.storage.Diuse_DIY_Kuidi=[];
+                            },
+                            filter:function(event,player){
+                                return game.countPlayer(function(current){
+                                    return current!=player&&current.group=='wei'&&!player.storage.Diuse_DIY_Kuidi.contains(current);
+                                })&&game.hasPlayer(function(current){
+                                    return current!=player&&current.group=='wei'&&!player.storage.Diuse_DIY_Kuidi.contains(current);;
+                                });
+                            },
+                            content:function(){
+                                'step 0'
+                                event.list=[];
+                                game.hasPlayer(function(current){if(current!=player&&current.group=='wei'&&!player.storage.Diuse_DIY_Kuidi.contains(current)) event.list.add(current);});
+                                'step 1'
+                                if(event.list.length){
+                                    event.list[0].chooseBool('是否为'+get.translation(player)+'抵挡这次伤害').set('ai',function(){
+                                        if(get.attitude(player,target)>=0){
+                                            return true;
+                                        } else {return false;}
+                                    });
+                                } else { event.finish(); }
+                                'step 2'
+                                if(result.bool){
+                                    player.storage.Diuse_DIY_Kuidi.add(event.list[0]);
+                                    trigger.player=event.list[0];
+                                    event.list[0].line(player);
+                                    trigger.player.addSkill('Diuse_DIY_Kuidi_Buff');
+                                    trigger.player.storage.Diuse_DIY_Kuidi_Buff=player;
+                                    event.finish();
+                                } else {
+                                    event.list.shift();
+                                    event.goto(1);
+                                }
+                            }
+                        },
+                        Diuse_DIY_Kuidi_Buff:{
+                            trigger:{player:['damageAfter','damageCancelled','damageZero']},
+                            forced:true,
+                            popup:false,
+                            audio:false,
+                            vanish:true,
+                            charlotte:true,
+                            content:function(){
+                                if(player.getDamagedHp()){
+                                    player.draw(player.getDamagedHp());
+                                    player.storage.Diuse_DIY_Kuidi_Buff.draw(player.getDamagedHp());
+                                } 
+                                player.removeSkill('Diuse_DIY_Kuidi_Buff');
+                                player.storage.Diuse_DIY_Kuidi_Buff=[];
+                            }
+                        },
                     },
                     translate:{
                         Diuse_Diy_Xingfa:"兴伐",
@@ -13699,11 +13941,24 @@ precontent:function (Diuse){
                         Diuse_DIY_Zhengtong_info:"受到伤害后，你可令一名其他魏势力角色交给你X张牌并摸等量牌（X至多为其手牌总数）",
                         Diuse_DIY_Baifu:"拜父",
                         Diuse_DIY_Baifu_info:"限定技，准备阶段，若场上没有义父，你可以指定一名其他男性角色，其成为你的义父并获得“父慈”（父慈：锁定技，准备阶段，你需要交给义子任意张手牌，若此法给出的牌不小于两张，你指定一名角色，视为义子对其使用【决斗】）",
-                        Diuse_DIY_Baifu_Buff:"拜父",
                         Diuse_DIY_Fuci:"父慈",
                         Diuse_DIY_Fuci_info:"锁定技，准备阶段，你需要交给义子任意张手牌，若此法给出的牌不小于两张，你指定一名角色，视为义子对其使用【决斗】",
                         Diuse_DIY_Zixiao:"子孝",
                         Diuse_DIY_Zixiao_info:"锁定技，你使用【杀】或【决斗】造成伤害时，若目标为义父，则伤害+1。你杀死义父后，增加1点体力上限并回复一点体力，然后“拜父”视为未发动。",
+                        Diuse_DIY_Suzheng:"肃政",
+                        Diuse_DIY_Suzheng_info:"出牌阶段限一次，若你装备着武器牌，你可以弃置一张红桃/黑桃手牌，对你攻击范围内/外的一名角色造成一点伤害",
+                        Diuse_DIY_Zhangbing:"掌柄",
+                        Diuse_DIY_Zhangbing_info:"锁定技，若你的攻击范围为全场最大/小，你造成的伤害+1/你的摸牌数+1",
+                        Diuse_DIY_Shichou:"矢仇",
+                        Diuse_DIY_Shichou_info:"锁定技，红色牌对你无效",
+                        Diuse_DIY_Yonglie:"勇烈",
+                        Diuse_DIY_Yonglie_info:"当你使用黑色牌：1.指定其他角色为目标后，你可弃置其中一名角色装备区一张黑色牌；2.造成伤害后，摸一张红色牌",
+                        Diuse_DIY_Kuiye:"溃业",
+                        Diuse_DIY_Kuiye_info:"当你被伤害牌指定为目标后，你可以重铸至多两张牌并展示，若你以此法获得了两张牌且类型不同，你弃置其一",
+                        Diuse_DIY_Sucai:"夙才",
+                        Diuse_DIY_Sucai_info:"锁定技，你于摸牌阶段外获得牌时，额外摸一张，记为“夙”，当“夙”到达13个时，你加一点体力上限并失去一点体力，然后失去此技能",
+                        Diuse_DIY_Kuidi:"傀帝",
+                        Diuse_DIY_Kuidi_info:"主公技，当你受到伤害时，其他魏势力角色依次选择是否代替你承受此伤害。若其选择是，其与你各摸X张牌（X为此次伤害值），然后其本局游戏不可以再响应【傀帝】",
                     },
                 },
             },"术樱");
