@@ -12988,11 +12988,11 @@ precontent:function (Diuse){
                         Diuse_Diy_Zhonghui:["male","jin",4,["Diuse_Diy_Xingfa","Diuse_Diy_Miaopin"],[]],
                         Diuse_Diy_Caocao:["male","wei",4,["jianxiong","Diuse_Diy_Huibian","hujia"],[]],
                         Diuse_Diy_Zhugeshang:["male","shu",4,["Diuse_DIY_Juesi","Diuse_DIY_Xunzhong"],[]],
-                        Diuse_Diy_Simazhao:["male","wei",4,["Diuse_DIY_Zhaoquan",'Diuse_DIY_Zhengtong'],[]],
+                        Diuse_Diy_Simazhao:["male","wei",3,["Diuse_DIY_Zhaoquan",'Diuse_DIY_Zhengtong'],[]],
                         Diuse_Diy_Lvbu:["male","qun",5,["Diuse_DIY_Baifu",'Diuse_DIY_Zixiao','wushuang'],[]],
                         Diuse_Diy_Simashi:["male","wei",4,["Diuse_DIY_Suzheng",'Diuse_DIY_Zhangbing'],[]],
                         Diuse_Diy_Panghui:["male","wei",4,["Diuse_DIY_Shichou",'Diuse_DIY_Yonglie'],[]],
-                        Diuse_Diy_Caomao:["male","wei",4,["Diuse_DIY_Kuiye",'Diuse_DIY_Sucai','Diuse_DIY_Kuidi'],[]],
+                        Diuse_Diy_Caomao:["male","wei",3,["Diuse_DIY_Kuiye",'Diuse_DIY_Sucai','Diuse_DIY_Kuidi'],['zhu']],
                         //,'kagari_zongsi'
                     },
                     translate:{
@@ -13788,6 +13788,7 @@ precontent:function (Diuse){
                             trigger:{target:"useCardToTargeted"},
                             forced:true,
                             filter:function(event,player){
+                                if(!player.countCards('he')) return false;
                                 if(get.tag(event.card,'damage')) return true;
                                 return false;
                             },
@@ -13830,7 +13831,6 @@ precontent:function (Diuse){
                                         'step 1'
                                         if(event.bool){
                                             player.chooseToDiscard(true,'h',function(card){
-                                                game.log(trigger.cards,card,trigger.cards.contains(card));
                                                 return trigger.cards.contains(card);
                                             }).set('ai',function(card){
                                                 return 10-get.value(card);
@@ -13865,16 +13865,19 @@ precontent:function (Diuse){
                                 if(player.countMark('Diuse_DIY_Sucai')==13){
                                     player.gainMaxHp();
                                     player.loseHp();
+                                    player.removeSkill('Diuse_DIY_Sucai');
                                 }
                             },
                         },
                         Diuse_DIY_Kuidi:{
                             trigger:{player:"damageBegin3"},
                             zhuSkill:true,
+                            unique:true,
                             init:function(player){
                                 player.storage.Diuse_DIY_Kuidi=[];
                             },
                             filter:function(event,player){
+                                if(!player.hasZhuSkill('Diuse_DIY_Kuidi')) return false;
                                 return game.countPlayer(function(current){
                                     return current!=player&&current.group=='wei'&&!player.storage.Diuse_DIY_Kuidi.contains(current);
                                 })&&game.hasPlayer(function(current){
