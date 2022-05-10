@@ -13919,7 +13919,7 @@ precontent:function (Diuse){
                             vanish:true,
                             charlotte:true,
                             content:function(){
-                                var num=getDamagedHp();
+                                var num=player.getDamagedHp();
                                 if(num){
                                     player.draw(num);
                                     player.storage.Diuse_DIY_Kuidi_Buff.draw(num);
