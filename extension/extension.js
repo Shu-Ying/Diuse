@@ -13891,7 +13891,7 @@ precontent:function (Diuse){
                                 game.hasPlayer(function(current){if(current!=player&&current.group=='wei'&&!player.storage.Diuse_DIY_Kuidi.contains(current)) event.list.add(current);});
                                 'step 1'
                                 if(event.list.length){
-                                    event.list[0].chooseBool('是否为'+get.translation(player)+'抵挡这次伤害').set('ai',function(){
+                                    event.list[0].chooseBool('是否为'+get.translation(player)+'抵挡这次伤害').set('ai',function(event,target){
                                         if(get.attitude(player,target)>0){
                                             return true;
                                         } else {return false;}
