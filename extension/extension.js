@@ -45,7 +45,7 @@ precontent:function (Diuse){
         if(lib.config.extension_术樱_baizhanoff==undefined) game.saveConfig('extension_术樱_baizhanoff',false);
         if(lib.config.extension_术樱_skillsoff==undefined) game.saveConfig('extension_术樱_skillsoff',false);
 
-        game.saveConfig('Diuse_local_version','1.7.43');
+        game.saveConfig('Diuse_local_version','1.7.44');
 
         var httpRequest = new XMLHttpRequest();
         httpRequest.open("GET",'https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/online_version.js',true);
@@ -12981,7 +12981,7 @@ precontent:function (Diuse){
                 }
             };
 
-            game.Diy("Diy","DIY",{
+            game.Diy("Diuse_Diy","DIY",{
                 connect:true,
                 character:{
                     character:{
@@ -13794,11 +13794,12 @@ precontent:function (Diuse){
                             },
                             content:function(){
                                 'step 0'
-                                player.chooseToDiscard([1,2],'he','重铸至多两张牌并展示，若你以此法获得了两张牌且类型不同，你弃置其一').set('ai',function(card){
+                                player.chooseCard([1,2],'he','重铸至多两张牌并展示，若你以此法获得了两张牌且类型不同，你弃置其一').set('ai',function(card){
                                     return 10-get.value(card);
                                 });
                                 'step 1'
                                 if(result.bool){
+                                    player.loseToDiscardpile(result.cards);
                                     player.draw(result.cards.length);
                                 }
                             },
@@ -13891,7 +13892,7 @@ precontent:function (Diuse){
                                 'step 1'
                                 if(event.list.length){
                                     event.list[0].chooseBool('是否为'+get.translation(player)+'抵挡这次伤害').set('ai',function(){
-                                        if(get.attitude(player,target)>=0){
+                                        if(get.attitude(player,target)>0){
                                             return true;
                                         } else {return false;}
                                     });
