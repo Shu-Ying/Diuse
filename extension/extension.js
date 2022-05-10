@@ -13919,12 +13919,13 @@ precontent:function (Diuse){
                             vanish:true,
                             charlotte:true,
                             content:function(){
-                                if(player.getDamagedHp()){
-                                    player.draw(player.getDamagedHp());
-                                    player.storage.Diuse_DIY_Kuidi_Buff.draw(player.getDamagedHp());
+                                var num=getDamagedHp();
+                                if(num){
+                                    player.draw(num);
+                                    player.storage.Diuse_DIY_Kuidi_Buff.draw(num);
                                 } 
                                 player.removeSkill('Diuse_DIY_Kuidi_Buff');
-                                player.storage.Diuse_DIY_Kuidi_Buff=[];
+                                delete player.storage.Diuse_DIY_Kuidi_Buff;
                             }
                         },
                     },
