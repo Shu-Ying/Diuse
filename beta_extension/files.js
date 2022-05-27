@@ -257,6 +257,11 @@ Diuse_mp3=[
     'Diuse_Pengpeng1.mp3',
     'Diuse_Pengpeng2.mp3',
     'Diuse_Pengpeng3.mp3',
+    'Xvni_Xiaojiu_Die.mp3',
+    'Xvni_Xiaole_Die.mp3',
+    'Xvni_Xiaosha_Die.mp3',
+    'Xvni_Xiaoshan_Die.mp3',
+    'Xvni_Xiaotao_Die.mp3',
 ],
 Diuse_static=[
     'Diuse_Bachongying.jpg',
