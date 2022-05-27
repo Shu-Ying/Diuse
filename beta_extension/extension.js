@@ -14,7 +14,6 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
 //重新缩进 防止后续缩进过长
 editable:false,
 precontent:function (Diuse){
-
     lib.skill._diuse_dieAudio={ //阵亡语音
         trigger:{player:'dieBegin'},
         forced:true,
@@ -27,8 +26,7 @@ precontent:function (Diuse){
             game.playAudio('..','extension\\术樱',trigger.player.name+'_Die');
         }
     };
-
-    lib.skill._Tianshu_checkPoint={ //天书下一关
+    lib.skill._Tianshu_checkPoint={ //Boss阵亡和奖励
         trigger:{
             player:'dieBegin',
             global:"gameDrawAfter",
@@ -41,11 +39,13 @@ precontent:function (Diuse){
         forceDie:true,
         filter:function(event,player){
             var checkPointNum=_status.Diuse_Tianshu_checkPoint,bool=_status.Diuse_Tianshu_Bool;
+            if(checkPointNum>=6) checkPointNum=5;
             if(bool&&event.parent.name=='game'&&player.name=='Boss_Diuse_Tianshu') return true;
-            if(bool&&player.bossName(checkPointNum,_status.Diuse_Tianshu_Difficulty)&&player==event.player) return true;
+            if(bool&&player.bossName(checkPointNum,_status.Diuse_Tianshu_Difficulty)&&player==event.player&&!player.storage.Tianshu_checkPoint) return true;
             return false;
         },
         content:function(){
+            player.storage.Tianshu_checkPoint=true; //限制因技能造成的多重触发
             var list=[];
             var newSeat=5;
             if(game.me==game.boss) newSeat=6;
@@ -67,30 +67,15 @@ precontent:function (Diuse){
                 var name1=player.bossName(-1);
                 game.addBossFellow(newSeat,name1);
             } else if(num==1){ //第一关阵亡判断
-                var nextCheckPoint=trigger.player.bossName(num,num2); //判断阵亡BOSS是否属于BOSS列表
+                var nextCheckPoint=player.bossName(num,num2); //判断阵亡BOSS是否属于BOSS列表
                 if(nextCheckPoint){ //如果是
                     if(trigger.source!=undefined) trigger.source.hp!=trigger.source.maxHp?trigger.source.recover():trigger.source.draw(2);
-                    var gameBoss=trigger.player.gameBossDie(num,num2); //判断关卡BOSS是否阵亡
-                    if(gameBoss==false){ //如果返回False 说明阵亡
+                    var gameBoss=player.gameBossAllDie(); //判断关卡BOSS是否全部阵亡
+                    if(gameBoss){ //阵亡
                         _status.Diuse_Tianshu_nextBool=true;
                         _status.Diuse_Tianshu_checkPoint++;
-                    }  else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
-                        trigger.player.gameBossDie(num,num2,1);
-                    } 
-                } else if(nextCheckPoint==false){ //如果不是
-                    var gamePlayerNum=0;
-                    for(var i=0;i<game.players.length;i++){ //循环判断场上角色是否还有存活玩家
-                        if(game.players[i]==trigger.player) continue;
-                        if(!game.players[i].bossName(num,num2)&&!game.players[i].bossName(0,num2)){
-                            gamePlayerNum++;
-                        }
-                    }
-                    if(gamePlayerNum==0){ //如果场上角色都是BOSS或虚拟偶像 则游戏结束
-                        if(game.me==game.boss){
-                            game.over(true);
-                        } else {
-                            game.over(false);
-                        }
+                    }  else if(game.me==player&&game.me==game.boss){
+                        player.gameBossAllDie(1);
                     } 
                 }
             } else if(num==2){ //进入第二关 和 阵亡判断
@@ -112,30 +97,15 @@ precontent:function (Diuse){
                     _status.Diuse_Tianshu_nextBool=false;
                     player.addAllSkills();
                 }
-                var nextCheckPoint=trigger.player.bossName(num,num2); //阵亡判断 同第一关
+                var nextCheckPoint=player.bossName(num,num2); //阵亡判断 同第一关
                 if(nextCheckPoint){
                     if(trigger.source!=undefined) trigger.source.hp!=trigger.source.maxHp?trigger.source.recover():trigger.source.draw(2);
-                    var gameBoss=trigger.player.gameBossDie(num,num2);
-                    if(gameBoss==false){
+                    var gameBoss=player.gameBossAllDie();
+                    if(gameBoss){
                         _status.Diuse_Tianshu_nextBool=true;
                         _status.Diuse_Tianshu_checkPoint++;
-                    } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
-                        trigger.player.gameBossDie(num,num2,1);
-                    } 
-                } else if(nextCheckPoint==false){
-                    var gamePlayerNum=0;
-                    for(var i=0;i<game.players.length;i++){
-                        if(game.players[i]==trigger.player) continue;
-                        if(!game.players[i].bossName(num,num2)&&!game.players[i].bossName(0,num2)){
-                            gamePlayerNum++;
-                        }
-                    }
-                    if(gamePlayerNum==0){
-                        if(game.me==game.boss){
-                            game.over(true);
-                        } else {
-                            game.over(false);
-                        }
+                    } else if(game.me==player&&game.me==game.boss){
+                        player.gameBossAllDie(1);
                     } 
                 }
             } else if(num==3){
@@ -157,30 +127,15 @@ precontent:function (Diuse){
                     _status.Diuse_Tianshu_nextBool=false;
                     player.addAllSkills();
                 }
-                var nextCheckPoint=trigger.player.bossName(num,num2);
+                var nextCheckPoint=player.bossName(num,num2);
                 if(nextCheckPoint){
                     if(trigger.source!=undefined) trigger.source.hp!=trigger.source.maxHp?trigger.source.recover():trigger.source.draw(2);
-                    var gameBoss=trigger.player.gameBossDie(num,num2);
-                    if(gameBoss==false){
+                    var gameBoss=player.gameBossAllDie();
+                    if(gameBoss){
                         _status.Diuse_Tianshu_nextBool=true;
                         _status.Diuse_Tianshu_checkPoint++;
-                    } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
-                        trigger.player.gameBossDie(num,num2,1);
-                    } 
-                } else if(nextCheckPoint==false){
-                    var gamePlayerNum=0;
-                    for(var i=0;i<game.players.length;i++){
-                        if(game.players[i]==trigger.player) continue;
-                        if(!game.players[i].bossName(num,num2)&&!game.players[i].bossName(0,num2)){
-                            gamePlayerNum++;
-                        }
-                    }
-                    if(gamePlayerNum==0){
-                        if(game.me==game.boss){
-                            game.over(true);
-                        } else {
-                            game.over(false);
-                        }
+                    } else if(game.me==player&&game.me==game.boss){
+                        player.gameBossAllDie(1);
                     } 
                 }
             } else if(num==4){
@@ -202,30 +157,15 @@ precontent:function (Diuse){
                     _status.Diuse_Tianshu_nextBool=false;
                     player.addAllSkills();
                 }
-                var nextCheckPoint4=trigger.player.bossName(num,num2);
-                if(nextCheckPoint4){
+                var nextCheckPoint=player.bossName(num,num2);
+                if(nextCheckPoint){
                     if(trigger.source!=undefined) trigger.source.hp!=trigger.source.maxHp?trigger.source.recover():trigger.source.draw(2);
-                    var gameBoss=trigger.player.gameBossDie(num,num2);
-                    if(gameBoss==false){
+                    var gameBoss=player.gameBossAllDie();
+                    if(gameBoss){
                         _status.Diuse_Tianshu_nextBool=true;
                         _status.Diuse_Tianshu_checkPoint++;
-                    } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
-                        trigger.player.gameBossDie(num,num2,1);
-                    } 
-                } else if(nextCheckPoint4==false){
-                    var gamePlayerNum=0;
-                    for(var i=0;i<game.players.length;i++){
-                        if(game.players[i]==trigger.player) continue;
-                        if(!game.players[i].bossName(num,num2)&&!game.players[i].bossName(0,num2)){
-                            gamePlayerNum++;
-                        }
-                    }
-                    if(gamePlayerNum==0){
-                        if(game.me==game.boss){
-                            game.over(true);
-                        } else {
-                            game.over(false);
-                        }
+                    } else if(game.me==player&&game.me==game.boss){
+                        player.gameBossAllDie(1);
                     } 
                 }
             } else if(lib.config.extension_术樱_tianshuaddoff&&_status.Diuse_Tianshu_checkPoint<=num3){
@@ -268,34 +208,23 @@ precontent:function (Diuse){
                     _status.Diuse_Tianshu_nextBool=false;
                     player.addAllSkills();
                 }
-                var nextCheckPoint5=trigger.player.bossName(5,num2);
-                if(nextCheckPoint5){
+                var nextCheckPoint=player.bossName(5,num2);
+                if(nextCheckPoint){
                     if(trigger.source!=undefined) trigger.source.hp!=trigger.source.maxHp?trigger.source.recover():trigger.source.draw(2);
-                    var gameBoss=trigger.player.gameBossDie(5,num2);
-                    if(gameBoss==false){
+                    var test=1,gameBoss;
+                    if(test=1){
+                        gameBoss=player.gameBossAllDie();
+                        test++;
+                    }
+                    if(gameBoss){
                         _status.Diuse_Tianshu_checkPoint++;
                         if(_status.Diuse_Tianshu_checkPoint<=num3&&lib.config.extension_术樱_tianshuaddoff) {
                             _status.Diuse_Tianshu_nextBool=true;
                         } else {
                             event.goto(0);
                         }
-                    } else if(game.me==trigger.player&&gameBoss&&game.me==game.boss){
-                        trigger.player.gameBossDie(num,num2,1);
-                    } 
-                } else if(nextCheckPoint5==false){
-                    var gamePlayerNum=0;
-                    for(var i=0;i<game.players.length;i++){
-                        if(game.players[i]==trigger.player) continue;
-                        if(!game.players[i].bossName(5,num2)&&!game.players[i].bossName(0,num2)){
-                            gamePlayerNum++;
-                        }
-                    }
-                    if(gamePlayerNum==0){
-                        if(game.me==game.boss){
-                            game.over(true);
-                        } else {
-                            game.over(false);
-                        }
+                    } else if(game.me==player&&game.me==game.boss){
+                        player.gameBossAllDie(1);
                     } 
                 }
             } else {
@@ -413,9 +342,9 @@ precontent:function (Diuse){
             'step 7'
             event.goto(0);
         },
-        group:['_Tianshu_checkPoint_Kuangbao','_Tianshu_checkPoint_Use'],
+        group:['_Tianshu_checkPoint_Kuangbao','_Tianshu_checkPoint_Use','_Tianshu_checkPoint_Die'],
         subSkill:{
-            Kuangbao:{
+            Kuangbao:{ //5回合狂暴
                 trigger:{global:"roundStart"},
                 forced:true,
                 sub:true,
@@ -437,7 +366,7 @@ precontent:function (Diuse){
                     _status.Diuse_Tianshu_fiveBool=true
                 }
             },
-            Use:{
+            Use:{ //7回合体力流失
                 trigger:{player:"phaseUseBegin"},
                 forced:true,
                 audio:false,
@@ -451,6 +380,43 @@ precontent:function (Diuse){
                 },
                 content:function(){
                     player.loseHp();
+                },
+            },
+            Die:{ //玩家阵亡
+                trigger:{
+                    player:'dieBegin',
+                    global:"gameDrawAfter",
+                },
+                forced:true,
+                charlotte:true,
+                popup:false,
+                lastDo:true,
+                unique: true,
+                forceDie:true,
+                filter:function(event,player){
+                    var checkPointNum=_status.Diuse_Tianshu_checkPoint,bool=_status.Diuse_Tianshu_Bool;
+                    if(checkPointNum>=6) checkPointNum=5;
+                    if(bool&&!player.bossName(checkPointNum,_status.Diuse_Tianshu_Difficulty)&&player==event.player&&!player.storage.Tianshu_checkPoint) return true;
+                    return false;
+                },
+                content:function(){
+                    var num=_status.Diuse_Tianshu_checkPoint;
+                    var num2=_status.Diuse_Tianshu_Difficulty;
+                    var gamePlayerNum=0;
+                    for(var i=0;i<game.players.length;i++){
+                        if(game.players[i]==player) continue;
+                        if(!game.players[i].bossName(num,num2)&&!game.players[i].bossName(0,num2)){
+                            gamePlayerNum++;
+                        }
+                    }
+                    if(gamePlayerNum==0){
+                        if(game.me==game.boss){
+                            game.over(true);
+                        } else {
+                            player.die();
+                            game.over(false);
+                        }
+                    } 
                 },
             },
         },
@@ -473,7 +439,7 @@ precontent:function (Diuse){
         if(lib.config.extension_术樱_baizhanoff==undefined) game.saveConfig('extension_术樱_baizhanoff',false);
         if(lib.config.extension_术樱_skillsoff==undefined) game.saveConfig('extension_术樱_skillsoff',false);
 
-        game.saveConfig('Diuse_local_version','1.7.45');
+        game.saveConfig('Diuse_local_version','1.7.44.2');
 
         var httpRequest = new XMLHttpRequest();
         if(lib.config.extension_术樱_Beta){
@@ -941,6 +907,7 @@ precontent:function (Diuse){
             lib.extensionMenu.extension_术樱.tianshunew={
                 "name":"关卡总数",
                 "item":{
+                    4:'4',
                     5:'5',
                     10:'10',
                     15:'15',
@@ -4975,19 +4942,19 @@ precontent:function (Diuse){
                     return listName.randomGet();
                 }
 
-                lib.element.player.gameBossDie=function(num,num2,num3){ //判断天书相应关卡boss是否阵亡和转移Boss控制权
+                lib.element.player.gameBossAllDie=function(num3){ //判断天书相应关卡boss是否阵亡和转移Boss控制权
                     for(var i=0;i<game.players.length;i++){
                         if(game.players[i]==this) continue;
-                        var nextBoss=game.players[i].bossName(num,num2);
-                        if(nextBoss) {
+                        game.log(game.boss.isFriendOf(game.players[i]),game.players[i])
+                        if(game.boss.isFriendOf(game.players[i])){
                             if(num3) {
                                 _status.gameMe=true;
                                 game.players[i]._trueMe=game.me;
                             }
-                            return true;
+                            return false;
                         }
                     }
-                    return false;
+                    return true;
                 };
 
                 lib.element.player.bossName=function(num,a){ //全部boss 可以用于调用和匹配boss
@@ -5087,11 +5054,53 @@ precontent:function (Diuse){
                             }
                         }
                         case 5:{
-                            if(Newlist==''||Newlist==undefined) return false;
-                            for(var i=0;i<Newlist.length;i++){
-                                if(this.name==Newlist[i]) return true;
+                            var list=[];
+                            if(lib.config.extension_术樱_randomoff){
+                                if(a==1){
+                                    if(Newlist==''||Newlist==undefined){
+                                        list.push.apply(list,twoOrdinaryList);
+                                        list.push.apply(list,threeOrdinaryList);
+                                        list.push.apply(list,fourOrdinaryList);
+                                    } else {
+                                        list.push.apply(list,twoOrdinaryList);
+                                        list.push.apply(list,threeOrdinaryList);
+                                        list.push.apply(list,fourOrdinaryList);
+                                        list.push.apply(list,Newlist);
+                                    }
+                                    if(list.contains(this.name)) return true;
+                                } else if(a==2){
+                                    if(Newlist==''||Newlist==undefined){
+                                        list.push.apply(list,twoDifficultyList);
+                                        list.push.apply(list,threeDifficultyList);
+                                        list.push.apply(list,fourDifficultyList);
+                                    } else {
+                                        list.push.apply(list,twoDifficultyList);
+                                        list.push.apply(list,threeDifficultyList);
+                                        list.push.apply(list,fourDifficultyList);
+                                        list.push.apply(list,Newlist);
+                                    }
+                                    if(list.contains(this.name)) return true;
+                                } else {
+                                    if(Newlist==''||Newlist==undefined){
+                                        list.push.apply(list,twoFuckingList);
+                                        list.push.apply(list,threeFuckingList);
+                                        list.push.apply(list,fourFuckingList);
+                                    } else {
+                                        list.push.apply(list,twoFuckingList);
+                                        list.push.apply(list,threeFuckingList);
+                                        list.push.apply(list,fourFuckingList);
+                                        list.push.apply(list,Newlist);
+                                    }
+                                    if(list.contains(this.name)) return true;
+                                }
+                                return false;
+                            } else {
+                                if(Newlist==''||Newlist==undefined) return false;
+                                for(var i=0;i<Newlist.length;i++){
+                                    if(this.name==Newlist[i]) return true;
+                                }
+                                return false;
                             }
-                            return false;
                         }
                         case 255:{
                             for(var i=0;i<Longzhoulist.length;i++){
@@ -5200,36 +5209,80 @@ precontent:function (Diuse){
                             }
                         }
                         case -5:{
-                            if(Newlist==''||Newlist==undefined||Newlist.length==1){
-                                alert('请检查Boss列表或只有一位Boss，即将重启');
-                                setTimeout(function(){
-                                    setTimeout(game.reload,1500);
-                                }, 1500);
-                            }
-                            var newBoss=Newlist.randomGet();
-                            for(var i=0;i<game.players.length;i++){
-                                if(newBoss==game.players[i].name){
-                                    newBoss=Newlist.randomGet();
-                                    i=0;
+                            var list=[];
+                            if(lib.config.extension_术樱_randomoff){
+                                if(a==1){
+                                    if(Newlist==''||Newlist==undefined){
+                                        list.push.apply(list,twoOrdinaryList);
+                                        list.push.apply(list,threeOrdinaryList);
+                                        list.push.apply(list,fourOrdinaryList);
+                                    } else {
+                                        list.push.apply(list,twoOrdinaryList);
+                                        list.push.apply(list,threeOrdinaryList);
+                                        list.push.apply(list,fourOrdinaryList);
+                                        list.push.apply(list,Newlist);
+                                    }
+                                    var newBoss=list.randomGet();
+                                    for(var i=0;i<game.players.length;i++){
+                                        if(newBoss==game.players[i].name){
+                                            newBoss=Newlist.randomGet();
+                                            i=0;
+                                        }
+                                    }
+                                } else if(a==2){
+                                    if(Newlist==''||Newlist==undefined){
+                                        list.push.apply(list,twoDifficultyList);
+                                        list.push.apply(list,threeDifficultyList);
+                                        list.push.apply(list,fourDifficultyList);
+                                    } else {
+                                        list.push.apply(list,twoDifficultyList);
+                                        list.push.apply(list,threeDifficultyList);
+                                        list.push.apply(list,fourDifficultyList);
+                                        list.push.apply(list,Newlist);
+                                    }
+                                    var newBoss=list.randomGet();
+                                    for(var i=0;i<game.players.length;i++){
+                                        if(newBoss==game.players[i].name){
+                                            newBoss=Newlist.randomGet();
+                                            i=0;
+                                        }
+                                    }
+                                } else {
+                                    if(Newlist==''||Newlist==undefined){
+                                        list.push.apply(list,twoFuckingList);
+                                        list.push.apply(list,threeFuckingList);
+                                        list.push.apply(list,fourFuckingList);
+                                    } else {
+                                        list.push.apply(list,twoFuckingList);
+                                        list.push.apply(list,threeFuckingList);
+                                        list.push.apply(list,fourFuckingList);
+                                        list.push.apply(list,Newlist);
+                                    }
+                                    var newBoss=list.randomGet();
+                                    for(var i=0;i<game.players.length;i++){
+                                        if(newBoss==game.players[i].name){
+                                            newBoss=Newlist.randomGet();
+                                            i=0;
+                                        }
+                                    }
+                                }
+                                return newBoss;
+                            } else {
+                                if(Newlist==''||Newlist==undefined||Newlist.length==1){
+                                    alert('请检查Boss列表或只有一位Boss，即将重启');
+                                    setTimeout(function(){
+                                        setTimeout(game.reload,1500);
+                                    }, 1500);
+                                }
+                                var newBoss=Newlist.randomGet();
+                                for(var i=0;i<game.players.length;i++){
+                                    if(newBoss==game.players[i].name){
+                                        newBoss=Newlist.randomGet();
+                                        i=0;
+                                    }
                                 }
                             }
                             return newBoss;
-                            // if(lib.config.extension_术樱_randomoff){
-                            //     if(Newlist==''||Newlist==undefined||Newlist.length==1){
-                            //         _status.Diuse_NewBoss=true;
-                            //         game.bossName(0,0,a);
-                            //     }
-                            //     var newBoss=Newlist.randomGet();
-                            //     for(var i=0;i<game.players.length;i++){
-                            //         if(newBoss==game.players[i].name){
-                            //             newBoss=Newlist.randomGet();
-                            //             i=0;
-                            //         }
-                            //     }
-                                
-                            // } else {
-
-                            // }
                         }
                         default:{return false}
                     }
@@ -5255,6 +5308,14 @@ precontent:function (Diuse){
                             game.dead[i].hide();
                         }
                     }
+                };
+
+                lib.element.player.gainMaxHpCard=function(maxHp,card){
+                    this.addSkill('removeSkills');
+                    this.gainMaxHp(maxHp);
+                    this.recover(maxHp);
+                    this.draw(card);
+                    this.players[i].removeSkill('removeSkills');
                 };
             };
 
