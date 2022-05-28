@@ -41,7 +41,6 @@ precontent:function (Diuse){
             var checkPointNum=_status.Diuse_Tianshu_checkPoint,bool=_status.Diuse_Tianshu_Bool;
             if(checkPointNum>=6) checkPointNum=5;
             if(bool&&event.parent.name=='game'&&player.name=='Boss_Diuse_Tianshu') return true;
-            game.log(bool,player.bossName(checkPointNum,_status.Diuse_Tianshu_Difficulty),player,event.player,event.player.storage.Tianshu_checkPoint)
             if(bool&&player.bossName(checkPointNum,_status.Diuse_Tianshu_Difficulty)&&player==event.player&&!event.player.storage.Tianshu_checkPoint) return true;
             return false;
         },
