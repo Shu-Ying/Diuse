@@ -440,7 +440,7 @@ precontent:function (Diuse){
         if(lib.config.extension_术樱_baizhanoff==undefined) game.saveConfig('extension_术樱_baizhanoff',false);
         if(lib.config.extension_术樱_skillsoff==undefined) game.saveConfig('extension_术樱_skillsoff',false);
 
-        game.saveConfig('Diuse_local_version','1.7.44.2');
+        game.saveConfig('Diuse_local_version','1.7.44.3');
 
         var httpRequest = new XMLHttpRequest();
         if(lib.config.extension_术樱_Beta){
