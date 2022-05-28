@@ -353,7 +353,7 @@ precontent:function (Diuse){
                 filter:function(event,player){
                     var bool=_status.Diuse_Tianshu_Bool;
                     if(game.roundNumber!=5) _status.Diuse_Tianshu_fiveBool=false;
-                    return game.roundNumber==5&&lib.config.extension_术樱_kuangbaooff&&bool;
+                    return bool&&game.roundNumber==5&&lib.config.extension_术樱_kuangbaooff;
                 },
                 content:function(){
                     if(_status.Diuse_Tianshu_fiveBool==false){
@@ -376,7 +376,7 @@ precontent:function (Diuse){
                 filter:function(event,player){
                     var bool=_status.Diuse_Tianshu_Bool;
                     if(bool) game.changeSeatNew(); //修正座位
-                    if(!player.isFriendOf(game.boss)&&game.roundNumber>=7&&lib.config.extension_术樱_kuangbaooff&&bool) return true;
+                    if(bool&&!player.isFriendOf(game.boss)&&game.roundNumber>=7&&lib.config.extension_术樱_kuangbaooff) return true;
                     return false;
                 },
                 content:function(){
@@ -3057,7 +3057,7 @@ precontent:function (Diuse){
                                     return '已经修改仙法，且不能再次触发“天地”。';
                                 },
                             },
-                            trigger:{player:"phaseEnd",},
+                            trigger:{player:"phaseEnd"},
                             discard:false,
                             content:function(event,player){
                                 var num=0;
@@ -3081,7 +3081,7 @@ precontent:function (Diuse){
                             subSkill:{
                                 Use:{
                                     audio:"Diuse_Xianfa",
-                                    trigger:{player:"phaseUseBefore",},
+                                    trigger:{player:"phaseUseBefore"},
                                     forced:true,
                                     sub:true,
                                     filter:function(event,player){
@@ -13608,11 +13608,12 @@ precontent:function (Diuse){
                         Diuse_Diy_Zhonghui:["male","jin",4,["Diuse_Diy_Xingfa","Diuse_Diy_Miaopin"],[]],
                         Diuse_Diy_Caocao:["male","wei",4,["jianxiong","Diuse_Diy_Huibian","hujia"],[]],
                         Diuse_Diy_Zhugeshang:["male","shu",4,["Diuse_DIY_Juesi","Diuse_DIY_Xunzhong"],[]],
-                        Diuse_Diy_Simazhao:["male","wei",3,["Diuse_DIY_Zhaoquan",'Diuse_DIY_Zhengtong'],[]],
-                        Diuse_Diy_Lvbu:["male","qun",5,["Diuse_DIY_Baifu",'Diuse_DIY_Zixiao','wushuang'],[]],
-                        Diuse_Diy_Simashi:["male","wei",4,["Diuse_DIY_Suzheng",'Diuse_DIY_Zhangbing'],[]],
-                        Diuse_Diy_Panghui:["male","wei",4,["Diuse_DIY_Shichou",'Diuse_DIY_Yonglie'],[]],
-                        Diuse_Diy_Caomao:["male","wei",3,["Diuse_DIY_Kuiye",'Diuse_DIY_Sucai','Diuse_DIY_Kuidi'],['zhu']],
+                        Diuse_Diy_Simazhao:["male","wei",3,["Diuse_DIY_Zhaoquan","Diuse_DIY_Zhengtong"],[]],
+                        Diuse_Diy_Lvbu:["male","qun",5,["Diuse_DIY_Baifu","Diuse_DIY_Zixiao","wushuang"],[]],
+                        Diuse_Diy_Simashi:["male","wei",4,["Diuse_DIY_Suzheng","Diuse_DIY_Zhangbing"],[]],
+                        Diuse_Diy_Panghui:["male","wei",4,["Diuse_DIY_Shichou","Diuse_DIY_Yonglie"],[]],
+                        Diuse_Diy_Caomao:["male","wei",3,["Diuse_DIY_Kuiye","Diuse_DIY_Sucai","Diuse_DIY_Kuidi"],['zhu']],
+                        Diuse_Diy_Xushu:["male","shu",4,["Diuse_DIY_Zhuhai","Diuse_DIY_Qianxin"],[]]
                         //,'kagari_zongsi'
                     },
                     translate:{
@@ -13624,6 +13625,16 @@ precontent:function (Diuse){
                         Diuse_Diy_Simashi:"司马师",
                         Diuse_Diy_Panghui:"庞会",
                         Diuse_Diy_Caomao:"曹髦",
+                        Diuse_Diy_Xushu:"界徐庶",
+                    },
+                },
+                game:{
+                    cardsNumberUpDate:function(){
+                        var cards=get.cards(ui.cardPile.childElementCount+1);
+                        for(var i=0;i<cards.length;i++){
+                            ui.cardPile.insertBefore(cards[i],ui.cardPile.childNodes[get.rand(ui.cardPile.childElementCount)]);
+                        }
+                        game.updateRoundNumber();
                     },
                 },
                 perfectPair:{},
@@ -14550,6 +14561,137 @@ precontent:function (Diuse){
                                 player.storage.Diuse_DIY_Kuidi_Buff=[];
                             }
                         },
+                        Diuse_DIY_Zhuhai:{
+                            audio:"ext:术樱:2",
+                            trigger:{global:'phaseJieshuBegin'},
+                            direct:true,
+                            filter:function(event,player){
+                                return event.player.isAlive()&&event.player.getStat('damage')&&(player.hasSha()||_status.connectMode)&&(lib.filter.targetEnabled({name:'sha'},player,event.player)||event.countCards('hej')>=1);
+                            },
+                            content:function(){
+                                'step 0'
+                                player.chooseControl('杀','过河拆桥').set('prompt','请选择对'+get.translation(trigger.player)+'使用一张').set('ai',function(){
+                                    if(trigger.player.getEquip(2)||trigger.player.getEquip(3)&&lib.filter.targetEnabled({name:'guohe'},player,trigger.player)) return '过河拆桥';
+                                    return '杀';
+                                });
+                                'step 1'
+                                if(result.control=='杀'){
+                                    player.useCard({name:'sha',isCard:true},trigger.player,'noai');
+                                } else {
+                                    player.useCard({name:'guohe',isCard:true},trigger.player,'noai');
+                                }
+                            }
+                        },
+                        Diuse_DIY_Qianxin:{
+                            audio:"ext:术樱:2",
+                            skillAnimation:true,
+                            animationColor:'orange',
+                            unique:true,
+                            juexingji:true,
+                            trigger:{source:'damageSource'},
+                            forced:true,
+                            derivation:'Diuse_DIY_Jianyan',
+                            filter:function(event,player){
+                                return player.hp<player.maxHp;
+                            },
+                            content:function(){
+                                player.awakenSkill('Diuse_DIY_Qianxin');
+                                player.addSkill('Diuse_DIY_Jianyan');
+                                player.loseMaxHp();
+                            }
+                        },
+                        Diuse_DIY_Jianyan:{
+                            audio:"ext:术樱:2",
+                            enable:'phaseUse',
+                            init:function(player){
+                                player.storage.Diuse_DIY_Jianyan_Color=true;
+                                player.storage.Diuse_DIY_Jianyan_Type=true;
+                            },
+                            filter:function(event,player){
+                                return player.storage.Diuse_DIY_Jianyan_Type||player.storage.Diuse_DIY_Jianyan_Color&&game.hasPlayer(function(current){
+                                    return current.hasSex('male');
+                                });
+                            },
+                            content:function(){
+                                "step 0"
+                                if(player.storage.Diuse_DIY_Jianyan_Color==false){
+                                    player.chooseControl(['basic','trick','equip']).set('ai',function(){
+                                        var player=_status.event.player;
+                                        if(!player.hasShan()) return 'basic';
+                                        if(player.countCards('e')<=1) return 'equip';
+                                        if(player.countCards('h')>2) return 'trick';
+                                        return 'basic';
+                                    });
+                                } else if(player.storage.Diuse_DIY_Jianyan_Type==false) {
+                                    player.chooseControl(['red','black']).set('ai',function(){
+                                        var player=_status.event.player;
+                                        return 'red';
+                                    });
+                                } else {
+                                    player.chooseControl(['red','black','basic','trick','equip']).set('ai',function(){
+                                        var player=_status.event.player;
+                                        if(!player.hasShan()) return 'basic';
+                                        if(player.countCards('e')<=1) return 'equip';
+                                        if(player.countCards('h')>2) return 'trick';
+                                        return 'red';
+                                    });
+                                }
+
+                                "step 1"
+                                if(result.control=='red'||result.control=='black'){
+                                    player.storage.Diuse_DIY_Jianyan_Color=false;
+                                } else {
+                                    player.storage.Diuse_DIY_Jianyan_Type=false;
+                                }
+                                event.card=get.cardPile(function(card){
+                                    if(get.color(card)==result.control) return true;
+                                    if(get.type(card,'trick')==result.control) return true;
+                                    return false;
+                                },'cardPile');
+                                "step 2"
+                                if(!event.card){
+                                    game.cardsNumberUpDate();
+                                    event.goto(1);
+                                }
+                                player.showCards([event.card]);
+                                "step 3"
+                                player.chooseTarget(true,'选择一名男性角色送出'+get.translation(event.card),function(card,player,target){
+                                    return target.hasSex('male');
+                                }).set('ai',function(target){
+                                    var att=get.attitude(_status.event.player,target);
+                                    if(_status.event.neg) return -att;
+                                    return att;
+                                }).set('neg',get.value(event.card,player,'raw')<0);
+                                "step 4"
+                                player.line(result.targets,'green');
+                                result.targets[0].gain(event.card,'gain2');
+                            },
+                            ai:{
+                                order:9,
+                                result:{
+                                    player:function(player){
+                                        if(game.hasPlayer(function(current){
+                                            return current.hasSex('male')&&get.attitude(player,current)>0;
+                                        })) return 2;
+                                        return 0;
+                                    },
+                                },
+                                threaten:1.2
+                            },
+                            group:"Diuse_DIY_Jianyan_Buff",
+                            subSkill:{
+                                Buff:{
+                                    trigger:{player:"phaseUseBefore"},
+                                    forced:true,
+                                    sub:true,
+                                    popup:false,
+                                    content:function(){
+                                        player.storage.Diuse_DIY_Jianyan_Color=true;
+                                        player.storage.Diuse_DIY_Jianyan_Type=true;
+                                    },
+                                },
+                            },
+                        },
                     },
                     translate:{
                         Diuse_Diy_Xingfa:"兴伐",
@@ -14586,6 +14728,12 @@ precontent:function (Diuse){
                         Diuse_DIY_Sucai_info:"锁定技，你于摸牌阶段外获得牌时，额外摸一张，记为“夙”，当“夙”到达13个时，你加一点体力上限并失去一点体力，然后失去此技能",
                         Diuse_DIY_Kuidi:"傀帝",
                         Diuse_DIY_Kuidi_info:"主公技，当你受到伤害时，其他魏势力角色依次选择是否代替你承受此伤害。若其选择是，其与你各摸X张牌（X为此次伤害值），然后其本局游戏不可以再响应【傀帝】",
+                        Diuse_DIY_Zhuhai:"诛害",
+                        Diuse_DIY_Zhuhai_info:"其他角色的结束阶段，若其于本回合内造成过伤害，你可以视为对其使用一张【杀】或【过河拆桥】。",
+                        Diuse_DIY_Qianxin:"潜心",
+                        Diuse_DIY_Qianxin_info:"觉醒技，当你造成伤害后，若你已受伤，则你减1点体力上限，获得技能“荐言”",
+                        Diuse_DIY_Jianyan:"荐言",
+                        Diuse_DIY_Jianyan_info:"出牌阶段每项限一次，你可以选择一种类别/颜色并亮出牌堆中第一张符合条件的牌（没有则洗牌），然后你令一名男性角色获得之。",
                     },
                 },
             },"术樱");
