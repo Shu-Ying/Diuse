@@ -262,6 +262,13 @@ Diuse_mp3=[
     'Xvni_Xiaosha_Die.mp3',
     'Xvni_Xiaoshan_Die.mp3',
     'Xvni_Xiaotao_Die.mp3',
+    'Diuse_DIY_Jianyan1.mp3',
+    'Diuse_DIY_Jianyan2.mp3',
+    'Diuse_Diy_Xushu_Die.mp3',
+    'Diuse_DIY_Zhuhai1.mp3',
+    'Diuse_DIY_Qianxin1.mp3',
+    'Diuse_DIY_Zhuhai2.mp3',
+    'Diuse_DIY_Qianxin2.mp3',
 ],
 Diuse_static=[
     'Diuse_Bachongying.jpg',
@@ -285,6 +292,7 @@ Diuse_static=[
     'Diuse_Diy_Caomao.jpg',
     'Diuse_Diy_Panghui.jpg',
     'Diuse_Diy_Simashi.jpg',
+    'Diuse_Diy_Xushu.jpg',
 ],
 Diuse_dynamic=[
     'Diuse_Bachongying.jpg',
