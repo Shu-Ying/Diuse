@@ -41,11 +41,12 @@ precontent:function (Diuse){
             var checkPointNum=_status.Diuse_Tianshu_checkPoint,bool=_status.Diuse_Tianshu_Bool;
             if(checkPointNum>=6) checkPointNum=5;
             if(bool&&event.parent.name=='game'&&player.name=='Boss_Diuse_Tianshu') return true;
-            if(bool&&player.bossName(checkPointNum,_status.Diuse_Tianshu_Difficulty)&&player==event.player&&!player.storage.Tianshu_checkPoint) return true;
+            game.log(bool,player.bossName(checkPointNum,_status.Diuse_Tianshu_Difficulty),player,event.player,event.player.storage.Tianshu_checkPoint)
+            if(bool&&player.bossName(checkPointNum,_status.Diuse_Tianshu_Difficulty)&&player==event.player&&!event.player.storage.Tianshu_checkPoint) return true;
             return false;
         },
         content:function(){
-            player.storage.Tianshu_checkPoint=true; //限制因技能造成的多重触发
+            if(trigger.parent.name!='game') trigger.player.storage.Tianshu_checkPoint=true; //限制因技能造成的多重触发
             var list=[];
             var newSeat=5;
             if(game.me==game.boss) newSeat=6;
@@ -67,6 +68,7 @@ precontent:function (Diuse){
                 var name1=player.bossName(-1);
                 game.addBossFellow(newSeat,name1);
             } else if(num==1){ //第一关阵亡判断
+                game.log(player)
                 var nextCheckPoint=player.bossName(num,num2); //判断阵亡BOSS是否属于BOSS列表
                 if(nextCheckPoint){ //如果是
                     if(trigger.source!=undefined) trigger.source.hp!=trigger.source.maxHp?trigger.source.recover():trigger.source.draw(2);
@@ -555,7 +557,6 @@ precontent:function (Diuse){
             "onclick":function(){
                 if(confirm('点击确定会检测本地资源，并尝试修复。若开启测试版，则会关闭测试版')&&Diuse_Button){
                     Diuse_Button=false;
-                    game.saveConfig('extension_术樱_Beta',false);
                     RepairBug();
                 } else if(Diuse_Button==false){
                     alert('有其他文件正在下载，请稍后再试吧。');
@@ -575,7 +576,7 @@ precontent:function (Diuse){
             },
         };
         lib.extensionMenu.extension_术樱.Beta={
-            "name":"开启测试版",
+            "name":"开启测试版(需重启",
             "init":false,
             "intro":"开启后，更新进入测试版渠道",
         };
@@ -980,7 +981,7 @@ precontent:function (Diuse){
             },
         };
         lib.extensionMenu.extension_术樱.thank={
-            "name":"最后感谢极光佬，诗笺佬和其他大佬网络上的文献，还有反馈BUG的玩家。谢谢！",
+            "name":"感谢极光佬，诗笺佬和其他大佬网络上的文献。以及反馈BUG的玩家。谢谢！最后特别感谢少年A对本扩展进行的优化描述和设计的伏特加女孩",
             "clear":true,
             "nopointer":true,
         };
@@ -1687,6 +1688,7 @@ precontent:function (Diuse){
             });
         };
         RepairBug=function(){
+            game.saveConfig('extension_术樱_Beta',false);
             lib.init.js(url,'files',function(){
                 lib.init.js(url,'version',function(){RepairBugGo();},function(){
                     game.download('https://diuse.coding.net/p/extension/d/noname_extension/git/raw/master/extension/version.js','extension/术樱/version.js',function(){alert('version资源修复成功！');Diuse_Button=true;},function(){alert('version资源修复失败！');Diuse_Button=true;});
@@ -2030,6 +2032,7 @@ precontent:function (Diuse){
                             content:function (event,player,targets)
                             {
                                 targets[0].draw();
+                                game.log(targets[0].storage.Tianshu_checkPoint)
                                 player.chooseUseTarget({name:'sha'},'是否视为使用一张【杀】？',false);
                             },
                             ai:{
@@ -4741,26 +4744,26 @@ precontent:function (Diuse){
                         Diuse_SP:"SP",
                         Diuse_PlayerDie:"阵亡语音",
                         Diuse_Xuesha:"血杀",
-                        "Diuse_Xuesha_info":"你的回合内，有角色受到伤害后你可以摸一张牌并可以额外使用一张杀。",
+                        "Diuse_Xuesha_info":"你的回合内，当有角色受到伤害后，你可以摸一张牌并令本回合使用【杀】的次数上限+1。",
                         Diuse_Diewu:"蝶舞",
-                        "Diuse_Diewu_info":"出牌阶段限一次，你弃置一张红色牌并指定一名角色摸一张牌后可以使用一张杀（不计入出杀次数）。",
+                        "Diuse_Diewu_info":"出牌阶段限一次，你可以弃置一张红色牌并指定一名其他角色，其摸一张牌，然后你可以使用一张不计入次数的【杀】。",
                         "Diuse_Xuesha2":"血杀",
                         Diuse_Anhong:"暗洪",
-                        "Diuse_Anhong_info":"觉醒技。当你受到伤害前你可以摸一张牌，如果你受到伤害后的体力低于2则恢复一点体力；失去该技能并获得技能血杀。",
+                        "Diuse_Anhong_info":"觉醒技。当你受到伤害前，你可以摸一张牌；当你受到伤害后，若你的体力低于2，则你恢复一点体力，失去该技能并获得【血杀】。",
                         Diuse_Guozai:"过载",
-                        "Diuse_Guozai_info":"SP技。出牌阶段消耗50SP开启过载状态且立刻将手牌摸至体力上限+护盾值的数量(最多为10)，期间你每次造成伤害的值+1且你与保护单位恢复1点体力，然后扣10SP。若你的SP为0或使用超过50SP则关闭过载状态。",
+                        "Diuse_Guozai_info":"SP技。出牌阶段，你可消耗50SP开启过载状态且将手牌摸至体力上限与护盾值之和(最多为10)，期间每当你造成伤害时，此伤害+1且你与保护单位回复1点体力，然后扣10SP，若你的SP为0或使用超过50SP则关闭过载状态。",
                         Diuse_Chonggou:"重构",
-                        "Diuse_Chonggou_info":"每回合限一次，当你造成伤害时，你可以选择：1：弃置X张牌并摸X张牌（X为当前护盾值）2：使其获得其防具区的牌直至其准备阶段；然后取消对其即将造成的伤害。",
+                        "Diuse_Chonggou_info":"每回合限一次，当你造成伤害时，你可以选择：1：弃置X张牌并摸X张牌（X为你当前护盾值）2：使其获得其防具区的牌，然后其免受此伤害，其准备阶段开始时，令其使用此牌。",
                         Diuse_Yinmie:"湮灭",
-                        "Diuse_Yinmie_info":"每回合限一次，其他角色受到伤害前，若其防具区没有牌则你可以选择：1：使其摸两张牌然后该伤害+1；2：你弃置两张牌并使其进入保护名单。",
+                        "Diuse_Yinmie_info":"每回合限一次，当其他角色受到伤害前，若其防具区没有牌，你可以选择：1：使其摸两张牌然后该伤害+1；2：你弃置两张牌并使其进入保护名单。",
                         Diuse_Fuhe:"负荷",
-                        "Diuse_Fuhe_info":"锁定技，游戏开始后，你获得当前体力值的物理护盾，你和保护单位受到物理伤害时优先扣除护盾；出牌阶段，若你的体力与上回合结束时无变化则将将护盾值充能至体力上限；回合结束时，你移除清空保护名单；你的手牌上限增加等量护盾值。",
+                        "Diuse_Fuhe_info":"锁定技，游戏开始后，你获得当前体力值等量的物理护盾，你和保护单位受到物理伤害时优先扣除护盾；出牌阶段，若你的体力值与上回合结束时相同则将将护盾值充能至体力上限；回合结束时，你移除清空保护名单；你的手牌上限增加等量的护盾值。",
                         Diuse_Wange:"挽歌",
-                        "Diuse_Wange_info":"回合开始时限一次。你额外获得任意一个有益阶段执行；你翻面时你摸两张牌并恢复一点体力或获得技能鸦羽。",
+                        "Diuse_Wange_info":"每回合限一次，回合开始时，你选择进行一个摸牌或出牌阶段；当你的武将牌翻面时，你可选择：1：摸两张牌并恢复一点体力，2：获得技能【鸦羽】。",
                         Diuse_Sangzhong:"丧钟",
-                        "Diuse_Sangzhong_info":"你于回合外受到伤害后，你可以摸一张牌。如果你没有手牌则改为摸两张；若该伤害大于2点则改为你可以摸一张牌或复原武将。如果你没有手牌则摸三张。",
+                        "Diuse_Sangzhong_info":"当你于回合外受到伤害后，你可以摸一张牌（若你没有手牌则改为摸两张），若该伤害大于2则你可改为摸一张牌（若你没有手牌则摸三张）或复原武将牌。",
                         Diuse_Zhongqu:"终曲",
-                        "Diuse_Zhongqu_info":"出牌阶段限一次。你可以弃一张牌并指定一名角色判定根据点数执行效果：1：你摸三张牌并随机获得其一张任何区域的牌然后在你下个回合开始前杀的伤害+1；2-7：你随机获得其一张任何区域的牌并摸一张牌；8-12：你摸两张牌；13：你的武将翻面。",
+                        "Diuse_Zhongqu_info":"出牌阶段限一次。你可以弃置一张牌并令一名角色进行判定，若点数为：1：你摸三张牌并随机获得其区域内的一张牌然后在你的下个回合开始前，你的【杀】伤害+1；2-7：你随机获得其区域内的一张牌并摸一张牌；8-12：你摸两张牌；13：你的武将牌翻面。",
                         Diuse_Luoying:"落樱",
                         "Diuse_Luoying_info":"出牌阶段限两次。当你使用可以造成伤害的牌指定目标后该次数减一。你可以选择一名指定角色，然后对其造成伤害后如果其拥有樱花标记则该伤害+1否则获得樱花标记，且你摸一张牌。",
                         Diuse_Yishan:"一闪",
@@ -4769,43 +4772,43 @@ precontent:function (Diuse){
                         "Diuse_Renfan_info":"你使用或打出杀后，你可以与一名有手牌的角色摸一张牌。若场上有凛，则凛也摸一张。",
                         "Diuse_Zhongqu1":"终曲",
                         Diuse_Yayv:"鸦羽",
-                        "Diuse_Yayv_info":"锁定技。你的手牌始终等于你的当前体力值。",
+                        "Diuse_Yayv_info":"锁定技。你的手牌数始终等于你的体力值。",
                         Diuse_Shanbeng:"山崩",
-                        "Diuse_Shanbeng_info":"当你使用杀指定唯一目标后，你可以弃置至多三张标记牌然后获得相应效果。",
+                        "Diuse_Shanbeng_info":"当你使用【杀】指定唯一目标后，你可以弃置至多三张【岚】然后获得相应效果。",
                         Diuse_Xirang:"息壤",
-                        "Diuse_Xirang_info":"锁定技，你始终跳过摸牌阶段；若你的摸牌阶段被跳过则你选择从牌堆顶摸两张或从牌堆底摸两张，然后从相反方向摸一张牌；当你使用【杀】【闪】【桃】【酒】时，若你没有对应标记则摸一张牌并获得相应标记；弃牌阶段开始时，若你的当前手牌小于等于当前体力值且有标记则可以摸X张牌再弃置X/2张牌和移除标记（X为标记【杀】【闪】【桃】【酒】的数量；X向下取整且最少为1）",
+                        "Diuse_Xirang_info":"锁定技，你始终跳过摸牌阶段；若你的摸牌阶段被跳过，则你可摸两张牌或从牌堆底摸两张牌，然后从另一端摸一张牌；当你使用【杀】【闪】【桃】【酒】时，若你没有对应标记则摸一张牌并获得一个对应标记；弃牌阶段开始时，若你当前手牌不大于当前体力值且有标记则可以摸X张牌再弃置X/2张牌并且移除标记（X为【杀】【闪】【桃】【酒】对应标记的数量，X/2向下取整且至少为1）。",
                         Diuse_Xunxin:"迅心",
-                        "Diuse_Xunxin_info":"锁定技。当你受到一点伤害后你摸一张牌并选择一张手牌弃置；你的牌因弃置而进入弃牌堆的【杀】【闪】【桃】【酒】会放置‘岚’中。",
+                        "Diuse_Xunxin_info":"锁定技。当你受到一点伤害后，你摸一张牌并选择弃置一张手牌；你将因弃置而进入弃牌堆的【杀】【闪】【桃】【酒】置于武将牌上，称之为【岚】。",
                         Diuse_Xianfa:"仙法",
-                        "Diuse_Xianfa_info":"回合结束后，你可以指定至多X名其他角色，然后其进入‘相引’状态，你的出牌阶段开始前会移除全场的‘相引’(X为你装备栏的空位且至多为3) 相引：你体力值或上限发生变化后场上拥有‘相引’发生相同变化随后移除技能。",
+                        "Diuse_Xianfa_info":"回合结束后，你可以指定至多X名其他角色，然后这些角色进入‘相引’状态；你的出牌阶段开始前，移除全场的‘相引’状态(X为你装备栏的空位且至多为3)。 相引：当你体力值或体力上限发生变化后，场上处于‘相引’的其他角色发生相同变化，然后移除全场的‘相引’状态。",
                         Diuse_Yinyang:"阴阳",
-                        "Diuse_Yinyang_info":"每回合限一次。当你使用牌指定唯一其他角色目标后你可以执行以下效果：若你武器区为空则弃置其一张牌；若你防具区为空则其获得元素易伤直至其回合开始前；若均为空或均不为空则你摸一张牌。",
+                        "Diuse_Yinyang_info":"每回合限一次。当你使用牌指定唯一其他角色为目标后，你可以执行以下效果：若你武器区为空则弃置其一张牌；若你防具区为空则其获得元素易伤直至其回合开始前；若均为空或均不为空则你摸一张牌。",
                         Diuse_Tiandi:"天地",
                         Diuse_Tiandi_A:"天地",
                         Diuse_Tiandi_B:"天地",
-                        "Diuse_Tiandi_info":"锁定技，若你的武器区为空则出杀次数上限+1，若两个均为空则手牌上限+2，进入濒死后限一次，你将体力回复至1点并修改仙法：出牌阶段开始时不会再移除全场‘相引’；准备阶段，若你的防具区为空或武器区与防具区均不为空则你可以摸一张牌；结束阶段。你可以将本回合的天地效果给一名其他角色。",
+                        "Diuse_Tiandi_info":"锁定技，若你的武器区为空则你使用【杀】次数上限+1，若武器区与防具区均为空则手牌上限+2；每局游戏限一次，当你进入濒死状态后，你将体力回复至1点并修改仙法：出牌阶段开始时不会再移除全场的‘相引’状态；准备阶段，若你的防具区为空或武器区与防具区均不为空则你可以摸一张牌；结束阶段，你可以将你本回合【天地】的被动效果给一名其他角色。",
                         Diuse_Yifa:"相引",//原仪法
                         //"Diuse_Yifa_info":"每轮限一次。你选择一名角色随机临时获得崩坏包的一个角色的技能，如果目标不是自己则摸两张牌。主公技，限定技，觉醒技除外。",
                         //"Diuse_Yinyang1":"阴",
                         //"Diuse_Yinyang2":"阳",
                         Diuse_Bingren:"兵刃",
-                        Diuse_Bingren_info:"锁定技。在你使用一张武器牌后，根据当前武器攻击距离摸X张牌并获得相应的技能效果(X为武器距离/2，向下取整，最小且为1)",
+                        Diuse_Bingren_info:"锁定技。当你使用一张武器牌后，你根据当前武器攻击距离获得相应技能并摸X张牌(X为武器距离/2，向下取整且最小为1)。",
                         Diuse_Fanchen:"凡尘",
-                        Diuse_Fanchen_info:"锁定技。回合外第一次受到伤害后，你可以选择恢复一点体力或如果你的体力大于1，则将体力值改为1并进入物理易伤状态。当前回合结束后你恢复体力并摸X张牌（X为你恢复的体力）",
+                        Diuse_Fanchen_info:"锁定技。当你于回合外第一次受到伤害后，你可以回复一点体力，若你的体力值大于1，则可改为将失去体力值至1点并进入物理易伤状态；当前回合结束后，你回复体力值至发动此技能前并摸X张牌（X为你回复的体力值）。",
                         Diuse_Zhejian:"折剑",
-                        Diuse_Zhejian_info:"锁定技。其他角色无法弃置或顺走你武器区的牌。",
+                        Diuse_Zhejian_info:"锁定技。其他角色无法弃置或获得指定你武器区的牌。",
                         Diuse_Yi:"一",
                         Diuse_Yi_info:"当你于你的回合内使用一张牌后，你可以弃置一张手牌并摸一张牌。",
                         Diuse_Er:"二",
-                        Diuse_Er_info:"当你于回合内获得一张牌且不是因为此技能获得牌时，你摸一张牌。",
+                        Diuse_Er_info:"当你于回合内不因此技能获得一张牌时，你摸一张牌。",
                         Diuse_San:"三",
-                        Diuse_San_info:"出牌阶段限两次。你造成伤害后你可以让场上的一名角色受到一点无伤害来源的伤害。",
+                        Diuse_San_info:"出牌阶段限两次，当你造成伤害后，你可以令场上一名角色受到一点无来源的伤害。",
                         Diuse_Si:"四",
-                        Diuse_Si_info:"你使用杀或普通锦囊后你可以多增加一个目标，如果取消则摸X张牌(X为你已损失的体力，如果为0则摸1)",
+                        Diuse_Si_info:"你使用【杀】或普通锦囊牌后你可以额外指定一个目标，若不这么做则你摸X张牌(X为你已损失的体力值且至少为1)",
                         Diuse_Wu:"五",
-                        Diuse_Wu_info:"出牌阶段限一次，当你使用可造成伤害的牌指定目标后你可以选择其一个目标然后你摸X张牌。(X为目标当前体力且最多为5)",
+                        Diuse_Wu_info:"出牌阶段限一次，当你使用可造成伤害的牌指定目标后，你可以选择其中一个目标然后你摸X张牌(X其体力值且最多为5)。",
                         Diuse_Liu:"六",
-                        Diuse_Liu_info:"你获得全部攻击距离技能。",
+                        Diuse_Liu_info:"你获得【一】【二】【三】【四】【五】。",
                         Diuse_Fanchen1:"凡尘",
                         Diuse_Leiming:"雷鸣",
                         Diuse_Leiming_info:"出牌阶段。当你对一名其他角色连续使用两张牌后，你可以将一张【杀】当做雷【杀】对其合法使用。你于你下个出牌阶段开始时至多因此打出3张雷【杀】。",
@@ -4817,27 +4820,27 @@ precontent:function (Diuse){
                         Diuse_Leidian_info:"当一名角色造成雷属性伤害时，你可以令其判定。若结果为黑色，则此伤害+1；若为红色，则你摸两张牌。",
                         Diuse_Xueqi_Mark:"血契",
                         Diuse_Xueqi:"血契",
-                        Diuse_Xueqi_info:"游戏开始时全场其他角色获得一个标记；锁定技。你的体力值超出1点后会流失其余体力，当你体力或上限发生变化后你摸X张牌（X为发生改变的数量，如果你没有手牌则多摸一张牌）",
+                        Diuse_Xueqi_info:"锁定技。游戏开始时，所有其他角色获得一个“血契”。当你的体力值大于1点时，你流失体力值至1；当你的体力值或体力上限发生变化后，你摸X张牌（X为变化值，如果你没有手牌则多摸一张牌）。",
                         Diuse_Shenshi:"神蚀",
                         Diuse_Shenshi_info:"锁定技。当你进入濒死时，你选择场上一名有标记的角色令其移除全部标记然后你回复X点体力（X为移除的标记数）；你的手牌上限等于Y（Y为全场标记数量+你最大体力值）",
                         Diuse_Shoulie:"狩猎",
-                        Diuse_Shoulie_info:"锁定技。你造成伤害时改为其获得相同数量的标记；其他角色出牌阶段开始时如果其标记超出一个则其必须失去X点体力并使你恢复X点体力（X为其标记-1）随后其丢弃X个标记",
+                        Diuse_Shoulie_info:"锁定技。当你造成伤害时，改为令目标角色获得等量的“血契”；其他角色出牌阶段开始时，如果其“血契”数大于一，则其失去X点体力并使你恢复X点体力，随后其失去X个“血契”（X为其“血契”数-1）。",
                         Diuse_Qujian:"区间",
                         Diuse_Shikong:"时空区间",
-                        Diuse_Qujian_info:"锁定技，你打出或使用【闪】后，若场上没有'时空'标记则选择一名其他角色令其获得1个'时空'标记。有标记的角色暂时失去其武将牌上的技能和无法使用或打出手牌，且受到伤害时改为获得等量'时空'标记，然后你回复35sp和1个'亚空'标记。其出牌阶段开始时移除标记并受到你造成的X点伤害（X为（标记数量-1）/2且向下取整）",
+                        Diuse_Qujian_info:"锁定技，当你打出或使用【闪】后，若场上没“时空”标记，则选择一名其他角色令其获得1个“时空”，然后你回复35sp并获得1个“亚空”标记；有“时空”的角色失去其武将牌上的技能，无法使用或打出手牌且受到伤害时改为获得等量的“时空”直到其失去所有的“时空”；有”时空“的角色的出牌阶段开始时，其移除所有“时空”并受到你造成的X点伤害（X为（“时空”数量-1）/2且向下取整）。",
                         Diuse_Yakong:"亚空",
                         Diuse_Yakong_Buff:"亚空",
-                        Diuse_Yakong_info:"锁定技。你造成伤害后且不处于激活状态下则获得一个'空'标记。准备阶段若标记不小于3则你可以激活技能并将手牌补至前体力(最多补至5)，使用牌时根据类型执行以下效果：1，非攻击类型：你摸一张牌，2：攻击类型：该牌造成的伤害+1。然后你移除1个标记。",
+                        Diuse_Yakong_info:"锁定技。当你造成伤害后，若你不处于激活状态，则获得一个”亚空”。准备阶段，若”亚空”数不小于3，则你将手牌补至前体力值(最多补至5)，并在失去所有”亚空”前处于激活状态：当你使用牌时，根据其类型执行以下效果然后移除一个”亚空”：1，非攻击类型：你摸一张牌；2：攻击类型：该牌造成的伤害+1。",
                         Diuse_Xujie:"虚界",
-                        Diuse_Xujie_info:"SP技。出牌阶段，你可以消耗125SP。你对除你之外的角色造成X点伤害（X为场上角色体力之和÷角色数量 且向下取整至少为1）然后你获得10个'亚空'标记。",
+                        Diuse_Xujie_info:"SP技。出牌阶段，你可以消耗125SP，对除你之外的角色造成X点伤害（X为场上角色体力平均值，向下取整且至少为1），然后你获得10个“亚空”。",
                         Diuse_Mingan:"明光/暗影",
-                        Diuse_Mingan_info:"出牌阶段限一次，你可以将一张手牌放置牌堆底并摸一张牌(若你没有手牌则改为摸两张)然后执行以下效果：表人格：回复1点体力；里人格：视为打出一张杀",
+                        Diuse_Mingan_info:"出牌阶段限一次，你可以将一张手牌置于牌堆底并摸一张牌(若你没有手牌则改为摸两张)，然后执行以下效果：表人格：回复1点体力；里人格：视为使用一张【杀】。",
                         Diuse_Baihei:"白昼/黑夜",
                         Diuse_Bai:"白昼",
                         Diuse_Hei:"黑夜",
-                        Diuse_Baihei_info:"锁定技，你对其他角色造成伤害后若其没有标记则其获得一个标记，若有标记则执行以下效果：若当前形态与标记不相对则你摸一张牌；表标记: 其选择你摸一张牌或其弃置一张手牌, 若其防具区没有牌则你移动场上的一张牌  里标记: 你选择你摸一张牌或其弃置一张手牌, 若其防具区有牌则你出杀次数上限+1。表人格手牌上限+2 里人格体力上限+1",
+                        Diuse_Baihei_info:"锁定技。当你对其他角色造成伤害后，若其没有“白昼/黑夜”标记则其获得一个“白昼/黑夜”，若有“白昼/黑夜”则执行以下效果：若你当前形态与“白昼/黑夜”不相对则你摸一张牌，否则根据“白昼/黑夜”类型执行以下效果：“白昼”: 其选择你摸一张牌或其弃置一张手牌, 若其防具区没有牌则你移动场上的一张牌；“黑夜”: 你选择你摸一张牌或其弃置一张手牌, 若其防具区有牌则你使用【杀】次数上限+1。表人格手牌上限+2，里人格体力上限+1。",
                         Diuse_Danzhong:"诞生/终末",
-                        Diuse_Danzhong_info:"SP技，出牌阶段，你可以消耗100SP，重置【明光/暗影】技能次数并转换表/里人格并造成不同的效果：转换里人格时：对全场其他角色造成1点伤害，若有角色在此回合内阵亡，则场上角色回复1点体力。转换表人格时：全场角色摸1张牌，此回合结束时 若有其他角色手牌数大于当前体力值，则你对其造成1点伤害"
+                        Diuse_Danzhong_info:"SP技，出牌阶段，你可以消耗100SP，重置【明光/暗影】使用次数，转换表/里人格并造成不同的效果：转换里人格时：对所有其他角色造成1点伤害，若有角色在此回合内阵亡，则所有角色在此回合结束时回复1点体力；转换表人格时：全场角色摸1张牌，此回合结束时，若有其他角色手牌数大于其体力值，则你对其造成1点伤害。"
                     },
                 },
             },"术樱");
@@ -4945,7 +4948,6 @@ precontent:function (Diuse){
                 lib.element.player.gameBossAllDie=function(num3){ //判断天书相应关卡boss是否阵亡和转移Boss控制权
                     for(var i=0;i<game.players.length;i++){
                         if(game.players[i]==this) continue;
-                        game.log(game.boss.isFriendOf(game.players[i]),game.players[i])
                         if(game.boss.isFriendOf(game.players[i])){
                             if(num3) {
                                 _status.gameMe=true;
@@ -9870,7 +9872,7 @@ precontent:function (Diuse){
                                 player:"useCardToPlayered",
                             },
                             filter:function(event,player){
-                                if(event.targets.length==1&&event.card.name=='sha') return true;
+                                if(event.targets.length==1&&event.card.name=='sha'&&event.targets[0].countCards('h')>=1) return true;
                                 return false;
                             },
                             content:function(){
@@ -9898,7 +9900,7 @@ precontent:function (Diuse){
                                 player:"useCardToPlayered",
                             },
                             filter:function(event,player){
-                                if(event.targets.length==1&&event.card.name=='sha') return true;
+                                if(event.targets.length==1&&event.card.name=='sha'&&event.targets[0].countCards('h')>=1) return true;
                                 return false;
                             },
                             content:function(){
@@ -11551,7 +11553,7 @@ precontent:function (Diuse){
                                     forced:true,
                                     sub:true,
                                     filter:function(event,player){
-                                        return game.roundNumber<3&&event.player.isEnemyOf(player);
+                                        return game.roundNumber<3&&!event.player.isFriendOf(player);
                                     },
                                     content:function(){
                                         trigger.num--;
@@ -11560,7 +11562,7 @@ precontent:function (Diuse){
                                 Thunder:{
                                     trigger:{player:'damageBegin4'},
                                     filter:function(event){
-                                        return event.nature=='thunder'&&game.roundNumber<7;
+                                        return event.nature=='thunder'&&game.roundNumber<7&&event.player.isFriendOf(player);
                                     },
                                     forced:true,
                                     sub:true,
@@ -11605,16 +11607,16 @@ precontent:function (Diuse){
                                     forced:true,
                                     sub:true,
                                     filter:function(event,player){
-                                        return game.roundNumber<3&&event.player.isEnemyOf(player);
+                                        return game.roundNumber<3&&!event.player.isFriendOf(player);
                                     },
                                     content:function(){
                                         trigger.num--;
                                     }
                                 },
                                 Thunder:{
-                                    trigger:{player:'damageBegin4'},
+                                    trigger:{global:'damageBegin4'},
                                     filter:function(event){
-                                        return event.nature=='thunder'&&game.roundNumber<7;
+                                        return event.nature=='thunder'&&game.roundNumber<7&&event.player.isFriendOf(player);
                                     },
                                     forced:true,
                                     sub:true,
@@ -12840,7 +12842,7 @@ precontent:function (Diuse){
                         Tianshu_Boss_Baiyi:'白仪',
                         Tianshu_Boss_Baiyi_info:'锁定技，每名敌方角色摸牌阶段，若当前轮数小于3，其少摸一张牌；第五轮开始时，每名敌方角色受到1点雷电伤害；当己方角色受到雷电伤害时，若当前轮数小于7，则此伤害-1。',
                         Tianshu_Boss_Baiyi_Fucking:'白仪',
-                        Tianshu_Boss_Baiyi_Fucking_info:'锁定技，每名敌方角色摸牌阶段，若当前轮数小于3，其少摸一张牌；第五轮开始时，每名敌方角色受到1点雷电伤害；当己方角色受到雷电伤害时，若当前轮数小于7，则此伤害-1。',
+                        Tianshu_Boss_Baiyi_Fucking_info:'锁定技，每名敌方角色摸牌阶段，若当前轮数小于3，其少摸一张牌；第五轮开始时，每名敌方角色受到2点雷电伤害；当己方角色受到雷电伤害时，若当前轮数小于7，则免疫此伤害',
                         Tianshu_Boss_Juehong:"决洪",
                         Tianshu_Boss_Juehong_info:"锁定技，准备阶段，你令所有敌方角色自己弃置自己的装备区内的所有牌，若其装备区内没有牌，则改为随机弃置一张手牌。",
                         Tianshu_Boss_Juehong_Fucking:"决洪",
@@ -13536,19 +13538,19 @@ precontent:function (Diuse){
                     },
                     translate:{
                         Diuse_Shizuishi:"食罪式",
-                        Diuse_Shizuishi_info:"锁定技，当你使用非转化牌指定目标后，将使用者随机改为场上的其他角色（此技能无法将使用者改为拥有该技能的角色）",
+                        Diuse_Shizuishi_info:"锁定技，当你使用非转化牌指定目标后，将此牌使用者改为场上不拥有此技能的随机其他角色。",
                         Diuse_Shashengying:"杀生樱",
                         Diuse_Shashengying_Buff:"杀生樱",
                         Diuse_Shashengying_Buff1:"杀生樱",
-                        Diuse_Shashengying_info:"每回合限两次。当你被使用牌指定后，若该牌花色与你手牌中花色有相同，则你可以选择：1:弃置全部该花色使该牌对你无效，并在该牌结算后你获得之，若你因此弃置全部手牌则你将手牌补充至当前体力 2:弃置一张该花色 使其对你无效之 3:弃置一张该花色并指定一名其他角色 令其也成为该牌的目标",
+                        Diuse_Shashengying_info:"每回合限两次。当你成为使用牌的目标后，若该牌花色与你手牌中的花色有相同，则你可以选择：1:弃置全部该花色的手牌使该牌对你无效，并在该牌结算后获得之，若你因此弃置全部手牌则你将手牌补充至当前体力值，2:弃置一张该花色的手牌，使该牌对你无效，3:弃置一张该花色的手牌并指定一名其他角色，令其也成为该牌的目标。",
                         Diuse_Tianhuxianzhen:"天狐显真",
-                        Diuse_Tianhuxianzhen_info:"出牌阶段限两次，你选择一种花色并展示牌堆底的一张牌，如果花色相同则你获得之若在此之前你没有手牌则你从牌堆顶摸一张牌并重复执行该技能，如果不对则将该牌放置牌堆顶然后本回合手牌上限+1",
+                        Diuse_Tianhuxianzhen_info:"出牌阶段限两次，你声明一种花色并亮出牌堆底的一张牌，如果花色相同则你获得之，若在此之前你没有手牌则你从牌堆顶摸一张牌并重复此技能，如果花色不同则将该牌置于牌堆顶然后本回合你手牌上限+1。",
                         Diuse_Pengpeng:"砰砰",
                         Diuse_Pengpeng_info:"锁定技: 你每使用三次伤害类型牌，下张伤害类型牌的伤害为火元素。若该牌目标唯一，则你可以选择一个额外的合法目标。若取消则该牌伤害+1",
                         Diuse_Honghong:"轰轰",
                         Diuse_Honghong_info:"出牌阶段限一次，你展示牌堆中一张可以造成伤害的牌，然后你可以弃置一张可以造成伤害的手牌并使用该牌(这张牌造成的伤害为火元素)否则将此牌置入弃牌堆",
                         Diuse_Lieyan:"烈焰",
-                        Diuse_Lieyan_info:"锁定技，你受到火元素伤害时，免疫此伤害。当你造成火元素伤害时, 若你手牌不等于当前体力, 则你摸一张牌, 若你没有手牌则额外摸一张手牌;若相等则该伤害+1",
+                        Diuse_Lieyan_info:"锁定技，你受到火元素伤害时，免疫此伤害；当你造成火元素伤害时, 若你手牌不等于当前体力, 则你摸一张牌, 若你没有手牌则额外摸一张手牌;若相等则该伤害+1",
                     },
                 },
             },"术樱");
@@ -14145,6 +14147,8 @@ precontent:function (Diuse){
                         Diuse_DIY_Baifu:{
                             audio:"ext:术樱:2",
                             trigger:{player:"phaseZhunbeiBegin"},
+                            limited:true,
+                            unique:true,
                             skillAnimation:true,
                             animationColor:"gray",
                             init:function(player){
