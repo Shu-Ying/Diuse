@@ -440,7 +440,7 @@ precontent:function (Diuse){
         if(lib.config.extension_术樱_baizhanoff==undefined) game.saveConfig('extension_术樱_baizhanoff',false);
         if(lib.config.extension_术樱_skillsoff==undefined) game.saveConfig('extension_术樱_skillsoff',false);
 
-        game.saveConfig('Diuse_local_version','1.7.44.3');
+        game.saveConfig('Diuse_local_version','1.7.44.4');
 
         var httpRequest = new XMLHttpRequest();
         if(lib.config.extension_术樱_Beta){
@@ -14570,7 +14570,8 @@ precontent:function (Diuse){
                             },
                             content:function(){
                                 'step 0'
-                                player.chooseControl('杀','过河拆桥').set('prompt','请选择对'+get.translation(trigger.player)+'使用一张').set('ai',function(){
+                                player.chooseControl('杀','过河拆桥','cancel').set('prompt','请选择对'+get.translation(trigger.player)+'使用一张').set('ai',function(event,player,target){
+                                    if(get.attitude(player,target)>=3) return false;
                                     if(trigger.player.getEquip(2)||trigger.player.getEquip(3)&&lib.filter.targetEnabled({name:'guohe'},player,trigger.player)) return '过河拆桥';
                                     return '杀';
                                 });
