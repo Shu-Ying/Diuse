@@ -55,26 +55,27 @@ precontent:function (Diuse){
             var num=_status.Diuse_Tianshu_checkPoint;
             var num2=_status.Diuse_Tianshu_Difficulty;
             if(num==undefined||num==0){ //开始时召唤BOSS
+                _status.Diuse_Tianshu_Bosslist=[];
                 _status.Diuse_Tianshu_checkPoint++;
                 for(var i=0;i<game.players.length;i++){
                     if(game.players[i]==game.boss){　
                         var name=player.bossName(-1);
                         game.players[i].init(name);
+                        _status.Diuse_Tianshu_Bosslist.push(name);
                     } else {
                         game.players[i].addSkill('Tianshu_Protect');
                     }
                 }
                 var name1=player.bossName(-1);
+                _status.Diuse_Tianshu_Bosslist.push(name1);
                 game.addBossFellow(newSeat,name1);
             } else if(num==1){ //第一关阵亡判断
-                game.log(player)
                 var nextCheckPoint=player.bossName(num,num2); //判断阵亡BOSS是否属于BOSS列表
                 if(nextCheckPoint){ //如果是
                     if(trigger.source!=undefined) trigger.source.hp!=trigger.source.maxHp?trigger.source.recover():trigger.source.draw(2);
                     var gameBoss=player.gameBossAllDie(); //判断关卡BOSS是否全部阵亡
                     if(gameBoss){ //阵亡
                         _status.Diuse_Tianshu_nextBool=true;
-                        _status.Diuse_Tianshu_checkPoint++;
                     }  else if(game.me==player&&game.me==game.boss){
                         player.gameBossAllDie(1);
                     } 
@@ -82,8 +83,10 @@ precontent:function (Diuse){
             } else if(num==2){ //进入第二关 和 阵亡判断
                 if(bool){ //进入
                     var name1=player.bossName(-2,num2);
+                    _status.Diuse_Tianshu_Bosslist.push(name1);
                     game.addBossFellow(newSeat,name1); //召唤4号位第二关Boss num2是难度
                     var name2=player.bossName(-2,num2);
+                    _status.Diuse_Tianshu_Bosslist.push(name2);
                     game.changeBoss(name2); //6号位Boss
                     game.tianshuNewBoss(_status.currentPhase.next,num,num2); //重置回合 和判断 将回合控制权给谁
                     for(var i=0;i<game.players.length;i++){
@@ -104,7 +107,6 @@ precontent:function (Diuse){
                     var gameBoss=player.gameBossAllDie();
                     if(gameBoss){
                         _status.Diuse_Tianshu_nextBool=true;
-                        _status.Diuse_Tianshu_checkPoint++;
                     } else if(game.me==player&&game.me==game.boss){
                         player.gameBossAllDie(1);
                     } 
@@ -112,8 +114,10 @@ precontent:function (Diuse){
             } else if(num==3){
                 if(bool){
                     var name1=player.bossName(-3,num2);
+                    _status.Diuse_Tianshu_Bosslist.push(name1);
                     game.addBossFellow(newSeat,name1);
                     var name2=player.bossName(-3,num2);
+                    _status.Diuse_Tianshu_Bosslist.push(name2);
                     game.changeBoss(name2);
                     game.tianshuNewBoss(_status.currentPhase.next,num,num2);
                     for(var i=0;i<game.players.length;i++){
@@ -134,7 +138,6 @@ precontent:function (Diuse){
                     var gameBoss=player.gameBossAllDie();
                     if(gameBoss){
                         _status.Diuse_Tianshu_nextBool=true;
-                        _status.Diuse_Tianshu_checkPoint++;
                     } else if(game.me==player&&game.me==game.boss){
                         player.gameBossAllDie(1);
                     } 
@@ -142,8 +145,10 @@ precontent:function (Diuse){
             } else if(num==4){
                 if(bool){
                     var name1=player.bossName(-4,num2);
+                    _status.Diuse_Tianshu_Bosslist.push(name1);
                     game.addBossFellow(newSeat,name1);
                     var name2=player.bossName(-4,num2);
+                    _status.Diuse_Tianshu_Bosslist.push(name2);
                     game.changeBoss(name2);
                     game.tianshuNewBoss(_status.currentPhase.next,num,num2);
                     for(var i=0;i<game.players.length;i++){
@@ -164,7 +169,6 @@ precontent:function (Diuse){
                     var gameBoss=player.gameBossAllDie();
                     if(gameBoss){
                         _status.Diuse_Tianshu_nextBool=true;
-                        _status.Diuse_Tianshu_checkPoint++;
                     } else if(game.me==player&&game.me==game.boss){
                         player.gameBossAllDie(1);
                     } 
@@ -172,8 +176,10 @@ precontent:function (Diuse){
             } else if(lib.config.extension_术樱_tianshuaddoff&&_status.Diuse_Tianshu_checkPoint<=num3){
                 if(bool){
                     var name1=player.bossName(-5,num2);
+                    _status.Diuse_Tianshu_Bosslist.push(name1);
                     game.addBossFellow(newSeat,name1);
                     var name2=player.bossName(-5,num2);
+                    _status.Diuse_Tianshu_Bosslist.push(name2);
                     game.changeBoss(name2);
                     game.tianshuNewBoss(_status.currentPhase.next,num,num2);
                     for(var i=0;i<game.players.length;i++){
@@ -218,7 +224,6 @@ precontent:function (Diuse){
                         test++;
                     }
                     if(gameBoss){
-                        _status.Diuse_Tianshu_checkPoint++;
                         if(_status.Diuse_Tianshu_checkPoint<=num3&&lib.config.extension_术樱_tianshuaddoff) {
                             _status.Diuse_Tianshu_nextBool=true;
                         } else {
@@ -229,6 +234,7 @@ precontent:function (Diuse){
                     } 
                 }
             } else {
+                player.die();
                 if(game.me==game.boss){
                     game.over(false);
                 } else {
@@ -237,13 +243,26 @@ precontent:function (Diuse){
             }
             'step 1'
             if(_status.Diuse_Tianshu_nextBool){
+                _status.Diuse_Tianshu_checkPoint++;
                 player.removeAllSkills();
                 player.die(); //因为过关要停止事件 洗牌等 会将BOSS阵亡事件停止
-                player.hidePlayer(); //隐藏Boss
                 event.goto(2);
             } else {event.finish();}
             'step 2'
             game.delay();
+            if(lib.config.extension_术樱_tianshuaddoff==undefined||lib.config.extension_术樱_tianshuaddoff==false&&_status.Diuse_Tianshu_checkPoint>4){
+                if(game.me==game.boss){
+                    game.over(false);
+                } else {
+                    game.over(true);
+                }
+            }   else if(lib.config.extension_术樱_tianshuaddoff&&_status.Diuse_Tianshu_checkPoint>num3){
+                if(game.me==game.boss){
+                    game.over(false);
+                } else {
+                    game.over(true);
+                }
+            }
             game.cardsNumberUpDate();
             if(_status.Diuse_Tianshu_checkPoint<=5) game.hpAndH(1,2);
             event.Diuse_Player=[];
@@ -341,6 +360,7 @@ precontent:function (Diuse){
                 event.goto(3);
             } 
             'step 7'
+            player.hidePlayer(); //隐藏Boss
             event.goto(0);
         },
         group:['_Tianshu_checkPoint_Kuangbao','_Tianshu_checkPoint_Use','_Tianshu_checkPoint_Die'],
@@ -440,7 +460,7 @@ precontent:function (Diuse){
         if(lib.config.extension_术樱_baizhanoff==undefined) game.saveConfig('extension_术樱_baizhanoff',false);
         if(lib.config.extension_术樱_skillsoff==undefined) game.saveConfig('extension_术樱_skillsoff',false);
 
-        game.saveConfig('Diuse_local_version','1.7.44.4');
+        game.saveConfig('Diuse_local_version','1.7.44.5');
 
         var httpRequest = new XMLHttpRequest();
         if(lib.config.extension_术樱_Beta){
@@ -5969,7 +5989,14 @@ precontent:function (Diuse){
                             marktext:"关",
                             mark:true,
                             intro:{content:function(event,player){
-                                return "第"+_status.Diuse_Tianshu_checkPoint+'关';
+                                game.log(_status.Diuse_Tianshu_Bosslist.length)
+                                var list=_status.Diuse_Tianshu_Bosslist;
+                                var str='',num=1;;
+                                for(var i=0;i<list.length;i+=2){
+                                    str=str+'第'+num+'关：'+get.translation(list[i])+'、'+get.translation(list[i+1])+'<br>';
+                                    num++;
+                                }
+                                return "<center>"+"第"+_status.Diuse_Tianshu_checkPoint+'关'+'<br>'+'<br>'+str;
                                 },
                             },
                             locked:true,
@@ -12573,10 +12600,7 @@ precontent:function (Diuse){
                     },
                     translate:{
                         Tianshu_Skill:"天书",
-                        nextCheckPoint:"下一关",
-                        checkPoint:"关卡",
-                        checkPoint_Kuangbao:"狂暴",
-                        checkPoint_Use:"狂暴",
+                        nextCheckPoint:"关卡",
                         livePlayer:"难度",
                         Tianshu_Protect:"保护",
                         Tianshu_Protect_info:'锁定技。无敌一次伤害，随后移除该技能。',
