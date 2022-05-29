@@ -14566,7 +14566,7 @@ precontent:function (Diuse){
                             trigger:{global:'phaseJieshuBegin'},
                             direct:true,
                             filter:function(event,player){
-                                return event.player.isAlive()&&event.player.getStat('damage')&&(lib.filter.targetEnabled({name:'sha'},player,event.player)||event.player.countCards('hej')>=1);
+                                return player!=event.player&&event.player.isAlive()&&event.player.getStat('damage')&&(lib.filter.targetEnabled({name:'sha'},player,event.player)||event.player.countCards('hej')>=1);
                             },
                             content:function(){
                                 'step 0'
