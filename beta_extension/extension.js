@@ -14566,7 +14566,7 @@ precontent:function (Diuse){
                             trigger:{global:'phaseJieshuBegin'},
                             direct:true,
                             filter:function(event,player){
-                                return event.player.isAlive()&&event.player.getStat('damage')&&(player.hasSha()||_status.connectMode)&&(lib.filter.targetEnabled({name:'sha'},player,event.player)||event.player.countCards('hej')>=1);
+                                return event.player.isAlive()&&event.player.getStat('damage')&&(lib.filter.targetEnabled({name:'sha'},player,event.player)||event.player.countCards('hej')>=1);
                             },
                             content:function(){
                                 'step 0'
@@ -14578,7 +14578,7 @@ precontent:function (Diuse){
                                 'step 1'
                                 if(result.control=='杀'){
                                     player.useCard({name:'sha',isCard:true},trigger.player,'noai');
-                                } else {
+                                } else if(result.control=='过河拆桥') {
                                     player.useCard({name:'guohe',isCard:true},trigger.player,'noai');
                                 }
                             }
