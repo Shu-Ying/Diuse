@@ -306,6 +306,9 @@ Diuse_dynamic=[
     'Diuse_Konglv.jpg',
     'Diuse_Bachongshenzi.jpg',
     'Diuse_Heixi.jpg',
+    'Diuse_Shuangzi.jpg',
+    'Diuse_Lanmei.jpg',
+    'Diuse_Yingtao.jpg',
 ],
 Diuse_tianshu=[
     'Boss_Difficulty_Baiqi.jpg',
@@ -415,4 +418,92 @@ Diuse_tianshu=[
 ],
 Diuse_css=[
     'extension.css',
+],
+Skin=[
+    'Diuse_Bachongying',
+    'Diuse_Buluoniya',
+    'Diuse_Fuhua',
+    'Diuse_Kalian',
+    'Diuse_Shangxian',
+    'Diuse_Shilv',
+    'Diuse_Xier',
+    'Diuse_Yayi',
+    'Diuse_Yuexia',
+    'Diuse_Konglv',
+    'Diuse_Bachongshenzi',
+    'Diuse_Heixi',
+    'Diuse_Keli',
+    'Diuse_Shuangzi',
+    'Diuse_Lanmei',
+    'Diuse_Yingtao',
+],
+Diuse_Fuhua_Skin=[ 
+    1,
+    2,
+],
+Diuse_Yuelun_Skin=[
+    1,
+    2,
+    3,
+    4,
+],
+Diuse_Bachongying_Skin=[
+    1,
+    2,
+],
+Diuse_Buluoniya_Skin=[
+    1,
+    2,
+],
+Diuse_Kalian_Skin=[
+    1,
+],
+Diuse_Shangxian_Skin=[
+    1,
+    2,
+],
+Diuse_Shilv_Skin=[
+    1,
+    2,
+],
+Diuse_Xier_Skin=[
+    1,
+    2,
+],
+Diuse_Yayi_Skin=[
+    1,
+    2,
+],
+Diuse_Yuexia_Skin=[
+    1,
+    2,
+],
+Diuse_Konglv_Skin=[
+    1,
+    2,
+],
+Diuse_Heixi_Skin=[
+    1,
+    2,
+],
+Diuse_Bachongshenzi_Skin=[
+    1,
+    2,
+],
+Diuse_Keli_Skin=[
+    1,
+],
+Diuse_Shuangzi_Skin=[
+    1,
+    2,
+],
+Diuse_Lanmei_Skin=[
+    1,
+    2,
+],
+Diuse_Yingtao_Skin=[
+    1,
+    2,
+    3,
+    4,
 ]
