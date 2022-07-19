@@ -294,7 +294,6 @@ Diuse_mp3=[
     'Diuse_Shuangzi2.mp3',
     'Diuse_Sunluyv_Die.mp3',
     'Diuse_Sunquan_Die.mp3',
-    'Diuse_uyuan_Swap1.mp3',
     'Diuse_Wangyi_Die.mp3',
     'Diuse_Xiahoushi_Die.mp3',
     'Diuse_Yingtao_Die.mp3',
