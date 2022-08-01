@@ -452,6 +452,7 @@ Diuse_tianshu=[
     'Tianshu_Boss_Baiqi_Difficulty.jpg',
     'Tianshu_Boss_Baiqi.jpg',
     'Diuse_Liannu.png',
+    'Diuse_Huang.jpg',
 ],
 Diuse_css=[
     'extension.css',
