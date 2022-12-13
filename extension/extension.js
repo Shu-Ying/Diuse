@@ -14,7 +14,7 @@ game.import("extension",function(lib,game,ui,get,ai,_status){
 //重新缩进 防止后续缩进过长
 editable:false,
 precontent:function (Diuse){
-    game.saveConfig('Diuse_local_version','1.7.45.5'); //版本号
+    game.saveConfig('Diuse_local_version','1.7.45.6'); //版本号
 
     if(lib.config.show_splash!='off') game.saveConfig('show_splash','off'); //关闭启动页
     if(lib.config.extension_术樱_benghuai3off==undefined) game.saveConfig('extension_术樱_benghuai3off',true);
